@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/title_map"
+        layout="@layout/title_map" />
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_map"
+        android:clickable="true"
+        android:visibility="visible" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_map"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fm_fb_location"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/fab_margin"
+                android:layout_weight="1"
+                android:src="@android:drawable/ic_dialog_email" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fm_fb_locationSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/fab_margin"
+                android:layout_weight="1"
+                android:src="@android:drawable/ic_dialog_email" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fm_fb_nearUserSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="bottom|start"
+                android:layout_margin="@dimen/fab_margin"
+                android:layout_weight="1"
+                android:src="@android:drawable/ic_dialog_email" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fm_fb_filterSex"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="bottom|start"
+                android:layout_margin="@dimen/fab_margin"
+                android:layout_weight="1"
+                android:src="@android:drawable/ic_dialog_email" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fm_fb_chooseSchool"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_gravity="bottom|start"
+                android:layout_margin="@dimen/fab_margin"
+                android:layout_weight="1"
+                android:src="@android:drawable/ic_dialog_email" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

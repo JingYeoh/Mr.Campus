@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        style="@style/titleStyle"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/fi_title_left"
+            style="@style/titleContentImage"
+            android:background="@drawable/general_item_selector"
+            android:src="@drawable/logo_title_back" />
+
+
+        <android.support.design.widget.TabLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/fi_tab"
+            style="@style/tabLayoutStyle"
+            android:layout_width="0dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            app:tabIndicatorColor="@color/main_theme"
+            app:tabIndicatorHeight="2.5dp"
+            app:tabSelectedTextColor="@color/main_theme"
+            app:tabTextAppearance="@style/tab_appearance"
+            app:tabTextColor="@color/black" />
+
+
+        <ImageView
+            android:id="@+id/fi_title_right"
+            style="@style/titleContentImage"
+            android:background="@drawable/general_item_selector"
+            android:src="@drawable/logo_title_back" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,20 +1,17 @@
 package com.jkb.mrcampus.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.FrameLayout;
 
+import com.jkb.core.Injection;
 import com.jkb.core.contract.first.FirstContract;
 import com.jkb.core.presenter.first.FirstPresenter;
 import com.jkb.core.presenter.first.WelcomePresenter;
-import com.jkb.model.first.firstlogic.FirstDataResponsitory;
-import com.jkb.model.first.firstlogic.local.FirstLocalDataSource;
-import com.jkb.model.first.welcome.WelcomeDataResponsitory;
-import com.jkb.model.first.welcome.local.WelcomeLocalDataSource;
-import com.jkb.model.first.welcome.remote.WelcomeRemoteDataSource;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
 import com.jkb.mrcampus.fragment.first.WelcomeFragment;
+import com.jkb.mrcampus.helper.ActivityUtils;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -28,23 +25,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class FirstActivity extends BaseActivity implements FirstContract.View {
 
-    //显示的View
-    private FrameLayout containView;
-    /**
-     * savedInstanceState是否有数据
-     * 判断是否发生了内存重启后还是有保存数据
-     */
-    private boolean savedInstanceStateValued = false;
-
     //有关WelcomeFragment页面的数据
     private WelcomePresenter welcomePresenter;
-    private WelcomeDataResponsitory welcomeDataResponsitory;
     private WelcomeFragment welcomeFragment;
 
     //有关First本页面的逻辑
     private FirstContract.Presenter mPresenter;
     private FirstPresenter firstPresenter;
-    private FirstDataResponsitory firstDataResponsitory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,30 +70,76 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
      * @param savedInstanceState
      */
     private void initFirstData(Bundle savedInstanceState) {
-        FirstLocalDataSource firstLocalDataSource = FirstLocalDataSource.getInstance(context);
-        firstDataResponsitory = FirstDataResponsitory.getInstance(firstLocalDataSource);
-
-        firstPresenter = new FirstPresenter(firstDataResponsitory, this);
+        firstPresenter = new FirstPresenter(Injection.provideFirstResponsitory(getApplicationContext()), this);
     }
 
     @Override
     protected void initView() {
-        containView = (FrameLayout) findViewById(R.id.firstFrame);
+    }
+
+    @Override
+    public void showFragment(String fragmentName) {
+
+    }
+
+    @Override
+    protected void restoreFragments(String fragmentTAG) {
+
+    }
+
+    @Override
+    protected void initFragmentStep2(Class<?> fragmentClass) {
+
     }
 
     @Override
     public void showFragment(int position) {
-        switch (position) {
-            case 0:
-                showWelcomeFragment();
-                break;
-            case 1:
-                showGuideFragment();
-                break;
-            case 2:
-                showAdventFragment();
-                break;
+
+    }
+
+    @Override
+    public void showGuide() {
+        Log.d(TAG, "showGuide");
+    }
+
+    @Override
+    public void showAdvent() {
+        Log.d(TAG, "showAdvent");
+    }
+
+    @Override
+    public void showWelcome() {
+        Log.d(TAG, "showWelcome");
+        //设置Fragment的值
+        if (savedInstanceStateValued) {
+            //此时发生内存重启后此处有数据
+            welcomeFragment = (WelcomeFragment) fm.findFragmentByTag(WelcomeFragment.class.getName());
+        } else {
+            //第一次进入
+            if (welcomeFragment == null) {
+                welcomeFragment = WelcomeFragment.newInstance();
+                ActivityUtils.addFragmentToActivity(fm, welcomeFragment, R.id.firstFrame);
+            }
         }
+        //初始化要用到的Presenter层数据
+        if (welcomePresenter == null) {
+            welcomePresenter = new WelcomePresenter(
+                    Injection.provideWelcomeResponsitory(getApplicationContext()), welcomeFragment);
+        }
+    }
+
+    @Override
+    public void startMenuActivity() {
+        Log.d(TAG, "startMenuActivity");
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivityWithPushLeftAnim(intent);
+        finish();
+    }
+
+    @Override
+    public void finishCurrent() {
+        mPresenter = null;
+        finish();
     }
 
     /**
@@ -123,32 +156,28 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
         Log.d(TAG, "showGuideFragment");
     }
 
-    /**
-     * 显示WelcomeFragment
-     */
-    private void showWelcomeFragment() {
-        Log.d(TAG, "showWelcomeFragment");
-
-        //设置Fragment的值
-        if (savedInstanceStateValued) {
-            //此时发生内存重启后此处有数据
-            welcomeFragment = (WelcomeFragment) fm.findFragmentByTag(WelcomeFragment.class.getSimpleName());
-        } else {
-            //第一次进入
-            welcomeFragment = new WelcomeFragment();
-            ft = fm.beginTransaction();
-            ft.add(R.id.firstFrame, welcomeFragment, WelcomeFragment.class.getSimpleName());
-            ft.commit();
-        }
-
-        //初始化要用到的Presenter层数据
-        welcomeDataResponsitory = WelcomeDataResponsitory.getInstance(WelcomeLocalDataSource.getInstance(context),
-                WelcomeRemoteDataSource.getInstance());
-        welcomePresenter = new WelcomePresenter(welcomeDataResponsitory, welcomeFragment);
-    }
-
     @Override
     public void setPresenter(FirstContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void showLoading(String value) {
+
+    }
+
+    @Override
+    public void dismissLoading() {
+
+    }
+
+    @Override
+    public void showReqResult(String value) {
+
+    }
+
+    @Override
+    public boolean isActive() {
+        return false;
     }
 }

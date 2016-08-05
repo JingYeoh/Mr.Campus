@@ -3,4 +3,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!--SlideMenu-->
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="slidingmenu_offset">60dp</dimen>
+    <dimen name="shadow_width">3dp</dimen>
 </resources>

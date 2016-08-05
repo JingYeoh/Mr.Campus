@@ -51,6 +51,8 @@ public class WelcomePresenter implements WelcomeContract.Presenter {
             @Override
             public void onBitmapLoaded(WelcomeData welcomeData) {
                 setBackgroundBitmap(welcomeData.getBitmap());
+                //设置倒计时开始
+                welcomeView.startCount();
             }
 
             @Override

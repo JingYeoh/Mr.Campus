@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!--标题栏样式-->
+    <style name="titleStyle">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <!--标题栏中的图片样式-->
+    <style name="titleContentImage">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_width">50dp</item>
+    </style>
+
+    <!--标题栏名称样式-->
+    <style name="titleNameStyle">
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <!--tabLayout的主题-->
+    <style name="tabLayoutStyle">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:fillViewport">false</item>
+    </style>
+
+    <!--输入框默认的主题-->
+    <style name="inputEditTextStyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <!--按钮通用住主题-->
+    <style name="buttonGeneralStyle">
+        <item name="android:layout_height">45dp</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+</resources>

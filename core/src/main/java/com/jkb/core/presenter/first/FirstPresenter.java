@@ -62,10 +62,13 @@ public class FirstPresenter implements FirstContract.Presenter {
     private void handleData(FirstData firstData) {
         if (firstData.getShowPosition() == FirstData.ShowPosition.WELCOME) {
             firstView.showFragment(0);
+            firstView.showWelcome();
         } else if (firstData.getShowPosition() == FirstData.ShowPosition.GUIDE) {
             firstView.showFragment(1);
+            firstView.showGuide();
         } else if (firstData.getShowPosition() == FirstData.ShowPosition.ADVENT) {
             firstView.showFragment(2);
+            firstView.showAdvent();
         }
     }
 }

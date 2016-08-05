@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="40dp"
+    android:layout_marginRight="40dp"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/fdcp_tv_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selecter_white_main"
+        android:padding="15dp"
+        android:text="@string/Camera"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/line" />
+
+    <TextView
+        android:id="@+id/fdcp_tv_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selecter_white_main"
+        android:padding="15dp"
+        android:text="@string/chooseFromAlbus"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+</LinearLayout>

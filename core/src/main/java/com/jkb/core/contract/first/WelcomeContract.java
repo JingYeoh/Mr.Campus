@@ -71,7 +71,6 @@ public interface WelcomeContract {
 //         * @return
 //         */
 //        Bitmap getBitmapByCacheFile(String path);
-
     }
 
 }

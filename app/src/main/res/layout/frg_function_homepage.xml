@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/fh_bt_openLeftMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="打开左滑菜单" />
+
+        <Button
+            android:id="@+id/fh_bt_openRightMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="打开右滑菜单" />
+
+        <Button
+            android:id="@+id/fh_bt_showHot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="显示热门" />
+
+        <Button
+            android:id="@+id/fh_bt_showMap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="显示地图" />
+
+        <Button
+            android:id="@+id/fh_bt_showMatters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="显示动态" />
+    </LinearLayout>
+
+</LinearLayout>

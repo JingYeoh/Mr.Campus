@@ -14,4 +14,30 @@ public interface BaseView<T> {
      * @param presenter
      */
     void setPresenter(T presenter);
+
+    /**
+     * 显示加载的loading效果
+     *
+     * @param value
+     */
+    void showLoading(String value);
+
+    /**
+     * 取消loading加载显示效果
+     */
+    void dismissLoading();
+
+    /**
+     * 显示返回的结果
+     *
+     * @param value
+     */
+    void showReqResult(String value);
+
+    /**
+     * 是否被销毁
+     *
+     * @return
+     */
+    boolean isActive();
 }

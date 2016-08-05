@@ -9,6 +9,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.roger.gifloadinglibrary.GifLoadingView;
 
 /**
  * 所有Fragment类的基类
@@ -23,7 +26,6 @@ public abstract class BaseFragment extends Fragment {
     protected Context context;
     protected Activity mActivity;
     protected View rootView;
-
 
     @Nullable
     @Override
@@ -99,5 +101,29 @@ public abstract class BaseFragment extends Fragment {
     protected void setRootView(int rootViewId) {
 //        checkNotNull(rootViewId, "传入布局id不能为空！");
         this.rootView = LayoutInflater.from(getActivity()).inflate(rootViewId, null);
+    }
+
+    /**
+     * 顯示Toash信息：短的
+     *
+     * @param value
+     */
+    public void showShortToash(String value) {
+        if (value == null || value.isEmpty()) {
+            return;
+        }
+        Toast.makeText(context, value, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 显示Toash信息：长的
+     *
+     * @param value
+     */
+    public void showLongToash(String value) {
+        if (value == null || value.isEmpty()) {
+            return;
+        }
+        Toast.makeText(context, value, Toast.LENGTH_SHORT).show();
     }
 }

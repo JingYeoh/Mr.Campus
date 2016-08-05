@@ -17,6 +17,31 @@ public interface FirstContract {
          * @param position
          */
         void showFragment(int position);
+
+        /**
+         * 显示引导页面
+         */
+        void showGuide();
+
+        /**
+         * 显示广告页面
+         */
+        void showAdvent();
+
+        /**
+         * 显示欢迎页面
+         */
+        void showWelcome();
+
+        /**
+         * 开始到主程序
+         */
+        void startMenuActivity();
+
+        /**
+         * finish当前
+         */
+        void finishCurrent();
     }
 
     interface Presenter extends BasePresenter {

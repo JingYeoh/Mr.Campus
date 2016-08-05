@@ -1,1 +1,2 @@
-include ':app', ':model', ':api', ':core'
+include ':app', ':model', ':api', ':core', ':lib_slidemenu', ':lib_mob'
+project(':lib_slidemenu').projectDir = new File('lib-slidemenu')
