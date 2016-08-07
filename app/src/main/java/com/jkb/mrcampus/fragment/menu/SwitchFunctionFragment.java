@@ -199,6 +199,6 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
 
     @Override
     public boolean isActive() {
-        return false;
+        return isAdded();
     }
 }

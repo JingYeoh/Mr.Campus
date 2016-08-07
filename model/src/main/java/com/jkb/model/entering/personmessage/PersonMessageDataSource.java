@@ -5,7 +5,12 @@ import android.graphics.Bitmap;
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.auth.RegisterEntity;
+import com.jkb.model.intfc.DbSavedResultListener;
 
+import java.util.Date;
+
+import jkb.mrcampus.db.entity.UserAuths;
+import jkb.mrcampus.db.entity.Users;
 import okhttp3.MultipartBody;
 
 /**
@@ -13,7 +18,6 @@ import okhttp3.MultipartBody;
  * Created by JustKiddingBaby on 2016/8/1.
  */
 public interface PersonMessageDataSource {
-
     /**
      * 请求注册接口
      * 请求方式：异步请求
@@ -25,7 +29,7 @@ public interface PersonMessageDataSource {
      * @param identity_type 认证类型
      * @param identifier    认证帐号
      * @param image         图片
-     * @param apiCallback      回调接口
+     * @param apiCallback   回调接口
      */
     void registerWithEmail(String nickName, String code, String credential,
                            String identity_type, String identifier, MultipartBody.Part image,
@@ -42,11 +46,35 @@ public interface PersonMessageDataSource {
      * @param identity_type 认证类型
      * @param identifier    认证帐号
      * @param image         图片
-     * @param apiCallback      回调接口
+     * @param apiCallback   回调接口
      */
     void registerWithPhone(String nickName, String code, String credential,
                            String identity_type, String identifier, MultipartBody.Part image,
                            ApiCallback<ApiResponse<RegisterEntity>> apiCallback);
+
+    /**
+     * 保存数据到数据库中
+     *
+     */
+    void saveUserToDb(Users users);
+
+    /**
+     * 保存用户Auth信息到数据库中
+     *
+     */
+    void saveUserAuthToDb(UserAuths userAuths);
+
+
+    /**
+     * 保存系统状态到数据库中
+     *
+     * @param userId
+     * @param version
+     * @param isLogin
+     * @param date
+     */
+    void saveStatusToDb(int userId, String version, boolean isLogin, Date date);
+
 
     /**
      * 转换Bitmap为文件
@@ -64,4 +92,11 @@ public interface PersonMessageDataSource {
      * @return
      */
     Bitmap getBitmapFromFile(String urlPath);
+
+    /**
+     * 得到系统的当前版本号
+     *
+     * @return
+     */
+    String getCurrentVersion();
 }

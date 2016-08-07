@@ -42,6 +42,7 @@
     </style>
 
     <style name="AppTheme.NoActionBar.Fullscreen" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@drawable/bg_first_general</item>
         <!-- #region /设置全屏属性-->
         <item name="android:windowFullscreen">true</item>
         <item name="windowActionBar">false</item>

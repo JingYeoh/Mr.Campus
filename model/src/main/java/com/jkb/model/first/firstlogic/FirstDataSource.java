@@ -4,6 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.jkb.model.base.BaseDataSource;
 
+import java.util.Date;
+
+import jkb.mrcampus.db.entity.Status;
+
 /**
  * 第一次进入APP的数据处理接口
  * Created by JustKiddingBaby on 2016/7/22.
@@ -11,27 +15,34 @@ import com.jkb.model.base.BaseDataSource;
 public interface FirstDataSource extends BaseDataSource {
 
 
-    /**
-     * 得到firstData数据的回调接口
-     */
-    interface FirstDataCallBack {
+    interface StatusDataCallback {
         /**
          * 数据加载成功
          *
-         * @param firstData
+         * @param status
          */
-        void onFirstDataLoaded(FirstData firstData);
+        void onStatusDataLoaded(Status status);
 
         /**
-         * 数据获得失败
+         * 数据加载失败
          */
         void onDataNotAvailable();
     }
 
     /**
-     * 得到第一次加载的数据
+     * 获取到缓存的系统状态数据
      *
-     * @param callBack
+     * @param callback
      */
-    void getFirstData(@NonNull FirstDataCallBack callBack);
+    void getStatusData(StatusDataCallback callback);
+
+    /**
+     * 缓存系统状态
+     */
+    void cacheStatus(String version,boolean isLogined,int userId, Date date);
+
+    /**
+     * 得到系统的当前版本号
+     */
+    String getCurrentVersion();
 }

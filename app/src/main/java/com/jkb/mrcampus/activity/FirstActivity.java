@@ -10,10 +10,10 @@ import com.jkb.core.presenter.first.FirstPresenter;
 import com.jkb.core.presenter.first.WelcomePresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
+import com.jkb.mrcampus.fragment.first.GuideFragment;
 import com.jkb.mrcampus.fragment.first.WelcomeFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import com.jkb.mrcampus.utils.ClassUtils;
 
 /**
  * 进入APP的第一个页面控制器
@@ -33,8 +33,13 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
     private FirstContract.Presenter mPresenter;
     private FirstPresenter firstPresenter;
 
+    //引导页面
+    private GuideFragment guideFragment;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme_NoActionBar_Fullscreen);
         super.onCreate(savedInstanceState);
         setRootView(R.layout.aty_first);
         init(savedInstanceState);
@@ -53,24 +58,24 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
-        if (savedInstanceState == null) {
-            savedInstanceStateValued = false;
-        } else {
-            savedInstanceStateValued = true;
-        }
-
         fm = getSupportFragmentManager();
-        initFirstData(savedInstanceState);//初始化本页面的逻辑层数据
+
+        if (savedInstanceStateValued) {
+            initFirstPresenter();
+            restoreFragments();//回复数据
+        } else {
+            initFirstPresenter();
+        }
     }
 
     /**
-     * 初始化页面本身的数据
-     *
-     * @param savedInstanceState
+     * 初始化Presenter层
      */
-    private void initFirstData(Bundle savedInstanceState) {
-        firstPresenter = new FirstPresenter(Injection.provideFirstResponsitory(getApplicationContext()), this);
+    private void initFirstPresenter() {
+        if (firstPresenter == null) {
+            firstPresenter = new FirstPresenter(
+                    Injection.provideFirstResponsitory(getApplicationContext()), this);
+        }
     }
 
     @Override
@@ -79,27 +84,90 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
 
     @Override
     public void showFragment(String fragmentName) {
+        Log.d(TAG, "showFragment------->" + fragmentName);
+        try {
+            Class<?> clzFragment = Class.forName(fragmentName);
+            //初始化Fragment
+            initFragmentStep1(clzFragment);
+            //隐藏掉所有的视图
+            ActivityUtils.hideAllFragments(fm);
 
+            if (ClassUtils.isNameEquals(fragmentName, WelcomeFragment.class)) {
+                showWelcome();
+            } else if (ClassUtils.isNameEquals(fragmentName, GuideFragment.class)) {
+                showGuide();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void restoreFragments(String fragmentTAG) {
-
+        if (ClassUtils.isNameEquals(fragmentTAG, WelcomeFragment.class)) {
+            welcomeFragment = (WelcomeFragment) fm.findFragmentByTag(fragmentTAG);
+            welcomePresenter = new WelcomePresenter(
+                    Injection.provideWelcomeResponsitory(getApplicationContext()), welcomeFragment);
+        } else if (ClassUtils.isNameEquals(fragmentTAG, GuideFragment.class)) {
+            guideFragment = (GuideFragment) fm.findFragmentByTag(fragmentTAG);
+        }
     }
 
     @Override
     protected void initFragmentStep2(Class<?> fragmentClass) {
+        String fragmentTAG = fragmentClass.getName();
+        if (ClassUtils.isNameEquals(fragmentTAG, WelcomeFragment.class)) {
+            initWelcomeFragment();
+        } else if (ClassUtils.isNameEquals(fragmentTAG, GuideFragment.class)) {
+            initGuideFragment();
+        }
+    }
 
+    /**
+     * 初始化GuideFragment
+     */
+    private void initGuideFragment() {
+        Log.i(TAG, "initGuideFragment");
+        if (guideFragment == null) {
+            guideFragment = GuideFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(fm, guideFragment, R.id.firstFrame);
+        }
+    }
+
+    /**
+     * 初始化WelcomeFragment
+     */
+    private void initWelcomeFragment() {
+        Log.i(TAG, "initWelcomeFragment");
+        if (welcomeFragment == null) {
+            welcomeFragment = WelcomeFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(fm, welcomeFragment, R.id.firstFrame);
+        }
+        if (welcomePresenter == null) {
+            welcomePresenter = new WelcomePresenter(
+                    Injection.provideWelcomeResponsitory(getApplicationContext()), welcomeFragment);
+        }
     }
 
     @Override
     public void showFragment(int position) {
-
+        switch (position) {
+            case 0:
+                showFragment(WelcomeFragment.class.getName());
+                break;
+            case 1:
+                showFragment(GuideFragment.class.getName());
+                break;
+            case 2:
+                showAdvent();
+                break;
+        }
     }
 
     @Override
     public void showGuide() {
         Log.d(TAG, "showGuide");
+        ActivityUtils.showFragment(fm, guideFragment);
     }
 
     @Override
@@ -110,22 +178,7 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
     @Override
     public void showWelcome() {
         Log.d(TAG, "showWelcome");
-        //设置Fragment的值
-        if (savedInstanceStateValued) {
-            //此时发生内存重启后此处有数据
-            welcomeFragment = (WelcomeFragment) fm.findFragmentByTag(WelcomeFragment.class.getName());
-        } else {
-            //第一次进入
-            if (welcomeFragment == null) {
-                welcomeFragment = WelcomeFragment.newInstance();
-                ActivityUtils.addFragmentToActivity(fm, welcomeFragment, R.id.firstFrame);
-            }
-        }
-        //初始化要用到的Presenter层数据
-        if (welcomePresenter == null) {
-            welcomePresenter = new WelcomePresenter(
-                    Injection.provideWelcomeResponsitory(getApplicationContext()), welcomeFragment);
-        }
+        ActivityUtils.showFragment(fm, welcomeFragment);
     }
 
     @Override
@@ -142,23 +195,9 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
         finish();
     }
 
-    /**
-     * 显示AdventFragment
-     */
-    private void showAdventFragment() {
-        Log.d(TAG, "showAdventFragment");
-    }
-
-    /**
-     * 显示GuideFragment
-     */
-    private void showGuideFragment() {
-        Log.d(TAG, "showGuideFragment");
-    }
-
     @Override
     public void setPresenter(FirstContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
+        mPresenter = presenter;
     }
 
     @Override

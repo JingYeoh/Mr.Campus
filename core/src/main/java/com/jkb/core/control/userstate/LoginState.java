@@ -15,15 +15,25 @@ public class LoginState implements UserState {
 
     @Override
     public void setOnMenuPersonViewListener(View view, final MenuPersonViewListener listener) {
+        if (listener == null) {
+            return;
+        }
         listener.showLoginPersonView();
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
+        if (view != null) {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     listener.onClickLoginPersonView();
                 }
-            }
-        });
+            });
+        }
+    }
+
+    @Override
+    public void setRightSlideMenuListener(SlideMenuRightListener listener) {
+        if (listener != null) {
+            listener.showLoginRightMenuView();
+        }
     }
 
 }

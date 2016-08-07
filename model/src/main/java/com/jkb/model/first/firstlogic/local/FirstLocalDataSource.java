@@ -11,6 +11,14 @@ import com.jkb.model.utils.Config;
 import com.jkb.model.utils.SharePreferenceUtils;
 import com.jkb.model.utils.SystemUtils;
 
+import java.util.Date;
+
+import jkb.mrcampus.db.MrCampusDB;
+import jkb.mrcampus.db.dao.DaoMaster;
+import jkb.mrcampus.db.dao.DaoSession;
+import jkb.mrcampus.db.dao.StatusDao;
+import jkb.mrcampus.db.entity.Status;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -23,6 +31,10 @@ public class FirstLocalDataSource implements FirstDataSource {
     private String TAG = getClass().getSimpleName();
 
     private Context context;
+
+    //数据库相关
+    private MrCampusDB mrCampusDB;
+    private DaoSession daoSession;
 
 
     /**
@@ -39,65 +51,40 @@ public class FirstLocalDataSource implements FirstDataSource {
 
     private FirstLocalDataSource(Context context) {
         this.context = checkNotNull(context);
+        //从数据库中读取数据
+        mrCampusDB = MrCampusDB.getInstance();
+        daoSession = mrCampusDB.getDaoSession();
+    }
+
+
+    @Override
+    public void getStatusData(StatusDataCallback callback) {
+        //从数据库中读取数据
+        MrCampusDB mrCampusDB = MrCampusDB.getInstance();
+        DaoSession daoSession = mrCampusDB.getDaoSession();
+        StatusDao statusDao = daoSession.getStatusDao();
+        Status status = statusDao.load(statusDao.count());
+        if (callback != null) {
+            if (status != null) {
+                Log.d(TAG, "status.version=" + status.getVersion());
+                Log.d(TAG, "status.isLogin=" + status.getFlag_login());
+                Log.d(TAG, "status.userId=" + status.getUser_id());
+                Log.d(TAG, "status.getCreateData=" + status.getCreated_at().toString());
+                callback.onStatusDataLoaded(status);
+            } else {
+                callback.onDataNotAvailable();
+            }
+        }
     }
 
     @Override
-    public void getFirstData(@NonNull FirstDataCallBack callBack) {
-
-        FirstData firstData = new FirstData();
-
-        String currentVersion = getCurrentVersion();
-        String cachedVersion = getCachedVersion();
-        Log.d(TAG, "cachedVersion:" + cachedVersion);
-        Log.d(TAG, "currentVersion:" + currentVersion);
-        //判断是否有版本更新
-        if (isUpdated(cachedVersion, currentVersion)) {
-            //没有版本更新
-            firstData.setIsUpdated(false);
-            firstData.setShowPosition(FirstData.ShowPosition.WELCOME);
-        } else {
-            //缓存当前版本
-            cacheCurrentVersion(currentVersion);
-            firstData.setIsUpdated(true);
-            firstData.setShowPosition(FirstData.ShowPosition.GUIDE);
-        }
-        //判断是否有广告缓存
-
-        //回调
-        if (firstData != null) {
-            callBack.onFirstDataLoaded(firstData);
-        } else {
-            callBack.onDataNotAvailable();
-        }
-    }
-
-    /**
-     * 缓存当前版本号
-     *
-     * @param currentVersion
-     */
-    private void cacheCurrentVersion(String currentVersion) {
-        SharePreferenceUtils.cacheStringData(context, Config.KEY_VERSION, currentVersion);
-    }
-
-    /**
-     * 是否版本升级
-     *
-     * @param cachedVersion
-     * @param currentVersion
-     * @return
-     */
-    private boolean isUpdated(String cachedVersion, String currentVersion) {
-        return (cachedVersion.equals(currentVersion));
-    }
-
-    /**
-     * 得到缓存的版本号
-     *
-     * @return
-     */
-    private String getCachedVersion() {
-        return SharePreferenceUtils.getCachedStringData(context, Config.KEY_VERSION);
+    public void cacheStatus(String version, boolean isLogined, int userId, Date date) {
+        Status status = new Status();
+        status.setVersion(version);
+        status.setFlag_login(isLogined);
+        status.setUser_id(userId);
+        status.setCreated_at(date);
+        daoSession.insertOrReplace(status);
     }
 
     /**
@@ -105,9 +92,11 @@ public class FirstLocalDataSource implements FirstDataSource {
      *
      * @return
      */
-    private String getCurrentVersion() {
+    @Override
+    public String getCurrentVersion() {
         try {
             String currentVersion = SystemUtils.getCurrentVersion(context);
+            Log.d(TAG, "currentVersion=" + currentVersion);
             return currentVersion;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

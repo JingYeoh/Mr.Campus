@@ -31,7 +31,7 @@ public class GuideFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setRootView(R.layout.aty_first);
+        setRootView(R.layout.frg_first_guide);
         init(savedInstanceState);
         return super.onCreateView(inflater, container, savedInstanceState);
     }

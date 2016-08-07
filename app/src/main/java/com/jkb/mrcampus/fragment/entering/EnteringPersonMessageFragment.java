@@ -147,6 +147,7 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
     @Override
     public void loginSystem() {
         //登录进入系统
+        enteringActivity.loginSystem();
     }
 
     @Override
@@ -215,7 +216,7 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
 
     @Override
     public void onCancel() {
-
+        //裁剪取消
     }
 
     @Override

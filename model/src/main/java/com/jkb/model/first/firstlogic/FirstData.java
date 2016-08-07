@@ -1,5 +1,7 @@
 package com.jkb.model.first.firstlogic;
 
+import jkb.mrcampus.db.entity.Status;
+
 /**
  * 第一次进入APP页面FirstActivity的数据类
  * Created by JustKiddingBaby on 2016/7/22.
@@ -20,6 +22,9 @@ public class FirstData {
      * 是否有版本更新：版本更新后要显示Guide页面
      */
     private boolean isUpdated;
+
+    private Status status;//保存的status表的数据
+
 
     /**
      * 显示的条目
@@ -68,5 +73,13 @@ public class FirstData {
 
     public void setShowPosition(ShowPosition showPosition) {
         this.showPosition = showPosition;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

@@ -16,6 +16,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -26,6 +27,6 @@ dependencies {
     compile files('libs/guava-r09.jar')
     compile project(':lib_slidemenu')
     compile files('libs/universal-image-loader-1.9.5.jar')
-    compile project(':api')
     compile project(':lib_mob')
+    compile project(':lib_db')
 }

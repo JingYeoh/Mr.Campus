@@ -1,14 +1,26 @@
 package com.jkb.model.entering.personmessage.local;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
-import com.jkb.api.entity.auth.RegisterEntity;
 import com.jkb.api.config.Config;
+import com.jkb.api.entity.auth.RegisterEntity;
 import com.jkb.model.entering.personmessage.PersonMessageDataSource;
+import com.jkb.model.intfc.DbSavedResultListener;
 import com.jkb.model.utils.BitmapUtils;
+import com.jkb.model.utils.StringUtils;
+import com.jkb.model.utils.SystemUtils;
 
+import java.util.Date;
+
+import jkb.mrcampus.db.MrCampusDB;
+import jkb.mrcampus.db.dao.DaoSession;
+import jkb.mrcampus.db.entity.Status;
+import jkb.mrcampus.db.entity.UserAuths;
+import jkb.mrcampus.db.entity.Users;
 import okhttp3.MultipartBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -24,15 +36,24 @@ public class PersonMessageLocalDataSource implements PersonMessageDataSource {
 
 
     private static PersonMessageLocalDataSource INSTANCE;
+    //数据库相关
+    private MrCampusDB mrCampusDB;
 
-    public static PersonMessageLocalDataSource getInstance() {
+    private DaoSession daoSession;
+    private Context context;
+
+    public static PersonMessageLocalDataSource getInstance(Context context) {
         if (INSTANCE == null) {
-            INSTANCE = new PersonMessageLocalDataSource();
+            INSTANCE = new PersonMessageLocalDataSource(context);
         }
         return INSTANCE;
     }
 
-    private PersonMessageLocalDataSource() {
+    private PersonMessageLocalDataSource(Context context) {
+        this.context = context;
+        //初始化数据库
+        mrCampusDB = MrCampusDB.getInstance();
+        daoSession = mrCampusDB.getDaoSession();
     }
 
     @Override
@@ -42,7 +63,26 @@ public class PersonMessageLocalDataSource implements PersonMessageDataSource {
 
     @Override
     public void registerWithPhone(String nickName, String code, String credential, String identity_type, String identifier, MultipartBody.Part image, ApiCallback<ApiResponse<RegisterEntity>> apiCallback) {
+    }
 
+    @Override
+    public void saveUserToDb(Users user) {
+        daoSession.insertOrReplace(user);
+    }
+
+    @Override
+    public void saveUserAuthToDb(UserAuths userAuths) {
+        daoSession.insertOrReplace(userAuths);
+    }
+
+    @Override
+    public void saveStatusToDb(int userId, String version, boolean isLogin, Date date) {
+        Status status = new Status();
+        status.setUser_id(userId);
+        status.setVersion(version);
+        status.setFlag_login(isLogin);
+        status.setCreated_at(date);
+        daoSession.insertOrReplace(status);
     }
 
     @Override
@@ -103,5 +143,21 @@ public class PersonMessageLocalDataSource implements PersonMessageDataSource {
                 });
 
         return mBitmap[0];
+    }
+
+    /**
+     * 得到当前的版本
+     *
+     * @return
+     */
+    @Override
+    public String getCurrentVersion() {
+        try {
+            String currentVersion = SystemUtils.getCurrentVersion(context);
+            return currentVersion;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

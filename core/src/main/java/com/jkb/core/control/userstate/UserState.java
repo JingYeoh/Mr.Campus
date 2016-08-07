@@ -15,7 +15,7 @@ public interface UserState {
      *
      * @return
      */
-    public boolean isLogined();
+    boolean isLogined();
 
     /**
      * 展示个人信息视图接口
@@ -42,9 +42,30 @@ public interface UserState {
         void onClickLogoutPersonView();
     }
 
-
     /**
      * 设置左滑菜单的个人信息的监听器
      */
-    public void setOnMenuPersonViewListener(View view, MenuPersonViewListener listener);
+    void setOnMenuPersonViewListener(View view, MenuPersonViewListener listener);
+
+    /**
+     * 右滑菜单的监听器
+     */
+    interface SlideMenuRightListener {
+        /**
+         * 展示登录状态下右滑菜單的顯示視圖
+         */
+        void showLoginRightMenuView();
+
+        /**
+         * 展示未登录状态下右滑菜單的顯示視圖
+         */
+        void showLogoutRightMenuView();
+    }
+
+    /**
+     * 设置右滑菜单的监听器
+     *
+     * @param listener
+     */
+    void setRightSlideMenuListener(SlideMenuRightListener listener);
 }

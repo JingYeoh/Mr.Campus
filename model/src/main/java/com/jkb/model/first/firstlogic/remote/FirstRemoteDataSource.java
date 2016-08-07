@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 
 import com.jkb.model.first.firstlogic.FirstDataSource;
 
+import java.util.Date;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -35,19 +37,17 @@ public class FirstRemoteDataSource implements FirstDataSource {
     }
 
     @Override
-    public void getFirstData(@NonNull FirstDataCallBack callBack) {
-        //得到本地数据
-        //得到版本号码
-        getCachedVersion();
+    public void getStatusData(StatusDataCallback callback) {
+
     }
 
-    /**
-     * 得到缓存的版本号
-     *
-     * @return
-     */
-    private String getCachedVersion() {
+    @Override
+    public void cacheStatus(String version, boolean isLogined, int userId, Date date) {
 
+    }
+
+    @Override
+    public String getCurrentVersion() {
         return null;
     }
 }

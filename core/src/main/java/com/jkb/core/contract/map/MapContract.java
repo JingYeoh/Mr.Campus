@@ -1,6 +1,5 @@
 package com.jkb.core.contract.map;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.jkb.core.base.BasePresenter;

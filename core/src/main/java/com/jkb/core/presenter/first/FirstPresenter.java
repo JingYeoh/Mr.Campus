@@ -3,9 +3,15 @@ package com.jkb.core.presenter.first;
 import android.support.annotation.NonNull;
 
 import com.jkb.core.contract.first.FirstContract;
+import com.jkb.core.control.userstate.LoginContext;
+import com.jkb.core.control.userstate.LoginState;
+import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.model.first.firstlogic.FirstData;
 import com.jkb.model.first.firstlogic.FirstDataResponsitory;
 import com.jkb.model.first.firstlogic.FirstDataSource;
+import com.jkb.model.utils.StringUtils;
+
+import jkb.mrcampus.db.entity.Status;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -14,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by JustKiddingBaby on 2016/7/22.
  */
 public class FirstPresenter implements FirstContract.Presenter {
-
 
     private FirstDataResponsitory firstDataResponsitory;
     private FirstContract.View firstView;
@@ -39,36 +44,53 @@ public class FirstPresenter implements FirstContract.Presenter {
 
     @Override
     public void chooseFragment() {
-        firstDataResponsitory.getFirstData(callBack);
+        firstDataResponsitory.getStatusData(statusDataCallback);
     }
 
-    FirstDataSource.FirstDataCallBack callBack = new FirstDataSource.FirstDataCallBack() {
+    FirstDataSource.StatusDataCallback statusDataCallback = new FirstDataSource.StatusDataCallback() {
         @Override
-        public void onFirstDataLoaded(FirstData firstData) {
-            handleData(firstData);
+        public void onStatusDataLoaded(Status status) {
+            boolean isLogin = status.getFlag_login();
+            String cacheVersion = status.getVersion();
+            String currentVersion = firstDataResponsitory.getCurrentVersion();
+            if (cacheVersion.equals(currentVersion)) {
+                showWelcome();
+            } else {
+                firstDataResponsitory.cacheStatus(currentVersion, status.getFlag_login(), status.getUser_id(),
+                        StringUtils.getSystemCurrentTime());
+                showGuide();
+            }
+            //设置为未登录状态
+            if (isLogin) {
+                LoginContext loginContext = LoginContext.getInstance();
+                loginContext.setUserState(new LoginState());
+            } else {
+                LoginContext loginContext = LoginContext.getInstance();
+                loginContext.setUserState(new LogoutState());
+            }
         }
 
         @Override
         public void onDataNotAvailable() {
-            firstView.showFragment(0);
+            firstView.showFragment(1);
+            //设置状态为未登录状态
+            firstDataResponsitory.cacheStatus(firstDataResponsitory.getCurrentVersion(), false, 0, StringUtils.getSystemCurrentTime());
+            LoginContext loginContext = LoginContext.getInstance();
+            loginContext.setUserState(new LogoutState());
         }
     };
 
     /**
-     * 处理数据
-     *
-     * @param firstData
+     * 显示引导页面
      */
-    private void handleData(FirstData firstData) {
-        if (firstData.getShowPosition() == FirstData.ShowPosition.WELCOME) {
-            firstView.showFragment(0);
-            firstView.showWelcome();
-        } else if (firstData.getShowPosition() == FirstData.ShowPosition.GUIDE) {
-            firstView.showFragment(1);
-            firstView.showGuide();
-        } else if (firstData.getShowPosition() == FirstData.ShowPosition.ADVENT) {
-            firstView.showFragment(2);
-            firstView.showAdvent();
-        }
+    private void showGuide() {
+        firstView.showFragment(1);
+    }
+
+    /**
+     * 显示欢迎页面
+     */
+    private void showWelcome() {
+        firstView.showFragment(0);
     }
 }

@@ -11,9 +11,13 @@ import com.jkb.api.entity.auth.RegisterEntity;
 import com.jkb.api.config.Config;
 import com.jkb.api.net.auth.RegisterApi;
 import com.jkb.model.entering.personmessage.PersonMessageDataSource;
+import com.jkb.model.intfc.DbSavedResultListener;
 
 import java.lang.reflect.Type;
+import java.util.Date;
 
+import jkb.mrcampus.db.entity.UserAuths;
+import jkb.mrcampus.db.entity.Users;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 
@@ -77,12 +81,33 @@ public class PersonMessageRemoteDataSource implements PersonMessageDataSource {
     }
 
     @Override
+    public void saveUserToDb(Users users) {
+
+    }
+
+    @Override
+    public void saveUserAuthToDb(UserAuths userAuths) {
+
+    }
+
+
+    @Override
+    public void saveStatusToDb(int userId, String version, boolean isLogin, Date date) {
+
+    }
+
+    @Override
     public String saveBitmapToFile(Bitmap bitmap, String path, String fileName) {
         return null;
     }
 
     @Override
     public Bitmap getBitmapFromFile(String urlPath) {
+        return null;
+    }
+
+    @Override
+    public String getCurrentVersion() {
         return null;
     }
 }

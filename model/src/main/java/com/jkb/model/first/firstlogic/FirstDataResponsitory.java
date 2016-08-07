@@ -2,6 +2,8 @@ package com.jkb.model.first.firstlogic;
 
 import android.support.annotation.NonNull;
 
+import java.util.Date;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -37,50 +39,20 @@ public class FirstDataResponsitory implements FirstDataSource {
         return INSTANCE;
     }
 
+
     @Override
-    public void getFirstData(@NonNull final FirstDataCallBack callBack) {
-//        planOne(callBack);
-        planTwo(callBack);
+    public void getStatusData(StatusDataCallback callback) {
+        firstLocalDataSource.getStatusData(callback);
     }
 
-    /**
-     * 方案一：使用了缓存机制
-     *
-     * @param callBack
-     */
-    private void planOne(@NonNull final FirstDataCallBack callBack) {
-        //如果有缓存就使用缓存的数据
-        if (cacheData != null && !overdue) {
-            callBack.onFirstDataLoaded(cacheData);
-            //如果返回的结果为Guide的时候标注为已过期
-            if (cacheData.isUpdated()) {
-                overdue = true;
-            } else if (cacheData.isCachedAdvent()) {//有广告的时候，标注为已过期
-                overdue = true;
-            }
-        } else {//否则使用本地数据
-            this.firstLocalDataSource.getFirstData(new FirstDataCallBack() {
-                @Override
-                public void onFirstDataLoaded(FirstData firstData) {
-                    //缓存到本地数据
-                    cacheData = firstData;
-                    callBack.onFirstDataLoaded(cacheData);
-                }
-
-                @Override
-                public void onDataNotAvailable() {
-                    callBack.onDataNotAvailable();
-                }
-            });
-        }
+    @Override
+    public void cacheStatus(String version, boolean isLogined, int userId, Date date) {
+        firstLocalDataSource.cacheStatus(version, isLogined, userId, date);
     }
 
-    /**
-     * 方案二：不使用缓存机制，每次都更新数据
-     *
-     * @param callBack
-     */
-    private void planTwo(@NonNull final FirstDataCallBack callBack) {
-        firstLocalDataSource.getFirstData(callBack);
+
+    @Override
+    public String getCurrentVersion() {
+        return firstLocalDataSource.getCurrentVersion();
     }
 }

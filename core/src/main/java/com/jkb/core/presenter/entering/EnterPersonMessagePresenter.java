@@ -9,14 +9,22 @@ import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.auth.RegisterEntity;
 import com.jkb.api.config.Config;
 import com.jkb.core.contract.entering.EnterPersonMessageContract;
+import com.jkb.core.control.userstate.LoginContext;
+import com.jkb.core.control.userstate.LoginState;
 import com.jkb.model.entering.personmessage.PersonMessageResponsitory;
+import com.jkb.model.info.UserInfoSingleton;
+import com.jkb.model.intfc.DbSavedResultListener;
 import com.jkb.model.utils.BitmapUtils;
 import com.jkb.model.utils.FileUtils;
 import com.jkb.model.utils.FormatUtils;
 import com.jkb.model.utils.StringUtils;
+import com.jkb.model.utils.SystemUtils;
 
 import java.util.List;
 
+import jkb.mrcampus.db.MrCampusDB;
+import jkb.mrcampus.db.entity.UserAuths;
+import jkb.mrcampus.db.entity.Users;
 import okhttp3.MultipartBody;
 import retrofit2.Response;
 
@@ -33,6 +41,10 @@ public class EnterPersonMessagePresenter implements EnterPersonMessageContract.P
 
     private Bitmap cachedHeadImage = null;
     private String headImagePath = null;
+
+    private String identity_type;
+    private String identifier;
+    private String credential;
 
     public EnterPersonMessagePresenter(
             @NonNull EnterPersonMessageContract.View personView,
@@ -56,8 +68,8 @@ public class EnterPersonMessagePresenter implements EnterPersonMessageContract.P
             personView.showReqResult("宝宝密码不能少于6位哦");
             return;
         }
-
-        String identity_type = null;
+        this.identifier = identifier;
+        this.credential = passWord;
         //判断是否为邮箱
         if (FormatUtils.judgeEmailFormat(identifier)) {
             identity_type = Config.KEY_EMAIL;
@@ -108,7 +120,6 @@ public class EnterPersonMessagePresenter implements EnterPersonMessageContract.P
         cachedHeadImage = bitmap;
         //保存头像得到路径
         headImagePath = personMessageResponsitory.saveBitmapToFile(bitmap, null, name);
-
         //设置头像显示
         personView.setHeadImg(personMessageResponsitory.getBitmapFromFile(headImagePath));
     }
@@ -127,31 +138,119 @@ public class EnterPersonMessagePresenter implements EnterPersonMessageContract.P
 
     @Override
     public void onSuccess(Response<ApiResponse<RegisterEntity>> response) {
-        personView.dismissLoading();
-        personView.showReqResult("注册成功，宝宝真棒");
-        //保存信息
+        if (personView.isActive()) {
+            personView.dismissLoading();
+            personView.showReqResult("注册成功，宝宝真棒");
+            RegisterEntity registerEntity = response.body().getMsg();
+            //保存信息
+            saveUserToDb(registerEntity);
+            saveUserAuthsToDb(registerEntity);
+            saveStatusToDb(registerEntity);
+            //设置为已经登录状态
+            LoginContext.getInstance().setUserState(new LoginState());
+            //进入系统
+            personView.loginSystem();
+        }
     }
+
 
     @Override
     public void onError(Response<ApiResponse<RegisterEntity>> response, String error,
                         ApiResponse<RegisterEntity> apiResponse) {
-        personView.dismissLoading();
-        //显示错误信息
-        RegisterEntity registerEntity = apiResponse.getMsg();
-        if (registerEntity != null) {
-            List<String> errors = registerEntity.getIdentifier();
-            if (errors != null && errors.size() > 0) {
-                String errMsg = errors.get(0);
-                personView.showReqResult(errMsg);
+        if (personView.isActive()) {
+            personView.dismissLoading();
+            String errorMsg = null;
+            //显示错误信息
+            RegisterEntity registerEntity = apiResponse.getMsg();
+            if (registerEntity != null) {
+                List<String> errors = registerEntity.getIdentifier();
+                if (errors != null && errors.size() > 0) {
+                    errorMsg = errors.get(0);
+                }
             }
-        } else {
-            personView.showReqResult("失败了，宝宝好烦");
+            if (errorMsg == null) {
+                personView.showReqResult("注册失败，宝宝好烦");
+            } else {
+                personView.showReqResult(errorMsg);
+            }
         }
     }
 
     @Override
     public void onFail() {
-        personView.dismissLoading();
-        personView.showReqResult("请求失败");
+        if (personView.isActive()) {
+            personView.dismissLoading();
+            personView.showReqResult("请求失败，请重试");
+        }
+    }
+
+    /**
+     * 保存系统状态到数据库
+     */
+    private void saveStatusToDb(RegisterEntity registerEntity) {
+        if (registerEntity == null) {
+            return;
+        }
+        RegisterEntity.UserInfoBean userInfoBean = registerEntity.getUserInfo();
+        if (userInfoBean != null) {
+            personMessageResponsitory.saveStatusToDb(
+                    userInfoBean.getId(),
+                    personMessageResponsitory.getCurrentVersion(),
+                    true, StringUtils.getSystemCurrentTime()
+            );
+        }
+    }
+
+    /**
+     * 保存用户Auths信息到数据库
+     */
+    private void saveUserAuthsToDb(RegisterEntity registerEntity) {
+        if (registerEntity == null) {
+            return;
+        }
+        RegisterEntity.UserInfoBean userInfoBean = registerEntity.getUserInfo();
+        if (userInfoBean == null) {
+            return;
+        }
+        UserAuths userAuths = new UserAuths();
+        userAuths.setUser_id(userInfoBean.getId());
+        userAuths.setIdentity_type(identity_type);
+        userAuths.setIdentifier(identifier);
+        userAuths.setCredential(credential);
+        userAuths.setToken(registerEntity.getToken());
+        userAuths.setUpdated_at(StringUtils.getSystemCurrentTime());
+        personMessageResponsitory.saveUserAuthToDb(userAuths);
+        //更新信息到个人数据的单例类中
+        UserInfoSingleton.getInstance().setUserAuths(userAuths);
+    }
+
+    /**
+     * 保存用户数据到数据库
+     */
+    private void saveUserToDb(RegisterEntity registerEntity) {
+        if (registerEntity == null) {
+            return;
+        }
+        RegisterEntity.UserInfoBean userInfoBean = registerEntity.getUserInfo();
+        if (userInfoBean == null) {
+            return;
+        }
+        Users users = new Users();
+        users.setUser_id(userInfoBean.getId());
+        users.setUID(userInfoBean.getUID());
+        users.setNickname(userInfoBean.getNickname());
+        users.setAvatar(userInfoBean.getAvatar());
+        users.setSex(userInfoBean.getSex());
+        users.setName(userInfoBean.getName());
+        users.setBref_introduction(userInfoBean.getBref_introduction());
+        users.setBackground(userInfoBean.getBackground());
+        RegisterEntity.UserInfoBean.SchoolInfoBean schoolInfoBean = userInfoBean.getSchoolInfo();
+        if (schoolInfoBean != null) {
+            users.setSchool_id(schoolInfoBean.getId());
+        }
+        users.setUpdated_at(StringUtils.getSystemCurrentTime());
+        personMessageResponsitory.saveUserToDb(users);
+        //更新信息到个人数据的单例类中
+        UserInfoSingleton.getInstance().setUsers(users);
     }
 }

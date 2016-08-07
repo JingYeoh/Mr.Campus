@@ -13,6 +13,13 @@ public class LoginContext implements UserState {
 
     private static LoginContext sLoginContext = new LoginContext();
 
+    //给侧滑菜单视图使用的对象
+    private MenuPersonViewListener menuPersonViewListener;
+    private View menuPersonLoginView;
+
+    //右滑菜单的保存对象
+    private SlideMenuRightListener slideMenuRightListener;
+
     private LoginContext() {
     }
 
@@ -30,8 +37,15 @@ public class LoginContext implements UserState {
      *
      * @param userState
      */
-    private void setUserState(@NonNull UserState userState) {
+    public void setUserState(@NonNull UserState userState) {
         mState = userState;
+        //身份状态改变的时候监听
+        if (menuPersonLoginView != null && menuPersonViewListener != null) {
+            setOnMenuPersonViewListener(menuPersonLoginView, menuPersonViewListener);
+        }
+        if (slideMenuRightListener != null) {
+            setRightSlideMenuListener(slideMenuRightListener);
+        }
     }
 
     @Override
@@ -41,6 +55,14 @@ public class LoginContext implements UserState {
 
     @Override
     public void setOnMenuPersonViewListener(View view, MenuPersonViewListener listener) {
+        menuPersonViewListener = listener;
+        menuPersonLoginView = view;
         mState.setOnMenuPersonViewListener(view, listener);
+    }
+
+    @Override
+    public void setRightSlideMenuListener(SlideMenuRightListener listener) {
+        slideMenuRightListener = listener;
+        mState.setRightSlideMenuListener(listener);
     }
 }

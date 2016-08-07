@@ -1,18 +1,14 @@
 package com.jkb.mrcampus.activity;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.jkb.core.Injection;
 import com.jkb.core.presenter.entering.EnterPersonMessagePresenter;
 import com.jkb.core.presenter.entering.IdentifyPresenter;
 import com.jkb.core.presenter.entering.LoginPresenter;
 import com.jkb.core.presenter.entering.ResetpasswordPresenter;
+import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
 import com.jkb.mrcampus.fragment.entering.EnteringPersonMessageFragment;
@@ -134,7 +130,7 @@ public class EnteringActivity extends BaseActivity {
         } else if (ClassUtils.isNameEquals(fragmentTAG, EnteringPersonMessageFragment.class)) {
             personMessageFragment = (EnteringPersonMessageFragment) fm.findFragmentByTag(fragmentTAG);
             personMessagePresenter = new EnterPersonMessagePresenter(personMessageFragment,
-                    Injection.providePersonMessageResponsotory());
+                    Injection.providePersonMessageResponsotory(getApplicationContext()));
         } else if (ClassUtils.isNameEquals(fragmentTAG, ResetPasswordFragment.class)) {
             resetPasswordFragment = (ResetPasswordFragment) fm.findFragmentByTag(fragmentTAG);
             resetpasswordPresenter = new ResetpasswordPresenter(resetPasswordFragment,
@@ -185,7 +181,7 @@ public class EnteringActivity extends BaseActivity {
         }
         if (personMessagePresenter == null) {
             personMessagePresenter = new EnterPersonMessagePresenter(personMessageFragment,
-                    Injection.providePersonMessageResponsotory());
+                    Injection.providePersonMessageResponsotory(getApplicationContext()));
         }
     }
 
@@ -328,12 +324,16 @@ public class EnteringActivity extends BaseActivity {
      * 返回到上级页面
      */
     public void backToLastView() {
+        //如果当前页面就是登录页面的时候
+        if (StringUtils.isEmpty(fragmentStack.getCurrentFragmentName(), LoginFragment.class.getName())) {
+            super.onBackPressed();
+        }
         //先销毁使用过后的Fragment
         removeCurrentFragment();
 
         String fragmentName = fragmentStack.getCurrentFragmentName();
         //如果到最顶层栈或者到了登录页面的时候，再次回退就直接销毁当前页面
-        if (fragmentName == null || ClassUtils.isNameEquals(fragmentName, LoginFragment.class)) {
+        if (fragmentName == null) {
             //返回上级页面
             super.onBackPressed();
         } else {
@@ -354,6 +354,13 @@ public class EnteringActivity extends BaseActivity {
 
         //销毁的Fragment出栈
         fragmentStack.removePopFragmentStack();
+    }
+
+    /**
+     * 登录进入系统
+     */
+    public void loginSystem() {
+        super.onBackPressed();
     }
 
 

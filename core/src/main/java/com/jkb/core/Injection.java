@@ -68,9 +68,9 @@ public class Injection {
      *
      * @return
      */
-    public static PersonMessageResponsitory providePersonMessageResponsotory() {
+    public static PersonMessageResponsitory providePersonMessageResponsotory(Context context) {
         PersonMessageResponsitory responsitory = PersonMessageResponsitory.getInstance(
-                PersonMessageLocalDataSource.getInstance(), PersonMessageRemoteDataSource.getInstance()
+                PersonMessageLocalDataSource.getInstance(context), PersonMessageRemoteDataSource.getInstance()
         );
         return responsitory;
     }

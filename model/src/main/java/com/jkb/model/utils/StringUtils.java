@@ -1,5 +1,14 @@
 package com.jkb.model.utils;
 
+import android.text.format.DateFormat;
+
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * String相关的工具类
  * Created by JustKiddingBaby on 2016/8/4.
@@ -23,5 +32,33 @@ public class StringUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * 字符串转换为时间
+     *
+     * @param dateStr 时间字符串
+     * @return 时间对象
+     */
+    public static Date getDateFromStr(String dateStr) {
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = f.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    /**
+     * 得到系统当前时间
+     *
+     * @return
+     */
+    public static Date getSystemCurrentTime() {
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String date = sDateFormat.format(new java.util.Date());
+        return getDateFromStr(date);
     }
 }

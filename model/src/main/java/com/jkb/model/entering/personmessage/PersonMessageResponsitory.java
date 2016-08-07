@@ -6,7 +6,12 @@ import android.support.annotation.NonNull;
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.auth.RegisterEntity;
+import com.jkb.model.intfc.DbSavedResultListener;
 
+import java.util.Date;
+
+import jkb.mrcampus.db.entity.UserAuths;
+import jkb.mrcampus.db.entity.Users;
 import okhttp3.MultipartBody;
 
 /**
@@ -50,6 +55,22 @@ public class PersonMessageResponsitory implements PersonMessageDataSource {
     }
 
     @Override
+    public void saveUserToDb(Users users) {
+        localDataSource.saveUserToDb(users);
+    }
+
+    @Override
+    public void saveUserAuthToDb(UserAuths userAuths) {
+        localDataSource.saveUserAuthToDb(userAuths);
+    }
+
+
+    @Override
+    public void saveStatusToDb(int userId, String version, boolean isLogin, Date date) {
+        localDataSource.saveStatusToDb(userId, version, isLogin, date);
+    }
+
+    @Override
     public String saveBitmapToFile(final Bitmap bitmap, final String path, String fileName) {
         return localDataSource.saveBitmapToFile(bitmap, path, fileName);
     }
@@ -57,5 +78,10 @@ public class PersonMessageResponsitory implements PersonMessageDataSource {
     @Override
     public Bitmap getBitmapFromFile(String urlPath) {
         return localDataSource.getBitmapFromFile(urlPath);
+    }
+
+    @Override
+    public String getCurrentVersion() {
+        return localDataSource.getCurrentVersion();
     }
 }
