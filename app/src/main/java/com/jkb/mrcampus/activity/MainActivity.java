@@ -7,6 +7,9 @@ import android.widget.FrameLayout;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jkb.core.contract.menu.MenuContract;
+import com.jkb.core.control.userstate.LoginContext;
+import com.jkb.core.control.userstate.LogoutState;
+import com.jkb.core.control.userstate.UserState;
 import com.jkb.core.presenter.function.homepage.HomePagePresenter;
 import com.jkb.core.presenter.menu.MenuPresenter;
 import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
@@ -65,8 +68,10 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
 
     @Override
     protected void initListener() {
-
+        //设置右滑菜单的监听器
+        LoginContext.getInstance().setRightSlideMenuListener(slideMenuRightListener);
     }
+
 
     @Override
     protected void initData(Bundle savedInstanceState) {
@@ -115,6 +120,8 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     @Override
     protected void initView() {
         fmContain = (FrameLayout) findViewById(R.id.fm_content);
+
+        slideMenuSetting();//设置SlideMenu
     }
 
     /**
@@ -123,7 +130,6 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
      * @param savedInstanceState
      */
     private void initSlideMenu(Bundle savedInstanceState) {
-        slideMenuSetting();//设置SlideMenu
         //设置Fragments
         if (savedInstanceState == null) {
             initMenuFragments();
@@ -135,6 +141,21 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
             switchFunctionPresenter = new SwitchFunctionPresenter(this, functionFragment);
         }
     }
+
+    /**
+     * 右滑菜单的状态改变的监听器
+     */
+    UserState.SlideMenuRightListener slideMenuRightListener = new UserState.SlideMenuRightListener() {
+        @Override
+        public void showLoginRightMenuView() {
+            slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);//设置为两侧滑动
+        }
+
+        @Override
+        public void showLogoutRightMenuView() {
+            slidingMenu.setMode(SlidingMenu.LEFT);//设置为只有左侧滑动
+        }
+    };
 
     /**
      * 设置SlideMenu
@@ -267,8 +288,9 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     @Override
     public void startChooseSchools() {
         Log.d(TAG, "startChooseSchools");
-        Intent intent = new Intent(this, TestActivity.class);
-        startActivityWithPushLeftAnim(intent);
+//        Intent intent = new Intent(this, TestActivity.class);
+//        startActivityWithPushLeftAnim(intent);
+        LoginContext.getInstance().setUserState(new LogoutState());
     }
 
     @Override
