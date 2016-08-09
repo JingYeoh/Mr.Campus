@@ -180,6 +180,12 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
     }
 
     @Override
+    public void loginSuccess() {
+        //登录成功
+        enteringActivity.loginSystem();
+    }
+
+    @Override
     public void showLoading(String value) {
         enteringActivity.showLoading(value);
     }
@@ -230,5 +236,13 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
 
         // 启动分享GUI
         oks.show(mActivity);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            mPresenter.start();//设置加载
+        }
     }
 }

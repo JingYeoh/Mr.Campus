@@ -8,10 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.jkb.core.contract.function.homepage.HomePagecontract;
+import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.presenter.function.homepage.HomePagePresenter;
 import com.jkb.mrcampus.R;
+import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.adapter.HomePageAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 
@@ -22,10 +25,13 @@ import com.jkb.mrcampus.base.BaseFragment;
 public class HomePageFragment extends BaseFragment implements HomePagecontract.View, View.OnClickListener {
 
     private HomePagePresenter mPresenter;
+    private MainActivity mainActivity;
 
     //View层
     private TabLayout mTab;
     private ViewPager mViewPager;
+
+    private ImageView ivRightMenu;
 
     public HomePageFragment() {
     }
@@ -43,6 +49,7 @@ public class HomePageFragment extends BaseFragment implements HomePagecontract.V
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setRootView(R.layout.frg_function_index);
+        mainActivity = (MainActivity) mActivity;
         init(savedInstanceState);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -55,24 +62,24 @@ public class HomePageFragment extends BaseFragment implements HomePagecontract.V
 
     @Override
     protected void initListener() {
-//        rootView.findViewById(R.id.fh_bt_openLeftMenu).setOnClickListener(this);
-//        rootView.findViewById(R.id.fh_bt_openRightMenu).setOnClickListener(this);
-//        rootView.findViewById(R.id.fh_bt_showHot).setOnClickListener(this);
-//        rootView.findViewById(R.id.fh_bt_showMap).setOnClickListener(this);
-//        rootView.findViewById(R.id.fh_bt_showMatters).setOnClickListener(this);
-
         rootView.findViewById(R.id.fi_title_left).setOnClickListener(this);
         rootView.findViewById(R.id.fi_title_right).setOnClickListener(this);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        //判断是否登录，设置标题栏右侧的按钮视图
+        if (LoginContext.getInstance().isLogined()) {
+            setLoginRightMenuView();
+        } else {
+            setLogoutRightMenuView();
+        }
     }
 
     @Override
     protected void initView() {
         initTabView();
+        ivRightMenu = (ImageView) rootView.findViewById(R.id.fi_title_right);
     }
 
     /**
@@ -100,13 +107,10 @@ public class HomePageFragment extends BaseFragment implements HomePagecontract.V
                 showRightMenu();
                 break;
             case R.id.fh_bt_showHot:
-
-                break;
-            case R.id.fh_bt_showMap:
-                showMap();
+                showHot();//用不到，交给了TabLayout+ViewPager来控制
                 break;
             case R.id.fh_bt_showMatters:
-
+                showMatters();//用不到，交给了TabLayout+ViewPager来控制
                 break;
             case R.id.fi_title_left:
                 showLeftMenu();
@@ -120,25 +124,45 @@ public class HomePageFragment extends BaseFragment implements HomePagecontract.V
     @Override
     public void showLeftMenu() {
         Log.v(TAG, "showLeftMenu");
-        mPresenter.showLeftMenu();
+        mainActivity.showLeftMenu();
     }
+
 
     @Override
     public void showRightMenu() {
         Log.v(TAG, "showRightMenu");
-        mPresenter.showRightMenu();
+        mainActivity.showRightMenu();
     }
 
+    @Override
+    public void setLoginRightMenuView() {
+        if (ivRightMenu != null) {
+            ivRightMenu.setImageResource(R.drawable.ic_comment_black);
+        }
+    }
+
+    @Override
+    public void setLogoutRightMenuView() {
+        if (ivRightMenu != null) {
+            ivRightMenu.setImageResource(R.drawable.ic_user_head);
+        }
+    }
+
+    /**
+     * /**
+     * //用不到，交给了TabLayout+ViewPager来控制
+     */
+    @Deprecated
     @Override
     public void showHot() {
 
     }
 
-    @Override
-    public void showMap() {
-
-    }
-
+    /**
+     * /**
+     * //用不到，交给了TabLayout+ViewPager来控制
+     */
+    @Deprecated
     @Override
     public void showMatters() {
 
@@ -151,17 +175,17 @@ public class HomePageFragment extends BaseFragment implements HomePagecontract.V
 
     @Override
     public void showLoading(String value) {
-
+        mainActivity.showLoading(value);
     }
 
     @Override
     public void dismissLoading() {
-
+        mainActivity.dismissLoading();
     }
 
     @Override
     public void showReqResult(String value) {
-
+        showShortToash(value);
     }
 
     @Override

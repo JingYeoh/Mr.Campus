@@ -47,4 +47,5 @@ public class DBConfig {
     public static final String SNAME = "sname";
     public static final String BADGE = "badge";//校徽图片地址
     public static final String SUMMARY = "summary";
+    public static final String AVATAR_LOCAL_PATH = "avatarLocalPath";
 }

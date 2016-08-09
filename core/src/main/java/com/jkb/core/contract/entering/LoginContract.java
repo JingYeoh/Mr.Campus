@@ -78,16 +78,9 @@ public interface LoginContract {
         void showResetPassWordView();
 
         /**
-         * 显示Loading信息
-         *
-         * @param value
+         * 登录成功
          */
-        void showLoading(String value);
-
-        /**
-         * 取消Loading效果的显示
-         */
-        void dismissLoading();
+        void loginSuccess();
     }
 
     interface Presenter extends BasePresenter {
@@ -124,5 +117,13 @@ public interface LoginContract {
          * 通过豆瓣登录
          */
         void loginByDouBan();
+
+        /**
+         * 懒加载登录页面的输入框
+         *
+         * @param userName 用户名
+         * @param passWord 密码
+         */
+        void lazyLoginIntput(String userName, String passWord);
     }
 }

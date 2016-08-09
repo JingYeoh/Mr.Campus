@@ -15,8 +15,6 @@ public interface EnterPersonMessageContract {
 
         /**
          * 设置头像
-         *
-         * @param bitmap
          */
         void setHeadImg(Bitmap bitmap);
 

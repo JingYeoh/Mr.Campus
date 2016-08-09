@@ -1,13 +1,18 @@
 package com.jkb.core.presenter.menu;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
 import com.jkb.core.contract.menu.MenuContract;
 import com.jkb.core.contract.menu.SwitchFunctionContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.UserState;
+import com.jkb.model.info.UserInfoSingleton;
+
+import jkb.mrcampus.db.entity.Users;
 
 /**
+ * 左滑菜单的Presenter层
  * Created by JustKiddingBaby on 2016/7/24.
  */
 public class SwitchFunctionPresenter implements SwitchFunctionContract.Presenter {
@@ -58,6 +63,21 @@ public class SwitchFunctionPresenter implements SwitchFunctionContract.Presenter
     public void setOnPersonViewListener(UserState.MenuPersonViewListener listener) {
         LoginContext loginContext = LoginContext.getInstance();
         loginContext.setOnMenuPersonViewListener(functionView.getPersonView(), listener);
+    }
+
+    @Override
+    public String getCurrentNickName() {
+        Users users = UserInfoSingleton.getInstance().getUsers();
+        if (users != null) {
+            return users.getNickname();
+        }
+        return null;
+    }
+
+    @Override
+    public Bitmap getCurrentHeadImg() {
+        //得到本地头像
+        return UserInfoSingleton.getInstance().getUserAvatar();
     }
 
 }

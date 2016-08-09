@@ -50,6 +50,9 @@
         //登录注册模块的页面控制器
         <activity android:name=".activity.EnteringActivity" />
 
+        //个人中心的页面控制器
+        <activity android:name=".activity.PersonCenterActivity" />
+
         <activity android:name=".activity.TestActivity" />
 
         <!--BaiduMap start-->

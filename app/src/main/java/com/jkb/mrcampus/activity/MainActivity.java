@@ -15,11 +15,13 @@ import com.jkb.core.presenter.menu.MenuPresenter;
 import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseSlideMenuActivity;
+import com.jkb.mrcampus.fragment.entering.LoginFragment;
 import com.jkb.mrcampus.fragment.function.HomePageFragment;
 import com.jkb.mrcampus.fragment.function.SettingFragment;
 import com.jkb.mrcampus.fragment.menu.ChatFragment;
 import com.jkb.mrcampus.fragment.menu.SwitchFunctionFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
+import com.jkb.mrcampus.helper.FragmentStack;
 
 /**
  * 核心的Activity类，负责显示主要功能模块
@@ -149,11 +151,18 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         @Override
         public void showLoginRightMenuView() {
             slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);//设置为两侧滑动
+            //设置首页的右侧视图
+            if (homePageFragment != null && homePageFragment.isActive()) {
+                homePageFragment.setLoginRightMenuView();
+            }
         }
 
         @Override
         public void showLogoutRightMenuView() {
             slidingMenu.setMode(SlidingMenu.LEFT);//设置为只有左侧滑动
+            if (homePageFragment != null && homePageFragment.isActive()) {
+                homePageFragment.setLogoutRightMenuView();
+            }
         }
     };
 
@@ -212,7 +221,11 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     @Override
     public void showRightMenu() {
         Log.d(TAG, "showRightMenu");
-        slidingMenu.showSecondaryMenu();
+        if (LoginContext.getInstance().isLogined()) {
+            slidingMenu.showSecondaryMenu();
+        } else {
+            startLoginActivity();
+        }
     }
 
     @Override
@@ -269,6 +282,8 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     @Override
     public void startPersonalCenter() {
         Log.d(TAG, "startPersonalCenter");
+        Intent intent = new Intent(this, PersonCenterActivity.class);
+        startActivityWithPushLeftAnim(intent);
     }
 
     @Override
@@ -365,22 +380,22 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
 
     @Override
     public void showLoading(String value) {
-
+        super.showLoading(value);
     }
 
     @Override
     public void dismissLoading() {
-
+        super.dismissLoading();
     }
 
     @Override
     public void showReqResult(String value) {
-
+        showShortToast(value);
     }
 
     @Override
     public boolean isActive() {
-        return false;
+        return true;
     }
 
     @Override

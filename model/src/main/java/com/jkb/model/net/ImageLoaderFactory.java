@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 
+import com.jkb.api.config.Config;
 import com.jkb.model.R;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -28,7 +29,7 @@ import java.io.File;
  */
 public class ImageLoaderFactory {
 
-    private static final String DISC_CACHE_PATH = "MrJunJun/Images";
+    private static final String DISC_CACHE_PATH = Config.PATH_ROOT_IMAGE + "caches";
     private Context context;
     private static ImageLoaderFactory INSTANCE = new ImageLoaderFactory();
     private DisplayImageOptions options;
@@ -98,10 +99,10 @@ public class ImageLoaderFactory {
                 .considerExifParams(true) // 是否考虑JPEG图像EXIF参数（旋转，翻转）
                 .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)// 设置图片以如何的编码方式显示
                 .bitmapConfig(Bitmap.Config.RGB_565)// 设置图片的解码类型//
-                        // .delayBeforeLoading(int delayInMillis)//int
-                        // delayInMillis为你设置的下载前的延迟时间
-                        // 设置图片加入缓存前，对bitmap进行设置
-                        // .preProcessor(BitmapProcessor preProcessor)
+                // .delayBeforeLoading(int delayInMillis)//int
+                // delayInMillis为你设置的下载前的延迟时间
+                // 设置图片加入缓存前，对bitmap进行设置
+                // .preProcessor(BitmapProcessor preProcessor)
                 .resetViewBeforeLoading(true)// 设置图片在下载前是否重置，复位
                 .displayer(new RoundedBitmapDisplayer(20))// 是否设置为圆角，弧度为多少
                 .displayer(new FadeInBitmapDisplayer(100))// 是否图片加载好后渐入的动画时间
@@ -113,29 +114,27 @@ public class ImageLoaderFactory {
         config = new ImageLoaderConfiguration.Builder(
                 context)
                 .memoryCacheExtraOptions(480, 800)
-                        // max width, max height，即保存的每个缓存文件的最大长宽
+                // max width, max height，即保存的每个缓存文件的最大长宽
                 .discCacheExtraOptions(480, 800, null)
-                        // Can slow ImageLoader, use it carefully (Better don't use
-                        // it)/设置缓存的详细信息，最好不要设置这个
+                // Can slow ImageLoader, use it carefully (Better don't use
+                // it)/设置缓存的详细信息，最好不要设置这个
                 .threadPoolSize(3)
-                        // 线程池内加载的数量
+                // 线程池内加载的数量
                 .threadPriority(Thread.NORM_PRIORITY - 2)
                 .denyCacheImageMultipleSizesInMemory()
                 .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024))
-                        // You can pass your own memory cache
-                        // implementation/你可以通过自己的内存缓存实现
+                // You can pass your own memory cache
+                // implementation/你可以通过自己的内存缓存实现
                 .memoryCacheSize(2 * 1024 * 1024)
                 .discCacheSize(50 * 1024 * 1024)
                 .discCacheFileNameGenerator(new Md5FileNameGenerator())
-                        // 将保存的时候的URI名称用MD5 加密
+                // 将保存的时候的URI名称用MD5 加密
                 .tasksProcessingOrder(QueueProcessingType.LIFO)
                 .discCacheFileCount(100)
-                        // 缓存的文件数量
+                // 缓存的文件数量
                 .discCache(
-                        new UnlimitedDiskCache(new File(Environment
-                                .getExternalStorageDirectory()
-                                + DISC_CACHE_PATH)))
-                        // 自定义缓存路径
+                        new UnlimitedDiskCache(new File(DISC_CACHE_PATH)))
+                // 自定义缓存路径
                 .defaultDisplayImageOptions(getDisplayOptions())
                 .imageDownloader(
                         new BaseImageDownloader(context, 5 * 1000, 30 * 1000))

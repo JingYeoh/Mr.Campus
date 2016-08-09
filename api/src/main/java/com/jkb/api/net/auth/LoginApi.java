@@ -62,4 +62,30 @@ public interface LoginApi {
             @Query(Config.KEY_CREDENTIAL) String credential,
             @Query(Config.KEY_BACKGROUND) String background
     );
+
+    /**
+     * 手机号登录接口
+     *
+     * @param phone      手机号
+     * @param credential 密码
+     * @return Call
+     */
+    @POST(Config.URL_LOGIN_WITH_PHONE)
+    Call<ApiResponse<LoginEntity>> loginWithPhone(
+            @Query(Config.KEY_IDENTIFIER) String phone,
+            @Query(Config.KEY_CREDENTIAL) String credential
+    );
+
+    /**
+     * 邮箱号登录接口
+     *
+     * @param email      邮箱号
+     * @param credential 密码
+     * @return Call
+     */
+    @POST(Config.URL_LOGIN_WITH_EMAIL)
+    Call<ApiResponse<LoginEntity>> loginWithEmail(
+            @Query(Config.KEY_IDENTIFIER) String email,
+            @Query(Config.KEY_CREDENTIAL) String credential
+    );
 }

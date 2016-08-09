@@ -32,11 +32,11 @@ public interface RegisterApi {
     @Multipart
     @POST(Config.URL_REGISTER_WITH_EMAIL)
     Call<ApiResponse<RegisterEntity>> registerWithEmail(
-            @Query(Config.KEY_NICK_NAME) String nickName,
-            @Query(Config.KEY_CODE) String code,
-            @Query(Config.KEY_CREDENTIAL) String credential,
-            @Query(Config.KEY_IDENTITY_TYPE) String identity_type,
-            @Query(Config.KEY_IDENTIFIER) String identifier,
+            @Part(Config.KEY_NICK_NAME) String nickName,
+            @Part(Config.KEY_CODE) String code,
+            @Part(Config.KEY_CREDENTIAL) String credential,
+            @Part(Config.KEY_IDENTITY_TYPE) String identity_type,
+            @Part(Config.KEY_IDENTIFIER) String identifier,
             @Part() MultipartBody.Part image,
             @Part(Config.KEY_FLAG) String flag);
 
@@ -56,11 +56,11 @@ public interface RegisterApi {
     @Multipart
     @POST(Config.URL_REGISTER_WITH_PHONE)
     Call<ApiResponse<RegisterEntity>> registerWithPhone(
-            @Query(Config.KEY_NICK_NAME) String nickName,
-            @Query(Config.KEY_CODE) String code,
-            @Query(Config.KEY_CREDENTIAL) String credential,
-            @Query(Config.KEY_IDENTITY_TYPE) String identity_type,
-            @Query(Config.KEY_IDENTIFIER) String identifier,
+            @Part(Config.KEY_NICK_NAME) String nickName,
+            @Part(Config.KEY_CODE) String code,
+            @Part(Config.KEY_CREDENTIAL) String credential,
+            @Part(Config.KEY_IDENTITY_TYPE) String identity_type,
+            @Part(Config.KEY_IDENTIFIER) String identifier,
             @Part() MultipartBody.Part image,
             @Part(Config.KEY_FLAG) String flag);
 }

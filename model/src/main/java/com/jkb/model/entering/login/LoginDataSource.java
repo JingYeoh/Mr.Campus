@@ -1,9 +1,17 @@
 package com.jkb.model.entering.login;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
 import com.jkb.api.ApiCallback;
+import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.auth.LoginEntity;
+
+import java.util.List;
+
+import jkb.mrcampus.db.entity.Status;
+import jkb.mrcampus.db.entity.UserAuths;
+import jkb.mrcampus.db.entity.Users;
 
 /**
  * 登录的数据仓库接口
@@ -35,6 +43,45 @@ public interface LoginDataSource {
         void onCancle();
     }
 
+    interface UserAuthsDataCallback {
+
+        /**
+         * 数据加载成功
+         */
+        void onUserDataLoaded(List<UserAuths> userAuthses);
+
+        /**
+         * 数据加载失败
+         */
+        void onDataNotAvailable();
+    }
+
+    interface BitmapDataCallback {
+
+        /**
+         * 数据加载成功
+         */
+        void onBitmapDataLoaded(Bitmap bitmap);
+
+        /**
+         * 数据加载失败
+         */
+        void onDataNotAvailable();
+    }
+
+    interface BitmapToFileDataCallback {
+
+        /**
+         * 数据加载成功
+         */
+        void onBitmapDataLoaded(String path);
+
+        /**
+         * 数据加载失败
+         */
+        void onDataNotAvailable(Bitmap bitmap);
+    }
+
     /**
      * 通过QQ登录
      */
@@ -61,13 +108,14 @@ public interface LoginDataSource {
     void loginByDouBan(ThirdPlatformListener listener);
 
     /**
-     * 通过帐号密码登录
-     *
-     * @param userName
-     * @param passWord
-     * @param listener
+     * 通过手机号密码登录
      */
-    void loginByCount(String userName, String passWord, ThirdPlatformListener listener);
+    void loginWithPhone(String phone, String passWord, ApiCallback<ApiResponse<LoginEntity>> apiCallback);
+
+    /**
+     * 通过邮箱号密码登录
+     */
+    void loginWithEmail(String email, String passWord, ApiCallback<ApiResponse<LoginEntity>> apiCallback);
 
 
     /**
@@ -86,5 +134,41 @@ public interface LoginDataSource {
             @NonNull String nickname,
             @NonNull String identifier, @NonNull String identity_type,
             String sex, String avatar, String credential, String background,
-            ApiCallback<LoginEntity> apiCallback);
+            ApiCallback<ApiResponse<LoginEntity>> apiCallback);
+
+
+    /**
+     * 存储Users到数据库中
+     */
+    void saveUserToDb(Users users);
+
+    /**
+     * 存储UserAuths到数据库中
+     */
+    void saveUserAuthsToDb(UserAuths userAuths);
+
+    /**
+     * 保存Status到数据库中
+     */
+    void saveStatusToDb(Status status);
+
+    /**
+     * 从数据库中取出数据
+     */
+    void getUserAuthsDataFromDb(@NonNull UserAuthsDataCallback callback);
+
+    /**
+     * 得到当前版本号
+     */
+    String getCurrentVersion();
+
+    /**
+     * 加载Url为Bitmap
+     */
+    void getBitmapFromUrl(String url, BitmapDataCallback callback);
+
+    /**
+     * Bitmap缓存为图片的方法
+     */
+    void cacheBitmapToFile(String path, String name, Bitmap bitmap, @NonNull BitmapToFileDataCallback callback);
 }

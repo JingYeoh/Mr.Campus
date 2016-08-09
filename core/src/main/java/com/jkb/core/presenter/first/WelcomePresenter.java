@@ -58,6 +58,8 @@ public class WelcomePresenter implements WelcomeContract.Presenter {
             @Override
             public void onDataNotAvailable() {
                 setBackgroundBitmap(null);
+                //设置倒计时开始
+                welcomeView.startCount();
             }
         });
     }

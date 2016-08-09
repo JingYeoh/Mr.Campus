@@ -32,8 +32,6 @@ public class WelcomeLocalDataSource implements WelcomeDataSource {
 
     /**
      * 获取WelcomeRemoteDataSource的单例类对象
-     *
-     * @return
      */
     public static WelcomeLocalDataSource getInstance(Context context) {
         if (INSTANCE == null) {
@@ -48,31 +46,29 @@ public class WelcomeLocalDataSource implements WelcomeDataSource {
 
     @Override
     public void getWelcomeBackground(@NonNull final GetBitmapCallBack callBack) {
-       Observable.just( getResourceId())
-               .map(new Func1<Integer, Bitmap>() {
-                   @Override
-                   public Bitmap call(Integer integer) {
-                       return getBitmapByResourceId(integer);
-                   }
-               })
-               .subscribe(new Action1<Bitmap>() {
-                   @Override
-                   public void call(Bitmap bitmap) {
-                        packageBitmap(bitmap,callBack);
-                   }
-               });
+        Observable.just(getResourceId())
+                .map(new Func1<Integer, Bitmap>() {
+                    @Override
+                    public Bitmap call(Integer integer) {
+                        return getBitmapByResourceId(integer);
+                    }
+                })
+                .subscribe(new Action1<Bitmap>() {
+                    @Override
+                    public void call(Bitmap bitmap) {
+                        packageBitmap(bitmap, callBack);
+                    }
+                });
     }
 
     /**
      * 封装并且回调
-     * @param bitmap
-     * @param callBack
      */
     private void packageBitmap(Bitmap bitmap, GetBitmapCallBack callBack) {
-        if(null==bitmap){
+        if (null == bitmap) {
             callBack.onDataNotAvailable();
-        }else{
-            WelcomeData image=new WelcomeData();
+        } else {
+            WelcomeData image = new WelcomeData();
             image.setBitmap(bitmap);
             callBack.onBitmapLoaded(image);
         }
@@ -81,11 +77,11 @@ public class WelcomeLocalDataSource implements WelcomeDataSource {
 
     /**
      * 通过资源Id得到Bitmap对象
-     *
-     * @param resourceId
-     * @return
      */
     private Bitmap getBitmapByResourceId(int resourceId) {
+        if (resourceId == 0) {
+            return null;
+        }
         Resources resources = context.getResources();
         InputStream is = resources.openRawResource(resourceId);
         checkNotNull(is, "没有该资源图片！");
@@ -96,8 +92,6 @@ public class WelcomeLocalDataSource implements WelcomeDataSource {
 
     /**
      * 得到图片资源的ID
-     *
-     * @return
      */
     public int getResourceId() {
         return chooseResourceId();
@@ -108,7 +102,6 @@ public class WelcomeLocalDataSource implements WelcomeDataSource {
      */
     private int chooseResourceId() {
         //选择过程
-        int resourceId = R.drawable.welcome;
-        return resourceId;
+        return 0;
     }
 }

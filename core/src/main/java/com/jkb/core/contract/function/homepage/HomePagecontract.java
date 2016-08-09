@@ -22,14 +22,20 @@ public interface HomePagecontract {
         void showRightMenu();
 
         /**
+         * 设置已经登录的右滑菜单的视图
+         */
+        void setLoginRightMenuView();
+
+        /**
+         * 设置未登录的右滑菜单的视图
+         */
+        void setLogoutRightMenuView();
+
+        /**
          * 显示热门的视图
          */
         void showHot();
 
-        /**
-         * 显示地图视图
-         */
-        void showMap();
 
         /**
          * 显示动态
@@ -39,14 +45,5 @@ public interface HomePagecontract {
 
     interface Presenter extends BasePresenter {
 
-        /**
-         * 显示左滑菜单
-         */
-        void showLeftMenu();
-
-        /**
-         * 显示右滑菜单
-         */
-        void showRightMenu();
     }
 }

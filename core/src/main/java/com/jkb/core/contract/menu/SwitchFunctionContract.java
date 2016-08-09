@@ -82,5 +82,15 @@ public interface SwitchFunctionContract {
          * @param listener
          */
         void setOnPersonViewListener(UserState.MenuPersonViewListener listener);
+
+        /**
+         * 得到当前的昵称
+         */
+        String getCurrentNickName();
+
+        /**
+         * 得到当前的头像
+         */
+        Bitmap getCurrentHeadImg();
     }
 }

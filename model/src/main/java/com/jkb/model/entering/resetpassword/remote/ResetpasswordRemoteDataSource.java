@@ -11,6 +11,8 @@ import com.jkb.model.entering.resetpassword.ResetPasswordDataSource;
 
 import java.lang.reflect.Type;
 
+import jkb.mrcampus.db.entity.UserAuths;
+import jkb.mrcampus.db.entity.Users;
 import retrofit2.Call;
 
 /**
@@ -56,7 +58,12 @@ public class ResetpasswordRemoteDataSource implements ResetPasswordDataSource {
     }
 
     @Override
-    public void saveEntityToDb(ResetPasswordEntity resetPasswordEntity) {
+    public void saveUsersToDb(Users users) {
+
+    }
+
+    @Override
+    public void saveUserAuthsToDb(UserAuths userAuths) {
 
     }
 }

@@ -2,6 +2,8 @@ package com.jkb.mrcampus.fragment.first;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jkb.core.contract.first.WelcomeContract;
+import com.jkb.core.presenter.first.WelcomePresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.FirstActivity;
 import com.jkb.mrcampus.activity.MainActivity;
@@ -39,7 +42,7 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
     private static final int TIME_SLOT = 1000;//倒计时的时间间隙
 
     //用到的Presenter层数据
-    private WelcomeContract.Presenter mPresenter;
+    private WelcomePresenter mPresenter;
 
     public WelcomeFragment() {
     }
@@ -141,8 +144,12 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
 
     @Override
     public void showBackGround(Bitmap bitmap) {
-//        imageView = (ImageView) rootView.findViewById(R.id.ffw_iv);
-        imageView.setImageBitmap(bitmap);
+        if (bitmap == null) {
+            imageView.setImageResource(R.drawable.ic_screen_default);
+        } else {
+            Drawable drawable = new BitmapDrawable(bitmap);
+            imageView.setBackground(drawable);
+        }
     }
 
     @Override
@@ -152,7 +159,7 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
 
     @Override
     public void setPresenter(WelcomeContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
+        mPresenter = (WelcomePresenter) checkNotNull(presenter);
     }
 
     @Override

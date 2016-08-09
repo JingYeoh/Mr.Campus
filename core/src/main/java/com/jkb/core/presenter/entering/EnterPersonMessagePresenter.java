@@ -242,6 +242,7 @@ public class EnterPersonMessagePresenter implements EnterPersonMessageContract.P
         users.setAvatar(userInfoBean.getAvatar());
         users.setSex(userInfoBean.getSex());
         users.setName(userInfoBean.getName());
+        users.setAvatarLocalPath(headImagePath);
         users.setBref_introduction(userInfoBean.getBref_introduction());
         users.setBackground(userInfoBean.getBackground());
         RegisterEntity.UserInfoBean.SchoolInfoBean schoolInfoBean = userInfoBean.getSchoolInfo();

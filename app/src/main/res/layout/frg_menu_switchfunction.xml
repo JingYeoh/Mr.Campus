@@ -2,54 +2,214 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_theme_gravy"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/bt_person"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="个人中心" />
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/bt_index"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="首页" />
+        <ImageView
+            android:id="@+id/fms_iv_topSearch"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_search" />
 
-    <Button
-        android:id="@+id/bt_map"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="地图" />
+        <ImageView
+            android:id="@+id/fms_iv_topLike"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_like" />
 
-    <Button
-        android:id="@+id/bt_zhuanti"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="专题" />
+        <ImageView
+            android:id="@+id/fms_iv_topCircle"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_message" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/bt_tools"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="小工具" />
+        android:layout_height="2.5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/line_deep" />
 
-    <Button
-        android:id="@+id/bt_message"
+    <LinearLayout
+        android:id="@+id/fms_ll_person"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="消息" />
+        android:background="@drawable/general_item_selector"
+        android:orientation="horizontal"
+        android:padding="20dp">
 
-    <Button
-        android:id="@+id/bt_setting"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="设置" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/fms_iv_headImg"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_user_head" />
 
-    <Button
-        android:id="@+id/bt_school"
+        <TextView
+            android:id="@+id/fms_tv_nickName"
+            style="@style/menuLeftSideTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:text="@string/unLogin"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/line_deep" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/fms_tv_menuIndex"
+            style="@style/menuLeftSideTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/general_item_selector"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:text="首页·HOME PAGE"
+            android:textColor="@color/white" />
+
+
+        <TextView
+            android:id="@+id/fms_tv_menuMap"
+            style="@style/menuLeftSideTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/general_item_selector"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:text="地图·MAP"
+            android:textColor="@color/line" />
+
+        <TextView
+            android:id="@+id/fms_tv_menuTopic"
+            style="@style/menuLeftSideTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/general_item_selector"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:text="专题·TOPIC"
+            android:textColor="@color/line" />
+
+        <TextView
+            android:id="@+id/fms_tv_menuTools"
+            style="@style/menuLeftSideTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/general_item_selector"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:text="小工具·TOOLS"
+            android:textColor="@color/line" />
+
+        <TextView
+            android:id="@+id/fms_tv_menuMessage"
+            style="@style/menuLeftSideTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/general_item_selector"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:text="消息·MESSAGE"
+            android:textColor="@color/line" />
+
+        <TextView
+            android:id="@+id/fms_tv_menuSetting"
+            style="@style/menuLeftSideTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/general_item_selector"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:text="设置·SETTING"
+            android:textColor="@color/line" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/line_deep" />
+
+    <LinearLayout
+        android:id="@+id/fms_ll_school"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="学校" />
+        android:background="@drawable/general_item_selector"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/fms_iv_schoolBadge"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_user_head" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fms_tv_schoolName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="金陵科技学院"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/fms_tv_schoolArea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="江宁校区"
+                android:textColor="@color/line"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

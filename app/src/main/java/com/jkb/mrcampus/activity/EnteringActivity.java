@@ -325,8 +325,9 @@ public class EnteringActivity extends BaseActivity {
      */
     public void backToLastView() {
         //如果当前页面就是登录页面的时候
-        if (StringUtils.isEmpty(fragmentStack.getCurrentFragmentName(), LoginFragment.class.getName())) {
+        if (ClassUtils.isNameEquals(fragmentStack.getCurrentFragmentName(), LoginFragment.class)) {
             super.onBackPressed();
+            return;
         }
         //先销毁使用过后的Fragment
         removeCurrentFragment();

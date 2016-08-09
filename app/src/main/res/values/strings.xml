@@ -21,4 +21,6 @@
     <string name="submit">提交</string>
     <string name="new_password">新密码</string>
     <string name="resetPassword">重置密码</string>
+    <string name="_3">3</string>
+    <string name="unLogin">未登录</string>
 </resources>

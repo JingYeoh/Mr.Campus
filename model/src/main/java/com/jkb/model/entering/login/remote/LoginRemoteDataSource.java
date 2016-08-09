@@ -1,8 +1,10 @@
 package com.jkb.model.entering.login.remote;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
 
 import com.google.gson.reflect.TypeToken;
 import com.jkb.api.ApiCallback;
@@ -14,6 +16,10 @@ import com.jkb.api.entity.auth.RegisterEntity;
 import com.jkb.api.net.auth.LoginApi;
 import com.jkb.model.entering.login.LoginDataSource;
 import com.jkb.model.entering.login.ThirdPlatformData;
+import com.jkb.model.net.ImageLoaderFactory;
+import com.jkb.model.utils.StringUtils;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -27,6 +33,9 @@ import cn.sharesdk.renren.Renren;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
+import jkb.mrcampus.db.entity.Status;
+import jkb.mrcampus.db.entity.UserAuths;
+import jkb.mrcampus.db.entity.Users;
 import retrofit2.Call;
 
 /**
@@ -84,24 +93,109 @@ public class LoginRemoteDataSource implements LoginDataSource {
     }
 
     @Override
-    public void loginByCount(String userName, String passWord, ThirdPlatformListener listener) {
+    public void loginWithPhone(String phone, String passWord, ApiCallback<ApiResponse<LoginEntity>> apiCallback) {
+        //请求登录接口
+        ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
+        apiFactory.setHttpClient(apiFactory.genericClient());
+        apiFactory.initRetrofit();
+        LoginApi loginApi = apiFactory.createApi(LoginApi.class);
+        Call<ApiResponse<LoginEntity>> call;
+        call = loginApi.loginWithPhone(phone, passWord);
+        Type type = new TypeToken<ApiResponse<LoginEntity>>() {
+        }.getType();
+        new ApiEngine<ApiResponse<LoginEntity>>(apiCallback, call, type);
+    }
 
+    @Override
+    public void loginWithEmail(String email, String passWord, ApiCallback<ApiResponse<LoginEntity>> apiCallback) {
+        //请求登录接口
+        ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
+        apiFactory.setHttpClient(apiFactory.genericClient());
+        apiFactory.initRetrofit();
+        LoginApi loginApi = apiFactory.createApi(LoginApi.class);
+        Call<ApiResponse<LoginEntity>> call;
+        call = loginApi.loginWithEmail(email, passWord);
+        Type type = new TypeToken<ApiResponse<LoginEntity>>() {
+        }.getType();
+        new ApiEngine<ApiResponse<LoginEntity>>(apiCallback, call, type);
     }
 
     @Override
     public void loginByThirdPlatform(
             @NonNull String nickname, @NonNull String identifier,
             @NonNull String identity_type, String sex, String avatar,
-            String credential, String background, ApiCallback<LoginEntity> apiCallback) {
+            String credential, String background, ApiCallback<ApiResponse<LoginEntity>> apiCallback) {
         //请求登录接口
-        LoginApi loginApi = ApiFactoryImpl.newInstance().createApi(LoginApi.class);
-        Call<ApiResponse<LoginEntity>> call = null;
+        ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
+        apiFactory.setHttpClient(apiFactory.genericClient());
+        apiFactory.initRetrofit();
+        LoginApi loginApi = apiFactory.createApi(LoginApi.class);
+        Call<ApiResponse<LoginEntity>> call;
         call = loginApi.loginThirdPlatform(nickname, identifier, identity_type, sex, avatar
                 , credential, background);
-        Type type = new TypeToken<ApiResponse<RegisterEntity>>() {
+        Type type = new TypeToken<ApiResponse<LoginEntity>>() {
         }.getType();
-        new ApiEngine<ApiResponse<RegisterEntity>>(apiCallback, call, type);
+        new ApiEngine<ApiResponse<LoginEntity>>(apiCallback, call, type);
     }
+
+    @Override
+    public void saveUserToDb(Users users) {
+
+    }
+
+    @Override
+    public void saveUserAuthsToDb(UserAuths userAuths) {
+
+    }
+
+    @Override
+    public void saveStatusToDb(Status status) {
+
+    }
+
+    @Override
+    public void getUserAuthsDataFromDb(UserAuthsDataCallback callback) {
+
+    }
+
+    @Override
+    public String getCurrentVersion() {
+        return null;
+    }
+
+    @Override
+    public void getBitmapFromUrl(String url, final BitmapDataCallback callback) {
+        if (StringUtils.isEmpty(url)) {
+            callback.onDataNotAvailable();
+            return;
+        }
+        ImageLoaderFactory.getInstance().loadImage(url, null, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+            }
+
+            @Override
+            public void onLoadingFailed(String s, View view, FailReason failReason) {
+                callback.onDataNotAvailable();
+            }
+
+            @Override
+            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                callback.onBitmapDataLoaded(bitmap);
+            }
+
+            @Override
+            public void onLoadingCancelled(String s, View view) {
+                callback.onDataNotAvailable();
+            }
+        });
+    }
+
+    @Override
+    public void cacheBitmapToFile(String path, String name, Bitmap bitmap, @NonNull BitmapToFileDataCallback callback) {
+
+    }
+
 
     /**
      * 通过第三方登录

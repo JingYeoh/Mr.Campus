@@ -4,6 +4,9 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.auth.ResetPasswordEntity;
 
+import jkb.mrcampus.db.entity.UserAuths;
+import jkb.mrcampus.db.entity.Users;
+
 /**
  * 重置密码的数据接口
  * Created by JustKiddingBaby on 2016/8/5.
@@ -36,9 +39,12 @@ public interface ResetPasswordDataSource {
             ApiCallback<ApiResponse<ResetPasswordEntity>> apiCallback);
 
     /**
-     * 存储信息到数据库中
-     *
-     * @param resetPasswordEntity
+     * 存储Users信息到数据库中
      */
-    void saveEntityToDb(ResetPasswordEntity resetPasswordEntity);
+    void saveUsersToDb(Users users);
+
+    /**
+     * 存储UserAuths数据到数据库中
+     */
+    void saveUserAuthsToDb(UserAuths userAuths);
 }

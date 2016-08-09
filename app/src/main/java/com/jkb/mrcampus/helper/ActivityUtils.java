@@ -42,6 +42,9 @@ public class ActivityUtils {
     public static void removeAllFragment(@NonNull FragmentManager fm) {
         checkNotNull(fm);
         List<Fragment> fragments = fm.getFragments();
+        if (fragments == null || fragments.size() == 0) {
+            return;
+        }
         for (Fragment fragment : fragments) {
             if (fragment != null) {
                 removeFragment(fm, fragment);

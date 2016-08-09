@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.jkb.core.contract.function.homepage.HomePagecontract;
 import com.jkb.core.contract.menu.MenuContract;
+import com.jkb.core.control.userstate.LoginContext;
 
 /**
  * HomePageFragment的Presenter层
@@ -25,15 +26,5 @@ public class HomePagePresenter implements HomePagecontract.Presenter {
     @Override
     public void start() {
 
-    }
-
-    @Override
-    public void showLeftMenu() {
-        menuView.showLeftMenu();
-    }
-
-    @Override
-    public void showRightMenu() {
-        menuView.showRightMenu();
     }
 }

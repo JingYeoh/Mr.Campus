@@ -17,6 +17,7 @@ import com.jkb.model.entering.resetpassword.local.ResetpasswordLocalDataSource;
 import com.jkb.model.entering.resetpassword.remote.ResetpasswordRemoteDataSource;
 import com.jkb.model.first.firstlogic.FirstDataResponsitory;
 import com.jkb.model.first.firstlogic.local.FirstLocalDataSource;
+import com.jkb.model.first.firstlogic.remote.FirstRemoteDataSource;
 import com.jkb.model.first.welcome.WelcomeDataResponsitory;
 import com.jkb.model.first.welcome.local.WelcomeLocalDataSource;
 import com.jkb.model.first.welcome.remote.WelcomeRemoteDataSource;
@@ -35,7 +36,8 @@ public class Injection {
      */
     public static FirstDataResponsitory provideFirstResponsitory(Context context) {
         FirstLocalDataSource firstLocalDataSource = FirstLocalDataSource.getInstance(context);
-        FirstDataResponsitory responsitory = FirstDataResponsitory.getInstance(firstLocalDataSource);
+        FirstDataResponsitory responsitory = FirstDataResponsitory.getInstance(firstLocalDataSource
+                , FirstRemoteDataSource.getInstance(context));
         return responsitory;
     }
 

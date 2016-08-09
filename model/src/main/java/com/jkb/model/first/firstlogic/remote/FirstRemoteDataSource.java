@@ -1,11 +1,24 @@
 package com.jkb.model.first.firstlogic.remote;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import com.jkb.model.first.firstlogic.FirstDataSource;
+import com.jkb.model.net.ImageLoaderFactory;
+import com.jkb.model.utils.BitmapUtils;
+import com.jkb.model.utils.StringUtils;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.Date;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -47,7 +60,51 @@ public class FirstRemoteDataSource implements FirstDataSource {
     }
 
     @Override
+    public void getUsersData(@NonNull int userId, UsersDataCallback callback) {
+
+    }
+
+    @Override
+    public void getUserAuthData(@NonNull int userId, UserAuthsDataCallback callback) {
+
+    }
+
+    @Override
     public String getCurrentVersion() {
         return null;
+    }
+
+    @Override
+    public void loadHeadImgByUrl(final String url, @NonNull final BitmapDataCallback callback) {
+        if (StringUtils.isEmpty(url)) {
+            callback.onDataNotAvailable(url);
+            return;
+        }
+        ImageLoaderFactory.getInstance().loadImage(url, null, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+                callback.onDataNotAvailable(url);
+            }
+
+            @Override
+            public void onLoadingFailed(String s, View view, FailReason failReason) {
+                callback.onDataNotAvailable(url);
+            }
+
+            @Override
+            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                callback.onBitmapDataLoaded(bitmap);
+            }
+
+            @Override
+            public void onLoadingCancelled(String s, View view) {
+                callback.onDataNotAvailable(url);
+            }
+        });
+    }
+
+    @Override
+    public void loadHeadImgByLocalPath(String path, BitmapDataCallback callback) {
+
     }
 }

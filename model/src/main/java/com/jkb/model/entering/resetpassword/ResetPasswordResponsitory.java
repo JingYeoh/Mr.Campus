@@ -6,6 +6,9 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.auth.ResetPasswordEntity;
 
+import jkb.mrcampus.db.entity.UserAuths;
+import jkb.mrcampus.db.entity.Users;
+
 /**
  * 重置密码的数据仓库类
  * Created by JustKiddingBaby on 2016/8/5.
@@ -45,7 +48,13 @@ public class ResetPasswordResponsitory implements ResetPasswordDataSource {
     }
 
     @Override
-    public void saveEntityToDb(ResetPasswordEntity resetPasswordEntity) {
-        localDataSource.saveEntityToDb(resetPasswordEntity);
+    public void saveUsersToDb(Users users) {
+        localDataSource.saveUsersToDb(users);
     }
+
+    @Override
+    public void saveUserAuthsToDb(UserAuths userAuths) {
+        localDataSource.saveUserAuthsToDb(userAuths);
+    }
+
 }

@@ -12,8 +12,9 @@
         <ImageView
             android:id="@+id/fi_title_left"
             style="@style/titleContentImage"
+            android:padding="10dp"
             android:background="@drawable/general_item_selector"
-            android:src="@drawable/logo_title_back" />
+            android:src="@drawable/ic_drawer" />
 
 
         <android.support.design.widget.TabLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -31,10 +32,11 @@
             app:tabTextColor="@color/black" />
 
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:padding="10dp"
             android:id="@+id/fi_title_right"
             style="@style/titleContentImage"
             android:background="@drawable/general_item_selector"
-            android:src="@drawable/logo_title_back" />
+            android:src="@drawable/ic_user_head" />
     </LinearLayout>
 </LinearLayout>

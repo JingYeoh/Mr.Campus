@@ -98,6 +98,7 @@ public class MrCampusDbGenerator {
         user.addStringProperty(DBConfig.UID).unique();
         user.addStringProperty(DBConfig.NICKNAME);//昵称
         user.addStringProperty(DBConfig.AVATAR);//头像
+        user.addStringProperty(DBConfig.AVATAR_LOCAL_PATH);//本地头像
         user.addStringProperty(DBConfig.SEX);//性别
         user.addStringProperty(DBConfig.NAME);//应用名称
         user.addStringProperty(DBConfig.BREF_INTRODUCTION);//简介

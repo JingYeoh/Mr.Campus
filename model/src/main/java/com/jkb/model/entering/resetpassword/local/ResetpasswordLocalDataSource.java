@@ -8,6 +8,11 @@ import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.auth.ResetPasswordEntity;
 import com.jkb.model.entering.resetpassword.ResetPasswordDataSource;
 
+import jkb.mrcampus.db.MrCampusDB;
+import jkb.mrcampus.db.dao.DaoSession;
+import jkb.mrcampus.db.entity.UserAuths;
+import jkb.mrcampus.db.entity.Users;
+
 /**
  * 重置密码的本地数据来源类
  * Created by JustKiddingBaby on 2016/8/5.
@@ -20,8 +25,15 @@ public class ResetpasswordLocalDataSource implements ResetPasswordDataSource {
     private static ResetpasswordLocalDataSource INSTANCE = null;
     private Context context;
 
+    //数据库相关
+    private MrCampusDB mrCampusDB;
+    private DaoSession daoSession;
+
     private ResetpasswordLocalDataSource(Context applicationContext) {
         context = applicationContext;
+        //初始化数据库
+        mrCampusDB = MrCampusDB.getInstance();
+        daoSession = mrCampusDB.getDaoSession();
     }
 
     public static ResetpasswordLocalDataSource getInstance(
@@ -43,7 +55,13 @@ public class ResetpasswordLocalDataSource implements ResetPasswordDataSource {
     }
 
     @Override
-    public void saveEntityToDb(ResetPasswordEntity resetPasswordEntity) {
-        Log.d(TAG, "saveEntityToDb");
+    public void saveUsersToDb(Users users) {
+        daoSession.insertOrReplace(users);
     }
+
+    @Override
+    public void saveUserAuthsToDb(UserAuths userAuths) {
+        daoSession.insertOrReplace(userAuths);
+    }
+
 }
