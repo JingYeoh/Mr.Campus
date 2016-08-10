@@ -7,7 +7,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.jkb.api.ApiFactoryImpl;
 import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.model.net.ImageLoaderFactory;
-import com.jkb.mrcampus.singleton.ActivityManager;
+import com.jkb.mrcampus.singleton.ActivityStackManager;
 
 import cn.sharesdk.framework.ShareSDK;
 import jkb.mrcampus.db.MrCampusDB;
@@ -57,7 +57,7 @@ public class Mr_Campus extends Application {
      */
     private void initSingleton() {
         //初始化Activity管理者
-        ActivityManager.getInstance();
+        ActivityStackManager activityManager= ActivityStackManager.getInstance();
         //初始化图片加载器配置
         imageLoaderFactory = ImageLoaderFactory.getInstance();
         imageLoaderFactory.setApplicationContext(getApplicationContext());
@@ -65,7 +65,7 @@ public class Mr_Campus extends Application {
         //初始化API层的工厂类
         apiFactory = ApiFactoryImpl.newInstance();
         //初始化个人数据的单例类
-        UserInfoSingleton.getInstance();
+        UserInfoSingleton userInfoSingleton= UserInfoSingleton.getInstance();
     }
 
     /**

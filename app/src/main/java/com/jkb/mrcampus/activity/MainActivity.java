@@ -15,13 +15,11 @@ import com.jkb.core.presenter.menu.MenuPresenter;
 import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseSlideMenuActivity;
-import com.jkb.mrcampus.fragment.entering.LoginFragment;
 import com.jkb.mrcampus.fragment.function.HomePageFragment;
 import com.jkb.mrcampus.fragment.function.SettingFragment;
-import com.jkb.mrcampus.fragment.menu.ChatFragment;
+import com.jkb.mrcampus.fragment.menu.RightMenuFragment;
 import com.jkb.mrcampus.fragment.menu.SwitchFunctionFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
-import com.jkb.mrcampus.helper.FragmentStack;
 
 /**
  * 核心的Activity类，负责显示主要功能模块
@@ -45,7 +43,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     private SwitchFunctionPresenter switchFunctionPresenter;
 
     //右滑菜单
-    private ChatFragment chatFragment;//右滑菜单View视图层
+    private RightMenuFragment rightMenuFragment;//右滑菜单View视图层
 
     //首页
     private HomePageFragment homePageFragment;
@@ -193,7 +191,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
      */
     private void getMenuFragmentsFromFm() {
         functionFragment = (SwitchFunctionFragment) fm.findFragmentByTag(SwitchFunctionFragment.class.getName());
-        chatFragment = (ChatFragment) fm.findFragmentByTag(ChatFragment.class.getName());
+        rightMenuFragment = (RightMenuFragment) fm.findFragmentByTag(RightMenuFragment.class.getName());
     }
 
     /**
@@ -205,10 +203,10 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
             functionFragment = SwitchFunctionFragment.newInstance();
             ActivityUtils.addFragmentToActivity(fm, functionFragment, R.id.id_menu_left);
         }
-        if (chatFragment == null) {
+        if (rightMenuFragment == null) {
             //初始化右滑菜单
-            chatFragment = ChatFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(fm, chatFragment, R.id.id_menu_right);
+            rightMenuFragment = RightMenuFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(fm, rightMenuFragment, R.id.id_menu_right);
         }
     }
 
@@ -333,7 +331,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     @Override
     public void hideAllView() {
         ActivityUtils.hideFragments(fm,
-                SwitchFunctionFragment.class.getName(), ChatFragment.class.getName());
+                SwitchFunctionFragment.class.getName(), RightMenuFragment.class.getName());
     }
 
     /**

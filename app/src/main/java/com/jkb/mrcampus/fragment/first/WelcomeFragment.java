@@ -1,6 +1,5 @@
 package com.jkb.mrcampus.fragment.first;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -8,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +18,8 @@ import com.jkb.core.contract.first.WelcomeContract;
 import com.jkb.core.presenter.first.WelcomePresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.FirstActivity;
-import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.view.DrawnImageView;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -49,8 +49,6 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
 
     /**
      * 获得一个实例化的WelcomeFragment对象
-     *
-     * @return
      */
     public static WelcomeFragment newInstance() {
         return new WelcomeFragment();
@@ -90,6 +88,7 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
     @Override
     protected void initView() {
         imageView = (ImageView) rootView.findViewById(R.id.ffw_iv);
+
         tvCount = (TextView) rootView.findViewById(R.id.tv_count);
     }
 
@@ -130,6 +129,7 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
 
     @Override
     public void completedCount() {
+//        imageView.stopDraw();
         startMainActivity();
         handler = null;
         mActivity.finish();
@@ -144,12 +144,13 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
 
     @Override
     public void showBackGround(Bitmap bitmap) {
+        Log.d(TAG, "bitmap=" + bitmap);
         if (bitmap == null) {
-            imageView.setImageResource(R.drawable.ic_screen_default);
-        } else {
-            Drawable drawable = new BitmapDrawable(bitmap);
-            imageView.setBackground(drawable);
+            BitmapDrawable drawable = (BitmapDrawable) mActivity.getResources().getDrawable(R.drawable.ic_screen_default);
+            bitmap = drawable.getBitmap();
         }
+        imageView.setImageBitmap(bitmap);
+        startCount();
     }
 
     @Override

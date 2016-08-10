@@ -52,14 +52,14 @@ public class WelcomePresenter implements WelcomeContract.Presenter {
             public void onBitmapLoaded(WelcomeData welcomeData) {
                 setBackgroundBitmap(welcomeData.getBitmap());
                 //设置倒计时开始
-                welcomeView.startCount();
+//                welcomeView.startCount();
             }
 
             @Override
             public void onDataNotAvailable() {
                 setBackgroundBitmap(null);
                 //设置倒计时开始
-                welcomeView.startCount();
+//                welcomeView.startCount();
             }
         });
     }

@@ -4,9 +4,8 @@
     android:layout_height="match_parent">
 
     <FrameLayout
+        android:id="@+id/firstFrame"
         android:layout_width="match_parent"
-        android:background="@drawable/bg_first_general"
-        android:layout_height="match_parent"
-        android:id="@+id/firstFrame"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

@@ -219,4 +219,10 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
     public boolean isActive() {
         return false;
     }
+
+    @Override
+    public void onBackPressed() {
+        //此頁面不允許回退
+//        super.onBackPressed();
+    }
 }

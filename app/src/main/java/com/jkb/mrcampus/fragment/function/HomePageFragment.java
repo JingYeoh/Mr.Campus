@@ -91,7 +91,6 @@ public class HomePageFragment extends BaseFragment implements HomePagecontract.V
 
         mTab.addTab(mTab.newTab());
         mTab.addTab(mTab.newTab());
-        mTab.addTab(mTab.newTab());
 
         mViewPager.setAdapter(new HomePageAdapter(getChildFragmentManager()));
         mTab.setupWithViewPager(mViewPager);

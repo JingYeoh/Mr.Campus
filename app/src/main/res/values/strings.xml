@@ -23,4 +23,8 @@
     <string name="resetPassword">重置密码</string>
     <string name="_3">3</string>
     <string name="unLogin">未登录</string>
+    <string name="Watched">关注</string>
+    <string name="_0">0</string>
+    <string name="Fans">粉丝</string>
+    <string name="Visitors">访客</string>
 </resources>

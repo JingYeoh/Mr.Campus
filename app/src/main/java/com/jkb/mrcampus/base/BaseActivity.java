@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
-import com.jkb.mrcampus.singleton.ActivityManager;
+import com.jkb.mrcampus.singleton.ActivityStackManager;
 import com.jkb.mrcampus.helper.ActivityUtils;
 
 import java.util.List;
@@ -44,13 +44,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     private ChoosePictureFragment choosePictureFragment;
 
     //单例类
-    protected ActivityManager activityManager;
+    protected ActivityStackManager activityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //添加Activity到管理者
-        activityManager = ActivityManager.getInstance();
+        activityManager = ActivityStackManager.getInstance();
         activityManager.addActivity(this);
         //初始化是否内存重启的标识
         if (savedInstanceState != null) {

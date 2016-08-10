@@ -10,17 +10,17 @@ import java.util.List;
  * 用于处理退出程序时可以退出所有的activity，而编写的通用类
  * Created by JustKiddingBaby on 2016/7/28.
  */
-public class ActivityManager {
+public class ActivityStackManager {
     private List<Activity> activityList = new LinkedList<Activity>();
-    private static ActivityManager instance;
+    private static ActivityStackManager instance;
 
-    private ActivityManager() {
+    private ActivityStackManager() {
     }
 
     // 单例模式中获取唯一的MyApplication实例
-    public static ActivityManager getInstance() {
+    public static ActivityStackManager getInstance() {
         if (null == instance) {
-            instance = new ActivityManager();
+            instance = new ActivityStackManager();
         }
         return instance;
     }

@@ -6,11 +6,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jkb.core.contract.menu.SwitchFunctionContract;
-import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.UserState;
 import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
 import com.jkb.mrcampus.R;
@@ -53,8 +51,6 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
 
     /**
      * 获得一个实例化的SwitchFunctionFragment对象
-     *
-     * @return
      */
     public static SwitchFunctionFragment newInstance() {
         return new SwitchFunctionFragment();

@@ -36,7 +36,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2.5dp"
+        android:layout_height="3.5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@color/line_deep" />
@@ -45,7 +45,7 @@
         android:id="@+id/fms_ll_person"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/general_item_selector"
+        android:background="@drawable/general_item_selector2"
         android:orientation="horizontal"
         android:padding="20dp">
 
@@ -86,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/general_item_selector"
+            android:background="@drawable/general_item_selector2"
             android:gravity="center_vertical"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
@@ -100,7 +100,7 @@
             style="@style/menuLeftSideTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/general_item_selector"
+            android:background="@drawable/general_item_selector2"
             android:gravity="center_vertical"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
@@ -113,7 +113,7 @@
             style="@style/menuLeftSideTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/general_item_selector"
+            android:background="@drawable/general_item_selector2"
             android:gravity="center_vertical"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
@@ -126,7 +126,7 @@
             style="@style/menuLeftSideTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/general_item_selector"
+            android:background="@drawable/general_item_selector2"
             android:gravity="center_vertical"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
@@ -139,7 +139,7 @@
             style="@style/menuLeftSideTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/general_item_selector"
+            android:background="@drawable/general_item_selector2"
             android:gravity="center_vertical"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
@@ -152,7 +152,7 @@
             style="@style/menuLeftSideTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/general_item_selector"
+            android:background="@drawable/general_item_selector2"
             android:gravity="center_vertical"
             android:paddingBottom="10dp"
             android:paddingLeft="20dp"
@@ -173,7 +173,7 @@
         android:id="@+id/fms_ll_school"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/general_item_selector"
+        android:background="@drawable/general_item_selector2"
         android:orientation="horizontal"
         android:padding="10dp">
 
