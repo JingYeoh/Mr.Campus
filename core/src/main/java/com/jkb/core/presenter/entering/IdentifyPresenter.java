@@ -7,7 +7,7 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.auth.IdentifyCodeEntity;
 import com.jkb.core.contract.entering.IdentifyContract;
-import com.jkb.model.entering.identify.IdentifyCodeResponsitory;
+import com.jkb.model.dataSource.entering.identify.IdentifyCodeResponsitory;
 import com.jkb.model.utils.FormatUtils;
 
 import java.util.List;

@@ -1,11 +1,14 @@
 package com.jkb.mrcampus.helper;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -31,6 +34,21 @@ public class ActivityUtils {
         checkNotNull(fragment);
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(containId, fragment, fragment.getClass().getName());
+        ft.commit();
+    }
+
+    /**
+     * 添加Fragment至Activity中
+     *
+     * @param fm
+     * @param fragment
+     */
+    public static void addFragmentToActivity(@NonNull android.app.FragmentManager fm,
+                                             @NonNull android.app.Fragment fragment) {
+        checkNotNull(fm);
+        checkNotNull(fragment);
+        android.app.FragmentTransaction ft = fm.beginTransaction();
+        ft.add(fragment, fragment.getClass().getName());
         ft.commit();
     }
 
@@ -243,5 +261,27 @@ public class ActivityUtils {
             }
         }
         ft.commit();
+    }
+
+    /**
+     * 判断服务是否开启
+     *
+     * @param className 类名
+     * @param context   上下文
+     * @return 返回值
+     */
+    public static boolean isServiceWorked(String className, Context context) {
+        ActivityManager myManager = (ActivityManager) context
+                .getApplicationContext().getSystemService(
+                        Context.ACTIVITY_SERVICE);
+        ArrayList<ActivityManager.RunningServiceInfo> runningService = (ArrayList<ActivityManager.RunningServiceInfo>) myManager
+                .getRunningServices(30);
+        for (int i = 0; i < runningService.size(); i++) {
+            if (runningService.get(i).service.getClassName().toString()
+                    .equals(className)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -140,7 +140,8 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
     private void initWelcomeFragment() {
         Log.i(TAG, "initWelcomeFragment");
         if (welcomeFragment == null) {
-            welcomeFragment = WelcomeFragment.newInstance();
+//            welcomeFragment = WelcomeFragment.newInstance();
+            welcomeFragment = new WelcomeFragment();
             ActivityUtils.addFragmentToActivity(fm, welcomeFragment, R.id.firstFrame);
         }
         if (welcomePresenter == null) {
@@ -220,9 +221,27 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
         return false;
     }
 
+    /**
+     * 关闭并finish当前页面
+     */
+    public void close$Finish() {
+        //remove所有的Fragment
+//        ActivityUtils.removeAllFragment(fm);
+        finish();
+        activitySwithPushRightAnim();
+    }
+
     @Override
     public void onBackPressed() {
-        //此頁面不允許回退
-//        super.onBackPressed();
+        if (welcomeFragment != null && !welcomeFragment.isHidden()) {
+            //说明是Welcome页面
+            //此頁面不允許回退
+        } else {
+            //remove所有的Fragment
+            super.onBackPressed();
+//            ActivityUtils.removeAllFragment(fm);
+//            finish();
+//            activitySwithPushRightAnim();
+        }
     }
 }

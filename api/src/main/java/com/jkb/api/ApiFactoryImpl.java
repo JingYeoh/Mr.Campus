@@ -54,13 +54,30 @@ public class ApiFactoryImpl implements ApiFactory {
 
     /**
      * 返回Retrofit实例
-     *
-     * @return
      */
     public Retrofit initRetrofit() {
         retrofit = new Retrofit.Builder()
                 //添加的地址url
                 .baseUrl(Config.API_HOST)
+                //添加返回值为Gson的支持
+                .addConverterFactory(GsonConverterFactory.create())
+                // 增加返回值为Oservable<T>的支持
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                //增加返回值为String的支持
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .client(httpClient)
+                .build();
+        return retrofit;
+    }
+
+    /**
+     * 返回Retrofit实例
+     * 指定host地址
+     */
+    public Retrofit initRetrofit(String apiHost) {
+        retrofit = new Retrofit.Builder()
+                //添加的地址url
+                .baseUrl(apiHost)
                 //添加返回值为Gson的支持
                 .addConverterFactory(GsonConverterFactory.create())
                 // 增加返回值为Oservable<T>的支持

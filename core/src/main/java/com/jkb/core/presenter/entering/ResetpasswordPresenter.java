@@ -1,16 +1,13 @@
 package com.jkb.core.presenter.entering;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
-import com.jkb.api.entity.auth.LoginEntity;
-import com.jkb.api.entity.auth.RegisterEntity;
 import com.jkb.api.entity.auth.ResetPasswordEntity;
 import com.jkb.core.contract.entering.ResetpasswordContract;
-import com.jkb.model.entering.resetpassword.ResetPasswordResponsitory;
+import com.jkb.model.dataSource.entering.resetpassword.ResetPasswordResponsitory;
 import com.jkb.model.utils.FormatUtils;
 import com.jkb.model.utils.StringUtils;
 

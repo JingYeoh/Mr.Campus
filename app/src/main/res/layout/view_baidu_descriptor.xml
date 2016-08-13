@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/clarity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/vbd_ll_bg"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
+        android:background="@drawable/bts_im_headme"
+        android:gravity="center">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/vbd_iv_headImg"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/ic_user_head" />
+    </LinearLayout>
+
+
+</LinearLayout>

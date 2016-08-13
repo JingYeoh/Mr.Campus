@@ -41,4 +41,5 @@ dependencies {
     compile files('src/main/jniLibs/locSDK_6.13.jar')
     //百度地图end
     compile 'com.google.android.gms:play-services-appindexing:9.4.0'
+    compile project(path: ':model')
 }

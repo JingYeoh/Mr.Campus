@@ -37,6 +37,8 @@
     <color name="general_click">#50FFFFFF</color>
     <color name="background_general">#f4f4f4</color>
     <color name="white_30">#1EFFFFFF</color>
+    <color name="white_170">#AAFFFFFF</color>
+    <color name="white_200">#c8ffffff</color>
     <!-- 主色调 -->
     <color name="main_theme">#FFD344</color>
     <color name="main_theme_200">#AAFFD344</color>

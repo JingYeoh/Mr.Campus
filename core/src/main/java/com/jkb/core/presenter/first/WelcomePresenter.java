@@ -4,9 +4,9 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
 import com.jkb.core.contract.first.WelcomeContract;
-import com.jkb.model.first.welcome.WelcomeData;
-import com.jkb.model.first.welcome.WelcomeDataResponsitory;
-import com.jkb.model.first.welcome.WelcomeDataSource;
+import com.jkb.model.dataSource.first.welcome.WelcomeData;
+import com.jkb.model.dataSource.first.welcome.WelcomeDataResponsitory;
+import com.jkb.model.dataSource.first.welcome.WelcomeDataSource;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

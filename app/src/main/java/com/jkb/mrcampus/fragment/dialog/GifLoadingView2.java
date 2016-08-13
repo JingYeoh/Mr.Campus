@@ -15,6 +15,7 @@ import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
 import pl.droidsonroids.gif.GifImageView;
 
 /**
+ * GifLoading的效果
  * Created by Roger on 2016/4/28.
  */
 public class GifLoadingView2 extends BlurDialogFragment {

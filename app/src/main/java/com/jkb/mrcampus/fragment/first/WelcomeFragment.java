@@ -2,7 +2,6 @@ package com.jkb.mrcampus.fragment.first;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,7 +18,6 @@ import com.jkb.core.presenter.first.WelcomePresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.FirstActivity;
 import com.jkb.mrcampus.base.BaseFragment;
-import com.jkb.mrcampus.view.DrawnImageView;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -120,6 +118,7 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
     @Override
     public void startCount() {
         handler.sendEmptyMessageDelayed(WHAT_COUNT, TIME_SLOT);
+//        imageView.startDraw();
     }
 
     @Override
@@ -132,7 +131,8 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
 //        imageView.stopDraw();
         startMainActivity();
         handler = null;
-        mActivity.finish();
+        //頁面銷毀
+        firstActivity.close$Finish();
     }
 
     /**
@@ -182,5 +182,10 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVED_COUNT, count);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

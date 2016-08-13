@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/fccecm_ib_chooseHeadImg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="选择头像" />
+
+    <Button
+        android:id="@+id/fccecm_bt_chooseSchool"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="选择学校" />
+
+    <Button
+        android:id="@+id/fccecm_bt_chooseCoordinate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="选择坐标" />
+
+    <Button
+        android:id="@+id/fccecm_bt_chooseBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="添加背景图片" />
+
+    <EditText
+        android:id="@+id/fccecm_et_circleName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="圈子名称" />
+
+    <EditText
+        android:id="@+id/fccecm_et_circleIntroduction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="圈子简介" />
+</LinearLayout>

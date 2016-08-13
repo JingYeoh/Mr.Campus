@@ -1,24 +1,17 @@
 package com.jkb.core.presenter.first;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
 
 import com.jkb.core.contract.first.FirstContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LoginState;
 import com.jkb.core.control.userstate.LogoutState;
-import com.jkb.model.first.firstlogic.FirstData;
-import com.jkb.model.first.firstlogic.FirstDataResponsitory;
-import com.jkb.model.first.firstlogic.FirstDataSource;
+import com.jkb.model.dataSource.first.firstlogic.FirstDataResponsitory;
+import com.jkb.model.dataSource.first.firstlogic.FirstDataSource;
 import com.jkb.model.info.UserInfoSingleton;
-import com.jkb.model.net.ImageLoaderFactory;
-import com.jkb.model.utils.BitmapUtils;
 import com.jkb.model.utils.StringUtils;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import jkb.mrcampus.db.entity.Status;
 import jkb.mrcampus.db.entity.UserAuths;

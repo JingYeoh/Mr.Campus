@@ -3,24 +3,27 @@ package com.jkb.core;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.jkb.model.entering.login.LoginResponsitory;
-import com.jkb.model.entering.login.local.LoginLocalDataSource;
-import com.jkb.model.entering.login.remote.LoginRemoteDataSource;
-import com.jkb.model.entering.personmessage.PersonMessageResponsitory;
-import com.jkb.model.entering.personmessage.local.PersonMessageLocalDataSource;
-import com.jkb.model.entering.personmessage.remote.PersonMessageRemoteDataSource;
-import com.jkb.model.entering.identify.IdentifyCodeResponsitory;
-import com.jkb.model.entering.identify.local.IdentifyCodeLocalDataSource;
-import com.jkb.model.entering.identify.remote.IdentifyCodeRemoteDataSource;
-import com.jkb.model.entering.resetpassword.ResetPasswordResponsitory;
-import com.jkb.model.entering.resetpassword.local.ResetpasswordLocalDataSource;
-import com.jkb.model.entering.resetpassword.remote.ResetpasswordRemoteDataSource;
-import com.jkb.model.first.firstlogic.FirstDataResponsitory;
-import com.jkb.model.first.firstlogic.local.FirstLocalDataSource;
-import com.jkb.model.first.firstlogic.remote.FirstRemoteDataSource;
-import com.jkb.model.first.welcome.WelcomeDataResponsitory;
-import com.jkb.model.first.welcome.local.WelcomeLocalDataSource;
-import com.jkb.model.first.welcome.remote.WelcomeRemoteDataSource;
+import com.jkb.model.dataSource.baidu.map.webService.BaiduMapWebServiceResponsitory;
+import com.jkb.model.dataSource.baidu.map.webService.local.BaiduMapWebServiceLocalDataSource;
+import com.jkb.model.dataSource.baidu.map.webService.remote.BaiduMapWebServiceRemoteDataSource;
+import com.jkb.model.dataSource.entering.login.LoginResponsitory;
+import com.jkb.model.dataSource.entering.login.local.LoginLocalDataSource;
+import com.jkb.model.dataSource.entering.login.remote.LoginRemoteDataSource;
+import com.jkb.model.dataSource.entering.personmessage.PersonMessageResponsitory;
+import com.jkb.model.dataSource.entering.personmessage.local.PersonMessageLocalDataSource;
+import com.jkb.model.dataSource.entering.personmessage.remote.PersonMessageRemoteDataSource;
+import com.jkb.model.dataSource.entering.identify.IdentifyCodeResponsitory;
+import com.jkb.model.dataSource.entering.identify.local.IdentifyCodeLocalDataSource;
+import com.jkb.model.dataSource.entering.identify.remote.IdentifyCodeRemoteDataSource;
+import com.jkb.model.dataSource.entering.resetpassword.ResetPasswordResponsitory;
+import com.jkb.model.dataSource.entering.resetpassword.local.ResetpasswordLocalDataSource;
+import com.jkb.model.dataSource.entering.resetpassword.remote.ResetpasswordRemoteDataSource;
+import com.jkb.model.dataSource.first.firstlogic.FirstDataResponsitory;
+import com.jkb.model.dataSource.first.firstlogic.local.FirstLocalDataSource;
+import com.jkb.model.dataSource.first.firstlogic.remote.FirstRemoteDataSource;
+import com.jkb.model.dataSource.first.welcome.WelcomeDataResponsitory;
+import com.jkb.model.dataSource.first.welcome.local.WelcomeLocalDataSource;
+import com.jkb.model.dataSource.first.welcome.remote.WelcomeRemoteDataSource;
 
 /**
  * 用于创建Presenter的集合工具类
@@ -102,6 +105,21 @@ public class Injection {
         ResetPasswordResponsitory responsitory = ResetPasswordResponsitory.getInstance(
                 ResetpasswordLocalDataSource.getInstance(applicationContext),
                 ResetpasswordRemoteDataSource.getInstance()
+        );
+        return responsitory;
+    }
+
+    /**
+     * 得到BaiduMapWebServiceResponsitory对象
+     *
+     * @param applicationContext
+     * @return
+     */
+    public static BaiduMapWebServiceResponsitory provideBaiduMapWebServiceResponsitory(
+            @NonNull Context applicationContext) {
+        BaiduMapWebServiceResponsitory responsitory = BaiduMapWebServiceResponsitory.getInstance(
+                BaiduMapWebServiceLocalDataSource.getInstance(applicationContext),
+                BaiduMapWebServiceRemoteDataSource.getInstance()
         );
         return responsitory;
     }

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/fcccsc_title"
+        layout="@layout/title_choose_coordinate" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/fccsc_baiduMv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/fccsc_tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"
+            android:background="@color/white_200"
+            android:gravity="center"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:text="@string/loadingAddress"
+            android:textColor="@color/B_black_70"
+            android:textSize="13sp" />
+
+        <ImageButton
+            android:id="@+id/fccsc_ib_location"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_above="@+id/fccsc_tv_address"
+            android:layout_alignLeft="@+id/fccsc_tv_address"
+            android:layout_alignStart="@+id/fccsc_tv_address"
+            android:background="@drawable/selector_map_btn_location" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/fccsc_iv_center"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:paddingBottom="25dp"
+                android:src="@drawable/pacific_map_departure_icon" />
+
+            <TextView
+                android:id="@+id/fccsc_tv_popDetermine"
+                android:layout_width="60dp"
+                android:layout_height="25sp"
+                android:layout_above="@+id/fccsc_iv_center"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/selector_nova_coordinate"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:text="@string/residence"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

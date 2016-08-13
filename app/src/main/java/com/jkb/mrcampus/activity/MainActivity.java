@@ -20,6 +20,7 @@ import com.jkb.mrcampus.fragment.function.SettingFragment;
 import com.jkb.mrcampus.fragment.menu.RightMenuFragment;
 import com.jkb.mrcampus.fragment.menu.SwitchFunctionFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
+import com.jkb.mrcampus.service.LocationService;
 
 /**
  * 核心的Activity类，负责显示主要功能模块
@@ -51,6 +52,9 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
 
     //设置
     private SettingFragment settingFragment;
+
+    //服务
+//    private LocationService locationService;
 
 
     @Override
@@ -84,11 +88,24 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         initPresenter();
         initSlideMenu(savedInstanceState);
 
+        startLocatonService();//开启服务
+
         //第一次进入时调用显示首页视图
         if (!savedInstanceStateValued) {
             showIndex();
         } else {
             restorePresenters();
+        }
+    }
+
+    /**
+     * 开启Service
+     */
+    private void startLocatonService() {
+        System.out.println("提示信息:我在绑定service");
+        if (!ActivityUtils.isServiceWorked(LocationService.class.getName(), getApplicationContext())) {
+            Intent intent = new Intent(context, LocationService.class);
+            startService(intent);
         }
     }
 
@@ -287,6 +304,9 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     @Override
     public void startMessage() {
         Log.d(TAG, "startMessage");
+        //显示创建圈子视图
+        Intent intent = new Intent(this, CreateCircleActivity.class);
+        startActivityWithPushLeftAnim(intent);
     }
 
     @Override

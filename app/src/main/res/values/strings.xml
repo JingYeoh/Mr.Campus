@@ -27,4 +27,6 @@
     <string name="_0">0</string>
     <string name="Fans">粉丝</string>
     <string name="Visitors">访客</string>
+    <string name="residence">驻扎</string>
+    <string name="loadingAddress">正在获取地址...</string>
 </resources>

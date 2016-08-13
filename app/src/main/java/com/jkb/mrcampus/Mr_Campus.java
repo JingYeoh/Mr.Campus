@@ -1,12 +1,13 @@
 package com.jkb.mrcampus;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.jkb.api.ApiFactoryImpl;
+import com.jkb.model.info.SingletonManager;
 import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.model.net.ImageLoaderFactory;
+import com.jkb.model.utils.Config;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
 
 import cn.sharesdk.framework.ShareSDK;
@@ -18,21 +19,15 @@ import jkb.mrcampus.db.MrCampusDB;
  */
 public class Mr_Campus extends Application {
 
-    private ImageLoaderFactory imageLoaderFactory = null;
-    private ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
     private MrCampusDB mrCampusDB = null;
+    private static SingletonManager singletonManager = SingletonManager.newInstance();
     //shareSDK的appkey
     private static final String SHARE_SDK_APP_KEY = "15b05f956cc6c";
-
-
-    public static Context applicationContext = null;
 
     @Override
     public void onCreate() {
         super.onCreate();// 多进程导致多次初始化Application,这里只初始化App主进程的Application
-        applicationContext = getApplicationContext();
         initInNewThread();
-        initDb();
     }
 
     /**
@@ -40,6 +35,7 @@ public class Mr_Campus extends Application {
      */
     private void initInNewThread() {
         initSDK();
+        initDb();
         initSingleton();
     }
 
@@ -56,16 +52,24 @@ public class Mr_Campus extends Application {
      * 初始化单例的实例类
      */
     private void initSingleton() {
-        //初始化Activity管理者
-        ActivityStackManager activityManager= ActivityStackManager.getInstance();
+        //初始化API层的工厂类
+        ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
         //初始化图片加载器配置
-        imageLoaderFactory = ImageLoaderFactory.getInstance();
+        ImageLoaderFactory imageLoaderFactory = ImageLoaderFactory.getInstance();
         imageLoaderFactory.setApplicationContext(getApplicationContext());
         imageLoaderFactory.create();
-        //初始化API层的工厂类
-        apiFactory = ApiFactoryImpl.newInstance();
         //初始化个人数据的单例类
-        UserInfoSingleton userInfoSingleton= UserInfoSingleton.getInstance();
+        UserInfoSingleton userInfoSingleton = UserInfoSingleton.getInstance();
+        //初始化Activity管理者
+        ActivityStackManager activityStackManager = ActivityStackManager.getInstance();
+
+
+        //添加到单例的管理类中
+        SingletonManager.registerService(Config.SINGLETON_KEY_CAMPUSDB, mrCampusDB);
+        SingletonManager.registerService(Config.SINGLETON_KEY_APIFACTORY, apiFactory);
+        SingletonManager.registerService(Config.SINGLETON_KEY_IMAGELOADER, imageLoaderFactory);
+        SingletonManager.registerService(Config.SINGLETON_KEY_USERINFO, userInfoSingleton);
+        SingletonManager.registerService(Config.SINGLETON_KEY_ACTIVITYSTACKMANAGER, activityStackManager);
     }
 
     /**
@@ -79,11 +83,10 @@ public class Mr_Campus extends Application {
     }
 
     /**
-     * 返回applicationContext实例
-     *
-     * @return
+     * 返回单例管理类的对象
      */
-    public static Context getContext() {
-        return applicationContext;
+    public static SingletonManager getSingletonManager() {
+        return singletonManager;
     }
+
 }

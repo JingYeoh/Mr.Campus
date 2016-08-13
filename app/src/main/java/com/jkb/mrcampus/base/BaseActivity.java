@@ -169,7 +169,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 关闭当前Activity并使用右侧滑出动画
      */
-    protected void activitySwithPushRightAnim() {
+    public void activitySwithPushRightAnim() {
         overridePendingTransition(R.animator.push_right_in, R.animator.push_right_out);
 //        ActivityCompat.finishAfterTransition(this);
     }
@@ -177,6 +177,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+//        finish();
         activitySwithPushRightAnim();
     }
 
