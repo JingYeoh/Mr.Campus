@@ -15,6 +15,7 @@ public class Config {
     //百度地图的host
     public static final String API_HOST_BAIDU_MAP = "http://api.map.baidu.com/";
 
+    //auth的接口地址
     public static final String URL_SEND_EMAIL = "auth/sendEmail";//发送邮箱验证码
     public static final String URL_SEND_PHONE = "auth/sendSms";//发送邮箱验证码
     public static final String URL_REGISTER_WITH_EMAIL = "auth/registerWithEmail";//邮箱号注册用户
@@ -24,9 +25,16 @@ public class Config {
     public static final String URL_LOGIN_WITH_THIRDPLATFORM = "auth/loginWithThirdPlatform";//第三方登录
     public static final String URL_RESET_PASSWORD_WITH_EMAIL = "auth/resetPasswordWithEmail";//邮箱号修改密码
     public static final String URL_RESET_PASSWORD_WITH_PHONE = "auth/resetPasswordWithPhone";//手机号修改密码
-
+    //circle的接口地址
+    public static final String URL_CIRCLE_CREATE = "circle";
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
+
+    //需要添加的头部
+    public static final String HEADER_KEY_AUTHORIZATION = "Authorization";
+    //需要添加的header内容
+    public static final String HEADER_BEARER = "Bearer ";
+
 
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PHONE = "phone";
@@ -49,6 +57,13 @@ public class Config {
     public static final String KEY_OUTPUT = "output";
     public static final String KEY_AK = "ak";
     public static final String KEY_MCODE = "mcode";
+    public static final String KEY_USER_ID = "user_id";
+    public static final String KEY_SCHOOL_ID = "school_id";
+    public static final String KEY_INTRODUCTION = "introduction";
+    public static final String KEY_LONGITUDE = "longitude";
+    public static final String KEY_LATITUDE = "latitude";
+    public static final String KEY_NAME = "name";
+
 
     public static final String GENDER_M = "m";
     public static final String GENDER_F = "f";
@@ -57,4 +72,7 @@ public class Config {
 
     public static final String API_OUTPUT = "json";
     public static final String COORDTYPE_BAIDU = "bd09ll";
+
+    public static final String FLAG_AVATAR = "avatar";
+    public static final String FLAG_CIRCLE = "circle";
 }

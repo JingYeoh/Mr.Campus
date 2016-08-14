@@ -36,9 +36,39 @@ public interface EnteringCircleMessageContract {
          * 显示获取图片的方式的视图
          */
         void showSelectWayOfChoosePhotoView();
+
+        /**
+         * 通过照相机选取图片
+         */
+        void choosePictureFromCamera();
+
+        /**
+         * 通过相册选取图片
+         */
+        void choosePictureFromAlbum();
+
+        /**
+         * 创建圈子
+         */
+        void createCircle();
     }
 
     interface Presenter extends BasePresenter {
 
+        /**
+         * 创建圈子
+         *
+         * @param school_id
+         * @param name
+         * @param introduction
+         * @param longitude
+         * @param latitude
+         * @param imagePath
+         */
+        void createCircle(
+                int school_id, String name,
+                String introduction, double longitude, double latitude,
+                String imagePath
+        );
     }
 }

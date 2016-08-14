@@ -63,23 +63,28 @@ public class SelectCircleCoordinatePresenter implements SelectCircleCoordinateCo
                         ReverseGeocodingEntity entity = response.body();
                         Log.d(TAG, entity.toString());
                         ReverseGeocodingEntity.ResultBean resultBean = entity.getResult();
+                        String address="地址查询失败...";
                         if (resultBean != null) {
-                            String address = resultBean.getSematic_description();
+                            address = resultBean.getSematic_description();
+                        }
+                        if(view.isActive()){
                             view.setAddressName(address);
                             view.showDetermineView();
-                        } else {
-                            view.setAddressName("地址查询失败...");
                         }
                     }
 
                     @Override
                     public void onError(Response<ReverseGeocodingEntity> response, String error, ReverseGeocodingEntity apiResponse) {
-                        view.setAddressName("地址查询错误...");
+                        if(view.isActive()){
+                            view.setAddressName("地址查询错误...");
+                        }
                     }
 
                     @Override
                     public void onFail() {
-                        view.setAddressName("地址查询失败...");
+                        if(view.isActive()) {
+                            view.setAddressName("地址查询失败...");
+                        }
                     }
                 });
     }

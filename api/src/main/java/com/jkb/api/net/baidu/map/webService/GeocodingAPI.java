@@ -18,7 +18,7 @@ import retrofit2.http.Query;
  * Created by JustKiddingBaby on 2016/8/13.
  */
 
-public interface GeocodingAPI {
+public interface GeocodingApi {
 
     /**
      * 通过坐标得到请求地址

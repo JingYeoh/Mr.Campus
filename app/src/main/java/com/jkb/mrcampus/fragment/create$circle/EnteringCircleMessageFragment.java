@@ -2,11 +2,15 @@ package com.jkb.mrcampus.fragment.create$circle;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.baidu.mapapi.model.LatLng;
 import com.jkb.core.contract.create$circle.EnteringCircleMessageContract;
@@ -15,14 +19,19 @@ import com.jkb.core.presenter.create$circle.SelectCircleCoordinatePresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CreateCircleActivity;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
+import com.jkb.mrcampus.helper.cropphoto.CropHandler;
+import com.jkb.mrcampus.helper.cropphoto.CropHelper;
+import com.jkb.mrcampus.helper.cropphoto.CropParams;
 import com.jkb.mrcampus.utils.ClassUtils;
 
 /**
  * 录入圈子信息的Fragment
  * Created by JustKiddingBaby on 2016/8/11.
  */
-public class EnteringCircleMessageFragment extends BaseFragment implements View.OnClickListener, EnteringCircleMessageContract.View {
+public class EnteringCircleMessageFragment extends BaseFragment implements View.OnClickListener,
+        EnteringCircleMessageContract.View, CropHandler {
 
     private static EnteringCircleMessageFragment INSTANCE;
 
@@ -37,10 +46,17 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
     }
 
 
+    private static final String TAG = "EnteringCircleMessage";
     //本页面相关
     private EnteringCircleMessagePresenter mPresenter;
-
     private CreateCircleActivity createCircleActivity;
+
+    private CropParams mCropParams;//选择图片用到的工具类
+    private String photoPath = null;
+    //View相关
+    private TextView tvName;
+    private TextView tvIntroduction;
+
 
     //选择坐标地址
     private SelectCircleCoordinateFragment selectCircleCoordinateFragment;
@@ -70,10 +86,12 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
         rootView.findViewById(R.id.fccecm_bt_chooseSchool).setOnClickListener(this);
         rootView.findViewById(R.id.fccecm_bt_chooseCoordinate).setOnClickListener(this);
         rootView.findViewById(R.id.fccecm_bt_chooseBackground).setOnClickListener(this);
+        rootView.findViewById(R.id.fccecm_bt_createCircle).setOnClickListener(this);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        mCropParams = new CropParams(mActivity);
         //内存重启之后初始化对象
         if (savedInstanceState != null) {
             restoreCoordinateFragment();
@@ -96,7 +114,8 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
 
     @Override
     protected void initView() {
-
+        tvName = (TextView) rootView.findViewById(R.id.fccecm_et_circleName);
+        tvIntroduction = (TextView) rootView.findViewById(R.id.fccecm_et_circleIntroduction);
     }
 
     @Override
@@ -113,6 +132,9 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
                 break;
             case R.id.fccecm_bt_chooseBackground:
                 chooseBackground();
+                break;
+            case R.id.fccecm_bt_createCircle:
+                createCircle();
                 break;
         }
     }
@@ -154,7 +176,7 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
 
     @Override
     public void chooseHeadImg() {
-
+        showSelectWayOfChoosePhotoView();
     }
 
     @Override
@@ -169,7 +191,39 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
 
     @Override
     public void showSelectWayOfChoosePhotoView() {
+        createCircleActivity.showChoosePictureDialog();
+        createCircleActivity.setChoosePictureWayListener(choosePictureListener);
+    }
 
+    @Override
+    public void choosePictureFromCamera() {
+        mCropParams.enable = true;
+        mCropParams.compress = false;
+        Intent intent = CropHelper
+                .buildCameraIntent(mCropParams);
+        startActivityForResult(intent,
+                CropHelper.REQUEST_CAMERA);
+    }
+
+    @Override
+    public void choosePictureFromAlbum() {
+        mCropParams.enable = true;
+        mCropParams.compress = false;
+        Intent intent = CropHelper
+                .buildGalleryIntent(mCropParams);
+        startActivityForResult(intent, CropHelper.REQUEST_CROP);
+    }
+
+    @Override
+    public void createCircle() {
+        String name = tvName.getText().toString();
+        String introduction = tvIntroduction.getText().toString();
+        if (determineLatLng == null) {
+            showReqResult("请选择根据地~");
+            return;
+        }
+        int school_id = 1;
+        mPresenter.createCircle(school_id, name, introduction, determineLatLng.longitude, determineLatLng.latitude, photoPath);
     }
 
     /**
@@ -179,5 +233,55 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
         this.determineLatLng = determineLatLng;
         //设置为选择完成状态
         showReqResult("设置驻扎地点成功，宝宝真棒！");
+    }
+
+    /**
+     * 选择图片的监听器
+     */
+    private ChoosePictureFragment.PictureChooseWayListener choosePictureListener = new ChoosePictureFragment.PictureChooseWayListener() {
+        @Override
+        public void onCameraSelected() {
+            choosePictureFromCamera();
+        }
+
+        @Override
+        public void onAlbusSelected() {
+            choosePictureFromAlbum();
+        }
+    };
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        CropHelper.handleResult(this, requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onPhotoCropped(Uri uri) {
+        Log.d(TAG, "onPhotoCropped: " + uri.getPath());
+        photoPath = uri.getPath();
+    }
+
+    @Override
+    public void onCompressed(Uri uri) {
+        Log.d(TAG, "onPhotoCropped: " + uri.getPath());
+    }
+
+    @Override
+    public void onCancel() {
+    }
+
+    @Override
+    public void onFailed(String message) {
+        showReqResult("裁剪失败" + message);
+    }
+
+    @Override
+    public void handleIntent(Intent intent, int requestCode) {
+        startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    public CropParams getCropParams() {
+        return mCropParams;
     }
 }

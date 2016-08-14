@@ -39,4 +39,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="圈子简介" />
+
+    <Button
+        android:id="@+id/fccecm_bt_createCircle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="创建圈子" />
 </LinearLayout>

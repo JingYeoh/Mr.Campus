@@ -6,6 +6,9 @@ import android.support.annotation.NonNull;
 import com.jkb.model.dataSource.baidu.map.webService.BaiduMapWebServiceResponsitory;
 import com.jkb.model.dataSource.baidu.map.webService.local.BaiduMapWebServiceLocalDataSource;
 import com.jkb.model.dataSource.baidu.map.webService.remote.BaiduMapWebServiceRemoteDataSource;
+import com.jkb.model.dataSource.create$circle.CircleCreateDataResponsitory;
+import com.jkb.model.dataSource.create$circle.local.CircleCreateLocalDataSource;
+import com.jkb.model.dataSource.create$circle.remote.CircleCreateRemoteDataSource;
 import com.jkb.model.dataSource.entering.login.LoginResponsitory;
 import com.jkb.model.dataSource.entering.login.local.LoginLocalDataSource;
 import com.jkb.model.dataSource.entering.login.remote.LoginRemoteDataSource;
@@ -120,6 +123,21 @@ public class Injection {
         BaiduMapWebServiceResponsitory responsitory = BaiduMapWebServiceResponsitory.getInstance(
                 BaiduMapWebServiceLocalDataSource.getInstance(applicationContext),
                 BaiduMapWebServiceRemoteDataSource.getInstance()
+        );
+        return responsitory;
+    }
+
+    /**
+     * 得到CircleCreateDataResponsitory对象
+     *
+     * @param applicationContext
+     * @return
+     */
+    public static CircleCreateDataResponsitory provideCircleCreateDataResponsitory(
+            @NonNull Context applicationContext) {
+        CircleCreateDataResponsitory responsitory = CircleCreateDataResponsitory.getInstance(
+                CircleCreateLocalDataSource.getInstance(applicationContext),
+                CircleCreateRemoteDataSource.getInstance()
         );
         return responsitory;
     }

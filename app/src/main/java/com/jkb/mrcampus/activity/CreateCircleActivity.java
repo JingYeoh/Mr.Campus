@@ -5,6 +5,7 @@ import android.os.PersistableBundle;
 import android.util.Log;
 
 import com.baidu.mapapi.model.LatLng;
+import com.jkb.core.Injection;
 import com.jkb.core.presenter.create$circle.EnteringCircleMessagePresenter;
 import com.jkb.core.presenter.create$circle.SelectCircleCoordinatePresenter;
 import com.jkb.mrcampus.R;
@@ -78,7 +79,8 @@ public class CreateCircleActivity extends BaseActivity {
     protected void restoreFragments(String fragmentTAG) {
         if (ClassUtils.isNameEquals(fragmentTAG, EnteringCircleMessageFragment.class)) {
             enteringCircleMessageFragment = (EnteringCircleMessageFragment) fm.findFragmentByTag(fragmentTAG);
-            enteringCircleMessagePresenter = new EnteringCircleMessagePresenter(enteringCircleMessageFragment);
+            enteringCircleMessagePresenter = new EnteringCircleMessagePresenter(enteringCircleMessageFragment
+                    , Injection.provideCircleCreateDataResponsitory(getApplicationContext()));
         }
     }
 
@@ -99,7 +101,8 @@ public class CreateCircleActivity extends BaseActivity {
             enteringCircleMessageFragment = EnteringCircleMessageFragment.newInstance();
         }
         if (enteringCircleMessagePresenter == null) {
-            enteringCircleMessagePresenter = new EnteringCircleMessagePresenter(enteringCircleMessageFragment);
+            enteringCircleMessagePresenter = new EnteringCircleMessagePresenter(
+                    enteringCircleMessageFragment, Injection.provideCircleCreateDataResponsitory(getApplicationContext()));
         }
         ActivityUtils.addFragmentToActivity(fm, enteringCircleMessageFragment, R.id.createCircleFrame);
     }

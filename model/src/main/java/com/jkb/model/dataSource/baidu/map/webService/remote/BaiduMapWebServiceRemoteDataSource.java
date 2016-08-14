@@ -7,7 +7,7 @@ import com.jkb.api.ApiFactoryImpl;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.baidu.map.webService.GeocoderEntity;
 import com.jkb.api.entity.baidu.map.webService.ReverseGeocodingEntity;
-import com.jkb.api.net.baidu.map.webService.GeocodingAPI;
+import com.jkb.api.net.baidu.map.webService.GeocodingApi;
 import com.jkb.model.dataSource.baidu.map.webService.BaiduMapWebServiceDataSource;
 
 import java.lang.reflect.Type;
@@ -40,7 +40,7 @@ public class BaiduMapWebServiceRemoteDataSource implements BaiduMapWebServiceDat
         ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
         apiFactory.setHttpClient(apiFactory.genericClient());
         apiFactory.initRetrofit(Config.API_HOST_BAIDU_MAP);
-        GeocodingAPI geocodingAPI = apiFactory.createApi(GeocodingAPI.class);
+        GeocodingApi geocodingAPI = apiFactory.createApi(GeocodingApi.class);
         Call<GeocoderEntity> call;
         call = geocodingAPI.geocoder(Config.API_OUTPUT, ak, address, city, mcode);
         Type type = new TypeToken<GeocoderEntity>() {
@@ -55,7 +55,7 @@ public class BaiduMapWebServiceRemoteDataSource implements BaiduMapWebServiceDat
         ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
         apiFactory.setHttpClient(apiFactory.genericClient());
         apiFactory.initRetrofit(Config.API_HOST_BAIDU_MAP);
-        GeocodingAPI geocodingAPI = apiFactory.createApi(GeocodingAPI.class);
+        GeocodingApi geocodingAPI = apiFactory.createApi(GeocodingApi.class);
         Call<ReverseGeocodingEntity> call;
         call = geocodingAPI.geocoder(Config.API_OUTPUT, ak, Config.COORDTYPE_BAIDU, location, pois, mcode);
         Type type = new TypeToken<ReverseGeocodingEntity>() {
