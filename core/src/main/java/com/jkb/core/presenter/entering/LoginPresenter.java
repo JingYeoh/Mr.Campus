@@ -136,8 +136,9 @@ public class LoginPresenter implements LoginContract.Presenter {
     private ApiCallback<ApiResponse<LoginEntity>> loginApiCallback = new ApiCallback<ApiResponse<LoginEntity>>() {
         @Override
         public void onSuccess(Response<ApiResponse<LoginEntity>> response) {
-            loginView.dismissLoading();
+//            loginView.dismissLoading();
             loginView.showReqResult("登录成功，宝宝好棒");
+            loginSystem();//进入系统
             //存储数据到数据库中
             saveUserDataToDb(response.body().getMsg());
         }
@@ -208,8 +209,9 @@ public class LoginPresenter implements LoginContract.Presenter {
                 new ApiCallback<ApiResponse<LoginEntity>>() {
                     @Override
                     public void onSuccess(Response<ApiResponse<LoginEntity>> response) {
-                        loginView.dismissLoading();
-                        loginView.showReqResult("登录成功");
+//                        loginView.dismissLoading();
+                        loginView.showReqResult("登录成功，宝宝真棒！");
+                        loginSystem();//进入系统
                         //清空帐号密码
                         userName = null;
                         passWord = null;
@@ -258,7 +260,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         if (!StringUtils.isEmpty(avatarUrl)) {
             loginResponsitory.getBitmapFromUrl(avatarUrl, bitmapDataCallback);
         } else {
-            loginSystem();//进入系统
+//            loginSystem();//进入系统
         }
     }
 
@@ -280,7 +282,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             Log.d(TAG, "bitmapDataCallback-------->获取头像失败！");
             UserInfoSingleton.getInstance().setUserAvatar(null);
             //进入系统
-            loginSystem();
+//            loginSystem();
         }
     };
     /**
@@ -295,13 +297,13 @@ public class LoginPresenter implements LoginContract.Presenter {
             loginResponsitory.saveUserToDb(users);
             UserInfoSingleton.getInstance().setUsers(users);
             //进入系统
-            loginSystem();
+//            loginSystem();
         }
 
         @Override
         public void onDataNotAvailable(Bitmap bitmap) {
             Log.d(TAG, "bitmapToFileDataCallback-------->存储头像失败！");
-            loginSystem();
+//            loginSystem();
         }
     };
 
@@ -412,6 +414,7 @@ public class LoginPresenter implements LoginContract.Presenter {
      */
     private void loginSystem() {
         if (loginView.isActive()) {
+            loginView.dismissLoading();
             loginView.loginSuccess();
         }
     }

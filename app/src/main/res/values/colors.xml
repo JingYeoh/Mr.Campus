@@ -43,10 +43,13 @@
     <color name="main_theme">#FFD344</color>
     <color name="main_theme_200">#AAFFD344</color>
     <color name="main_theme_gravy">#313131</color>
+    <color name="main_theme_gravy_170">#aa313131</color>
+    <color name="main_theme_green">#57ac68</color>
     <!--  -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="line">#858585</color>
+    <color name="gravy_70">#46858585</color>
     <color name="line_deep">#3c3c3c</color>
     <color name="red_l">#F2345F</color>
     <color name="crimson">#DC143C</color>

@@ -7,7 +7,6 @@
     <ImageButton
         android:id="@+id/ts1_ib_back"
         style="@style/titleContentImage"
-        android:layout_marginLeft="10dp"
         android:background="@drawable/general_item_selector"
         android:src="@drawable/logo_title_back" />
 
