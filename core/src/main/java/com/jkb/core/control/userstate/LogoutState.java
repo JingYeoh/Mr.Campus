@@ -33,4 +33,9 @@ public class LogoutState implements UserState {
             listener.showLogoutRightMenuView();
         }
     }
+
+    @Override
+    public void setRightSlideMenuDataViewChangedListener(UsersChangedListener listener) {
+
+    }
 }

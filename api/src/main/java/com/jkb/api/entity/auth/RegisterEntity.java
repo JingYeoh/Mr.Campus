@@ -11,7 +11,7 @@ public class RegisterEntity {
 
     /**
      * token : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
-     * userInfo : {"id":3,"UID":"1000001","nickname":"lyf","avatar":"","sex":"","name":"","bref_introduction":"","background":"","longitude":"","latitude":"","created_at":"2016-07-27 16:40:27","email":"664275973@qq.com","phone":"","schoolInfo":{"id":1,"sname":"金陵科技学院","badge":"","summary":""}}
+     * userInfo : {"id":3,"UID":"1000001","nickname":"lyf","avatar":"","sex":"","name":"","bref_introduction":"","background":"","longitude":"","latitude":"","created_at":"2016-07-27 16:40:27","email":"664275973@qq.com","attentionCount":1,"fansCount":0,"visitorCount":1,"phone":"13921401452","schoolInfo":{"id":1,"sname":"金陵科技学院","badge":"","summary":""}}
      * credential : ["The credential field is required."]
      * identifier : ["The identifier field is required."]
      */
@@ -30,7 +30,10 @@ public class RegisterEntity {
      * latitude :
      * created_at : 2016-07-27 16:40:27
      * email : 664275973@qq.com
-     * phone :
+     * attentionCount : 1
+     * fansCount : 0
+     * visitorCount : 1
+     * phone : 13921401452
      * schoolInfo : {"id":1,"sname":"金陵科技学院","badge":"","summary":""}
      */
 
@@ -83,6 +86,9 @@ public class RegisterEntity {
         private String latitude;
         private String created_at;
         private String email;
+        private int attentionCount;
+        private int fansCount;
+        private int visitorCount;
         private String phone;
         /**
          * id : 1
@@ -91,7 +97,7 @@ public class RegisterEntity {
          * summary :
          */
 
-        private SchoolInfoBean schoolInfo = new SchoolInfoBean();
+        private SchoolInfoBean schoolInfo;
 
         public int getId() {
             return id;
@@ -189,6 +195,30 @@ public class RegisterEntity {
             this.email = email;
         }
 
+        public int getAttentionCount() {
+            return attentionCount;
+        }
+
+        public void setAttentionCount(int attentionCount) {
+            this.attentionCount = attentionCount;
+        }
+
+        public int getFansCount() {
+            return fansCount;
+        }
+
+        public void setFansCount(int fansCount) {
+            this.fansCount = fansCount;
+        }
+
+        public int getVisitorCount() {
+            return visitorCount;
+        }
+
+        public void setVisitorCount(int visitorCount) {
+            this.visitorCount = visitorCount;
+        }
+
         public String getPhone() {
             return phone;
         }
@@ -203,9 +233,6 @@ public class RegisterEntity {
 
         public void setSchoolInfo(SchoolInfoBean schoolInfo) {
             this.schoolInfo = schoolInfo;
-            if (schoolInfo == null) {
-                this.schoolInfo = new SchoolInfoBean();
-            }
         }
 
         public static class SchoolInfoBean {

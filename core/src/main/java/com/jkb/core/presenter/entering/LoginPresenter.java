@@ -273,6 +273,8 @@ public class LoginPresenter implements LoginContract.Presenter {
             Log.d(TAG, "bitmapDataCallback-------->获取头像成功！");
             UserInfoSingleton.getInstance().setUserAvatar(bitmap);
             String UID = UserInfoSingleton.getInstance().getUsers().getUID();
+
+            LoginContext.getInstance().setUserState(new LoginState());//更新回调接口数据
             //缓存并且设置到本地
             loginResponsitory.cacheBitmapToFile(Config.PATH_ROOT_IMAGE, UID, bitmap, bitmapToFileDataCallback);
         }
@@ -296,6 +298,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             users.setAvatarLocalPath(path);
             loginResponsitory.saveUserToDb(users);
             UserInfoSingleton.getInstance().setUsers(users);
+            LoginContext.getInstance().setUserState(new LoginState());//更新回调接口数据
             //进入系统
 //            loginSystem();
         }
@@ -365,7 +368,9 @@ public class LoginPresenter implements LoginContract.Presenter {
         users.setBref_introduction(bean.getBref_introduction());
         users.setBackground(bean.getBackground());
         users.setUpdated_at(StringUtils.getSystemCurrentTime());
-
+        users.setAttentionCount(bean.getAttentionCount());
+        users.setFansCount(bean.getFansCount());
+        users.setVisitorCount(bean.getVisitorCount());
         LoginEntity.UserInfoBean.SchoolInfoBean schoolInfoBean = bean.getSchoolInfo();
         if (schoolInfoBean != null) {
             users.setSchool_id(schoolInfoBean.getId());

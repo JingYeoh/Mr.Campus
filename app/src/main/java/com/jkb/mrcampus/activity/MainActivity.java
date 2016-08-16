@@ -12,6 +12,7 @@ import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.core.control.userstate.UserState;
 import com.jkb.core.presenter.function.homepage.HomePagePresenter;
 import com.jkb.core.presenter.menu.MenuPresenter;
+import com.jkb.core.presenter.menu.RightMenuPresenter;
 import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseSlideMenuActivity;
@@ -45,6 +46,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
 
     //右滑菜单
     private RightMenuFragment rightMenuFragment;//右滑菜单View视图层
+    private RightMenuPresenter rightMenuPresenter;//右滑菜单的P层
 
     //首页
     private HomePageFragment homePageFragment;
@@ -143,8 +145,6 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
 
     /**
      * 初始化侧滑菜单
-     *
-     * @param savedInstanceState
      */
     private void initSlideMenu(Bundle savedInstanceState) {
         //设置Fragments
@@ -156,6 +156,9 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         //初始化侧滑菜单的Presenter层
         if (switchFunctionPresenter == null) {
             switchFunctionPresenter = new SwitchFunctionPresenter(this, functionFragment);
+        }
+        if (rightMenuPresenter == null) {
+            rightMenuPresenter = new RightMenuPresenter(rightMenuFragment);
         }
     }
 

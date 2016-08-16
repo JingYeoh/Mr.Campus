@@ -36,4 +36,11 @@ public class LoginState implements UserState {
         }
     }
 
+    @Override
+    public void setRightSlideMenuDataViewChangedListener(UsersChangedListener listener) {
+        if (listener != null) {
+            listener.onUserDataChanged();
+        }
+    }
+
 }

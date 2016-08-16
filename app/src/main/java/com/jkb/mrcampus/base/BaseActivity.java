@@ -17,8 +17,10 @@ import android.widget.Toast;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
+import com.jkb.mrcampus.fragment.dialog.TextFloatFragment;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
 import com.jkb.mrcampus.helper.ActivityUtils;
+import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.List;
 
@@ -42,6 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     //展示视图
     protected GifLoadingView2 gifLoadingView;
     private ChoosePictureFragment choosePictureFragment;
+    private TextFloatFragment textFloatFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -67,7 +70,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected void init(Bundle savedInstanceState) {
         context = this;
-        fm=getSupportFragmentManager();
+        fm = getSupportFragmentManager();
         initView();
         initData(savedInstanceState);
         initListener();
@@ -263,6 +266,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (choosePictureFragment != null) {
             choosePictureFragment.dismiss();
         }
+        if (textFloatFragment != null) {
+            textFloatFragment.dismiss();
+        }
         dismissLoading();
+    }
+
+    /**
+     * 显示文本悬浮
+     */
+    public void showTextFloatView(String value) {
+        if (textFloatFragment == null) {
+            textFloatFragment = new TextFloatFragment(value);
+        }
+        textFloatFragment.show(getFragmentManager(), ClassUtils.getClassName(TextFloatFragment.class));
     }
 }

@@ -20,6 +20,9 @@ public class LoginContext implements UserState {
     //右滑菜单的保存对象
     private SlideMenuRightListener slideMenuRightListener;
 
+    //右滑菜单数据变化时候的监听器
+    private UsersChangedListener slideRightDataViewListener;
+
     private LoginContext() {
     }
 
@@ -46,6 +49,9 @@ public class LoginContext implements UserState {
         if (slideMenuRightListener != null) {
             setRightSlideMenuListener(slideMenuRightListener);
         }
+        if (slideRightDataViewListener != null) {
+            setRightSlideMenuDataViewChangedListener(slideRightDataViewListener);
+        }
     }
 
     @Override
@@ -64,5 +70,11 @@ public class LoginContext implements UserState {
     public void setRightSlideMenuListener(SlideMenuRightListener listener) {
         slideMenuRightListener = listener;
         mState.setRightSlideMenuListener(listener);
+    }
+
+    @Override
+    public void setRightSlideMenuDataViewChangedListener(UsersChangedListener listener) {
+        slideRightDataViewListener = listener;
+        mState.setRightSlideMenuDataViewChangedListener(slideRightDataViewListener);
     }
 }

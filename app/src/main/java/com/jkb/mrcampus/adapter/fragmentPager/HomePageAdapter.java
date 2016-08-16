@@ -1,4 +1,4 @@
-package com.jkb.mrcampus.adapter;
+package com.jkb.mrcampus.adapter.fragmentPager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

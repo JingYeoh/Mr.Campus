@@ -61,6 +61,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
                         android:text="签名"
                         android:textColor="@color/white_200"
                         android:textSize="12sp" />
@@ -80,6 +82,7 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
+                                android:id="@+id/fpc_ll_watched"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -94,6 +97,7 @@
                                     android:textSize="11sp" />
 
                                 <TextView
+                                    android:id="@+id/fpc_tv_watchedNum"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
@@ -108,6 +112,7 @@
                                 android:background="@color/white_200" />
 
                             <LinearLayout
+                                android:id="@+id/fpc_ll_fans"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -122,6 +127,7 @@
                                     android:textSize="11sp" />
 
                                 <TextView
+                                    android:id="@+id/fpc_tv_fansNum"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
@@ -136,6 +142,7 @@
                                 android:background="@color/white_200" />
 
                             <LinearLayout
+                                android:id="@+id/fpc_ll_visitors"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -150,6 +157,7 @@
                                     android:textSize="11sp" />
 
                                 <TextView
+                                    android:id="@+id/fpc_tv_visitorsNum"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
@@ -185,6 +193,7 @@
                         android:textSize="13sp" />
 
                     <LinearLayout
+                        android:id="@+id/fpc_ll_allCircle"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginRight="10dp"
@@ -206,117 +215,26 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/fpc_rv"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:scrollbars="none"
+                        android:visibility="gone" />
 
                     <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/aliwx_head_bg_0" />
-
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/aliwx_head_bg_0" />
-
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/aliwx_head_bg_0" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="left"
-                        android:singleLine="true"
-                        android:text="江宁校园"
-                        android:textColor="@color/black"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:gravity="left"
-                        android:singleLine="true"
-                        android:text="StackFarm实验室"
-                        android:textColor="@color/black"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:gravity="left"
-                        android:singleLine="true"
-                        android:text="1500摇滚公社"
-                        android:textColor="@color/black"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="left"
-                        android:singleLine="true"
-                        android:text="其他/1内容/0关注"
-                        android:textColor="@color/line"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:gravity="left"
-                        android:singleLine="true"
-                        android:text="其他/1内容/0关注"
-                        android:textColor="@color/line"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:gravity="left"
-                        android:singleLine="true"
-                        android:text="其他/1内容/0关注"
-                        android:textColor="@color/line"
-                        android:textSize="10sp" />
-                </LinearLayout>
+                        android:id="@+id/fpc_iv_nonCircleData"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:background="@color/main_theme_gravy_170"
+                        android:padding="20dp"
+                        android:src="@drawable/ic_empty_feed"
+                        android:visibility="visible" />
+                </RelativeLayout>
             </LinearLayout>
 
             <View
@@ -346,7 +264,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="我的喜欢"
+                        android:text="@string/myLike"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -367,11 +285,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    android:text="个人动态"
+                    android:text="@string/personDynamic"
                     android:textColor="@color/black"
                     android:textSize="13sp" />
 
                 <LinearLayout
+                    android:id="@+id/fpc_ll_allPersonDynamic"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
@@ -406,6 +325,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/fpc_ll_article"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -420,12 +340,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="文章"
+                        android:text="@string/article"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/fpc_ll_topic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -440,12 +361,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="话题"
+                        android:text="@string/topic"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/fpc_ll_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -460,12 +382,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="动态"
+                        android:text="@string/normal"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/fpc_ll_circle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -480,7 +403,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="圈子"
+                        android:text="@string/circle"
                         android:textColor="@color/black"
                         android:textSize="13sp" />
                 </LinearLayout>

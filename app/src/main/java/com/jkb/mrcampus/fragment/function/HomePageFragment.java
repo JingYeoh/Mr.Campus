@@ -15,7 +15,7 @@ import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.presenter.function.homepage.HomePagePresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
-import com.jkb.mrcampus.adapter.HomePageAdapter;
+import com.jkb.mrcampus.adapter.fragmentPager.HomePageAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 
 /**

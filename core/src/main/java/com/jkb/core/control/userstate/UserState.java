@@ -63,9 +63,26 @@ public interface UserState {
     }
 
     /**
+     * 右滑菜单的信息视图监听器
+     */
+    interface UsersChangedListener {
+        /**
+         * 数据变化时候调用的方法
+         */
+        void onUserDataChanged();
+    }
+
+    /**
      * 设置右滑菜单的监听器
      *
      * @param listener
      */
     void setRightSlideMenuListener(SlideMenuRightListener listener);
+
+    /**
+     * 设置右滑菜单信息变化时候的监听
+     *
+     * @param listener
+     */
+    void setRightSlideMenuDataViewChangedListener(UsersChangedListener listener);
 }

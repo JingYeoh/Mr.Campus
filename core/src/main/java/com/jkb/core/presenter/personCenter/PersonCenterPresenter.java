@@ -39,10 +39,25 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
         view.setUserSign(users.getBref_introduction());
         String name = (StringUtils.isEmpty(users.getName()) ? users.getNickname() + "菌" : users.getName());
         view.setName(name);
+
+        //设置关注栏的数据
+        view.setFansNum(users.getFansCount());
+        view.setVistiorsNum(users.getVisitorCount());
+        view.setWatchedNum(users.getAttentionCount());
+    }
+
+    @Override
+    public void getCircleData() {
+        //从网上获取圈子数据
+
+        //判断数据是否为空
+        view.showCircleNonDataView();
     }
 
     @Override
     public void start() {
         initUserData();
+        //获取圈子数据
+        getCircleData();
     }
 }

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.jkb.mrcampus.R;
-import com.jkb.mrcampus.adapter.RightMenuFriendsAdapter;
+import com.jkb.mrcampus.adapter.baseAdapter.RightMenuFriendsAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 
 /**
