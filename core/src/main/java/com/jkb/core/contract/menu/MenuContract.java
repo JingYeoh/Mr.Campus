@@ -122,6 +122,14 @@ public interface MenuContract {
          * 隐藏所有的View视图
          */
         void hideAllView();
+
+        /**
+         * 打开用户列表页面
+         *
+         * @param user_id 用户id
+         * @param action  要显示的视图
+         */
+        void startUsersListActivity(int user_id, String action);
     }
 
 
@@ -134,5 +142,10 @@ public interface MenuContract {
          * 得到是否登录的权限身份
          */
         boolean getIdentity();
+
+        /**
+         * 请求登录接口
+         */
+        void ReqLogin();
     }
 }

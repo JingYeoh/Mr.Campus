@@ -35,6 +35,21 @@ public interface RightMenuContract {
          * @return UserState.UsersChangedListener
          */
         UserState.UsersChangedListener onUserDataChangedListener();
+
+        /**
+         * 显示关注视图
+         */
+        void showAttentionView();
+
+        /**
+         * 显示粉丝视图
+         */
+        void showFansView();
+
+        /**
+         * 显示访客视图
+         */
+        void showVisitorView();
     }
 
     interface Presenter extends BasePresenter {
@@ -48,6 +63,11 @@ public interface RightMenuContract {
          * 设置用户数据变化时候的监听器
          */
         void setOnUsersDataChangedListener(UserState.UsersChangedListener listener);
+
+        /**
+         * 得到用户的id
+         */
+        int getUser_id();
     }
 
 }

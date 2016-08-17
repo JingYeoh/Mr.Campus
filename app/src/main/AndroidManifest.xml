@@ -69,6 +69,9 @@
         //创建圈子的页面控制器
         <activity android:name=".activity.CreateCircleActivity" />
 
+        //用户列表的控制器——访客、粉丝、关注
+        <activity android:name=".activity.UsersListActivity" />
+
         //用于定位的服务
         <service android:name=".service.LocationService" />
 

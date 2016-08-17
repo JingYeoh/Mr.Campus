@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.FrameLayout;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jkb.core.Injection;
 import com.jkb.core.contract.menu.MenuContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
@@ -14,6 +15,7 @@ import com.jkb.core.presenter.function.homepage.HomePagePresenter;
 import com.jkb.core.presenter.menu.MenuPresenter;
 import com.jkb.core.presenter.menu.RightMenuPresenter;
 import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseSlideMenuActivity;
 import com.jkb.mrcampus.fragment.function.HomePageFragment;
@@ -64,12 +66,13 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         super.onCreate(savedInstanceState);
         setRootView(R.layout.aty_main);
         init(savedInstanceState);
+        mPresenter.start();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.start();
+//        mPresenter.start();
     }
 
     @Override
@@ -131,7 +134,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
      * 初始化Presenter层数据
      */
     private void initPresenter() {
-        mPresenter = new MenuPresenter(this);
+        mPresenter = new MenuPresenter(this, Injection.provideLoginResponsitory(getApplicationContext()));
         mPresenter.setCurrentView(showView);
     }
 
@@ -355,6 +358,15 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     public void hideAllView() {
         ActivityUtils.hideFragments(fm,
                 SwitchFunctionFragment.class.getName(), RightMenuFragment.class.getName());
+    }
+
+    @Override
+    public void startUsersListActivity(int user_id, String action) {
+        Log.d(TAG, "startUsersListActivity");
+        Intent intent = new Intent(this, UsersListActivity.class);
+        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
+        intent.putExtra(Config.INTENT_KEY_SHOW_USERSLIST, action);
+        startActivityWithPushLeftAnim(intent);
     }
 
     /**

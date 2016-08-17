@@ -27,6 +27,8 @@ public class Config {
     public static final String URL_RESET_PASSWORD_WITH_PHONE = "auth/resetPasswordWithPhone";//手机号修改密码
     //circle的接口地址
     public static final String URL_CIRCLE_CREATE = "circle";
+    //user接口地址
+    public static final String URL_USER_ACTION = "user/{action}/{userId}";
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
 
@@ -63,6 +65,8 @@ public class Config {
     public static final String KEY_LONGITUDE = "longitude";
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_NAME = "name";
+    public static final String KEY_ACTION = "action";
+    public static final String KEY_USERID = "userId";
 
 
     public static final String GENDER_M = "m";
@@ -75,4 +79,19 @@ public class Config {
 
     public static final String FLAG_AVATAR = "avatar";
     public static final String FLAG_CIRCLE = "circle";
+
+    public static final String IDENTITY_TYPE_QQ = "qq";
+    public static final String IDENTITY_TYPE_WECHAT = "wechat";
+    public static final String IDENTITY_TYPE_WEIBO = "weibo";
+    public static final String IDENTITY_TYPE_RENREN = "renren";
+    public static final String IDENTITY_TYPE_DOUBAN = "douban";
+    public static final String IDENTITY_TYPE_EMAIL = "email";
+    public static final String IDENTITY_TYPE_PHONE = "phone";
+
+    public static final String ACTION_SUBSCRIBE = "subscribe";
+    public static final String ACTION_FAVORITE = "favorite";
+    public static final String ACTION_PAYATTENTION = "payAttention";
+    public static final String ACTION_INCOMMONUSE = "inCommonUse";
+    public static final String ACTION_VISITOR = "visitor";
+
 }

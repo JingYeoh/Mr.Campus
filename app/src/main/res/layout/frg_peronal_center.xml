@@ -89,7 +89,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="@string/Watched"
+                                    android:text="@string/Attention"
                                     android:textColor="@color/white_170"
                                     android:textSize="11sp" />
 

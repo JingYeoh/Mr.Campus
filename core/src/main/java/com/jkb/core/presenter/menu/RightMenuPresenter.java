@@ -33,14 +33,23 @@ public class RightMenuPresenter implements RightMenuContract.Presenter {
             LoginContext.getInstance().setUserState(new LogoutState());
             return;
         }
-        view.setAttentionCount(users.getAttentionCount());
-        view.setFansCount(users.getFansCount());
-        view.setVisitorCount(users.getVisitorCount());
+        if (view.isActive()) {
+            view.setAttentionCount(users.getAttentionCount());
+            view.setFansCount(users.getFansCount());
+            view.setVisitorCount(users.getVisitorCount());
+        }
     }
 
     @Override
     public void setOnUsersDataChangedListener(UserState.UsersChangedListener listener) {
         LoginContext.getInstance().setRightSlideMenuDataViewChangedListener(listener);
+    }
+
+    @Override
+    public int getUser_id() {
+        UserInfoSingleton info = UserInfoSingleton.getInstance();
+        Users users = info.getUsers();
+        return users.getUser_id();
     }
 
     @Override

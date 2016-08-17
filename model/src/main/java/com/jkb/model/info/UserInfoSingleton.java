@@ -66,4 +66,19 @@ public class UserInfoSingleton {
     public void setUserAvatar(Bitmap userAvatar) {
         this.userAvatar = userAvatar;
     }
+
+    /**
+     * 释放资源
+     */
+    public void recycleData() {
+        if (userAvatar != null) {
+            userAvatar.recycle();
+        }
+        if (userAuths != null) {
+            userAuths = new UserAuths();
+        }
+        if (users != null) {
+            users = new Users();
+        }
+    }
 }

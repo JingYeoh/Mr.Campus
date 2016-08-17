@@ -202,6 +202,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         String userID = data.getUserID();//用户id
         String nickname = data.getNickname();//昵称
         String identity_type = data.getIdentity_type();
+        userName = userID;//设置帐号为userId
         //请求登录接口
         loginResponsitory.loginByThirdPlatform(
                 nickname, userID, identity_type, sex, icon, token,
@@ -212,8 +213,8 @@ public class LoginPresenter implements LoginContract.Presenter {
 //                        loginView.dismissLoading();
                         loginView.showReqResult("登录成功，宝宝真棒！");
                         loginSystem();//进入系统
-                        //清空帐号密码
-                        userName = null;
+                        //清空密码
+//                        userName = null;
                         passWord = null;
                         //保存数据
                         saveUserDataToDb(response.body().getMsg());

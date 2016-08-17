@@ -15,6 +15,10 @@ import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.adapter.fragmentPager.ChatAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.fragment.usersList.AttentionFragment;
+import com.jkb.mrcampus.fragment.usersList.FansFragment;
+import com.jkb.mrcampus.fragment.usersList.VisitorFragment;
+import com.jkb.mrcampus.utils.ClassUtils;
 
 /**
  * 右滑菜单：聊天页面
@@ -99,10 +103,13 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fmc_ll_watched:
+                showAttentionView();
                 break;
             case R.id.fmc_ll_fans:
+                showFansView();
                 break;
             case R.id.fmc_ll_visitors:
+                showVisitorView();
                 break;
         }
     }
@@ -125,6 +132,27 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
     @Override
     public UserState.UsersChangedListener onUserDataChangedListener() {
         return usersChangedListener;
+    }
+
+    @Override
+    public void showAttentionView() {
+        String action = ClassUtils.getClassName(AttentionFragment.class);
+        int user_id = mPresenter.getUser_id();
+        mainActivity.startUsersListActivity(user_id, action);
+    }
+
+    @Override
+    public void showFansView() {
+        String action = ClassUtils.getClassName(FansFragment.class);
+        int user_id = mPresenter.getUser_id();
+        mainActivity.startUsersListActivity(user_id, action);
+    }
+
+    @Override
+    public void showVisitorView() {
+        String action = ClassUtils.getClassName(VisitorFragment.class);
+        int user_id = mPresenter.getUser_id();
+        mainActivity.startUsersListActivity(user_id, action);
     }
 
     @Override

@@ -27,6 +27,9 @@ import com.jkb.model.dataSource.first.firstlogic.remote.FirstRemoteDataSource;
 import com.jkb.model.dataSource.first.welcome.WelcomeDataResponsitory;
 import com.jkb.model.dataSource.first.welcome.local.WelcomeLocalDataSource;
 import com.jkb.model.dataSource.first.welcome.remote.WelcomeRemoteDataSource;
+import com.jkb.model.dataSource.usersList.attention.AttentionDataResponsitory;
+import com.jkb.model.dataSource.usersList.attention.local.AttentionLocalDataSource;
+import com.jkb.model.dataSource.usersList.attention.remote.AttentionRemoteDataSource;
 
 /**
  * 用于创建Presenter的集合工具类
@@ -138,6 +141,21 @@ public class Injection {
         CircleCreateDataResponsitory responsitory = CircleCreateDataResponsitory.getInstance(
                 CircleCreateLocalDataSource.getInstance(applicationContext),
                 CircleCreateRemoteDataSource.getInstance()
+        );
+        return responsitory;
+    }
+
+    /**
+     * 得到AttentionDataResponsitory对象
+     *
+     * @param applicationContext 上下文
+     * @return AttentionDataResponsitory
+     */
+    public static AttentionDataResponsitory provideAttentionDataResponsitory(
+            @NonNull Context applicationContext) {
+        AttentionDataResponsitory responsitory = AttentionDataResponsitory.getInstance(
+                AttentionLocalDataSource.getInstance(applicationContext),
+                AttentionRemoteDataSource.getInstance()
         );
         return responsitory;
     }
