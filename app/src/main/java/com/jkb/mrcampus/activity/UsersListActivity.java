@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.jkb.core.Injection;
+import com.jkb.core.presenter.usersList.AttentionPresenter;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
@@ -25,6 +27,7 @@ public class UsersListActivity extends BaseActivity {
 
     //关注
     private AttentionFragment attentionFragment;
+    private AttentionPresenter attentionPresenter;
 
     //粉丝
     private FansFragment fansFragment;
@@ -64,6 +67,7 @@ public class UsersListActivity extends BaseActivity {
         } else {
             currentShowView = savedInstanceState.getString(SAVED_CURRENT_VIEW);//得到缓存的数据
             user_id = savedInstanceState.getInt(SAVED_USER_ID);//得到缓存的用户id
+            restoreFragments();
         }
         if (user_id == -1) {
             showShortToast("没有该用户~");
@@ -105,6 +109,8 @@ public class UsersListActivity extends BaseActivity {
     protected void restoreFragments(String fragmentTAG) {
         if (ClassUtils.isNameEquals(fragmentTAG, AttentionFragment.class)) {
             attentionFragment = (AttentionFragment) fm.findFragmentByTag(fragmentTAG);
+            attentionPresenter = new AttentionPresenter(attentionFragment,
+                    Injection.provideAttentionDataResponsitory(getApplicationContext()));
         } else if (ClassUtils.isNameEquals(fragmentTAG, FansFragment.class)) {
             fansFragment = (FansFragment) fm.findFragmentByTag(fragmentTAG);
         } else if (ClassUtils.isNameEquals(fragmentTAG, VisitorFragment.class)) {
@@ -137,7 +143,11 @@ public class UsersListActivity extends BaseActivity {
      */
     private void initAttention() {
         if (attentionFragment == null) {
-            attentionFragment = AttentionFragment.newInstance();
+            attentionFragment = AttentionFragment.newInstance(this.user_id);
+        }
+        if (attentionPresenter == null) {
+            attentionPresenter = new AttentionPresenter(attentionFragment,
+                    Injection.provideAttentionDataResponsitory(getApplicationContext()));
         }
         ActivityUtils.addFragmentToActivity(fm, attentionFragment, R.id.userListFrame);
     }

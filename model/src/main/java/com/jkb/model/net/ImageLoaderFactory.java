@@ -81,7 +81,8 @@ public class ImageLoaderFactory {
      * @param imageSize
      * @param listener
      */
-    public void loadImage(@NonNull String imageUrl, ImageSize imageSize, @NonNull ImageLoadingListener listener) {
+    public void loadImage(@NonNull String imageUrl, ImageSize imageSize,
+                          @NonNull ImageLoadingListener listener) {
         if (imageSize == null) {
             ImageLoader.getInstance().loadImage(imageUrl, listener);
         } else {

@@ -1,5 +1,7 @@
 package com.jkb.api.config;
 
+import android.content.SyncRequest;
+
 /**
  * 用于保存要用到的键值对的常量类
  * Created by JustKiddingBaby on 2016/7/31.
@@ -29,8 +31,11 @@ public class Config {
     public static final String URL_CIRCLE_CREATE = "circle";
     //user接口地址
     public static final String URL_USER_ACTION = "user/{action}/{userId}";
+    public static final String URL_USER_INFO = "user/{id}";
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
+    //用于分页的后缀
+    public static final String URL_PAGE = "?page={page}";
 
     //需要添加的头部
     public static final String HEADER_KEY_AUTHORIZATION = "Authorization";
@@ -67,6 +72,8 @@ public class Config {
     public static final String KEY_NAME = "name";
     public static final String KEY_ACTION = "action";
     public static final String KEY_USERID = "userId";
+    public static final String KEY_ID = "id";
+    public static final String KEY_PAGE = "page";
 
 
     public static final String GENDER_M = "m";

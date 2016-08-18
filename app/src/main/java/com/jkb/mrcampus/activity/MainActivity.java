@@ -301,9 +301,11 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     }
 
     @Override
-    public void startPersonalCenter() {
+    public void startPersonalCenter(int user_id) {
         Log.d(TAG, "startPersonalCenter");
         Intent intent = new Intent(this, PersonCenterActivity.class);
+        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
+
         startActivityWithPushLeftAnim(intent);
     }
 

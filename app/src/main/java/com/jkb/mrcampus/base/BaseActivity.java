@@ -162,11 +162,11 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @param intent
      */
     protected void startActivityWithPushLeftAnim(Intent intent) {
-        ActivityOptionsCompat compat = ActivityOptionsCompat.makeCustomAnimation(this,
-                R.animator.push_left_in, R.animator.push_left_out);
-        ActivityCompat.startActivity(this, intent, compat.toBundle());
-//        startActivity(intent);
-//        overridePendingTransition(R.animator.push_left_in, R.animator.push_left_out);
+//        ActivityOptionsCompat compat = ActivityOptionsCompat.makeCustomAnimation(this,
+//                R.animator.push_left_in, R.animator.push_left_out);
+//        ActivityCompat.startActivity(this, intent, compat.toBundle());
+        startActivity(intent);
+        overridePendingTransition(R.animator.push_left_in, R.animator.push_left_out);
     }
 
     /**

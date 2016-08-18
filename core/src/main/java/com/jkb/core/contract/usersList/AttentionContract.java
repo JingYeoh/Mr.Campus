@@ -2,6 +2,9 @@ package com.jkb.core.contract.usersList;
 
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
+import com.jkb.core.presenter.usersList.data.UserData;
+
+import java.util.List;
 
 /**
  * 关注的页面协议类
@@ -18,6 +21,35 @@ public interface AttentionContract {
          * @param user_id 用户id
          */
         void showPersonCenter(int user_id);
+
+        /**
+         * 取消刷新或者加载的效果显示
+         */
+        void dismissRefresh$Loaded();
+
+        /**
+         * 显示下拉刷新效果
+         */
+        void showRefreshing();
+
+        /**
+         * 得到用户id
+         *
+         * @return 用户id
+         */
+        int getUser_id();
+
+        /**
+         * 设置用户id
+         *
+         * @param user_id 用户id
+         */
+        void setUser_id(int user_id);
+
+        /**
+         * 更新显示的数据
+         */
+        void updataViewData(List<UserData> userDatas);
     }
 
     interface Presenter extends BasePresenter {
@@ -27,6 +59,26 @@ public interface AttentionContract {
          *
          * @param position 被点击的条目数
          */
-        void onUserClicked(int position);
+        void onUserItemClicked(int position);
+
+        /**
+         * 获取用户id
+         */
+        void getUser_id();
+
+        /**
+         * 得到关注用户列表数据
+         */
+        void getAttentionUsersListData();
+
+        /**
+         * 下拉刷新触发方法
+         */
+        void onRefresh();
+
+        /**
+         * 上拉加载触发方法
+         */
+        void onLoaded();
     }
 }

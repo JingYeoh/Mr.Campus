@@ -32,7 +32,7 @@ public class AttentionDataResponsitory implements AttentionDataSource {
     }
 
     @Override
-    public void payAttention(@NonNull int userId, @NonNull ApiCallback<ApiResponse<UserActionUserEntity>> apiCallback) {
-        remoteDataSource.payAttention(userId, apiCallback);
+    public void payAttention(int page,@NonNull int userId, @NonNull ApiCallback<ApiResponse<UserActionUserEntity>> apiCallback) {
+        remoteDataSource.payAttention(page,userId, apiCallback);
     }
 }

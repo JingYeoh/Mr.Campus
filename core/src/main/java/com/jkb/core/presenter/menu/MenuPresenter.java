@@ -87,6 +87,10 @@ public class MenuPresenter implements MenuContract.Presenter {
 
     @Override
     public void ReqLogin() {
+        //判断是否登录
+        if (!LoginContext.getInstance().isLogined()) {
+            return;
+        }
         UserInfoSingleton info = UserInfoSingleton.getInstance();
         UserAuths auths = info.getUserAuths();
         if (auths == null) {
@@ -165,13 +169,15 @@ public class MenuPresenter implements MenuContract.Presenter {
             return;
         }
         LoginEntity entity = body.getMsg();
-        Users users = saveUsersDataToDb(entity);
-        UserAuths userAuths = saveUserAuthsDataToDb(entity);
+        if (entity == null) {
+            changeStatusToLogout();
+            return;
+        }
+        UserInfoSingleton.getInstance().setUserAuths(saveUserAuthsDataToDb(entity));//设置个人数据
+        UserInfoSingleton.getInstance().setUsers(saveUsersDataToDb(entity));//设置个人数据
         saveStatusDataToDb(entity);//保存到状态表中
         //切换身份，设置为已经登录
         LoginContext.getInstance().setUserState(new LoginState());
-        UserInfoSingleton.getInstance().setUserAuths(userAuths);//设置个人数据
-        UserInfoSingleton.getInstance().setUsers(users);//设置个人数据
         //设置头像到系统中
         saveUserAvatarBitmap();
     }
@@ -220,7 +226,6 @@ public class MenuPresenter implements MenuContract.Presenter {
             users.setAvatarLocalPath(path);
             loginResponsitory.saveUserToDb(users);
             UserInfoSingleton.getInstance().setUsers(users);
-            LoginContext.getInstance().setUserState(new LoginState());//更新回调接口数据
         }
 
         @Override
@@ -304,7 +309,7 @@ public class MenuPresenter implements MenuContract.Presenter {
      */
     private void changeStatusToLogout() {
         LoginContext.getInstance().setUserState(new LogoutState());
-//        UserInfoSingleton.getInstance().recycleData();
+        UserInfoSingleton.getInstance().recycleData();
     }
 
     @Override
@@ -327,6 +332,4 @@ public class MenuPresenter implements MenuContract.Presenter {
             menuView.showTools();
         }
     }
-
-
 }

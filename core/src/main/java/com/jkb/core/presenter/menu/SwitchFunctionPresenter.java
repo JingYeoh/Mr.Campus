@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.jkb.core.contract.menu.MenuContract;
 import com.jkb.core.contract.menu.SwitchFunctionContract;
 import com.jkb.core.control.userstate.LoginContext;
+import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.core.control.userstate.UserState;
 import com.jkb.model.info.UserInfoSingleton;
 
@@ -78,6 +79,19 @@ public class SwitchFunctionPresenter implements SwitchFunctionContract.Presenter
     public Bitmap getCurrentHeadImg() {
         //得到本地头像
         return UserInfoSingleton.getInstance().getUserAvatar();
+    }
+
+    @Override
+    public int getUser_id() {
+        int user_id = -1;
+        UserInfoSingleton info = UserInfoSingleton.getInstance();
+        Users users = info.getUsers();
+        if (users == null) {
+            LoginContext.getInstance().setUserState(new LogoutState());
+        } else {
+            user_id = users.getUser_id();
+        }
+        return user_id;
     }
 
 }

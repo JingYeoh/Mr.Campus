@@ -92,5 +92,12 @@ public interface SwitchFunctionContract {
          * 得到当前的头像
          */
         Bitmap getCurrentHeadImg();
+
+        /**
+         * 得到用户id
+         *
+         * @return 得到用户的id
+         */
+        int getUser_id();
     }
 }

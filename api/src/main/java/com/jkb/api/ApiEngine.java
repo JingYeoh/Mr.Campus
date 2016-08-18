@@ -82,13 +82,13 @@ public class ApiEngine<T> {
             apiCallback.onFail();
             return;
         }
-        Headers headers = response.headers();
-        //打印头信息
-        if (headers != null) {
-            for (int i = 0; i < headers.size(); i++) {
-                Log.i(TAG, headers.name(i) + "---->" + headers.value(i));
-            }
-        }
+//        Headers headers = response.headers();
+//        //打印头信息
+//        if (headers != null) {
+//            for (int i = 0; i < headers.size(); i++) {
+//                Log.i(TAG, headers.name(i) + "---->" + headers.value(i));
+//            }
+//        }
         int code = response.code();
         Log.d(TAG, code + "");
         switch (code) {

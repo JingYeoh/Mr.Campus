@@ -1,13 +1,23 @@
 package com.jkb.mrcampus.adapter.recycler;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jkb.core.presenter.usersList.data.UserData;
+import com.jkb.model.net.ImageLoaderFactory;
+import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -21,12 +31,18 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
     private Context context;
     private int colorWhite;
     private int colorGravy;
+    public List<UserData> userDatas;
 
 
-    public AttentionListAdapter(Context context) {
+    public AttentionListAdapter(Context context, List<UserData> userDatas) {
         this.context = context;
         colorWhite = context.getResources().getColor(R.color.white);
         colorGravy = context.getResources().getColor(R.color.background_general);
+
+        if (userDatas == null) {
+            userDatas = new ArrayList<>();
+        }
+        this.userDatas = userDatas;
     }
 
     @Override
@@ -53,11 +69,53 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
         } else {//奇数
             holder.contentView.setBackgroundColor(colorWhite);
         }
+        UserData userData = userDatas.get(position);
+        holder.tvNickName.setText(userData.getNickname());
+        holder.tvSign.setText(userData.getBref_introduction());
+        String headImgUrl = userData.getAvatar();
+        if (!StringUtils.isEmpty(headImgUrl)) {
+            setImageLoad(holder.ivHeadImg, headImgUrl);
+        } else {
+            holder.ivHeadImg.setImageResource(R.drawable.ic_user_head);
+        }
+        //设置头像
+        if (!userData.isAttentioned()) {
+            holder.tvAttention.setText("关注");
+        } else {
+
+        }
+    }
+
+    /**
+     * 加载头像
+     */
+    private void setImageLoad(final ImageView tvHeadImg, String headImgUrl) {
+        ImageLoaderFactory.getInstance().loadImage(headImgUrl, null, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+                tvHeadImg.setImageResource(R.drawable.ic_user_head);
+            }
+
+            @Override
+            public void onLoadingFailed(String s, View view, FailReason failReason) {
+                tvHeadImg.setImageResource(R.drawable.ic_user_head);
+            }
+
+            @Override
+            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                tvHeadImg.setImageBitmap(bitmap);
+            }
+
+            @Override
+            public void onLoadingCancelled(String s, View view) {
+                tvHeadImg.setImageResource(R.drawable.ic_user_head);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return userDatas.size();
     }
 
     /**

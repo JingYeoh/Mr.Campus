@@ -137,8 +137,8 @@ public class LoginPresenter implements LoginContract.Presenter {
         @Override
         public void onSuccess(Response<ApiResponse<LoginEntity>> response) {
 //            loginView.dismissLoading();
-            loginView.showReqResult("登录成功，宝宝好棒");
-            loginSystem();//进入系统
+//            loginView.showReqResult("登录成功，宝宝好棒");
+//            loginSystem();//进入系统
             //存储数据到数据库中
             saveUserDataToDb(response.body().getMsg());
         }
@@ -211,8 +211,8 @@ public class LoginPresenter implements LoginContract.Presenter {
                     @Override
                     public void onSuccess(Response<ApiResponse<LoginEntity>> response) {
 //                        loginView.dismissLoading();
-                        loginView.showReqResult("登录成功，宝宝真棒！");
-                        loginSystem();//进入系统
+//                        loginView.showReqResult("登录成功，宝宝真棒！");
+//                        loginSystem();//进入系统
                         //清空密码
 //                        userName = null;
                         passWord = null;
@@ -240,13 +240,11 @@ public class LoginPresenter implements LoginContract.Presenter {
      */
     private void saveUserDataToDb(LoginEntity body) {
         Log.d(TAG, "saveUserDataToDb");
-        Users users = saveUsersDataToDb(body);
-        UserAuths userAuths = saveUserAuthsDataToDb(body);
+        UserInfoSingleton.getInstance().setUserAuths(saveUserAuthsDataToDb(body));//设置个人数据
+        UserInfoSingleton.getInstance().setUsers(saveUsersDataToDb(body));//设置个人数据
         saveStatusDataToDb(body);//保存到状态表中
         //切换身份，设置为已经登录
         LoginContext.getInstance().setUserState(new LoginState());
-        UserInfoSingleton.getInstance().setUserAuths(userAuths);//设置个人数据
-        UserInfoSingleton.getInstance().setUsers(users);//设置个人数据
         //设置头像到系统中
         saveUserAvatarBitmap();
     }
@@ -261,7 +259,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         if (!StringUtils.isEmpty(avatarUrl)) {
             loginResponsitory.getBitmapFromUrl(avatarUrl, bitmapDataCallback);
         } else {
-//            loginSystem();//进入系统
+            loginSystem();//进入系统
         }
     }
 
@@ -276,6 +274,9 @@ public class LoginPresenter implements LoginContract.Presenter {
             String UID = UserInfoSingleton.getInstance().getUsers().getUID();
 
             LoginContext.getInstance().setUserState(new LoginState());//更新回调接口数据
+
+            loginSystem();
+
             //缓存并且设置到本地
             loginResponsitory.cacheBitmapToFile(Config.PATH_ROOT_IMAGE, UID, bitmap, bitmapToFileDataCallback);
         }
@@ -285,7 +286,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             Log.d(TAG, "bitmapDataCallback-------->获取头像失败！");
             UserInfoSingleton.getInstance().setUserAvatar(null);
             //进入系统
-//            loginSystem();
+            loginSystem();
         }
     };
     /**
@@ -298,16 +299,12 @@ public class LoginPresenter implements LoginContract.Presenter {
             Users users = UserInfoSingleton.getInstance().getUsers();
             users.setAvatarLocalPath(path);
             loginResponsitory.saveUserToDb(users);
-            UserInfoSingleton.getInstance().setUsers(users);
-            LoginContext.getInstance().setUserState(new LoginState());//更新回调接口数据
-            //进入系统
-//            loginSystem();
+            UserInfoSingleton.getInstance().setUsers(users);//更新个人信息
         }
 
         @Override
         public void onDataNotAvailable(Bitmap bitmap) {
             Log.d(TAG, "bitmapToFileDataCallback-------->存储头像失败！");
-//            loginSystem();
         }
     };
 

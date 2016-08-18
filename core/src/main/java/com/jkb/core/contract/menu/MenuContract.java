@@ -81,7 +81,7 @@ public interface MenuContract {
         /**
          * 打开个人中心页面
          */
-        void startPersonalCenter();
+        void startPersonalCenter(int user_id);
 
         /**
          * 打开消息页面

@@ -31,7 +31,7 @@ public class AttentionLocalDataSource implements AttentionDataSource {
     }
 
     @Override
-    public void payAttention(@NonNull int userId, @NonNull ApiCallback<ApiResponse<UserActionUserEntity>> apiCallback) {
+    public void payAttention(int page,@NonNull int userId, @NonNull ApiCallback<ApiResponse<UserActionUserEntity>> apiCallback) {
 
     }
 }

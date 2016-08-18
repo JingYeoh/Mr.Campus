@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
+import com.jkb.model.dataSource.first.firstlogic.FirstDataSource;
+import com.jkb.model.intfc.BitmapLoadedCallback;
 
 /**
  * 个人中心的页面控制器
@@ -13,6 +15,24 @@ import com.jkb.core.base.BaseView;
 public interface PersonCenterContract {
 
     interface View extends BaseView<Presenter> {
+
+
+        /**
+         * 得到用户的id
+         *
+         * @return 用户id
+         */
+        int getUser_id();
+
+        /**
+         * 显示自己的标题栏样式
+         */
+        void showSelfTitleStyle();
+
+        /**
+         * 显示非自己的标题栏样式
+         */
+        void showNonSelfTitleStyle();
 
         /**
          * 设置头像
@@ -125,13 +145,35 @@ public interface PersonCenterContract {
          * 显示圈子动态视图
          */
         void showCircleView();
+
+        /**
+         * 隐藏所有的视图显示
+         * 调用时机：无数据或者初始化时候调用
+         */
+        void hideContentView();
+
+        /**
+         * 显示包含的视图
+         * 调用时机：加载完成，有数据时
+         */
+        void showContentView();
     }
 
     interface Presenter extends BasePresenter {
         /**
          * 初始化用户数据
          */
-        void initUserData();
+        void initSelfUserData();
+
+        /**
+         * 初始化非用户自身数据
+         */
+        void initNonSelfUserData();
+
+        /**
+         * 判断用户设置标题栏样式
+         */
+        void judgeUserToSetTitleStyle();
 
         /**
          * 获取化圈子数据

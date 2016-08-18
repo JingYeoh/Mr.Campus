@@ -1,6 +1,5 @@
 package com.jkb.api.net.user;
 
-import com.jkb.api.ApiEngine;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.user.UserActionCircleEntity;
@@ -11,6 +10,7 @@ import com.jkb.api.entity.user.UserActionVisitorEntity;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * 获取用户关注、喜欢等 API接口
@@ -25,12 +25,14 @@ public interface UserActionApi {
      * @param action 操作类型.
      *               允许值: "subscribe", "inCommonUse", "favorite", "payAttention", "visitor"
      * @param userId 用户ID
+     * @param page   请求的页数字段
      * @return Call
      */
     @GET(Config.URL_USER_ACTION)
     Call<ApiResponse<UserActionCircleEntity>> subscribe(
             @Path(Config.KEY_ACTION) String action,
-            @Path(Config.KEY_USERID) int userId);
+            @Path(Config.KEY_USERID) int userId,
+            @Query(Config.KEY_PAGE) int page);
 
     /**
      * * 获取用户常用的圈子
@@ -38,12 +40,14 @@ public interface UserActionApi {
      * @param action 操作类型.
      *               允许值: "subscribe", "inCommonUse", "favorite", "payAttention", "visitor"
      * @param userId 用户ID
+     * @param page   请求的页数字段
      * @return Call
      */
     @GET(Config.URL_USER_ACTION)
     Call<ApiResponse<UserActionCircleEntity>> inCommonUse(
             @Path(Config.KEY_ACTION) String action,
-            @Path(Config.KEY_USERID) int userId);
+            @Path(Config.KEY_USERID) int userId,
+            @Query(Config.KEY_PAGE) int page);
 
     /**
      * * 获取用户关注的用户
@@ -51,12 +55,14 @@ public interface UserActionApi {
      * @param action 操作类型.
      *               允许值: "subscribe", "inCommonUse", "favorite", "payAttention", "visitor"
      * @param userId 用户ID
+     * @param page   请求的页数字段
      * @return Call
      */
     @GET(Config.URL_USER_ACTION)
     Call<ApiResponse<UserActionUserEntity>> payAttention(
             @Path(Config.KEY_ACTION) String action,
-            @Path(Config.KEY_USERID) int userId);
+            @Path(Config.KEY_USERID) int userId,
+            @Query(Config.KEY_PAGE) int page);
 
     /**
      * * 获取用户访客
@@ -64,12 +70,14 @@ public interface UserActionApi {
      * @param action 操作类型.
      *               允许值: "subscribe", "inCommonUse", "favorite", "payAttention", "visitor"
      * @param userId 用户ID
+     * @param page   请求的页数字段
      * @return Call
      */
     @GET(Config.URL_USER_ACTION)
     Call<ApiResponse<UserActionVisitorEntity>> visitor(
             @Path(Config.KEY_ACTION) String action,
-            @Path(Config.KEY_USERID) int userId);
+            @Path(Config.KEY_USERID) int userId,
+            @Query(Config.KEY_PAGE) int page);
 
     /**
      * * 获取用户喜欢的动态
@@ -77,10 +85,12 @@ public interface UserActionApi {
      * @param action 操作类型.
      *               允许值: "subscribe", "inCommonUse", "favorite", "payAttention", "visitor"
      * @param userId 用户ID
+     * @param page   请求的页数字段
      * @return Call
      */
     @GET(Config.URL_USER_ACTION)
     Call<ApiResponse<UserActionDynamicEntity>> favorite(
             @Path(Config.KEY_ACTION) String action,
-            @Path(Config.KEY_USERID) int userId);
+            @Path(Config.KEY_USERID) int userId,
+            @Query(Config.KEY_PAGE) int page);
 }

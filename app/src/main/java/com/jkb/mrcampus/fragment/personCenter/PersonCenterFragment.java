@@ -15,6 +15,10 @@ import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.adapter.recycler.PersonCenterCircleAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.fragment.usersList.AttentionFragment;
+import com.jkb.mrcampus.fragment.usersList.FansFragment;
+import com.jkb.mrcampus.fragment.usersList.VisitorFragment;
+import com.jkb.mrcampus.utils.ClassUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -25,14 +29,20 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PersonCenterFragment extends BaseFragment implements PersonCenterContract.View, View.OnClickListener {
 
+
     private static PersonCenterFragment INSTANCE = null;
 
     public PersonCenterFragment() {
     }
 
-    public static PersonCenterFragment newInstance() {
+    public PersonCenterFragment(int user_id) {
+        this.user_id = user_id;
+    }
+
+
+    public static PersonCenterFragment newInstance(int user_id) {
         if (INSTANCE == null) {
-            INSTANCE = new PersonCenterFragment();
+            INSTANCE = new PersonCenterFragment(user_id);
         }
         return INSTANCE;
     }
@@ -46,6 +56,11 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     //Data数据
     private PersonCenterCircleAdapter circleAdapter;
+
+    //用户数据
+    private int user_id = -1;//要显示的用户的数据
+    private static final String SAVED_USER_ID = "saved_user_id";
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,6 +99,11 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+
+        } else {
+            user_id = savedInstanceState.getInt(SAVED_USER_ID);//恢复数据
+        }
         circleAdapter = new PersonCenterCircleAdapter(mActivity);
         //绑定数据
         recyclerView.setAdapter(circleAdapter);
@@ -145,6 +165,23 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
                 showCircleView();
                 break;
         }
+    }
+
+    @Override
+    public int getUser_id() {
+        return this.user_id;
+    }
+
+    @Override
+    public void showSelfTitleStyle() {
+        rootView.findViewById(R.id.ts3_tv_attention).setVisibility(View.GONE);
+        rootView.findViewById(R.id.ts3_ib_right).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showNonSelfTitleStyle() {
+        rootView.findViewById(R.id.ts3_tv_attention).setVisibility(View.VISIBLE);
+        rootView.findViewById(R.id.ts3_ib_right).setVisibility(View.GONE);
     }
 
     @Override
@@ -217,17 +254,23 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void showWatchedView() {
-
+        //显示粉丝视图
+        String action = ClassUtils.getClassName(AttentionFragment.class);
+        personCenterActivity.startUserListView(this.user_id, action);
     }
 
     @Override
     public void showFansView() {
-
+        //显示粉丝视图
+        String action = ClassUtils.getClassName(FansFragment.class);
+        personCenterActivity.startUserListView(this.user_id, action);
     }
 
     @Override
     public void showVisitorsView() {
-
+        //显示粉丝视图
+        String action = ClassUtils.getClassName(VisitorFragment.class);
+        personCenterActivity.startUserListView(this.user_id, action);
     }
 
     @Override
@@ -266,6 +309,16 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     }
 
     @Override
+    public void hideContentView() {
+        rootView.findViewById(R.id.fpc_content).setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showContentView() {
+        rootView.findViewById(R.id.fpc_content).setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void setPresenter(PersonCenterContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -288,5 +341,11 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SAVED_USER_ID, user_id);
     }
 }

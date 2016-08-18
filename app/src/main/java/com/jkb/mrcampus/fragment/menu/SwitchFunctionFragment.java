@@ -23,7 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class SwitchFunctionFragment extends BaseFragment implements SwitchFunctionContract.View {
 
-    private SwitchFunctionPresenter mPresenter;
+    private SwitchFunctionContract.Presenter mPresenter;
     private MainActivity mainActivity;
 
     //个人中心的视图对象
@@ -68,6 +68,14 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
     public void onResume() {
         super.onResume();
         mPresenter.start();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            mPresenter.start();
+        }
     }
 
     @Override
@@ -224,7 +232,7 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
 
         @Override
         public void onClickLoginPersonView() {
-            mainActivity.startPersonalCenter();
+            mainActivity.startPersonalCenter(mPresenter.getUser_id());
         }
 
         @Override
@@ -235,7 +243,7 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
 
     @Override
     public void setPresenter(SwitchFunctionContract.Presenter presenter) {
-        mPresenter = (SwitchFunctionPresenter) presenter;
+        mPresenter = presenter;
     }
 
     @Override
@@ -258,13 +266,6 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
         return isAdded();
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            mPresenter.start();
-        }
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

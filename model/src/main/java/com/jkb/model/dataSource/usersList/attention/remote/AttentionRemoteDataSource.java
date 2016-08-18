@@ -36,14 +36,14 @@ public class AttentionRemoteDataSource implements AttentionDataSource {
     }
 
     @Override
-    public void payAttention(@NonNull int userId, @NonNull ApiCallback<ApiResponse<UserActionUserEntity>> apiCallback) {
+    public void payAttention(int page, @NonNull int userId, @NonNull ApiCallback<ApiResponse<UserActionUserEntity>> apiCallback) {
         //请求网络数据
         ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
         apiFactory.setHttpClient(apiFactory.genericClient());
         apiFactory.initRetrofit();
         UserActionApi userActionApi = apiFactory.createApi(UserActionApi.class);
         Call<ApiResponse<UserActionUserEntity>> call;
-        call = userActionApi.payAttention(Config.ACTION_SUBSCRIBE, userId);
+        call = userActionApi.payAttention(Config.ACTION_PAYATTENTION, userId, page);
         Type type = new TypeToken<ApiResponse<UserActionUserEntity>>() {
         }.getType();
         new ApiEngine<ApiResponse<UserActionUserEntity>>(apiCallback, call, type);
