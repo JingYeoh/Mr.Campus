@@ -9,7 +9,10 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiEngine;
 import com.jkb.api.ApiFactoryImpl;
 import com.jkb.api.ApiResponse;
+import com.jkb.api.config.Config;
+import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.entity.user.UserInfoEntity;
+import com.jkb.api.net.operation.OperationApi;
 import com.jkb.api.net.user.UserInfoApi;
 import com.jkb.model.dataSource.personCenter.PersonCenterDataSource;
 import com.jkb.model.intfc.BitmapLoadedCallback;
@@ -78,5 +81,21 @@ public class PersonCenterRemoteDataSource implements PersonCenterDataSource {
                 callback.onDataNotAvailable(url);
             }
         });
+    }
+
+    @Override
+    public void visit(@NonNull String authorization, @NonNull int user_id,
+                      @NonNull int target_id,
+                      @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
+        //获取网络数据
+        ApiFactoryImpl factory = ApiFactoryImpl.newInstance();
+        factory.setHttpClient(factory.genericClient());
+        factory.initRetrofit();
+        OperationApi operationApi = factory.createApi(OperationApi.class);
+        Call<ApiResponse<OperationActionEntity>> call = null;
+        call = operationApi.visit(authorization, Config.ACTION_VISIT, user_id, target_id);
+        Type type = new TypeToken<ApiResponse<OperationActionEntity>>() {
+        }.getType();
+        new ApiEngine<ApiResponse<OperationActionEntity>>(apiCallback, call, type);
     }
 }

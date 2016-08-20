@@ -99,12 +99,12 @@ public class CreateCircleActivity extends BaseActivity {
     private void initEnteringCircleMessageFragment() {
         if (enteringCircleMessageFragment == null) {
             enteringCircleMessageFragment = EnteringCircleMessageFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(fm, enteringCircleMessageFragment, R.id.createCircleFrame);
         }
         if (enteringCircleMessagePresenter == null) {
             enteringCircleMessagePresenter = new EnteringCircleMessagePresenter(
                     enteringCircleMessageFragment, Injection.provideCircleCreateDataResponsitory(getApplicationContext()));
         }
-        ActivityUtils.addFragmentToActivity(fm, enteringCircleMessageFragment, R.id.createCircleFrame);
     }
 
     /**

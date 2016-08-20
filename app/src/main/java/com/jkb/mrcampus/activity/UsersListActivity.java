@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.jkb.core.Injection;
 import com.jkb.core.presenter.usersList.AttentionPresenter;
+import com.jkb.core.presenter.usersList.VisitorPresenter;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
@@ -34,6 +35,7 @@ public class UsersListActivity extends BaseActivity {
 
     //访客
     private VisitorFragment visitorFragment;
+    private VisitorPresenter visitorPresenter;
 
     //数据类
     private String currentShowView = "";//当前显示的View视图
@@ -115,6 +117,8 @@ public class UsersListActivity extends BaseActivity {
             fansFragment = (FansFragment) fm.findFragmentByTag(fragmentTAG);
         } else if (ClassUtils.isNameEquals(fragmentTAG, VisitorFragment.class)) {
             visitorFragment = (VisitorFragment) fm.findFragmentByTag(fragmentTAG);
+            visitorPresenter = new VisitorPresenter(visitorFragment,
+                    Injection.provideVisitorDataResponsitory(getApplicationContext()));
         }
     }
 
@@ -144,12 +148,12 @@ public class UsersListActivity extends BaseActivity {
     private void initAttention() {
         if (attentionFragment == null) {
             attentionFragment = AttentionFragment.newInstance(this.user_id);
+            ActivityUtils.addFragmentToActivity(fm, attentionFragment, R.id.userListFrame);
         }
         if (attentionPresenter == null) {
             attentionPresenter = new AttentionPresenter(attentionFragment,
                     Injection.provideAttentionDataResponsitory(getApplicationContext()));
         }
-        ActivityUtils.addFragmentToActivity(fm, attentionFragment, R.id.userListFrame);
     }
 
     /**
@@ -157,9 +161,13 @@ public class UsersListActivity extends BaseActivity {
      */
     private void initVisitor() {
         if (visitorFragment == null) {
-            visitorFragment = VisitorFragment.newInstance();
+            visitorFragment = VisitorFragment.newInstance(user_id);
+            ActivityUtils.addFragmentToActivity(fm, visitorFragment, R.id.userListFrame);
         }
-        ActivityUtils.addFragmentToActivity(fm, visitorFragment, R.id.userListFrame);
+        if (visitorPresenter == null) {
+            visitorPresenter = new VisitorPresenter(visitorFragment,
+                    Injection.provideVisitorDataResponsitory(getApplicationContext()));
+        }
     }
 
     /**
@@ -168,8 +176,8 @@ public class UsersListActivity extends BaseActivity {
     private void initFans() {
         if (fansFragment == null) {
             fansFragment = FansFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(fm, fansFragment, R.id.userListFrame);
         }
-        ActivityUtils.addFragmentToActivity(fm, fansFragment, R.id.userListFrame);
     }
 
     /**
@@ -194,6 +202,18 @@ public class UsersListActivity extends BaseActivity {
     private void showFans() {
         Log.d(TAG, "showFans");
         ActivityUtils.showFragment(fm, fansFragment);
+    }
+
+    /**
+     * 打开个人中心页面
+     *
+     * @param user_id 用户id
+     */
+    public void startPersonalCenter(int user_id) {
+        Log.d(TAG, "startPersonalCenter");
+        Intent intent = new Intent(this, PersonCenterActivity.class);
+        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
+        startActivityWithPushLeftAnim(intent);
     }
 
 }

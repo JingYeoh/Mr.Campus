@@ -1,12 +1,19 @@
 package com.jkb.mrcampus.utils;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.view.View;
+
+import com.jkb.mrcampus.Config;
 
 /**
  * 关于类之间的工具类
  * Created by JustKiddingBaby on 2016/8/1.
  */
 public class ClassUtils {
+
+    private static final String TAG = "ClassUtils";
 
     /**
      * 根据类得到类名
@@ -36,5 +43,56 @@ public class ClassUtils {
                 return false;
             }
         }
+    }
+
+    /**
+     * 得到View的TAG
+     *
+     * @param view View控件
+     * @return TAG bundle对象
+     */
+    public static Bundle getViewTag(View view) {
+        Bundle bundle = new Bundle();
+        int tagId = view.getId();
+        bundle.putInt(Config.BUNDLE_KEY_VIEW_ID, tagId);
+        return bundle;
+    }
+
+    /**
+     * 给view绑定TAG
+     *
+     * @param views View控件
+     */
+    public static void bindViewsTag(View... views) {
+        for (int i = 0; i < views.length; i++) {
+            views[i].setTag(getViewTag(views[i]));
+        }
+    }
+
+    /**
+     * 给view绑定TAG
+     *
+     * @param views    View控件
+     * @param position 所在的条目item数
+     */
+    public static void bindViewsTag(int position, View... views) {
+        for (int i = 0; i < views.length; i++) {
+            views[i].setTag(getViewTag(views[i], position));
+        }
+    }
+
+    /**
+     * 得到View的TAG
+     *
+     * @param view     View控件
+     * @param position 所在的条目item数
+     * @return TAG bundle对象
+     */
+    public static Bundle getViewTag(View view, int position) {
+        Bundle bundle = new Bundle();
+        int tagId = view.getId();
+        bundle.putInt(Config.BUNDLE_KEY_VIEW_ID, tagId);
+        bundle.putInt(Config.BUNDLE_KEY_VIEW_POSITION, position);
+        return bundle;
     }
 }

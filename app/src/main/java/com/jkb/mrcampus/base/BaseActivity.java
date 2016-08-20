@@ -224,9 +224,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void showLoading(String value) {
         if (gifLoadingView == null) {
             gifLoadingView = new GifLoadingView2();
+            gifLoadingView.setImageResource(R.drawable.num31);
         }
-        gifLoadingView.setImageResource(R.drawable.num31);
-        gifLoadingView.show(getFragmentManager(), null);
+        if (gifLoadingView.isAdded()) {
+            gifLoadingView.show(getFragmentManager(),
+                    ClassUtils.getClassName(GifLoadingView2.class));
+        }
     }
 
     /**
@@ -234,7 +237,9 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public void dismissLoading() {
         if (gifLoadingView != null) {
-            gifLoadingView.dismiss();
+            if (gifLoadingView.isAdded()) {
+                gifLoadingView.dismiss();
+            }
         }
     }
 
@@ -245,7 +250,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (choosePictureFragment == null) {
             choosePictureFragment = new ChoosePictureFragment();
         }
-        choosePictureFragment.show(getFragmentManager(), "showChoosePictureDialog");
+        if (choosePictureFragment.isAdded()) {
+            choosePictureFragment.show(getFragmentManager(),
+                    ClassUtils.getClassName(ChoosePictureFragment.class));
+        }
     }
 
     /**
@@ -263,10 +271,10 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 取消所有的显示子视图
      */
     public void dismiss() {
-        if (choosePictureFragment != null) {
+        if (choosePictureFragment != null && choosePictureFragment.isAdded()) {
             choosePictureFragment.dismiss();
         }
-        if (textFloatFragment != null) {
+        if (textFloatFragment != null && textFloatFragment.isAdded()) {
             textFloatFragment.dismiss();
         }
         dismissLoading();
@@ -279,6 +287,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (textFloatFragment == null) {
             textFloatFragment = new TextFloatFragment(value);
         }
-        textFloatFragment.show(getFragmentManager(), ClassUtils.getClassName(TextFloatFragment.class));
+        if (!textFloatFragment.isAdded()) {
+            textFloatFragment.show(getFragmentManager(),
+                    ClassUtils.getClassName(TextFloatFragment.class));
+        }
     }
 }

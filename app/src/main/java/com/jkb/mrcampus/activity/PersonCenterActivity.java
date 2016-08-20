@@ -68,6 +68,7 @@ public class PersonCenterActivity extends BaseActivity {
         if (StringUtils.isEmpty(showCurrentView)) {
             showCurrentView = ClassUtils.getClassName(PersonCenterFragment.class);
         }
+        Log.d(TAG, "user_id=" + user_id);
         if (user_id == -1) {
             showShortToast("该用户不存在！");
             onBackPressed();
@@ -103,6 +104,7 @@ public class PersonCenterActivity extends BaseActivity {
 
     @Override
     protected void restoreFragments(String fragmentTAG) {
+        Log.d(TAG, "restoreFragments----------->>" + fragmentTAG);
         if (ClassUtils.isNameEquals(fragmentTAG, PersonCenterFragment.class)) {
             personCenterFragment = (PersonCenterFragment) fm.findFragmentByTag(fragmentTAG);
             personCenterPresenter = new PersonCenterPresenter(personCenterFragment,
@@ -123,6 +125,8 @@ public class PersonCenterActivity extends BaseActivity {
      * 初始化个人中心
      */
     private void initPersonCenter() {
+        Log.d(TAG, "initPersonCenter");
+        Log.d(TAG, "我要发送过去的用户id是：" + user_id);
         if (personCenterFragment == null) {
             personCenterFragment = PersonCenterFragment.newInstance(user_id);
             ActivityUtils.addFragmentToActivity(fm, personCenterFragment, R.id.personFrame);

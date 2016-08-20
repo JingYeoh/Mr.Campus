@@ -9,6 +9,7 @@ import com.jkb.api.entity.user.UserActionVisitorEntity;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 

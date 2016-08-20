@@ -1,4 +1,4 @@
-package com.jkb.model.dataSource.usersList.attention;
+package com.jkb.model.dataSource.usersList.visitor;
 
 import android.support.annotation.NonNull;
 
@@ -6,22 +6,23 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.entity.user.UserActionUserEntity;
+import com.jkb.api.entity.user.UserActionVisitorEntity;
 
 /**
- * 关注的数据来源接口
- * Created by JustKiddingBaby on 2016/8/17.
+ * 访客的数据来源仓库类
+ * Created by JustKiddingBaby on 2016/8/19.
  */
 
-public interface AttentionDataSource {
+public interface VisitorDataSource {
 
     /**
-     * 获取用户关注的用户
+     * 获取访客用户
      *
      * @param page   请求页数
      * @param userId 用户id
      */
-    void payAttention(@NonNull int page, @NonNull int userId,
-                      @NonNull ApiCallback<ApiResponse<UserActionUserEntity>> apiCallback);
+    void visit(@NonNull int page, @NonNull int userId,
+               @NonNull ApiCallback<ApiResponse<UserActionVisitorEntity>> apiCallback);
 
     /**
      * 关注或者取消关注用户接口

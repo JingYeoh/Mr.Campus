@@ -28,7 +28,8 @@ import java.util.List;
  */
 
 public class AttentionFragment extends BaseFragment implements AttentionContract.View,
-        SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+        SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
+        AttentionListAdapter.OnUserListItemsClickListener {
 
 
     public AttentionFragment() {
@@ -42,7 +43,7 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
     public static AttentionFragment INSTANCE = null;
 
     public static AttentionFragment newInstance(int user_id) {
-        if (INSTANCE == null) {
+        if (INSTANCE == null || user_id != -1) {
             INSTANCE = new AttentionFragment(user_id);
         }
         return INSTANCE;
@@ -82,6 +83,9 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
         refreshLayout.setOnRefreshListener(this);//设置刷新监听
 
         rootView.findViewById(R.id.ts4_ib_left).setOnClickListener(this);
+
+        //设置子控件的监听
+        attentionListAdapter.setOnUserListItemsClickListener(this);
     }
 
     @Override
@@ -110,8 +114,7 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
 
     @Override
     public void showPersonCenter(int user_id) {
-        //显示个人中心页面
-
+        usersListActivity.startPersonalCenter(user_id);
     }
 
     @Override
@@ -140,6 +143,16 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
         //更新数据
         attentionListAdapter.userDatas = userDatas;
         attentionListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void clickPayAttention(int position) {
+        mPresenter.onPayAttentionCLicked(position);
+    }
+
+    @Override
+    public void clickHeadImg(int position) {
+        mPresenter.onHeadImgClicked(position);
     }
 
     @Override
@@ -200,5 +213,16 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
                 usersListActivity.onBackPressed();
                 break;
         }
+    }
+
+
+    @Override
+    public void onHeadImgClick(int position) {
+        clickHeadImg(position);
+    }
+
+    @Override
+    public void onAttentionClick(int position) {
+        clickPayAttention(position);
     }
 }

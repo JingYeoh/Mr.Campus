@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
+import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.entity.user.UserInfoEntity;
 import com.jkb.model.dataSource.personCenter.PersonCenterDataSource;
 import com.jkb.model.intfc.BitmapLoadedCallback;
@@ -38,6 +39,11 @@ public class PersonCenterLocalDataSource implements PersonCenterDataSource {
 
     @Override
     public void loadHeadImgByUrl(@NonNull String url, @NonNull BitmapLoadedCallback callback) {
+
+    }
+
+    @Override
+    public void visit(@NonNull String authorization, @NonNull int user_id, @NonNull int target_id, @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
 
     }
 }

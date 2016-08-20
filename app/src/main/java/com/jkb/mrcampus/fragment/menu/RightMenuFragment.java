@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,8 @@ import com.jkb.mrcampus.utils.ClassUtils;
  * 右滑菜单：聊天页面
  * Created by JustKiddingBaby on 2016/7/24.
  */
-public class RightMenuFragment extends BaseFragment implements RightMenuContract.View, View.OnClickListener {
+public class RightMenuFragment extends BaseFragment implements RightMenuContract.View,
+        View.OnClickListener {
 
     //View层
     private TabLayout mTab;
@@ -46,7 +48,8 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         mainActivity = (MainActivity) mActivity;
         setRootView(R.layout.frg_menu_chat);
         init(savedInstanceState);
@@ -56,12 +59,14 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume");
         mPresenter.start();
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        Log.d(TAG, "onHiddenChanged");
         if (!hidden) {
             mPresenter.start();
         }

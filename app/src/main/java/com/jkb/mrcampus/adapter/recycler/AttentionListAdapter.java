@@ -2,6 +2,7 @@ package com.jkb.mrcampus.adapter.recycler;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 import com.jkb.core.presenter.usersList.data.UserData;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.StringUtils;
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
+import com.jkb.mrcampus.utils.ClassUtils;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -26,12 +29,58 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by JustKiddingBaby on 2016/8/17.
  */
 
-public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdapter.ViewHolder> {
+public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdapter.ViewHolder>
+        implements View.OnClickListener {
 
     private Context context;
     private int colorWhite;
     private int colorGravy;
     public List<UserData> userDatas;
+    private OnUserListItemsClickListener onUserListItemsClickListener;
+
+    /**
+     * 设置条目的子控件的点击监听
+     */
+    public void setOnUserListItemsClickListener(
+            OnUserListItemsClickListener onUserListItemsClickListener) {
+        this.onUserListItemsClickListener = onUserListItemsClickListener;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (onUserListItemsClickListener != null) {
+            //判断是哪个控件
+            Bundle bundle = (Bundle) view.getTag();
+            if (bundle == null) {
+                return;
+            }
+            int viewId = bundle.getInt(Config.BUNDLE_KEY_VIEW_ID);
+            int position = bundle.getInt(Config.BUNDLE_KEY_VIEW_POSITION);
+            switch (viewId) {
+                case R.id.iul_iv_headImg:
+                    onUserListItemsClickListener.onHeadImgClick(position);
+                    break;
+                case R.id.iul_tv_attentionStatus:
+                    onUserListItemsClickListener.onAttentionClick(position);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 用户列表子控件的点击监听接口
+     */
+    public interface OnUserListItemsClickListener {
+        /**
+         * 点击头像回调
+         */
+        void onHeadImgClick(int position);
+
+        /**
+         * 点击关注回调
+         */
+        void onAttentionClick(int position);
+    }
 
 
     public AttentionListAdapter(Context context, List<UserData> userDatas) {
@@ -56,12 +105,20 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
         holder.tvSign = (TextView) view.findViewById(R.id.iul_tv_sign);
         holder.tvTime = (TextView) view.findViewById(R.id.iul_tv_time);
         holder.contentView = view.findViewById(R.id.iul_ll_content);
+
         //初始化监听器
+        holder.ivHeadImg.setOnClickListener(this);
+        holder.tvAttention.setOnClickListener(this);
+
         return holder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
+        //绑定控件的TAG
+        ClassUtils.bindViewsTag(position, holder.ivHeadImg, holder.tvAttention);
+
         holder.tvTime.setVisibility(View.GONE);
         //绑定数据
         if (position % 2 == 0) {//偶数
@@ -82,7 +139,7 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
         if (!userData.isAttentioned()) {
             holder.tvAttention.setText("关注");
         } else {
-
+            holder.tvAttention.setText("已关注");
         }
     }
 

@@ -1,5 +1,6 @@
-package com.jkb.model.dataSource.usersList.attention.remote;
+package com.jkb.model.dataSource.usersList.visitor.remote;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.reflect.TypeToken;
@@ -10,51 +11,54 @@ import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.entity.user.UserActionUserEntity;
+import com.jkb.api.entity.user.UserActionVisitorEntity;
 import com.jkb.api.net.operation.OperationApi;
 import com.jkb.api.net.user.UserActionApi;
-import com.jkb.model.dataSource.usersList.attention.AttentionDataSource;
+import com.jkb.model.dataSource.usersList.visitor.VisitorDataSource;
 
 import java.lang.reflect.Type;
 
 import retrofit2.Call;
 
 /**
- * 关注用户列表的远程数据来源类
- * Created by JustKiddingBaby on 2016/8/17.
+ * 获取访客的本地数据仓库
+ * Created by JustKiddingBaby on 2016/8/19.
  */
 
-public class AttentionRemoteDataSource implements AttentionDataSource {
+public class VisitorRemoteDataSource implements VisitorDataSource {
 
-    private AttentionRemoteDataSource() {
+    private Context applicationContext;
+    private static VisitorRemoteDataSource INSTANCE;
+
+    public VisitorRemoteDataSource() {
     }
 
-    private static AttentionRemoteDataSource INSTANCE = null;
 
-    public static AttentionRemoteDataSource getInstance() {
+    public static VisitorRemoteDataSource getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new AttentionRemoteDataSource();
+            INSTANCE = new VisitorRemoteDataSource();
         }
         return INSTANCE;
     }
 
     @Override
-    public void payAttention(int page, @NonNull int userId, @NonNull ApiCallback<ApiResponse<UserActionUserEntity>> apiCallback) {
+    public void visit(@NonNull int page, @NonNull int userId,
+                      @NonNull ApiCallback<ApiResponse<UserActionVisitorEntity>> apiCallback) {
         //请求网络数据
         ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
         apiFactory.setHttpClient(apiFactory.genericClient());
         apiFactory.initRetrofit();
         UserActionApi userActionApi = apiFactory.createApi(UserActionApi.class);
-        Call<ApiResponse<UserActionUserEntity>> call;
-        call = userActionApi.payAttention(Config.ACTION_PAYATTENTION, userId, page);
-        Type type = new TypeToken<ApiResponse<UserActionUserEntity>>() {
+        Call<ApiResponse<UserActionVisitorEntity>> call;
+        call = userActionApi.visitor(Config.ACTION_VISIT, userId, page);
+        Type type = new TypeToken<ApiResponse<UserActionVisitorEntity>>() {
         }.getType();
-        new ApiEngine<ApiResponse<UserActionUserEntity>>(apiCallback, call, type);
+        new ApiEngine<ApiResponse<UserActionVisitorEntity>>(apiCallback, call, type);
     }
 
     @Override
     public void payAttentionOrCancle(
-            @NonNull String Authorization, @NonNull int user_id,
-            @NonNull int target_id,
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
             @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
         //请求网络数据
         ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();

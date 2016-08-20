@@ -12,6 +12,7 @@ public class UserData {
     private String sex;//性别
     private String bref_introduction;//签名
     private boolean isAttentioned = false;//是否被关注
+    private String time;//访问的时间
 
     public String getNickname() {
         return nickname;
@@ -51,5 +52,13 @@ public class UserData {
 
     public void setAttentioned(boolean attentioned) {
         isAttentioned = attentioned;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

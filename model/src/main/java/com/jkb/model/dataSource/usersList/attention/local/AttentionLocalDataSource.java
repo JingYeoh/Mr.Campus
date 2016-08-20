@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
+import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.entity.user.UserActionUserEntity;
 import com.jkb.model.dataSource.usersList.attention.AttentionDataSource;
 
@@ -31,7 +32,12 @@ public class AttentionLocalDataSource implements AttentionDataSource {
     }
 
     @Override
-    public void payAttention(int page,@NonNull int userId, @NonNull ApiCallback<ApiResponse<UserActionUserEntity>> apiCallback) {
+    public void payAttention(int page, @NonNull int userId, @NonNull ApiCallback<ApiResponse<UserActionUserEntity>> apiCallback) {
+
+    }
+
+    @Override
+    public void payAttentionOrCancle(@NonNull String Authorization, @NonNull int user_id, @NonNull int target_id, @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
 
     }
 }

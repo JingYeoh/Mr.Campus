@@ -162,13 +162,22 @@ public interface PersonCenterContract {
     interface Presenter extends BasePresenter {
         /**
          * 初始化用户数据
+         * 过期：被 getUserData()方法替代
          */
+        @Deprecated
         void initSelfUserData();
 
         /**
          * 初始化非用户自身数据
+         * 过期：被 getUserData()方法替代
          */
+        @Deprecated
         void initNonSelfUserData();
+
+        /**
+         * 获取用户数据
+         */
+        void getUserData();
 
         /**
          * 判断用户设置标题栏样式
@@ -179,5 +188,10 @@ public interface PersonCenterContract {
          * 获取化圈子数据
          */
         void getCircleData();
+
+        /**
+         * 请求访客接口
+         */
+        void visit();
     }
 }

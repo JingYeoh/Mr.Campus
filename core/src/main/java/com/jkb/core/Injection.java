@@ -3,6 +3,7 @@ package com.jkb.core;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.jkb.core.presenter.usersList.VisitorPresenter;
 import com.jkb.model.dataSource.baidu.map.webService.BaiduMapWebServiceResponsitory;
 import com.jkb.model.dataSource.baidu.map.webService.local.BaiduMapWebServiceLocalDataSource;
 import com.jkb.model.dataSource.baidu.map.webService.remote.BaiduMapWebServiceRemoteDataSource;
@@ -33,6 +34,9 @@ import com.jkb.model.dataSource.personCenter.remote.PersonCenterRemoteDataSource
 import com.jkb.model.dataSource.usersList.attention.AttentionDataResponsitory;
 import com.jkb.model.dataSource.usersList.attention.local.AttentionLocalDataSource;
 import com.jkb.model.dataSource.usersList.attention.remote.AttentionRemoteDataSource;
+import com.jkb.model.dataSource.usersList.visitor.VisitorDataResponsitory;
+import com.jkb.model.dataSource.usersList.visitor.local.VisitorLocalDataSource;
+import com.jkb.model.dataSource.usersList.visitor.remote.VisitorRemoteDataSource;
 
 /**
  * 用于创建Presenter的集合工具类
@@ -159,6 +163,21 @@ public class Injection {
         AttentionDataResponsitory responsitory = AttentionDataResponsitory.getInstance(
                 AttentionLocalDataSource.getInstance(applicationContext),
                 AttentionRemoteDataSource.getInstance()
+        );
+        return responsitory;
+    }
+
+    /**
+     * 得到VisitorDataResponsitory对象
+     *
+     * @param applicationContext 上下文
+     * @return VisitorDataResponsitory
+     */
+    public static VisitorDataResponsitory provideVisitorDataResponsitory(
+            @NonNull Context applicationContext) {
+        VisitorDataResponsitory responsitory = VisitorDataResponsitory.getInstance(
+                VisitorLocalDataSource.getInstance(applicationContext),
+                VisitorRemoteDataSource.getInstance()
         );
         return responsitory;
     }

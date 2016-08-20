@@ -50,16 +50,38 @@ public interface AttentionContract {
          * 更新显示的数据
          */
         void updataViewData(List<UserData> userDatas);
+
+        /**
+         * 点击关注按钮的时候
+         *
+         * @param position 条目数
+         */
+        void clickPayAttention(int position);
+
+        /**
+         * 点击头像的时候
+         *
+         * @param position 条目数
+         */
+        void clickHeadImg(int position);
     }
 
     interface Presenter extends BasePresenter {
 
         /**
-         * 当用户被点击的时候
+         * 关注或者取消关注
          *
-         * @param position 被点击的条目数
+         * @param position 条目数
          */
-        void onUserItemClicked(int position);
+        void onPayAttentionCLicked(int position);
+
+
+        /**
+         * 头像点击的时候
+         *
+         * @param position 条目数
+         */
+        void onHeadImgClicked(int position);
 
         /**
          * 获取用户id
@@ -70,6 +92,13 @@ public interface AttentionContract {
          * 得到关注用户列表数据
          */
         void getAttentionUsersListData();
+
+        /**
+         * 关注/取消关注的请求
+         *
+         * @param target_id 目标id
+         */
+        void payAttentionOrCancle(int target_id);
 
         /**
          * 下拉刷新触发方法

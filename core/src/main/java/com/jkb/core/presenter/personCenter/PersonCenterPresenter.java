@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
+import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.entity.user.UserInfoEntity;
 import com.jkb.core.contract.personCenter.PersonCenterContract;
 import com.jkb.core.control.userstate.LoginContext;
@@ -31,7 +32,8 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
     private PersonCenterDataResponsitory responsitory;
 
 
-    public PersonCenterPresenter(@NonNull PersonCenterContract.View view, @NonNull PersonCenterDataResponsitory responsitory) {
+    public PersonCenterPresenter(@NonNull PersonCenterContract.View view,
+                                 @NonNull PersonCenterDataResponsitory responsitory) {
         this.view = view;
         this.responsitory = responsitory;
 
@@ -62,6 +64,18 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
 
     @Override
     public void initNonSelfUserData() {
+        //初始化非自己的数据
+        UserAuths auths = getUserAuths();
+        if (auths == null) {
+            return;
+        }
+        String Authorization = Config.HEADER_BEARER + auths.getToken();
+
+        responsitory.getUserInfo(Authorization, user_id, userInfoApiCallback);
+    }
+
+    @Override
+    public void getUserData() {
         //初始化非自己的数据
         UserAuths auths = getUserAuths();
         if (auths == null) {
@@ -114,7 +128,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
 
         view.showContentView();//显示视图
 
-        if (StringUtils.isEmpty(infoBean.getAvatar())) {
+        if (!StringUtils.isEmpty(infoBean.getAvatar())) {
             //加载头像
             responsitory.loadHeadImgByUrl(infoBean.getAvatar(), bitmapLoadedCallback);
         }
@@ -145,6 +159,27 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
         public void onDataNotAvailable(String url) {
         }
     };
+    /**
+     * 访客的回调接口
+     */
+    private ApiCallback<ApiResponse<OperationActionEntity>> visitorApiCallback = new
+            ApiCallback<ApiResponse<OperationActionEntity>>() {
+                @Override
+                public void onSuccess(Response<ApiResponse<OperationActionEntity>> response) {
+                    getUserData();
+                }
+
+                @Override
+                public void onError(Response<ApiResponse<OperationActionEntity>> response,
+                                    String error, ApiResponse<OperationActionEntity> apiResponse) {
+                    getUserData();
+                }
+
+                @Override
+                public void onFail() {
+                    getUserData();
+                }
+            };
 
     @Override
     public void judgeUserToSetTitleStyle() {
@@ -153,13 +188,13 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
             //设置自己的样式
             view.showSelfTitleStyle();
             //初始化自己的数据
-            initSelfUserData();
+//            initSelfUserData();
         } else {
             //设置非自己的样式
             view.showNonSelfTitleStyle();
             //初始化非自己的数据
-            initNonSelfUserData();
         }
+//        initNonSelfUserData();
     }
 
     @Override
@@ -168,6 +203,16 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
 
         //判断数据是否为空
         view.showCircleNonDataView();
+    }
+
+    @Override
+    public void visit() {
+        if (!LoginContext.getInstance().isLogined()) {
+            return;
+        }
+        UserAuths auths = getUserAuths();
+        String Authorization = Config.HEADER_BEARER + auths.getToken();
+        responsitory.visit(Authorization, auths.getUser_id(), user_id, visitorApiCallback);
     }
 
     /**
@@ -200,6 +245,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
     public void start() {
         user_id = view.getUser_id();//得到用户的id
         view.hideContentView();//隐藏显示
+        visit();//请求访客接口
         judgeUserToSetTitleStyle();
         //获取圈子数据
         getCircleData();

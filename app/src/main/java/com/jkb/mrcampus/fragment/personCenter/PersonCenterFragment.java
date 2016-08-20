@@ -27,7 +27,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by JustKiddingBaby on 2016/8/14.
  */
 
-public class PersonCenterFragment extends BaseFragment implements PersonCenterContract.View, View.OnClickListener {
+public class PersonCenterFragment extends BaseFragment implements PersonCenterContract.View,
+        View.OnClickListener {
 
 
     private static PersonCenterFragment INSTANCE = null;
@@ -37,11 +38,11 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     public PersonCenterFragment(int user_id) {
         this.user_id = user_id;
+//        Log.d(TAG, "构造方法：user_id=" + user_id);
     }
 
-
     public static PersonCenterFragment newInstance(int user_id) {
-        if (INSTANCE == null) {
+        if (INSTANCE == null || user_id != -1) {
             INSTANCE = new PersonCenterFragment(user_id);
         }
         return INSTANCE;
@@ -102,7 +103,9 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
         if (savedInstanceState == null) {
 
         } else {
-            user_id = savedInstanceState.getInt(SAVED_USER_ID);//恢复数据
+            if (user_id == -1) {//此层判断主要为了在页面销毁再次进入时保证是刷新数据而不是恢复数据
+                user_id = savedInstanceState.getInt(SAVED_USER_ID);//恢复数据
+            }
         }
         circleAdapter = new PersonCenterCircleAdapter(mActivity);
         //绑定数据

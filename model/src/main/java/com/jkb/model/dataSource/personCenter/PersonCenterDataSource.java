@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
+import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.entity.user.UserInfoEntity;
 import com.jkb.model.intfc.BitmapLoadedCallback;
 
@@ -28,4 +29,15 @@ public interface PersonCenterDataSource {
      * 通过网络加载头像
      */
     void loadHeadImgByUrl(@NonNull String url, @NonNull BitmapLoadedCallback callback);
+
+    /**
+     * 请求访客的接口
+     *
+     * @param authorization 头，包含token字段
+     * @param user_id       用户id
+     * @param target_id     目标id
+     * @param apiCallback   回调接口
+     */
+    void visit(@NonNull String authorization, @NonNull int user_id, @NonNull int target_id,
+               @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback);
 }

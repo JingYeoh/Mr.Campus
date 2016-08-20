@@ -32,6 +32,9 @@ public class Config {
     //user接口地址
     public static final String URL_USER_ACTION = "user/{action}/{userId}";
     public static final String URL_USER_INFO = "user/{id}";
+    //operation的接口地址
+    public static final String URL_OPERATION = "operation";
+    public static final String URL_OPERATION_USER = "{action}/{targetId}";
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
     //用于分页的后缀
@@ -74,6 +77,7 @@ public class Config {
     public static final String KEY_USERID = "userId";
     public static final String KEY_ID = "id";
     public static final String KEY_PAGE = "page";
+    public static final String KEY_TARHET_ID = "target_id";
 
 
     public static final String GENDER_M = "m";
@@ -100,5 +104,6 @@ public class Config {
     public static final String ACTION_PAYATTENTION = "payAttention";
     public static final String ACTION_INCOMMONUSE = "inCommonUse";
     public static final String ACTION_VISITOR = "visitor";
+    public static final String ACTION_VISIT = "visit";
 
 }
