@@ -99,8 +99,6 @@ public class ApiFactoryImpl implements ApiFactory {
 
     /**
      * 设置OKHttp拦截器
-     *
-     * @return
      */
     public OkHttpClient genericClient() {
         httpClient = new OkHttpClient.Builder()

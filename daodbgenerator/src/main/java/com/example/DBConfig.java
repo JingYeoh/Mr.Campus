@@ -49,7 +49,8 @@ public class DBConfig {
     public static final String SUMMARY = "summary";
     public static final String AVATAR_LOCAL_PATH = "avatarLocalPath";
 
-    public static final String ATTENTIONCOUNT = "attentionCount";//关注总数
+    public static final String ATTENTIONCOUNT = "attentionCount";//关注圈子总数
+    public static final String ATTENTIONUSERCOUNT = "attentionUserCount";//关注用户总数
     public static final String FANSCOUNT = "fansCount";//粉丝总数
     public static final String VISITORCOUNT = "visitorCount";//访客总数
 }

@@ -62,7 +62,7 @@ public class AttentionRemoteDataSource implements AttentionDataSource {
         apiFactory.initRetrofit();
         OperationApi operationApi = apiFactory.createApi(OperationApi.class);
         Call<ApiResponse<OperationActionEntity>> call;
-        call = operationApi.payAttention(Authorization, Config.ACTION_SUBSCRIBE, user_id, target_id);
+        call = operationApi.payAttention(Authorization, Config.ACTION_PAYATTENTION, user_id, target_id);
         Type type = new TypeToken<ApiResponse<OperationActionEntity>>() {
         }.getType();
         new ApiEngine<ApiResponse<OperationActionEntity>>(apiCallback, call, type);

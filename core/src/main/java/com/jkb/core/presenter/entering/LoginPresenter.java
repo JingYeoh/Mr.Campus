@@ -367,6 +367,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         users.setBackground(bean.getBackground());
         users.setUpdated_at(StringUtils.getSystemCurrentTime());
         users.setAttentionCount(bean.getAttentionCount());
+        users.setAttentionUserCount(bean.getAttentionUserCount());
         users.setFansCount(bean.getFansCount());
         users.setVisitorCount(bean.getVisitorCount());
         LoginEntity.UserInfoBean.SchoolInfoBean schoolInfoBean = bean.getSchoolInfo();

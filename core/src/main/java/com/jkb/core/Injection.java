@@ -34,6 +34,9 @@ import com.jkb.model.dataSource.personCenter.remote.PersonCenterRemoteDataSource
 import com.jkb.model.dataSource.usersList.attention.AttentionDataResponsitory;
 import com.jkb.model.dataSource.usersList.attention.local.AttentionLocalDataSource;
 import com.jkb.model.dataSource.usersList.attention.remote.AttentionRemoteDataSource;
+import com.jkb.model.dataSource.usersList.fans.FansDataResponsitory;
+import com.jkb.model.dataSource.usersList.fans.local.FansDataLocalSource;
+import com.jkb.model.dataSource.usersList.fans.remote.FansDataRemoteSource;
 import com.jkb.model.dataSource.usersList.visitor.VisitorDataResponsitory;
 import com.jkb.model.dataSource.usersList.visitor.local.VisitorLocalDataSource;
 import com.jkb.model.dataSource.usersList.visitor.remote.VisitorRemoteDataSource;
@@ -178,6 +181,21 @@ public class Injection {
         VisitorDataResponsitory responsitory = VisitorDataResponsitory.getInstance(
                 VisitorLocalDataSource.getInstance(applicationContext),
                 VisitorRemoteDataSource.getInstance()
+        );
+        return responsitory;
+    }
+
+    /**
+     * FansDataResponsitory
+     *
+     * @param applicationContext 上下文
+     * @return FansDataResponsitory
+     */
+    public static FansDataResponsitory provideFansDataResponsitory(
+            @NonNull Context applicationContext) {
+        FansDataResponsitory responsitory = FansDataResponsitory.getInstance(
+                FansDataLocalSource.getInstance(applicationContext),
+                FansDataRemoteSource.getInstance()
         );
         return responsitory;
     }

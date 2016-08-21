@@ -293,6 +293,7 @@ public class MenuPresenter implements MenuContract.Presenter {
         users.setBackground(bean.getBackground());
         users.setUpdated_at(StringUtils.getSystemCurrentTime());
         users.setAttentionCount(bean.getAttentionCount());
+        users.setAttentionUserCount(bean.getAttentionUserCount());
         users.setFansCount(bean.getFansCount());
         users.setVisitorCount(bean.getVisitorCount());
         LoginEntity.UserInfoBean.SchoolInfoBean schoolInfoBean = bean.getSchoolInfo();
@@ -316,20 +317,5 @@ public class MenuPresenter implements MenuContract.Presenter {
     public void start() {
 //        showFragment();
         ReqLogin();
-    }
-
-    /**
-     * 展示视图
-     */
-    private void showFragment() {
-        if (currentView.equals(SHOW_VIEW.HOMEPAGE)) {
-            menuView.showIndex();
-        } else if (currentView.equals(SHOW_VIEW.FEATURE)) {
-            menuView.showSpecialModel();
-        } else if (currentView.equals(SHOW_VIEW.SETTING)) {
-            menuView.showSetting();
-        } else if (currentView.equals(SHOW_VIEW.TOOLS)) {
-            menuView.showTools();
-        }
     }
 }

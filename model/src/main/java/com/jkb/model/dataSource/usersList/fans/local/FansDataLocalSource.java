@@ -1,4 +1,4 @@
-package com.jkb.model.dataSource.usersList.visitor.local;
+package com.jkb.model.dataSource.usersList.fans.local;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,35 +7,35 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.entity.operation.OperationUserEntity;
-import com.jkb.api.entity.user.UserActionUserEntity;
-import com.jkb.api.entity.user.UserActionVisitorEntity;
-import com.jkb.model.dataSource.usersList.visitor.VisitorDataSource;
+import com.jkb.model.dataSource.usersList.fans.FansDataSource;
 
 /**
- * 获取访客的本地数据仓库
- * Created by JustKiddingBaby on 2016/8/19.
+ * 获取粉丝列表的本地数据仓库来源类
+ * Created by JustKiddingBaby on 2016/8/21.
  */
 
-public class VisitorLocalDataSource implements VisitorDataSource {
+public class FansDataLocalSource implements FansDataSource {
 
     private Context applicationContext;
-    private static VisitorLocalDataSource INSTANCE;
 
-    public VisitorLocalDataSource(Context applicationContext) {
+    private FansDataLocalSource(@NonNull Context applicationContext) {
         this.applicationContext = applicationContext;
     }
 
-    public static VisitorLocalDataSource getInstance(Context applicationContext) {
+    private static FansDataLocalSource INSTANCE = null;
+
+    public static FansDataLocalSource getInstance(@NonNull Context applicationContext) {
         if (INSTANCE == null) {
-            INSTANCE = new VisitorLocalDataSource(applicationContext);
+            INSTANCE = new FansDataLocalSource(applicationContext);
         }
         return INSTANCE;
     }
 
 
     @Override
-    public void visit(
-            @NonNull String Authorization, @NonNull int page, @NonNull int target_id,
+    public void fans(
+            @NonNull String Authorization,
+            @NonNull int page, @NonNull int target_id,
             @NonNull ApiCallback<ApiResponse<OperationUserEntity>> apiCallback) {
 
     }

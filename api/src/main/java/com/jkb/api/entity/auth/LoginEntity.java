@@ -87,6 +87,7 @@ public class LoginEntity {
         private String created_at;
         private String email;
         private int attentionCount;
+        private int attentionUserCount;
         private int fansCount;
         private int visitorCount;
         private String phone;
@@ -201,6 +202,14 @@ public class LoginEntity {
 
         public void setAttentionCount(int attentionCount) {
             this.attentionCount = attentionCount;
+        }
+
+        public int getAttentionUserCount() {
+            return attentionUserCount;
+        }
+
+        public void setAttentionUserCount(int attentionUserCount) {
+            this.attentionUserCount = attentionUserCount;
         }
 
         public int getFansCount() {

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.operation.OperationActionEntity;
+import com.jkb.api.entity.operation.OperationUserEntity;
 import com.jkb.api.entity.user.UserActionUserEntity;
 import com.jkb.api.entity.user.UserActionVisitorEntity;
 
@@ -18,11 +19,12 @@ public interface VisitorDataSource {
     /**
      * 获取访客用户
      *
-     * @param page   请求页数
-     * @param userId 用户id
+     * @param Authorization 包含token的头部
+     * @param page          请求页数
+     * @param target_id     用户id
      */
-    void visit(@NonNull int page, @NonNull int userId,
-               @NonNull ApiCallback<ApiResponse<UserActionVisitorEntity>> apiCallback);
+    void visit(@NonNull String Authorization, @NonNull int page, @NonNull int target_id,
+               @NonNull ApiCallback<ApiResponse<OperationUserEntity>> apiCallback);
 
     /**
      * 关注或者取消关注用户接口

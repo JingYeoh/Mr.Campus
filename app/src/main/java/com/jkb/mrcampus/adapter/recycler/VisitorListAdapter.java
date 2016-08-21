@@ -29,7 +29,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by JustKiddingBaby on 2016/8/17.
  */
 
-public class VisitorListAdapter extends RecyclerView.Adapter<VisitorListAdapter.ViewHolder> implements View.OnClickListener {
+public class VisitorListAdapter extends RecyclerView.Adapter<VisitorListAdapter.ViewHolder>
+        implements View.OnClickListener {
 
     private Context context;
     private int colorWhite;

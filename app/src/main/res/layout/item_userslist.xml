@@ -46,6 +46,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
+                    android:singleLine="true"
                     android:text="闹气孩子"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -56,6 +57,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
+                    android:singleLine="true"
                     android:text="闹气孩子。"
                     android:textColor="@color/B_black_70"
                     android:textSize="10sp" />

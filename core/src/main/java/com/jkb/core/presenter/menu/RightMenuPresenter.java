@@ -34,9 +34,13 @@ public class RightMenuPresenter implements RightMenuContract.Presenter {
             return;
         }
         if (view.isActive()) {
-            view.setAttentionCount(users.getAttentionCount());
-            view.setFansCount(users.getFansCount());
-            view.setVisitorCount(users.getVisitorCount());
+            int attentionUserCount = (users.getAttentionUserCount() == null ? 0 :
+                    users.getAttentionUserCount());
+            int fansCount = (users.getFansCount() == null ? 0 : users.getFansCount());
+            int visitorCount = (users.getVisitorCount() == null ? 0 : users.getVisitorCount());
+            view.setAttentionCount(attentionUserCount);
+            view.setFansCount(fansCount);
+            view.setVisitorCount(visitorCount);
         }
     }
 

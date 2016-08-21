@@ -104,7 +104,8 @@ public class MrCampusDbGenerator {
         user.addStringProperty(DBConfig.BREF_INTRODUCTION);//简介
         user.addStringProperty(DBConfig.BACKGROUND);//背景
         user.addIntProperty(DBConfig.SCHOOL_ID);//学校id
-        user.addIntProperty(DBConfig.ATTENTIONCOUNT);//关注总数目
+        user.addIntProperty(DBConfig.ATTENTIONCOUNT);//关注圈子总数目
+        user.addIntProperty(DBConfig.ATTENTIONUSERCOUNT);//关注用户总数目
         user.addIntProperty(DBConfig.FANSCOUNT);//粉丝总数
         user.addIntProperty(DBConfig.VISITORCOUNT);//访客总数
         user.addDateProperty(DBConfig.UPDATED_AT);//更新时间

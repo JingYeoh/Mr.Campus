@@ -1,6 +1,5 @@
-package com.jkb.model.dataSource.usersList.visitor.remote;
+package com.jkb.model.dataSource.usersList.fans.remote;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.google.gson.reflect.TypeToken;
@@ -11,42 +10,37 @@ import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.entity.operation.OperationUserEntity;
-import com.jkb.api.entity.user.UserActionUserEntity;
-import com.jkb.api.entity.user.UserActionVisitorEntity;
 import com.jkb.api.net.operation.OperationApi;
 import com.jkb.api.net.operation.OptionUserApi;
-import com.jkb.api.net.user.UserActionApi;
-import com.jkb.model.dataSource.usersList.visitor.VisitorDataSource;
+import com.jkb.model.dataSource.usersList.fans.FansDataSource;
 
 import java.lang.reflect.Type;
 
 import retrofit2.Call;
 
 /**
- * 获取访客的本地数据仓库
- * Created by JustKiddingBaby on 2016/8/19.
+ * 获取粉丝列表的远程数据仓库来源类
+ * Created by JustKiddingBaby on 2016/8/21.
  */
 
-public class VisitorRemoteDataSource implements VisitorDataSource {
+public class FansDataRemoteSource implements FansDataSource {
 
-    private Context applicationContext;
-    private static VisitorRemoteDataSource INSTANCE;
-
-    public VisitorRemoteDataSource() {
+    private FansDataRemoteSource() {
     }
 
+    private static FansDataRemoteSource INSTANCE = null;
 
-    public static VisitorRemoteDataSource getInstance() {
+    public static FansDataRemoteSource getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new VisitorRemoteDataSource();
+            INSTANCE = new FansDataRemoteSource();
         }
         return INSTANCE;
     }
 
-
     @Override
-    public void visit(
-            @NonNull String Authorization, @NonNull int page, @NonNull int target_id,
+    public void fans(
+            @NonNull String Authorization, @NonNull int page,
+            @NonNull int target_id,
             @NonNull ApiCallback<ApiResponse<OperationUserEntity>> apiCallback) {
         //请求网络数据
         ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
@@ -54,7 +48,8 @@ public class VisitorRemoteDataSource implements VisitorDataSource {
         apiFactory.initRetrofit();
         OptionUserApi optionUserApi = apiFactory.createApi(OptionUserApi.class);
         Call<ApiResponse<OperationUserEntity>> call;
-        call = optionUserApi.visit(Authorization, Config.ACTION_VISIT, target_id, page);
+        call = optionUserApi.payAttention(
+                Authorization, Config.ACTION_PAYATTENTION, target_id, page);
         Type type = new TypeToken<ApiResponse<OperationUserEntity>>() {
         }.getType();
         new ApiEngine<ApiResponse<OperationUserEntity>>(apiCallback, call, type);
@@ -70,7 +65,8 @@ public class VisitorRemoteDataSource implements VisitorDataSource {
         apiFactory.initRetrofit();
         OperationApi operationApi = apiFactory.createApi(OperationApi.class);
         Call<ApiResponse<OperationActionEntity>> call;
-        call = operationApi.payAttention(Authorization, Config.ACTION_PAYATTENTION, user_id, target_id);
+        call = operationApi.payAttention(
+                Authorization, Config.ACTION_PAYATTENTION, user_id, target_id);
         Type type = new TypeToken<ApiResponse<OperationActionEntity>>() {
         }.getType();
         new ApiEngine<ApiResponse<OperationActionEntity>>(apiCallback, call, type);

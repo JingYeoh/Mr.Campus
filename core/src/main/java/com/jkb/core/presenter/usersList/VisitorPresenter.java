@@ -7,8 +7,7 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.operation.OperationActionEntity;
-import com.jkb.api.entity.user.UserActionUserEntity;
-import com.jkb.api.entity.user.UserActionVisitorEntity;
+import com.jkb.api.entity.operation.OperationUserEntity;
 import com.jkb.core.contract.usersList.VisitorContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
@@ -21,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jkb.mrcampus.db.entity.UserAuths;
+import jkb.mrcampus.db.entity.Users;
 import retrofit2.Response;
 
 /**
@@ -42,7 +42,7 @@ public class VisitorPresenter implements VisitorContract.Presenter {
     private static final int ACTION_LOADMORE = 1;
     private boolean isLoading = false;//正在加载
 
-    private List<UserActionVisitorEntity.VisitorBean.DataBean> users;//用户数据
+    private List<OperationUserEntity.DataBean> users;//用户数据
     private List<UserData> userDatas;//转换后要传递的用户数据
 
 
@@ -74,14 +74,14 @@ public class VisitorPresenter implements VisitorContract.Presenter {
             return;
         }
         //请求关注接口
-        UserActionVisitorEntity.VisitorBean.DataBean user = users.get(position);
+        OperationUserEntity.DataBean user = users.get(position);
         payAttentionOrCancle(user.getId());
     }
 
     @Override
     public void onHeadImgClicked(int position) {
         //得到用户id
-        UserActionVisitorEntity.VisitorBean.DataBean user = users.get(position);
+        OperationUserEntity.DataBean user = users.get(position);
         int user_id = user.getId();
         Log.d(TAG, "user_id=" + user_id);
         view.showPersonCenter(user_id);
@@ -95,7 +95,12 @@ public class VisitorPresenter implements VisitorContract.Presenter {
     @Override
     public void getVisitorsUsersListData() {
         isLoading = true;
-        responsitory.visit(
+        UserAuths auths = getUserAuths();
+        if (auths == null) {
+            return;
+        }
+        String Authorization = Config.HEADER_BEARER + auths.getToken();
+        responsitory.visit(Authorization,
                 pageControl.getCurrent_page(),
                 user_id, apiCallback);
     }
@@ -178,10 +183,10 @@ public class VisitorPresenter implements VisitorContract.Presenter {
     /**
      * 下拉刷新回调方法
      */
-    private ApiCallback<ApiResponse<UserActionVisitorEntity>> apiCallback = new
-            ApiCallback<ApiResponse<UserActionVisitorEntity>>() {
+    private ApiCallback<ApiResponse<OperationUserEntity>> apiCallback = new
+            ApiCallback<ApiResponse<OperationUserEntity>>() {
                 @Override
-                public void onSuccess(Response<ApiResponse<UserActionVisitorEntity>> response) {
+                public void onSuccess(Response<ApiResponse<OperationUserEntity>> response) {
                     isLoading = false;
                     if (view.isActive()) {
                         view.dismissRefresh$Loaded();
@@ -190,8 +195,8 @@ public class VisitorPresenter implements VisitorContract.Presenter {
                 }
 
                 @Override
-                public void onError(Response<ApiResponse<UserActionVisitorEntity>> response,
-                                    String error, ApiResponse<UserActionVisitorEntity> apiResponse) {
+                public void onError(Response<ApiResponse<OperationUserEntity>> response,
+                                    String error, ApiResponse<OperationUserEntity> apiResponse) {
                     isLoading = false;
                     if (view.isActive()) {
                         view.dismissRefresh$Loaded();
@@ -214,27 +219,23 @@ public class VisitorPresenter implements VisitorContract.Presenter {
     /**
      * 解析数据
      */
-    private void handleUserActionEntity(ApiResponse<UserActionVisitorEntity> body) {
-        UserActionVisitorEntity entity = body.getMsg();
+    private void handleUserActionEntity(ApiResponse<OperationUserEntity> body) {
+        OperationUserEntity entity = body.getMsg();
         if (entity == null) {
             return;
         }
-        UserActionVisitorEntity.VisitorBean userBean = entity.getVisitor();
-        if (userBean == null) {
-            return;
-        }
-        pageControl.setTotal(userBean.getTotal());
-        pageControl.setPer_page(userBean.getPer_page());
-        pageControl.setCurrent_page(userBean.getCurrent_page());
-        pageControl.setLast_page(userBean.getLast_page());
-        pageControl.setNext_page_url(userBean.getNext_page_url());
-        pageControl.setPrev_page_url(userBean.getPrev_page_url());
-        pageControl.setFrom(userBean.getFrom());
-        pageControl.setTo(userBean.getTo());
+        pageControl.setTotal(entity.getTotal());
+        pageControl.setPer_page(entity.getPer_page());
+        pageControl.setCurrent_page(entity.getCurrent_page());
+        pageControl.setLast_page(entity.getLast_page());
+        pageControl.setNext_page_url(entity.getNext_page_url());
+        pageControl.setPrev_page_url(entity.getPrev_page_url());
+        pageControl.setFrom(entity.getFrom());
+        pageControl.setTo(entity.getTo());
 
         Log.d(TAG, pageControl.toString());
         //处理数据
-        handleUserData(userBean);
+        handleUserData(entity);
         //更新数据
         view.updataViewData(getUsersData());
     }
@@ -242,7 +243,7 @@ public class VisitorPresenter implements VisitorContract.Presenter {
     /**
      * 处理用户数据
      */
-    private void handleUserData(UserActionVisitorEntity.VisitorBean userBean) {
+    private void handleUserData(OperationUserEntity userBean) {
         //判断操作动作
         switch (action) {
             case ACTION_REFRESH://刷新
@@ -252,7 +253,7 @@ public class VisitorPresenter implements VisitorContract.Presenter {
                 break;
         }
         //更新数据进去
-        List<UserActionVisitorEntity.VisitorBean.DataBean> dataBeen = userBean.getData();
+        List<OperationUserEntity.DataBean> dataBeen = userBean.getData();
         if (dataBeen == null) {
             return;
         }
@@ -268,7 +269,7 @@ public class VisitorPresenter implements VisitorContract.Presenter {
         userDatas.clear();
         for (int i = 0; i < users.size(); i++) {
             UserData data = new UserData();
-            UserActionVisitorEntity.VisitorBean.DataBean bean = users.get(i);
+            OperationUserEntity.DataBean bean = users.get(i);
             //是否被关注
             data.setAttentioned(true);
             data.setAvatar(bean.getAvatar());
@@ -279,5 +280,31 @@ public class VisitorPresenter implements VisitorContract.Presenter {
             userDatas.add(data);
         }
         return userDatas;
+    }
+
+    /**
+     * 得到用户数据
+     */
+    private Users getUsers() {
+        UserInfoSingleton userInfo = UserInfoSingleton.getInstance();
+        Users users = userInfo.getUsers();
+        if (users == null) {
+            LoginContext.getInstance().setUserState(new LogoutState());
+            view.showReqResult("登录过期，请重新登录~");
+        }
+        return users;
+    }
+
+    /**
+     * 得到用户Auth数据
+     */
+    private UserAuths getUserAuths() {
+        UserInfoSingleton userInfo = UserInfoSingleton.getInstance();
+        UserAuths auths = userInfo.getUserAuths();
+        if (auths == null) {
+            LoginContext.getInstance().setUserState(new LogoutState());
+            view.showReqResult("登录过期，请重新登录~");
+        }
+        return auths;
     }
 }

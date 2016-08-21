@@ -87,6 +87,7 @@ public class RegisterEntity {
         private String created_at;
         private String email;
         private int attentionCount;
+        private int attentionUserCount;
         private int fansCount;
         private int visitorCount;
         private String phone;
@@ -221,6 +222,14 @@ public class RegisterEntity {
 
         public String getPhone() {
             return phone;
+        }
+
+        public int getAttentionUserCount() {
+            return attentionUserCount;
+        }
+
+        public void setAttentionUserCount(int attentionUserCount) {
+            this.attentionUserCount = attentionUserCount;
         }
 
         public void setPhone(String phone) {

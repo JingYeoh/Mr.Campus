@@ -34,7 +34,7 @@ public interface OperationApi {
             @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
             @Part(Config.KEY_ACTION) String action,
             @Part(Config.KEY_USER_ID) int user_id,
-            @Part(Config.KEY_TARHET_ID) int target_id);
+            @Part(Config.KEY_TARGET_ID) int target_id);
 
     /**
      * 设为常用圈子/取消设为常用圈子(action=inCommonUse)
@@ -53,7 +53,7 @@ public interface OperationApi {
             @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
             @Part(Config.KEY_ACTION) String action,
             @Part(Config.KEY_USER_ID) int user_id,
-            @Part(Config.KEY_TARHET_ID) int target_id);
+            @Part(Config.KEY_TARGET_ID) int target_id);
 
     /**
      * 关注/取消关注用户(action=payAttention)
@@ -72,7 +72,7 @@ public interface OperationApi {
             @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
             @Part(Config.KEY_ACTION) String action,
             @Part(Config.KEY_USER_ID) int user_id,
-            @Part(Config.KEY_TARHET_ID) int target_id);
+            @Part(Config.KEY_TARGET_ID) int target_id);
 
     /**
      * 点赞/取消点赞评论（action=like）
@@ -91,7 +91,7 @@ public interface OperationApi {
             @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
             @Part(Config.KEY_ACTION) String action,
             @Part(Config.KEY_USER_ID) int user_id,
-            @Part(Config.KEY_TARHET_ID) int target_id);
+            @Part(Config.KEY_TARGET_ID) int target_id);
 
     /**
      * 记录访客（action=visit）
@@ -110,5 +110,5 @@ public interface OperationApi {
             @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
             @Part(Config.KEY_ACTION) String action,
             @Part(Config.KEY_USER_ID) int user_id,
-            @Part(Config.KEY_TARHET_ID) int target_id);
+            @Part(Config.KEY_TARGET_ID) int target_id);
 }

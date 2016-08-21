@@ -59,7 +59,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
         //设置关注栏的数据
         view.setFansNum(users.getFansCount());
         view.setVistiorsNum(users.getVisitorCount());
-        view.setWatchedNum(users.getAttentionCount());
+        view.setWatchedNum(users.getAttentionUserCount());
     }
 
     @Override
@@ -141,7 +141,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
         //设置关注栏的数据
         view.setFansNum(infoBean.getFansCount());
         view.setVistiorsNum(infoBean.getVisitorCount());
-        view.setWatchedNum(infoBean.getAttentionCount());
+        view.setWatchedNum(infoBean.getAttentionUserCount());
     }
 
     /**

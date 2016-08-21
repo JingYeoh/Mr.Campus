@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.jkb.core.Injection;
 import com.jkb.core.presenter.usersList.AttentionPresenter;
+import com.jkb.core.presenter.usersList.FansPresenter;
 import com.jkb.core.presenter.usersList.VisitorPresenter;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
@@ -32,6 +33,7 @@ public class UsersListActivity extends BaseActivity {
 
     //粉丝
     private FansFragment fansFragment;
+    private FansPresenter fansPresenter;
 
     //访客
     private VisitorFragment visitorFragment;
@@ -115,6 +117,8 @@ public class UsersListActivity extends BaseActivity {
                     Injection.provideAttentionDataResponsitory(getApplicationContext()));
         } else if (ClassUtils.isNameEquals(fragmentTAG, FansFragment.class)) {
             fansFragment = (FansFragment) fm.findFragmentByTag(fragmentTAG);
+            fansPresenter = new FansPresenter(fansFragment,
+                    Injection.provideFansDataResponsitory(getApplicationContext()));
         } else if (ClassUtils.isNameEquals(fragmentTAG, VisitorFragment.class)) {
             visitorFragment = (VisitorFragment) fm.findFragmentByTag(fragmentTAG);
             visitorPresenter = new VisitorPresenter(visitorFragment,
@@ -175,8 +179,12 @@ public class UsersListActivity extends BaseActivity {
      */
     private void initFans() {
         if (fansFragment == null) {
-            fansFragment = FansFragment.newInstance();
+            fansFragment = FansFragment.newInstance(user_id);
             ActivityUtils.addFragmentToActivity(fm, fansFragment, R.id.userListFrame);
+        }
+        if (fansPresenter == null) {
+            fansPresenter = new FansPresenter(fansFragment,
+                    Injection.provideFansDataResponsitory(getApplicationContext()));
         }
     }
 

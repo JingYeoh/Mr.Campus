@@ -9,6 +9,7 @@ import java.util.List;
 
 public class UserInfoEntity {
 
+
     /**
      * id : 1
      * UID : 1000001
@@ -18,12 +19,13 @@ public class UserInfoEntity {
      * name :
      * bref_introduction :
      * background :
-     * longitude : 123.6
+     * longitude : 123.5
      * latitude : 123.5
      * created_at : 2016-07-27 16:40:27
      * email :
      * phone :
      * attentionCount : 1
+     * attentionUserCount : 20
      * fansCount : 0
      * visitorCount : 1
      * schoolInfo : {"id":1,"sname":"金陵科技学院","badge":"","summary":""}
@@ -31,7 +33,7 @@ public class UserInfoEntity {
 
     private UserInfoBean userInfo;
     /**
-     * userInfo : {"id":1,"UID":"1000001","nickname":"231","avatar":"","sex":"","name":"","bref_introduction":"","background":"","longitude":123.6,"latitude":123.5,"created_at":"2016-07-27 16:40:27","email":"","phone":"","attentionCount":1,"fansCount":0,"visitorCount":1,"schoolInfo":{"id":1,"sname":"金陵科技学院","badge":"","summary":""}}
+     * userInfo : {"id":1,"UID":"1000001","nickname":"231","avatar":"","sex":"","name":"","bref_introduction":"","background":"","longitude":123.5,"latitude":123.5,"created_at":"2016-07-27 16:40:27","email":"","phone":"","attentionCount":1,"attentionUserCount":20,"fansCount":0,"visitorCount":1,"schoolInfo":{"id":1,"sname":"金陵科技学院","badge":"","summary":""}}
      * user : ["用户不存在."]
      */
 
@@ -68,6 +70,7 @@ public class UserInfoEntity {
         private String email;
         private String phone;
         private int attentionCount;
+        private int attentionUserCount;
         private int fansCount;
         private int visitorCount;
         /**
@@ -189,6 +192,14 @@ public class UserInfoEntity {
 
         public void setAttentionCount(int attentionCount) {
             this.attentionCount = attentionCount;
+        }
+
+        public int getAttentionUserCount() {
+            return attentionUserCount;
+        }
+
+        public void setAttentionUserCount(int attentionUserCount) {
+            this.attentionUserCount = attentionUserCount;
         }
 
         public int getFansCount() {
