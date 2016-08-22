@@ -138,6 +138,8 @@ public class FansListAdapter extends RecyclerView.Adapter<FansListAdapter.ViewHo
         if (!userData.isAttentioned()) {
             holder.tvAttention.setText("关注");
         } else {
+            holder.tvAttention.setBackgroundResource(
+                    R.drawable.bg_edittext_mainthemegravy_white_round_content);
             holder.tvAttention.setText("已关注");
         }
     }

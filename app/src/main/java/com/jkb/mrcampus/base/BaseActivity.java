@@ -226,7 +226,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             gifLoadingView = new GifLoadingView2();
             gifLoadingView.setImageResource(R.drawable.num31);
         }
-        if (gifLoadingView.isAdded()) {
+        if (!gifLoadingView.isAdded()) {
             gifLoadingView.show(getFragmentManager(),
                     ClassUtils.getClassName(GifLoadingView2.class));
         }
@@ -250,7 +250,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (choosePictureFragment == null) {
             choosePictureFragment = new ChoosePictureFragment();
         }
-        if (choosePictureFragment.isAdded()) {
+        if (!choosePictureFragment.isAdded()) {
             choosePictureFragment.show(getFragmentManager(),
                     ClassUtils.getClassName(ChoosePictureFragment.class));
         }

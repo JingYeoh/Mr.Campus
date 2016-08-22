@@ -65,13 +65,11 @@
 
             <TextView
                 android:id="@+id/iul_tv_attentionStatus"
+                style="@style/TextView_UnPayAttentionedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/bg_edittext_maintheme_white_round"
-                android:text="关注"
-                android:textColor="@color/main_theme"
-                android:textSize="15sp" />
+                android:text="关注" />
         </LinearLayout>
     </LinearLayout>
 

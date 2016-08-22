@@ -7,12 +7,14 @@
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/ipcc_iv_picture"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:scaleType="fitXY"
         android:src="@drawable/aliwx_head_bg_0" />
 
     <TextView
+        android:id="@+id/ipcc_tv_circleName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
@@ -26,6 +28,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/ipcc_tv_circleType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="其他"
@@ -40,6 +43,7 @@
             android:textSize="10sp" />
 
         <TextView
+            android:id="@+id/ipcc_tv_dynamicsCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1"
@@ -54,6 +58,7 @@
             android:textSize="10sp" />
 
         <TextView
+            android:id="@+id/ipcc_tv_operationCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"

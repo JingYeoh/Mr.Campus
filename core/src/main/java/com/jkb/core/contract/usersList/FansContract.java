@@ -94,6 +94,11 @@ public interface FansContract {
         void getFansUsersListData();
 
         /**
+         * 绑定数据到视图中
+         */
+        void bindDataToView();
+
+        /**
          * 关注/取消关注的请求
          *
          * @param target_id 目标id

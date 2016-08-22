@@ -4,8 +4,11 @@ import android.graphics.Bitmap;
 
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
+import com.jkb.core.presenter.personCenter.data.CircleData;
 import com.jkb.model.dataSource.first.firstlogic.FirstDataSource;
 import com.jkb.model.intfc.BitmapLoadedCallback;
+
+import java.util.List;
 
 /**
  * 个人中心的页面控制器
@@ -40,6 +43,11 @@ public interface PersonCenterContract {
         void setHeadImg(Bitmap headImg);
 
         /**
+         * 设置背景图片
+         */
+        void setBackGround(Bitmap bitmap);
+
+        /**
          * 设置昵称
          */
         void setUserName(String userName);
@@ -70,6 +78,16 @@ public interface PersonCenterContract {
         void setVistiorsNum(int visitors);
 
         /**
+         * 显示刷新时候的视图
+         */
+        void showRefreshingView();
+
+        /**
+         * 隐藏刷新时候的视图
+         */
+        void hideRefreshingView();
+
+        /**
          * 设置没有数据时候的圈子视图
          */
         void showCircleNonDataView();
@@ -79,7 +97,7 @@ public interface PersonCenterContract {
          *
          * @param data 数据
          */
-        void showCircleView(Object data);
+        void setCircleViewData(List<CircleData> data);
 
         /**
          * 显示个人设置页面
@@ -95,6 +113,21 @@ public interface PersonCenterContract {
          * 显示签名视图
          */
         void showSignView();
+
+        /**
+         * 显示被关注的视图
+         */
+        void showPayAttentionView();
+
+        /**
+         * 显示没有被关注的视图
+         */
+        void showUnPayAttentionView();
+
+        /**
+         * 关注或者取消关注
+         */
+        void payAttentionOrCancle();
 
         /**
          * 显示关注视图
@@ -129,22 +162,22 @@ public interface PersonCenterContract {
         /**
          * 显示文动态章视图
          */
-        void showArticleView();
+        void showDynamicArticleView();
 
         /**
          * 显示话题动态视图
          */
-        void showTopicView();
+        void showDynamicTopicView();
 
         /**
          * 显示普通动态视图
          */
-        void showNormalView();
+        void showDynamicNormalView();
 
         /**
          * 显示圈子动态视图
          */
-        void showCircleView();
+        void showDynamicCircleView();
 
         /**
          * 隐藏所有的视图显示
@@ -160,19 +193,7 @@ public interface PersonCenterContract {
     }
 
     interface Presenter extends BasePresenter {
-        /**
-         * 初始化用户数据
-         * 过期：被 getUserData()方法替代
-         */
-        @Deprecated
-        void initSelfUserData();
 
-        /**
-         * 初始化非用户自身数据
-         * 过期：被 getUserData()方法替代
-         */
-        @Deprecated
-        void initNonSelfUserData();
 
         /**
          * 获取用户数据
@@ -193,5 +214,20 @@ public interface PersonCenterContract {
          * 请求访客接口
          */
         void visit();
+
+        /**
+         * 判断是否被关注
+         */
+        void verifyIfPayAttention();
+
+        /**
+         * 关注或者取消关注
+         */
+        void payAttentionOrCancle();
+
+        /**
+         * 刷新数据时候调用
+         */
+        void onRefresh();
     }
 }

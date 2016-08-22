@@ -9,13 +9,11 @@ import com.jkb.api.config.Config;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.entity.operation.OperationUserEntity;
 import com.jkb.core.contract.usersList.FansContract;
-import com.jkb.core.contract.usersList.VisitorContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.core.presenter.usersList.data.UserData;
 import com.jkb.model.data.PageControlEntity;
 import com.jkb.model.dataSource.usersList.fans.FansDataResponsitory;
-import com.jkb.model.dataSource.usersList.visitor.VisitorDataResponsitory;
 import com.jkb.model.info.UserInfoSingleton;
 
 import java.util.ArrayList;
@@ -46,6 +44,7 @@ public class FansPresenter implements FansContract.Presenter {
 
     private List<OperationUserEntity.DataBean> users;//用户数据
     private List<UserData> userDatas;//转换后要传递的用户数据
+    private boolean isCached = false;//是否缓存
 
     public FansPresenter(@NonNull FansContract.View view,
                          @NonNull FansDataResponsitory responsitory) {
@@ -64,8 +63,20 @@ public class FansPresenter implements FansContract.Presenter {
     public void start() {
         //得到用户id
         getUser_id();
-        //请求数据
-        onRefresh();//刷新数据
+        //得到用户数据
+        getData();
+    }
+
+    /**
+     * 得到数据
+     */
+    private void getData() {
+        if (isCached) {//又缓存的数据
+            //设置数据
+            bindDataToView();
+        } else {//否则缓存过期
+            onRefresh();//刷新数据
+        }
     }
 
     @Override
@@ -104,6 +115,14 @@ public class FansPresenter implements FansContract.Presenter {
         responsitory.fans(Authorization,
                 pageControl.getCurrent_page(),
                 user_id, apiCallback);
+    }
+
+    @Override
+    public void bindDataToView() {
+        //更新数据
+        if (view.isActive()) {
+            view.updataViewData(getUsersData());
+        }
     }
 
     @Override
@@ -225,6 +244,10 @@ public class FansPresenter implements FansContract.Presenter {
         if (entity == null) {
             return;
         }
+
+        //设置为已缓存
+        isCached = true;
+
         pageControl.setTotal(entity.getTotal());
         pageControl.setPer_page(entity.getPer_page());
         pageControl.setCurrent_page(entity.getCurrent_page());
@@ -237,8 +260,8 @@ public class FansPresenter implements FansContract.Presenter {
         Log.d(TAG, pageControl.toString());
         //处理数据
         handleUserData(entity);
-        //更新数据
-        view.updataViewData(getUsersData());
+
+        bindDataToView();
     }
 
     /**

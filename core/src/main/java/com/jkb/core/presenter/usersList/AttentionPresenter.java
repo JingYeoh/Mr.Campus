@@ -42,7 +42,7 @@ public class AttentionPresenter implements AttentionContract.Presenter {
 
     private List<UserActionUserEntity.UserBean.DataBean> users;//用户数据
     private List<UserData> userDatas;//转换后要传递的用户数据
-
+    private boolean isCached = false;//是否缓存
 
     public AttentionPresenter(AttentionContract.View view, AttentionDataResponsitory responsitory) {
         this.view = view;
@@ -60,8 +60,17 @@ public class AttentionPresenter implements AttentionContract.Presenter {
     public void start() {
         //得到用户id
         getUser_id();
-        //请求数据
-        onRefresh();//刷新数据
+        //得到用户数据
+        getData();
+    }
+
+    private void getData() {
+        if (isCached) {//又缓存的数据
+            //设置数据
+            bindDataToView();
+        } else {//否则缓存过期
+            onRefresh();//刷新数据
+        }
     }
 
 
@@ -97,6 +106,16 @@ public class AttentionPresenter implements AttentionContract.Presenter {
         responsitory.payAttention(
                 pageControl.getCurrent_page(),
                 user_id, apiCallback);
+    }
+
+    @Override
+    public void bindDataToView() {
+        //绑定数据到视图中
+        if (!view.isActive()) {
+            return;
+        }
+        //设置数据
+        view.updataViewData(getUsersData());
     }
 
     @Override
@@ -222,6 +241,10 @@ public class AttentionPresenter implements AttentionContract.Presenter {
         if (userBean == null) {
             return;
         }
+
+        isCached = true;//设置为已缓存
+
+        //设置页码控制器
         pageControl.setTotal(userBean.getTotal());
         pageControl.setPer_page(userBean.getPer_page());
         pageControl.setCurrent_page(userBean.getCurrent_page());
@@ -234,8 +257,8 @@ public class AttentionPresenter implements AttentionContract.Presenter {
         Log.d(TAG, pageControl.toString());
         //处理数据
         handleUserData(userBean);
-        //更新数据
-        view.updataViewData(getUsersData());
+        //绑定数据
+        bindDataToView();
     }
 
     /**
@@ -268,7 +291,6 @@ public class AttentionPresenter implements AttentionContract.Presenter {
         for (int i = 0; i < users.size(); i++) {
             UserData data = new UserData();
             UserActionUserEntity.UserBean.DataBean bean = users.get(i);
-            //是否被关注
             data.setAttentioned(true);
             data.setAvatar(bean.getAvatar());
             data.setBref_introduction(bean.getBref_introduction());

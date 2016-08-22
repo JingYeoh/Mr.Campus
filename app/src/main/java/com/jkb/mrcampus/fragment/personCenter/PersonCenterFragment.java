@@ -3,14 +3,16 @@ package com.jkb.mrcampus.fragment.personCenter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.baidu.mapapi.map.Text;
 import com.jkb.core.contract.personCenter.PersonCenterContract;
+import com.jkb.core.presenter.personCenter.data.CircleData;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.adapter.recycler.PersonCenterCircleAdapter;
@@ -20,6 +22,8 @@ import com.jkb.mrcampus.fragment.usersList.FansFragment;
 import com.jkb.mrcampus.fragment.usersList.VisitorFragment;
 import com.jkb.mrcampus.utils.ClassUtils;
 
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -28,7 +32,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class PersonCenterFragment extends BaseFragment implements PersonCenterContract.View,
-        View.OnClickListener {
+        View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
 
     private static PersonCenterFragment INSTANCE = null;
@@ -54,6 +58,7 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     //View层数据
     private CircleImageView ivHeadImg;
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout refreshLayout;
 
     //Data数据
     private PersonCenterCircleAdapter circleAdapter;
@@ -82,6 +87,7 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
         //标题栏
         rootView.findViewById(R.id.ts3_ib_left).setOnClickListener(this);
         rootView.findViewById(R.id.ts3_ib_right).setOnClickListener(this);
+        rootView.findViewById(R.id.ts3_tv_attention).setOnClickListener(this);
         //个人信息
         rootView.findViewById(R.id.fpc_tv_sign).setOnClickListener(this);
         rootView.findViewById(R.id.fpc_iv_headImg).setOnClickListener(this);
@@ -95,7 +101,8 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
         rootView.findViewById(R.id.fpc_ll_article).setOnClickListener(this);
         rootView.findViewById(R.id.fpc_ll_topic).setOnClickListener(this);
         rootView.findViewById(R.id.fpc_ll_normal).setOnClickListener(this);
-        rootView.findViewById(R.id.fpc_ll_circle).setOnClickListener(this);
+        //刷新控件监听器
+        refreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -107,13 +114,15 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
                 user_id = savedInstanceState.getInt(SAVED_USER_ID);//恢复数据
             }
         }
-        circleAdapter = new PersonCenterCircleAdapter(mActivity);
+        circleAdapter = new PersonCenterCircleAdapter(mActivity, null);
         //绑定数据
         recyclerView.setAdapter(circleAdapter);
     }
 
     @Override
     protected void initView() {
+        //下拉刷新控件
+        refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fpc_srl);
         ivHeadImg = (CircleImageView) rootView.findViewById(R.id.fpc_iv_headImg);
         //初始化圈子视图信息，设置为横向的ListView效果
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fpc_rv);
@@ -130,6 +139,9 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
                 break;
             case R.id.ts3_ib_right://设置
                 showPersonalSettingView();
+                break;
+            case R.id.ts3_tv_attention://关注按钮
+                payAttentionOrCancle();
                 break;
             case R.id.fpc_tv_sign://签名
                 showSignView();
@@ -156,16 +168,16 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
                 showAllDynamicView();
                 break;
             case R.id.fpc_ll_article://文章
-                showArticleView();
+                showDynamicArticleView();
                 break;
             case R.id.fpc_ll_topic://话题
-                showTopicView();
+                showDynamicTopicView();
                 break;
             case R.id.fpc_ll_normal://普通
-                showNormalView();
+                showDynamicNormalView();
                 break;
             case R.id.fpc_ll_circle://圈子
-                showCircleView();
+                showDynamicCircleView();
                 break;
         }
     }
@@ -183,13 +195,18 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void showNonSelfTitleStyle() {
-        rootView.findViewById(R.id.ts3_tv_attention).setVisibility(View.VISIBLE);
         rootView.findViewById(R.id.ts3_ib_right).setVisibility(View.GONE);
+        rootView.findViewById(R.id.ts3_tv_attention).setVisibility(View.GONE);
     }
 
     @Override
     public void setHeadImg(Bitmap headImg) {
         ivHeadImg.setImageBitmap(headImg);
+    }
+
+    @Override
+    public void setBackGround(Bitmap bitmap) {
+        ((ImageView) rootView.findViewById(R.id.fpc_iv_backGround)).setImageBitmap(bitmap);
     }
 
     @Override
@@ -226,16 +243,29 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     }
 
     @Override
+    public void showRefreshingView() {
+        refreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void hideRefreshingView() {
+        refreshLayout.setRefreshing(false);
+    }
+
+    @Override
     public void showCircleNonDataView() {
         rootView.findViewById(R.id.fpc_rv).setVisibility(View.GONE);
         rootView.findViewById(R.id.fpc_iv_nonCircleData).setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void showCircleView(Object data) {
+    public void setCircleViewData(List<CircleData> data) {
         rootView.findViewById(R.id.fpc_iv_nonCircleData).setVisibility(View.GONE);
         rootView.findViewById(R.id.fpc_rv).setVisibility(View.VISIBLE);
+        Log.d(TAG, "data---一共有----:" + data.size());
         //设置数据
+        circleAdapter.circleDatas = data;
+        circleAdapter.notifyDataSetChanged();
     }
 
 
@@ -253,6 +283,28 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     public void showSignView() {
         String sign = ((TextView) rootView.findViewById(R.id.fpc_tv_sign)).getText().toString();
         personCenterActivity.showTextFloatView(sign);
+    }
+
+    @Override
+    public void showPayAttentionView() {
+        TextView tvPayAttention = (TextView) rootView.findViewById(R.id.ts3_tv_attention);
+        tvPayAttention.setVisibility(View.VISIBLE);
+        tvPayAttention.setText("已关注");
+        tvPayAttention.setBackgroundResource(
+                R.drawable.bg_edittext_mainthemegravy_white_round_content);
+    }
+
+    @Override
+    public void showUnPayAttentionView() {
+        TextView tvPayAttention = (TextView) rootView.findViewById(R.id.ts3_tv_attention);
+        tvPayAttention.setVisibility(View.VISIBLE);
+        tvPayAttention.setText("关注");
+        tvPayAttention.setBackgroundResource(R.drawable.bg_edittext_maintheme_white_round_content);
+    }
+
+    @Override
+    public void payAttentionOrCancle() {
+        mPresenter.payAttentionOrCancle();
     }
 
     @Override
@@ -292,22 +344,22 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     }
 
     @Override
-    public void showArticleView() {
+    public void showDynamicArticleView() {
 
     }
 
     @Override
-    public void showTopicView() {
+    public void showDynamicTopicView() {
 
     }
 
     @Override
-    public void showNormalView() {
+    public void showDynamicNormalView() {
 
     }
 
     @Override
-    public void showCircleView() {
+    public void showDynamicCircleView() {
 
     }
 
@@ -350,5 +402,10 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVED_USER_ID, user_id);
+    }
+
+    @Override
+    public void onRefresh() {
+        mPresenter.onRefresh();
     }
 }

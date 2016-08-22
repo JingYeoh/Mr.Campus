@@ -19,12 +19,10 @@ public interface UserInfoApi {
     /**
      * 获取用户信息的接口
      *
-     * @param Authorization 头，包含token信息
-     * @param id            用户id
+     * @param id 用户id
      * @return Call
      */
     @GET(Config.URL_USER_INFO)
     Call<ApiResponse<UserInfoEntity>> getUserInfo(
-            @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
             @Path(Config.KEY_ID) int id);
 }

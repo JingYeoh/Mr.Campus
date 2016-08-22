@@ -27,7 +27,6 @@
         android:layout_weight="1"
         android:gravity="center|left"
         android:singleLine="true"
-        android:text="菌菌"
         android:textColor="@color/white" />
 
     <ImageButton
@@ -38,17 +37,11 @@
 
     <TextView
         android:id="@+id/ts3_tv_attention"
+        style="@style/TextView_UnPayAttentionedStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
-        android:background="@drawable/bg_edittext_maintheme_white_round_content"
-        android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="5dp"
         android:text="@string/attention"
-        android:textColor="@color/white"
-        android:textSize="13sp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </LinearLayout>

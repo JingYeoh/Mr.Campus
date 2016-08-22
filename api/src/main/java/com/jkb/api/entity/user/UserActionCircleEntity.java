@@ -148,6 +148,8 @@ public class UserActionCircleEntity {
             private String name;
             private String type;
             private String picture;
+            private int dynamics_count;
+            private int operation_count;
             private String introduction;
             private double longitude;
             private double latitude;
@@ -208,6 +210,22 @@ public class UserActionCircleEntity {
 
             public void setPicture(String picture) {
                 this.picture = picture;
+            }
+
+            public int getDynamics_count() {
+                return dynamics_count;
+            }
+
+            public void setDynamics_count(int dynamics_count) {
+                this.dynamics_count = dynamics_count;
+            }
+
+            public int getOperation_count() {
+                return operation_count;
+            }
+
+            public void setOperation_count(int operation_count) {
+                this.operation_count = operation_count;
             }
 
             public String getIntroduction() {

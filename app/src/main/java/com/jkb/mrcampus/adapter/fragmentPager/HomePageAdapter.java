@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.jkb.mrcampus.fragment.function.SettingFragment;
+import com.jkb.mrcampus.fragment.function.homePage.DynamicFragment;
+import com.jkb.mrcampus.fragment.function.homePage.HotFragment;
 
 /**
  * 首页HomePageFragment的适配器
@@ -20,11 +22,13 @@ public class HomePageAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-//        if (position == 1) {
-//            return MapFragment.newInstance();
-//        } else {
-//        }
-        return SettingFragment.newInstance();
+        if (position == 0) {
+            return HotFragment.newInstance();
+        } else if (position == 1) {
+            return DynamicFragment.newInstance();
+        } else {
+            return HotFragment.newInstance();
+        }
     }
 
     @Override

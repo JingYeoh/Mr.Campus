@@ -139,6 +139,8 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
         if (!userData.isAttentioned()) {
             holder.tvAttention.setText("关注");
         } else {
+            holder.tvAttention.setBackgroundResource(
+                    R.drawable.bg_edittext_mainthemegravy_white_round_content);
             holder.tvAttention.setText("已关注");
         }
     }

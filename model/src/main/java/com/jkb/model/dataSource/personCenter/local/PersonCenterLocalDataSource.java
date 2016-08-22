@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.operation.OperationActionEntity;
+import com.jkb.api.entity.operation.OperationVerifyPayAttentionEntity;
+import com.jkb.api.entity.user.UserActionCircleEntity;
 import com.jkb.api.entity.user.UserInfoEntity;
 import com.jkb.model.dataSource.personCenter.PersonCenterDataSource;
 import com.jkb.model.intfc.BitmapLoadedCallback;
@@ -33,7 +35,9 @@ public class PersonCenterLocalDataSource implements PersonCenterDataSource {
     }
 
     @Override
-    public void getUserInfo(@NonNull String authorization, @NonNull int user_id, @NonNull ApiCallback<ApiResponse<UserInfoEntity>> apiCallback) {
+    public void getUserInfo(
+            @NonNull int user_id,
+            @NonNull ApiCallback<ApiResponse<UserInfoEntity>> apiCallback) {
 
     }
 
@@ -43,7 +47,30 @@ public class PersonCenterLocalDataSource implements PersonCenterDataSource {
     }
 
     @Override
-    public void visit(@NonNull String authorization, @NonNull int user_id, @NonNull int target_id, @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
+    public void visit(
+            @NonNull String authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
+
+    }
+
+    @Override
+    public void subscribeCircle(
+            @NonNull int user_id, @NonNull int page,
+            @NonNull ApiCallback<ApiResponse<UserActionCircleEntity>> apiCallback) {
+
+    }
+
+    @Override
+    public void verifyIfPayAttention(
+            @NonNull int user_id, @NonNull int visitor_id,
+            @NonNull ApiCallback<ApiResponse<OperationVerifyPayAttentionEntity>> apiCallback) {
+
+    }
+
+    @Override
+    public void payAttentionOrCancle(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
 
     }
 }
