@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
     <!--标题栏样式-->
     <style name="titleStyle">
         <item name="android:layout_height">50dp</item>
@@ -49,5 +48,70 @@
         <!--解决左边一直有一块边距的问题 contentInsetStart = 0 -->
         <item name="contentInsetStart">0dp</item>
         <item name="contentInsetEnd">0dp</item>
+    </style>
+    <!--动态标题名称的样式-->
+    <style name="Dynamic_TitleName_style">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <!--动态时间显示的样式-->
+    <style name="Dynamic_Time_style">
+        <item name="android:textColor">@color/text_gravy_light</item>
+        <item name="android:textSize">9sp</item>
+    </style>
+    <!--动态头像显示的样式-->
+    <style name="Dynamic_HeadImg_style">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+    <!--动态图标显示的样式-->
+    <style name="Dynamic_Icon_style">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+    </style>
+    <!--动态图标字体显示的样式-->
+    <style name="Dynamic_IconText_style">
+        <item name="android:textColor">@color/text_gravy_light</item>
+        <item name="android:textSize">9sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!--动态内容显示的样式-->
+    <style name="Dynamic_ContentText_style">
+        <item name="android:textColor">@color/text_dynamic_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <!--已经关注的主体主题-->
+    <style name="TextView_UnPayAttentionedStyle">
+        <item name="android:background">@drawable/bg_edittext_maintheme_white_round_content</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+    <!--没有关注的主题-->
+    <style name="TextView_PayAttentionedStyle">
+        <item name="android:background">
+            @drawable/bg_edittext_mainthemegravy_white_round_content
+        </item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+    <!--个人中心提示字体-->
+    <style name="PersonSettingTextPromptStyle">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/line</item>
+    </style>
+    <!--个人中心显示字体-->
+    <style name="PersonSettingTextShowStyle">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 </resources>

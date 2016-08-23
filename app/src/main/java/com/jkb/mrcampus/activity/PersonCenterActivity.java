@@ -7,11 +7,13 @@ import android.util.Log;
 
 import com.jkb.core.Injection;
 import com.jkb.core.presenter.personCenter.PersonCenterPresenter;
+import com.jkb.core.presenter.personCenter.PersonSettingPresenter;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
 import com.jkb.mrcampus.fragment.personCenter.PersonCenterFragment;
+import com.jkb.mrcampus.fragment.personCenter.PersonSettingFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.helper.FragmentStack;
 import com.jkb.mrcampus.utils.ClassUtils;
@@ -26,6 +28,10 @@ public class PersonCenterActivity extends BaseActivity {
     //个人中心
     private PersonCenterFragment personCenterFragment;
     private PersonCenterPresenter personCenterPresenter;
+
+    //个人设置
+    private PersonSettingFragment personSettingFragment;
+    private PersonSettingPresenter personSettingPresenter;
 
     //保存入栈的Fragment顺序
     private FragmentStack fragmentStack;
@@ -56,6 +62,7 @@ public class PersonCenterActivity extends BaseActivity {
             Intent intent = getIntent();
             user_id = intent.getIntExtra(Config.INTENT_KEY_USER_ID, -1);
             showCurrentView = intent.getStringExtra(Config.INTENT_KEY_SHOW_PERSONALCENTER);
+            showDefaultView();
         } else {
             user_id = savedInstanceState.getInt(SAVED_USER_ID);
             showCurrentView = savedInstanceState.getString(SAVED_SHOW_VIEW);
@@ -64,6 +71,12 @@ public class PersonCenterActivity extends BaseActivity {
             fragmentStack.setFragmetStackNames(
                     savedInstanceState.getStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK));
         }
+    }
+
+    /**
+     * 显示默认的页面
+     */
+    private void showDefaultView() {
         //默认为个人中心页面
         if (StringUtils.isEmpty(showCurrentView)) {
             showCurrentView = ClassUtils.getClassName(PersonCenterFragment.class);
@@ -93,8 +106,11 @@ public class PersonCenterActivity extends BaseActivity {
             ActivityUtils.hideAllFragments(fm);
             //添加到回退栈中
             fragmentStack.addFragmentToStack(fragmentName);
+
             if (ClassUtils.isNameEquals(fragmentName, PersonCenterFragment.class)) {
                 showPersonCenter();
+            } else if (ClassUtils.isNameEquals(fragmentName, PersonSettingFragment.class)) {
+                showPersonSetting();
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -109,6 +125,9 @@ public class PersonCenterActivity extends BaseActivity {
             personCenterFragment = (PersonCenterFragment) fm.findFragmentByTag(fragmentTAG);
             personCenterPresenter = new PersonCenterPresenter(personCenterFragment,
                     Injection.providePersonCenterDataResponsitory(getApplicationContext()));
+        } else if (ClassUtils.isNameEquals(fragmentTAG, PersonSettingFragment.class)) {
+            personSettingFragment = (PersonSettingFragment) fm.findFragmentByTag(fragmentTAG);
+            personSettingPresenter = new PersonSettingPresenter(personSettingFragment);
         }
     }
 
@@ -118,6 +137,21 @@ public class PersonCenterActivity extends BaseActivity {
 
         if (ClassUtils.isNameEquals(fragmentTAG, PersonCenterFragment.class)) {
             initPersonCenter();
+        } else if (ClassUtils.isNameEquals(fragmentTAG, PersonSettingFragment.class)) {
+            initPersonSetting();
+        }
+    }
+
+    /**
+     * 初始化个人设置
+     */
+    private void initPersonSetting() {
+        if (personSettingFragment == null) {
+            personSettingFragment = PersonSettingFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(fm, personSettingFragment, R.id.personFrame);
+        }
+        if (personSettingPresenter == null) {
+            personSettingPresenter = new PersonSettingPresenter(personSettingFragment);
         }
     }
 
@@ -146,9 +180,19 @@ public class PersonCenterActivity extends BaseActivity {
     }
 
     /**
+     * 显示个人设置页面
+     */
+    private void showPersonSetting() {
+        Log.d(TAG, "showPersonSetting");
+        ActivityUtils.showFragment(fm, personSettingFragment);
+    }
+
+    /**
      * 返回到上级页面
      */
     public void backToLastView() {
+        int sum = fragmentStack.getFragmetStackNames().size();
+        Log.d(TAG, "当前保存的栈内数量：" + sum);
         //如果当前页面就是登录页面的时候
         if (ClassUtils.isNameEquals(fragmentStack.getCurrentFragmentName(), PersonCenterFragment.class)) {
             super.onBackPressed();
@@ -195,7 +239,8 @@ public class PersonCenterActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK, fragmentStack.getFragmetStackNames());
+        outState.putStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK,
+                fragmentStack.getFragmetStackNames());
         outState.putString(SAVED_SHOW_VIEW, showCurrentView);//存储当前页面
         outState.putInt(SAVED_USER_ID, user_id);//存储用户id
     }

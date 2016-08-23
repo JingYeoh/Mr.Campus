@@ -368,7 +368,8 @@ public class EnteringActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK, fragmentStack.getFragmetStackNames());
+        outState.putStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK,
+                fragmentStack.getFragmetStackNames());
         outState.putString("nextView", nextView);
     }
 

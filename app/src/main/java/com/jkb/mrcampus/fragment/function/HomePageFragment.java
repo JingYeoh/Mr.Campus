@@ -10,9 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.jkb.core.contract.function.homepage.HomePagecontract;
-import com.jkb.core.control.userstate.LoginContext;
-import com.jkb.core.presenter.function.homepage.HomePagePresenter;
+import com.jkb.core.contract.function.homepage.HomePageContract;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.adapter.fragmentPager.HomePageAdapter;
@@ -22,9 +20,10 @@ import com.jkb.mrcampus.base.BaseFragment;
  * 首页的页面视图
  * Created by JustKiddingBaby on 2016/7/25.
  */
-public class HomePageFragment extends BaseFragment implements HomePagecontract.View, View.OnClickListener {
+public class HomePageFragment extends BaseFragment implements
+        HomePageContract.View, View.OnClickListener {
 
-    private HomePagePresenter mPresenter;
+    private HomePageContract.Presenter mPresenter;
     private MainActivity mainActivity;
 
     //View层
@@ -38,8 +37,6 @@ public class HomePageFragment extends BaseFragment implements HomePagecontract.V
 
     /**
      * 获得一个实例化的HomePageFragment对象
-     *
-     * @return
      */
     public static HomePageFragment newInstance() {
         return new HomePageFragment();
@@ -68,12 +65,7 @@ public class HomePageFragment extends BaseFragment implements HomePagecontract.V
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        //判断是否登录，设置标题栏右侧的按钮视图
-        if (LoginContext.getInstance().isLogined()) {
-            setLoginRightMenuView();
-        } else {
-            setLogoutRightMenuView();
-        }
+
     }
 
     @Override
@@ -168,8 +160,8 @@ public class HomePageFragment extends BaseFragment implements HomePagecontract.V
     }
 
     @Override
-    public void setPresenter(HomePagecontract.Presenter presenter) {
-        mPresenter = (HomePagePresenter) presenter;
+    public void setPresenter(HomePageContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 
     @Override

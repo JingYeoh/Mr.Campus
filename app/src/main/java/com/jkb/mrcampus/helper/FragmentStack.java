@@ -34,6 +34,7 @@ public class FragmentStack implements Serializable {
      * @param fragmentName
      */
     public void addFragmentToStack(String fragmentName) {
+        Log.d(TAG, "入栈的tag为：" + fragmentName);
         fragmetStackNames.add(fragmentName);
     }
 

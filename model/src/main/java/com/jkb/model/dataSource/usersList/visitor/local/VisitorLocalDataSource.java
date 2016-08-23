@@ -7,6 +7,7 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.entity.operation.OperationUserEntity;
+import com.jkb.api.entity.operation.OperationVisitorEntity;
 import com.jkb.api.entity.user.UserActionUserEntity;
 import com.jkb.api.entity.user.UserActionVisitorEntity;
 import com.jkb.model.dataSource.usersList.visitor.VisitorDataSource;
@@ -34,9 +35,9 @@ public class VisitorLocalDataSource implements VisitorDataSource {
 
 
     @Override
-    public void visit(
-            @NonNull String Authorization, @NonNull int page, @NonNull int target_id,
-            @NonNull ApiCallback<ApiResponse<OperationUserEntity>> apiCallback) {
+    public void visitorMe(
+            @NonNull int user_id, int visitor_id, @NonNull int page,
+            @NonNull ApiCallback<ApiResponse<OperationVisitorEntity>> apiCallback) {
 
     }
 

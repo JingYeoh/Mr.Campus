@@ -11,9 +11,11 @@ import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.entity.operation.OperationUserEntity;
+import com.jkb.api.entity.operation.OperationVisitorEntity;
 import com.jkb.api.entity.user.UserActionUserEntity;
 import com.jkb.api.entity.user.UserActionVisitorEntity;
 import com.jkb.api.net.operation.OperationApi;
+import com.jkb.api.net.operation.OperationVisitorApi;
 import com.jkb.api.net.operation.OptionUserApi;
 import com.jkb.api.net.user.UserActionApi;
 import com.jkb.model.dataSource.usersList.visitor.VisitorDataSource;
@@ -43,21 +45,20 @@ public class VisitorRemoteDataSource implements VisitorDataSource {
         return INSTANCE;
     }
 
-
     @Override
-    public void visit(
-            @NonNull String Authorization, @NonNull int page, @NonNull int target_id,
-            @NonNull ApiCallback<ApiResponse<OperationUserEntity>> apiCallback) {
+    public void visitorMe(
+            @NonNull int user_id, int visitor_id, @NonNull int page,
+            @NonNull ApiCallback<ApiResponse<OperationVisitorEntity>> apiCallback) {
         //请求网络数据
         ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
         apiFactory.setHttpClient(apiFactory.genericClient());
         apiFactory.initRetrofit();
-        OptionUserApi optionUserApi = apiFactory.createApi(OptionUserApi.class);
-        Call<ApiResponse<OperationUserEntity>> call;
-        call = optionUserApi.visit(Authorization, Config.ACTION_VISIT, target_id, page);
-        Type type = new TypeToken<ApiResponse<OperationUserEntity>>() {
+        OperationVisitorApi operationVisitorApi = apiFactory.createApi(OperationVisitorApi.class);
+        Call<ApiResponse<OperationVisitorEntity>> call;
+        call = operationVisitorApi.visitorMe(user_id, visitor_id, page);
+        Type type = new TypeToken<ApiResponse<OperationVisitorEntity>>() {
         }.getType();
-        new ApiEngine<ApiResponse<OperationUserEntity>>(apiCallback, call, type);
+        new ApiEngine<ApiResponse<OperationVisitorEntity>>(apiCallback, call, type);
     }
 
     @Override

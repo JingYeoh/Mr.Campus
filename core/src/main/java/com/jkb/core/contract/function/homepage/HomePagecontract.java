@@ -7,7 +7,7 @@ import com.jkb.core.base.BaseView;
  * HomePageFragment的页面协议类
  * Created by JustKiddingBaby on 2016/7/25.
  */
-public interface HomePagecontract {
+public interface HomePageContract {
 
     interface View extends BaseView<Presenter> {
 
@@ -45,5 +45,9 @@ public interface HomePagecontract {
 
     interface Presenter extends BasePresenter {
 
+        /**
+         * 判断是否登录的身份来显示视图
+         */
+        void judgeStatusToShowView();
     }
 }

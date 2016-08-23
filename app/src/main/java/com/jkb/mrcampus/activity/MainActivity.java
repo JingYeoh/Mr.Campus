@@ -60,6 +60,9 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     //服务
 //    private LocationService locationService;
 
+    //data
+    private DynamicLoginStatusChangedListener dynamicLoginStatusChangedListener;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,7 +81,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     @Override
     protected void initListener() {
         //设置右滑菜单的监听器
-        LoginContext.getInstance().setRightSlideMenuListener(slideMenuRightListener);
+        LoginContext.getInstance().setLoginStatusChangedShowViewListener(slideMenuRightListener);
     }
 
 
@@ -168,24 +171,31 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     /**
      * 右滑菜单的状态改变的监听器
      */
-    UserState.SlideMenuRightListener slideMenuRightListener = new UserState.SlideMenuRightListener() {
-        @Override
-        public void showLoginRightMenuView() {
-            slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);//设置为两侧滑动
-            //设置首页的右侧视图
-            if (homePageFragment != null && homePageFragment.isActive()) {
-                homePageFragment.setLoginRightMenuView();
-            }
-        }
+    UserState.LoginStatusChangedShowViewListener slideMenuRightListener =
+            new UserState.LoginStatusChangedShowViewListener() {
+                @Override
+                public void showLoginView() {
+                    slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);//设置为两侧滑动
+                    //设置首页的右侧视图
+                    if (homePageFragment != null && homePageFragment.isActive()) {
+                        homePageFragment.setLoginRightMenuView();
+                        if (dynamicLoginStatusChangedListener != null) {
+                            dynamicLoginStatusChangedListener.showLoginDynamicView();
+                        }
+                    }
+                }
 
-        @Override
-        public void showLogoutRightMenuView() {
-            slidingMenu.setMode(SlidingMenu.LEFT);//设置为只有左侧滑动
-            if (homePageFragment != null && homePageFragment.isActive()) {
-                homePageFragment.setLogoutRightMenuView();
-            }
-        }
-    };
+                @Override
+                public void showLogoutView() {
+                    slidingMenu.setMode(SlidingMenu.LEFT);//设置为只有左侧滑动
+                    if (homePageFragment != null && homePageFragment.isActive()) {
+                        homePageFragment.setLogoutRightMenuView();
+                        if (dynamicLoginStatusChangedListener != null) {
+                            dynamicLoginStatusChangedListener.showLogoutDynamicView();
+                        }
+                    }
+                }
+            };
 
     /**
      * 设置SlideMenu
@@ -369,6 +379,11 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
         intent.putExtra(Config.INTENT_KEY_SHOW_USERSLIST, action);
         startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void setDynamicLoginStatusChangedListener(DynamicLoginStatusChangedListener listener) {
+        this.dynamicLoginStatusChangedListener = listener;
     }
 
     /**

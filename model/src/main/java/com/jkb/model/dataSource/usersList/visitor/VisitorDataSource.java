@@ -6,6 +6,7 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.entity.operation.OperationUserEntity;
+import com.jkb.api.entity.operation.OperationVisitorEntity;
 import com.jkb.api.entity.user.UserActionUserEntity;
 import com.jkb.api.entity.user.UserActionVisitorEntity;
 
@@ -19,12 +20,13 @@ public interface VisitorDataSource {
     /**
      * 获取访客用户
      *
-     * @param Authorization 包含token的头部
-     * @param page          请求页数
-     * @param target_id     用户id
+     * @param visitor_id  访客id，可空
+     * @param page        请求页数
+     * @param user_id     用户id
+     * @param apiCallback 回调
      */
-    void visit(@NonNull String Authorization, @NonNull int page, @NonNull int target_id,
-               @NonNull ApiCallback<ApiResponse<OperationUserEntity>> apiCallback);
+    void visitorMe(@NonNull int user_id, int visitor_id, @NonNull int page,
+                   @NonNull ApiCallback<ApiResponse<OperationVisitorEntity>> apiCallback);
 
     /**
      * 关注或者取消关注用户接口

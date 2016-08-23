@@ -271,7 +271,8 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void showPersonalSettingView() {
-
+        //显示个人设置页面
+        personCenterActivity.showFragment(ClassUtils.getClassName(PersonSettingFragment.class));
     }
 
     @Override

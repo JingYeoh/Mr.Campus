@@ -26,6 +26,8 @@
     <color name="bg_normal_gray">#eaeaea</color>
     <color name="text_blue">#1E90FF</color>
     <color name="text_blue_2">#10a9c4</color>
+    <color name="text_gravy_light">#C4C3C2</color>
+    <color name="text_dynamic_content">#737373</color>
     <!-- wr -->
     <color name="text_choose">#F4A7C4</color>
     <color name="text_default">#AA000000</color>

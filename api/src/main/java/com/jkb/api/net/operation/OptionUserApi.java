@@ -99,12 +99,14 @@ public interface OptionUserApi {
 
     /**
      * 获取访问我的人：action=visit&&target_id=用户id
+     * 过期：该接口已被OperationVisitorApi.visitorMe()方法替换
      *
      * @param Authorization 头
      * @param action        动作
      * @param target_id     目标id
      * @return Call
      */
+    @Deprecated
     @GET(Config.URL_OPERATION_USER)
     Call<ApiResponse<OperationUserEntity>> visit(
             @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,

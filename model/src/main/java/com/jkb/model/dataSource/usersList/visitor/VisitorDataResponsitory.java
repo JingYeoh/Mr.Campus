@@ -6,6 +6,7 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.entity.operation.OperationUserEntity;
+import com.jkb.api.entity.operation.OperationVisitorEntity;
 import com.jkb.api.entity.user.UserActionUserEntity;
 import com.jkb.api.entity.user.UserActionVisitorEntity;
 
@@ -36,11 +37,12 @@ public class VisitorDataResponsitory implements VisitorDataSource {
         return INSTANCE;
     }
 
+
     @Override
-    public void visit(
-            @NonNull String Authorization, @NonNull int page, @NonNull int target_id,
-            @NonNull ApiCallback<ApiResponse<OperationUserEntity>> apiCallback) {
-        remoteDataSource.visit(Authorization, page, target_id, apiCallback);
+    public void visitorMe(
+            @NonNull int user_id, int visitor_id, @NonNull int page,
+            @NonNull ApiCallback<ApiResponse<OperationVisitorEntity>> apiCallback) {
+        remoteDataSource.visitorMe(user_id, visitor_id, page, apiCallback);
     }
 
     @Override

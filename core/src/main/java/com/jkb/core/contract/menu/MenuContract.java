@@ -130,6 +130,29 @@ public interface MenuContract {
          * @param action  要显示的视图
          */
         void startUsersListActivity(int user_id, String action);
+
+
+        /**
+         * 设置动态列表页面登录状态改变用于显示的监听器
+         *
+         * @param listener DynamicLoginStatusChangedListener
+         */
+        void setDynamicLoginStatusChangedListener(DynamicLoginStatusChangedListener listener);
+
+        /**
+         * 动态列表页面登录状态改变时候的监听器
+         */
+        interface DynamicLoginStatusChangedListener {
+            /**
+             * 显示登录状态下的动态视图
+             */
+            void showLoginDynamicView();
+
+            /**
+             * 显示未登录的动态视图
+             */
+            void showLogoutDynamicView();
+        }
     }
 
 

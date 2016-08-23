@@ -48,18 +48,18 @@ public interface UserState {
     void setOnMenuPersonViewListener(View view, MenuPersonViewListener listener);
 
     /**
-     * 右滑菜单的监听器
+     * 登录状态变化的视图显示监听器
      */
-    interface SlideMenuRightListener {
+    interface LoginStatusChangedShowViewListener {
         /**
-         * 展示登录状态下右滑菜單的顯示視圖
+         * 展示登录状态下的顯示視圖
          */
-        void showLoginRightMenuView();
+        void showLoginView();
 
         /**
-         * 展示未登录状态下右滑菜單的顯示視圖
+         * 展示未登录状态下的顯示視圖
          */
-        void showLogoutRightMenuView();
+        void showLogoutView();
     }
 
     /**
@@ -72,12 +72,13 @@ public interface UserState {
         void onUserDataChanged();
     }
 
+
     /**
      * 设置右滑菜单的监听器
      *
-     * @param listener
+     * @param listener 监听器
      */
-    void setRightSlideMenuListener(SlideMenuRightListener listener);
+    void setLoginStatusChangedShowViewListener(LoginStatusChangedShowViewListener listener);
 
     /**
      * 设置右滑菜单信息变化时候的监听

@@ -12,14 +12,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jkb.core.contract.usersList.FansContract;
-import com.jkb.core.contract.usersList.VisitorContract;
-import com.jkb.core.presenter.usersList.FansPresenter;
 import com.jkb.core.presenter.usersList.data.UserData;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.UsersListActivity;
-import com.jkb.mrcampus.adapter.recycler.AttentionListAdapter;
 import com.jkb.mrcampus.adapter.recycler.FansListAdapter;
-import com.jkb.mrcampus.adapter.recycler.VisitorListAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 
 import java.util.List;

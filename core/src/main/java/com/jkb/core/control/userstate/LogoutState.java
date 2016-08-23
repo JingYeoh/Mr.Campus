@@ -28,9 +28,9 @@ public class LogoutState implements UserState {
     }
 
     @Override
-    public void setRightSlideMenuListener(SlideMenuRightListener listener) {
+    public void setLoginStatusChangedShowViewListener(LoginStatusChangedShowViewListener listener) {
         if (listener != null) {
-            listener.showLogoutRightMenuView();
+            listener.showLogoutView();
         }
     }
 

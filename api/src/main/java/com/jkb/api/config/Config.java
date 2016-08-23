@@ -36,6 +36,8 @@ public class Config {
     public static final String URL_OPERATION = "operation";//关注订阅等操作
     public static final String URL_OPERATION_USER = "operation/{action}/{targetId}";//获取设计操作的用户
     public static final String URL_OPERATION_VERIFYIFPAYATTENTION = "verifyIfPayAttention";//是否被关注
+    public static final String URL_OPERATION_VISITME = "getVisitMe";//访问我的人
+    public static final String URL_OPERATION_VISITOTHER = "getVisitOther";//我访问的人
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
     //用于分页的后缀
