@@ -2,6 +2,7 @@ package com.jkb.core.presenter.personCenter;
 
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
@@ -42,6 +43,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
     private List<CircleData> circleDatas;//View层可用的圈子数据
     private UserData userData;//要缓存的用户数据
     private boolean isOverdue = false;//数据是否过期
+    private static final String TAG = "PersonCenterPresenter";
 
 
     public PersonCenterPresenter(@NonNull PersonCenterContract.View view,
@@ -56,6 +58,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
 
     @Override
     public void getUserData() {
+        Log.d(TAG, "getUserData----overDue=" + isOverdue);
         //设置缓存的数据
         if (userData != null && !isOverdue) {
             bindDataToView();
@@ -444,6 +447,12 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
         //刷新数据的时候
         isOverdue = true;//设置数据过期
         getUserData();
+    }
+
+    @Override
+    public void notifyDataChanged() {
+        Log.d(TAG, "notifyDataChanged");
+        isOverdue = true;//设置数据过期
     }
 
     /**

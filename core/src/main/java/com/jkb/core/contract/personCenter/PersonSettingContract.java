@@ -65,6 +65,16 @@ public interface PersonSettingContract {
         void setRegisterTime(String registerTime);
 
         /**
+         * 点击头像触发方法
+         */
+        void onHeadImgClick();
+
+        /**
+         * 点击背景触发方法
+         */
+        void onBackGroundClick();
+
+        /**
          * 显示选取头像的视图
          */
         void showChoosePictureView();
@@ -83,12 +93,37 @@ public interface PersonSettingContract {
          * 显示输入文字的View
          */
         void showInputTextView();
+
+        /**
+         * 通知数据过期
+         */
+        void notifyDataChanged();
     }
 
     interface Presenter extends BasePresenter {
         /**
          * 初始化信息
          */
-        void initInformation();
+        void bindInformation();
+
+        /**
+         * 得到用户信息
+         */
+        void getUserInfo();
+
+        /**
+         * 改变头像
+         */
+        void changeHeadImg(String headImgPath);
+
+        /**
+         * 改变背景
+         */
+        void changeBackGround(String bgPath);
+
+        /**
+         * 通知数据过期
+         */
+        void notifyDataChanged();
     }
 }

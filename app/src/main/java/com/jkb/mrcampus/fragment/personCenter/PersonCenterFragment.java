@@ -83,6 +83,14 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            mPresenter.start();
+        }
+    }
+
+    @Override
     protected void initListener() {
         //标题栏
         rootView.findViewById(R.id.ts3_ib_left).setOnClickListener(this);
@@ -226,19 +234,19 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void setWatchedNum(int watched) {
-        Log.d(TAG, "watched=" + watched);
+//        Log.d(TAG, "watched=" + watched);
         ((TextView) rootView.findViewById(R.id.fpc_tv_watchedNum)).setText(watched + "");
     }
 
     @Override
     public void setFansNum(int fans) {
-        Log.d(TAG, "fans=" + fans);
+//        Log.d(TAG, "fans=" + fans);
         ((TextView) rootView.findViewById(R.id.fpc_tv_fansNum)).setText(fans + "");
     }
 
     @Override
     public void setVistiorsNum(int visitors) {
-        Log.d(TAG, "visitors=" + visitors);
+//        Log.d(TAG, "visitors=" + visitors);
         ((TextView) rootView.findViewById(R.id.fpc_tv_visitorsNum)).setText(visitors + "");
     }
 

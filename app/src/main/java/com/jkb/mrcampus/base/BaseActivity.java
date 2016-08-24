@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
+import com.jkb.mrcampus.fragment.dialog.InputTextFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.TextFloatFragment;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
 import com.jkb.mrcampus.helper.ActivityUtils;
@@ -45,6 +46,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected GifLoadingView2 gifLoadingView;
     private ChoosePictureFragment choosePictureFragment;
     private TextFloatFragment textFloatFragment;
+    private InputTextFloatFragment inputTextFloatFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -277,6 +279,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (textFloatFragment != null && textFloatFragment.isAdded()) {
             textFloatFragment.dismiss();
         }
+        if (inputTextFloatFragment != null && inputTextFloatFragment.isAdded()) {
+            inputTextFloatFragment.dismiss();
+        }
         dismissLoading();
     }
 
@@ -290,6 +295,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (!textFloatFragment.isAdded()) {
             textFloatFragment.show(getFragmentManager(),
                     ClassUtils.getClassName(TextFloatFragment.class));
+        }
+    }
+
+    /**
+     * 显示浮动的输入文本视图
+     */
+    public void showInputTextFloatView(String value) {
+        if (inputTextFloatFragment == null) {
+            inputTextFloatFragment = new InputTextFloatFragment();
+        }
+        if (!inputTextFloatFragment.isAdded()) {
+            inputTextFloatFragment.show(getFragmentManager(),
+                    ClassUtils.getClassName(InputTextFloatFragment.class));
         }
     }
 }

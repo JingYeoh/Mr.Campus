@@ -40,4 +40,11 @@
     <string name="Email">邮箱</string>
     <string name="ID">ID</string>
     <string name="register_time">注册时间</string>
+    <string name="headImg">头像</string>
+    <string name="NickName">昵称</string>
+    <string name="Approve">认证</string>
+    <string name="Sex">性别</string>
+    <string name="Name">名称</string>
+    <string name="bref_introduction">简介</string>
+    <string name="Background">背景</string>
 </resources>

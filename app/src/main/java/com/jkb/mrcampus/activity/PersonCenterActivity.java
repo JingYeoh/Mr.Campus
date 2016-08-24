@@ -127,7 +127,8 @@ public class PersonCenterActivity extends BaseActivity {
                     Injection.providePersonCenterDataResponsitory(getApplicationContext()));
         } else if (ClassUtils.isNameEquals(fragmentTAG, PersonSettingFragment.class)) {
             personSettingFragment = (PersonSettingFragment) fm.findFragmentByTag(fragmentTAG);
-            personSettingPresenter = new PersonSettingPresenter(personSettingFragment);
+            personSettingPresenter = new PersonSettingPresenter(personSettingFragment
+                    , Injection.providePersonSettingDataResponsitory(getApplicationContext()));
         }
     }
 
@@ -151,7 +152,8 @@ public class PersonCenterActivity extends BaseActivity {
             ActivityUtils.addFragmentToActivity(fm, personSettingFragment, R.id.personFrame);
         }
         if (personSettingPresenter == null) {
-            personSettingPresenter = new PersonSettingPresenter(personSettingFragment);
+            personSettingPresenter = new PersonSettingPresenter(personSettingFragment
+                    , Injection.providePersonSettingDataResponsitory(getApplicationContext()));
         }
     }
 
@@ -185,6 +187,17 @@ public class PersonCenterActivity extends BaseActivity {
     private void showPersonSetting() {
         Log.d(TAG, "showPersonSetting");
         ActivityUtils.showFragment(fm, personSettingFragment);
+    }
+
+    /**
+     * 通知数据改变
+     */
+    public void notifyDataChanged() {
+        Log.d(TAG,"notifyDataChanged");
+        if (personCenterPresenter != null) {
+            //设置数据过期
+            personCenterPresenter.notifyDataChanged();
+        }
     }
 
     /**

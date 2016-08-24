@@ -211,35 +211,37 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
     /**
      * 个人信息菜单的监听器
      */
-    private UserState.MenuPersonViewListener personViewListener = new UserState.MenuPersonViewListener() {
-        @Override
-        public void showLoginPersonView() {
-            ((TextView) rootView.findViewById(R.id.fms_tv_nickName)).setText(mPresenter.getCurrentNickName());
-            Bitmap bm = mPresenter.getCurrentHeadImg();
-            if (bm != null) {
-                ivHeadImg.setImageBitmap(bm);
-            } else {
-                ivHeadImg.setImageResource(R.drawable.ic_user_head);
-            }
-        }
+    private UserState.MenuPersonViewListener personViewListener =
+            new UserState.MenuPersonViewListener() {
+                @Override
+                public void showLoginPersonView() {
+                    ((TextView) rootView.findViewById(R.id.fms_tv_nickName)).
+                            setText(mPresenter.getCurrentNickName());
+                    Bitmap bm = mPresenter.getCurrentHeadImg();
+                    if (bm != null) {
+                        ivHeadImg.setImageBitmap(bm);
+                    } else {
+                        ivHeadImg.setImageResource(R.drawable.ic_user_head);
+                    }
+                }
 
-        @Override
-        public void showLogoutPersonView() {
-            //设置未登录头像
-            ((TextView) rootView.findViewById(R.id.fms_tv_nickName)).setText(R.string.unLogin);
-            ivHeadImg.setImageResource(R.drawable.ic_user_head);
-        }
+                @Override
+                public void showLogoutPersonView() {
+                    //设置未登录头像
+                    ((TextView) rootView.findViewById(R.id.fms_tv_nickName)).setText(R.string.unLogin);
+                    ivHeadImg.setImageResource(R.drawable.ic_user_head);
+                }
 
-        @Override
-        public void onClickLoginPersonView() {
-            mainActivity.startPersonalCenter(mPresenter.getUser_id());
-        }
+                @Override
+                public void onClickLoginPersonView() {
+                    mainActivity.startPersonalCenter(mPresenter.getUser_id());
+                }
 
-        @Override
-        public void onClickLogoutPersonView() {
-            mainActivity.startLoginActivity();
-        }
-    };
+                @Override
+                public void onClickLogoutPersonView() {
+                    mainActivity.startLoginActivity();
+                }
+            };
 
     @Override
     public void setPresenter(SwitchFunctionContract.Presenter presenter) {

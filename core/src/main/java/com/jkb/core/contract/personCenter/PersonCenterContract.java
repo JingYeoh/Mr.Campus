@@ -193,8 +193,6 @@ public interface PersonCenterContract {
     }
 
     interface Presenter extends BasePresenter {
-
-
         /**
          * 获取用户数据
          */
@@ -229,5 +227,10 @@ public interface PersonCenterContract {
          * 刷新数据时候调用
          */
         void onRefresh();
+
+        /**
+         * 通知数据过期
+         */
+        void notifyDataChanged();
     }
 }

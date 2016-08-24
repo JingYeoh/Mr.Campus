@@ -38,7 +38,7 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="left"
                     android:gravity="center"
-                    android:text="头像" />
+                    android:text="@string/headImg" />
             </RelativeLayout>
 
             <View
@@ -47,6 +47,7 @@
                 android:background="@color/background_general" />
 
             <LinearLayout
+                android:id="@+id/fps_ll_nickName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -57,19 +58,18 @@
                     style="@style/PersonSettingTextPromptStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
                     android:layout_gravity="left"
                     android:gravity="center"
-                    android:text="昵称" />
+                    android:text="@string/NickName" />
 
                 <TextView
+                    android:id="@+id/fps_tv_nickName"
                     style="@style/PersonSettingTextShowStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="20dp"
-                    android:singleLine="true"
-                    android:text="昵称" />
+                    android:singleLine="true" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -85,6 +85,7 @@
                 android:background="@color/line" />
 
             <LinearLayout
+                android:id="@+id/fps_ll_approve"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -95,12 +96,12 @@
                     style="@style/PersonSettingTextPromptStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
                     android:layout_gravity="left"
                     android:gravity="center"
-                    android:text="认证" />
+                    android:text="@string/Approve" />
 
                 <TextView
+                    android:id="@+id/fps_tv_approve"
                     style="@style/PersonSettingTextShowStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -123,6 +124,7 @@
                 android:background="@color/line" />
 
             <LinearLayout
+                android:id="@+id/fps_ll_sex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -133,19 +135,94 @@
                     style="@style/PersonSettingTextPromptStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
                     android:layout_gravity="left"
                     android:gravity="center"
-                    android:text="性别" />
+                    android:text="@string/Sex" />
 
                 <TextView
+                    android:id="@+id/fps_tv_sex"
                     style="@style/PersonSettingTextShowStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="20dp"
-                    android:singleLine="true"
-                    android:text="男" />
+                    android:singleLine="true" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/aliwx_arrow" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/line" />
+
+            <LinearLayout
+                android:id="@+id/fps_ll_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    style="@style/PersonSettingTextPromptStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="@string/Name" />
+
+                <TextView
+                    android:id="@+id/fps_tv_name"
+                    style="@style/PersonSettingTextShowStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="20dp"
+                    android:singleLine="true" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/aliwx_arrow" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/line" />
+
+            <LinearLayout
+                android:id="@+id/fps_ll_bref"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    style="@style/PersonSettingTextPromptStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="@string/bref_introduction" />
+
+                <TextView
+                    android:id="@+id/fps_tv_bref_introduction"
+                    style="@style/PersonSettingTextShowStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="20dp"
+                    android:singleLine="true" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -171,88 +248,12 @@
                     style="@style/PersonSettingTextPromptStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
                     android:layout_gravity="left"
                     android:gravity="center"
-                    android:text="名称" />
-
-                <TextView
-                    style="@style/PersonSettingTextShowStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="20dp"
-                    android:singleLine="true"
-                    android:text="昵称菌" />
+                    android:text="@string/Background" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/aliwx_arrow" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/line" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
-
-                <TextView
-                    style="@style/PersonSettingTextPromptStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="left"
-                    android:gravity="center"
-                    android:text="简介" />
-
-                <TextView
-                    style="@style/PersonSettingTextShowStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="20dp"
-                    android:singleLine="true"
-                    android:text="简介信息..." />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/aliwx_arrow" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/line" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp">
-
-                <TextView
-                    style="@style/PersonSettingTextPromptStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="left"
-                    android:gravity="center"
-                    android:text="背景" />
-
-                <ImageView
+                    android:id="@+id/fps_iv_backGround"
                     style="@style/PersonSettingTextShowStyle"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
@@ -277,6 +278,7 @@
                 android:background="@color/background_general" />
 
             <LinearLayout
+                android:id="@+id/fps_ll_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -287,12 +289,12 @@
                     style="@style/PersonSettingTextPromptStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
                     android:layout_gravity="left"
                     android:gravity="center"
                     android:text="@string/Phone" />
 
                 <TextView
+                    android:id="@+id/fps_tv_phone"
                     style="@style/PersonSettingTextShowStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -315,6 +317,7 @@
                 android:background="@color/line" />
 
             <LinearLayout
+                android:id="@+id/fps_ll_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -325,12 +328,12 @@
                     style="@style/PersonSettingTextPromptStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
                     android:layout_gravity="left"
                     android:gravity="center"
                     android:text="@string/Email" />
 
                 <TextView
+                    android:id="@+id/fps_tv_email"
                     style="@style/PersonSettingTextShowStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -367,13 +370,13 @@
                     android:text="@string/ID" />
 
                 <TextView
+                    android:id="@+id/fps_tv_ID"
                     style="@style/PersonSettingTextShowStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="20dp"
-                    android:singleLine="true"
-                    android:text="12345" />
+                    android:singleLine="true" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -405,6 +408,7 @@
                     android:text="@string/register_time" />
 
                 <TextView
+                    android:id="@+id/fps_tv_registerTime"
                     style="@style/PersonSettingTextShowStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

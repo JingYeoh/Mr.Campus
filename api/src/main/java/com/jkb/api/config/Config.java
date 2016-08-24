@@ -32,6 +32,7 @@ public class Config {
     //user接口地址
     public static final String URL_USER_ACTION = "user/{action}/{userId}";
     public static final String URL_USER_INFO = "user/{id}";
+    public static final String URL_USER_UPDATE_IMAGE = "user/image/{id}";
     //operation的接口地址
     public static final String URL_OPERATION = "operation";//关注订阅等操作
     public static final String URL_OPERATION_USER = "operation/{action}/{targetId}";//获取设计操作的用户
@@ -83,6 +84,8 @@ public class Config {
     public static final String KEY_TARGET_ID = "target_id";
     public static final String KEY_TARGETID = "targetId";
     public static final String KEY_VISITOR_ID = "visitor_id";
+    public static final String KEY_COLUMN = "column";
+    public static final String KEY_VALUE = "value";
 
 
     public static final String GENDER_M = "m";
@@ -95,6 +98,7 @@ public class Config {
 
     public static final String FLAG_AVATAR = "avatar";
     public static final String FLAG_CIRCLE = "circle";
+    public static final String FLAG_BACKGROUND = "background";
 
     public static final String IDENTITY_TYPE_QQ = "qq";
     public static final String IDENTITY_TYPE_WECHAT = "wechat";

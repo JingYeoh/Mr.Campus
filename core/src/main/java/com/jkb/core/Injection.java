@@ -31,6 +31,9 @@ import com.jkb.model.dataSource.first.welcome.remote.WelcomeRemoteDataSource;
 import com.jkb.model.dataSource.personCenter.PersonCenterDataResponsitory;
 import com.jkb.model.dataSource.personCenter.local.PersonCenterLocalDataSource;
 import com.jkb.model.dataSource.personCenter.remote.PersonCenterRemoteDataSource;
+import com.jkb.model.dataSource.personSetting.PersonSettingDataResponsitory;
+import com.jkb.model.dataSource.personSetting.local.PersonSettingLocalDataSource;
+import com.jkb.model.dataSource.personSetting.remote.PersonSettingRemoteDataSource;
 import com.jkb.model.dataSource.usersList.attention.AttentionDataResponsitory;
 import com.jkb.model.dataSource.usersList.attention.local.AttentionLocalDataSource;
 import com.jkb.model.dataSource.usersList.attention.remote.AttentionRemoteDataSource;
@@ -211,6 +214,21 @@ public class Injection {
         PersonCenterDataResponsitory responsitory = PersonCenterDataResponsitory.getInstance(
                 PersonCenterLocalDataSource.getInstance(applicationContext),
                 PersonCenterRemoteDataSource.getInstance()
+        );
+        return responsitory;
+    }
+
+    /**
+     * 返回PersonSettingDataResponsitory实例
+     *
+     * @param applicationContext 上下文
+     * @return PersonSettingDataResponsitory
+     */
+    public static PersonSettingDataResponsitory providePersonSettingDataResponsitory(
+            @NonNull Context applicationContext) {
+        PersonSettingDataResponsitory responsitory = PersonSettingDataResponsitory.getInstance(
+                PersonSettingLocalDataSource.getInstance(applicationContext),
+                PersonSettingRemoteDataSource.getInstance()
         );
         return responsitory;
     }

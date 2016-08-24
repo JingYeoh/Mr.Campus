@@ -46,7 +46,7 @@ public class PersonMessageRemoteDataSource implements PersonMessageDataSource {
         apiFactory.setHttpClient(apiFactory.filePostClient());
         apiFactory.initRetrofit();
         RegisterApi registerApi = apiFactory.createApi(RegisterApi.class);
-        Call<ApiResponse<RegisterEntity>> call = null;
+        Call<ApiResponse<RegisterEntity>> call;
         //判断是否有需要上传的头像
         if (image == null) {
             call = registerApi.registerWithEmail(nickName, code, credential, identity_type, identifier, null, null);
