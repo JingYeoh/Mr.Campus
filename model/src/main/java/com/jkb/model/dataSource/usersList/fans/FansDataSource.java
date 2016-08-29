@@ -17,11 +17,11 @@ public interface FansDataSource {
     /**
      * 获取用户关注的用户
      *
-     * @param Authorization 包含token的头部
-     * @param page          请求页数
-     * @param target_id     用户id
+     * @param user_id   用户id，可选，相当于访客id
+     * @param page      请求页数
+     * @param target_id 用户id
      */
-    void fans(@NonNull String Authorization,
+    void fans(int user_id,
               @NonNull int page, @NonNull int target_id,
               @NonNull ApiCallback<ApiResponse<OperationUserEntity>> apiCallback);
 

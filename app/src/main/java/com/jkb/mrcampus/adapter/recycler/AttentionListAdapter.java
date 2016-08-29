@@ -36,13 +36,13 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
     private int colorWhite;
     private int colorGravy;
     public List<UserData> userDatas;
-    private OnUserListItemsClickListener onUserListItemsClickListener;
+    private AttentionListAdapter.OnUserListItemsClickListener onUserListItemsClickListener;
 
     /**
      * 设置条目的子控件的点击监听
      */
     public void setOnUserListItemsClickListener(
-            OnUserListItemsClickListener onUserListItemsClickListener) {
+            AttentionListAdapter.OnUserListItemsClickListener onUserListItemsClickListener) {
         this.onUserListItemsClickListener = onUserListItemsClickListener;
     }
 
@@ -82,7 +82,6 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
         void onAttentionClick(int position);
     }
 
-
     public AttentionListAdapter(Context context, List<UserData> userDatas) {
         this.context = context;
         colorWhite = context.getResources().getColor(R.color.white);
@@ -95,7 +94,7 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AttentionListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_userslist, parent, false);
         AttentionListAdapter.ViewHolder holder = new AttentionListAdapter.ViewHolder(view);
         //初始化控件
@@ -114,21 +113,21 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-
+    public void onBindViewHolder(AttentionListAdapter.ViewHolder holder, int position) {
         //绑定控件的TAG
         ClassUtils.bindViewsTag(position, holder.ivHeadImg, holder.tvAttention);
 
-        holder.tvTime.setVisibility(View.GONE);
         //绑定数据
         if (position % 2 == 0) {//偶数
             holder.contentView.setBackgroundColor(colorGravy);
         } else {//奇数
             holder.contentView.setBackgroundColor(colorWhite);
         }
+        holder.tvTime.setVisibility(View.VISIBLE);
         UserData userData = userDatas.get(position);
         holder.tvNickName.setText(userData.getNickname());
         holder.tvSign.setText(userData.getBref_introduction());
+        holder.tvTime.setText(userData.getTime());
         String headImgUrl = userData.getAvatar();
         if (!StringUtils.isEmpty(headImgUrl)) {
             setImageLoad(holder.ivHeadImg, headImgUrl);
@@ -137,6 +136,8 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
         }
         //设置头像
         if (!userData.isAttentioned()) {
+            holder.tvAttention.setBackgroundResource(
+                    R.drawable.bg_edittext_maintheme_white_round_content);
             holder.tvAttention.setText("关注");
         } else {
             holder.tvAttention.setBackgroundResource(
@@ -177,19 +178,20 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
         return userDatas.size();
     }
 
+
     /**
      * ViewHolder类
      */
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(View itemView) {
+    class ViewHolder extends RecyclerView.ViewHolder {
+        ViewHolder(View itemView) {
             super(itemView);
         }
 
-        public TextView tvNickName;//昵称
-        public TextView tvTime;//时间
-        public TextView tvSign;//签名
-        public TextView tvAttention;//是否关注
-        public CircleImageView ivHeadImg;//头像
-        public View contentView;//包裹的背景
+        private TextView tvNickName;//昵称
+        private TextView tvTime;//时间
+        private TextView tvSign;//签名
+        private TextView tvAttention;//是否关注
+        private CircleImageView ivHeadImg;//头像
+        private View contentView;//包裹的背景
     }
 }

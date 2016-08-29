@@ -3,6 +3,7 @@ package com.jkb.mrcampus.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.BoolRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -18,6 +19,7 @@ import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
 import com.jkb.mrcampus.fragment.dialog.InputTextFloatFragment;
+import com.jkb.mrcampus.fragment.dialog.SexFilterFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.TextFloatFragment;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
 import com.jkb.mrcampus.helper.ActivityUtils;
@@ -47,6 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private ChoosePictureFragment choosePictureFragment;
     private TextFloatFragment textFloatFragment;
     private InputTextFloatFragment inputTextFloatFragment;
+    private SexFilterFloatFragment sexFilterFloatFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -282,6 +285,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (inputTextFloatFragment != null && inputTextFloatFragment.isAdded()) {
             inputTextFloatFragment.dismiss();
         }
+        if (sexFilterFloatFragment != null && sexFilterFloatFragment.isAdded()) {
+            sexFilterFloatFragment.dismiss();
+        }
         dismissLoading();
     }
 
@@ -301,13 +307,39 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 显示浮动的输入文本视图
      */
-    public void showInputTextFloatView(String value) {
-        if (inputTextFloatFragment == null) {
-            inputTextFloatFragment = new InputTextFloatFragment();
-        }
+    public void showInputTextFloatView(
+            String value,
+            InputTextFloatFragment.OnSubmitClickListener listener) {
+//        if (inputTextFloatFragment == null) {
+        inputTextFloatFragment = new InputTextFloatFragment(listener, value);
+//        }
         if (!inputTextFloatFragment.isAdded()) {
             inputTextFloatFragment.show(getFragmentManager(),
                     ClassUtils.getClassName(InputTextFloatFragment.class));
+        }
+    }
+
+    /**
+     * 显示性别的筛选视图
+     *
+     * @param sex      性别
+     * @param listener 监听器
+     */
+    public void showSexFilterFloatView(
+            String sex, SexFilterFloatFragment.SexFilterListener listener) {
+        int sexType = -1;
+        switch (sex) {
+            case "男":
+                sexType = SexFilterFloatFragment.SEX_TYPE_MAN;
+                break;
+            case "女":
+                sexType = SexFilterFloatFragment.SEX_TYPE_FEMALE;
+                break;
+        }
+        sexFilterFloatFragment = new SexFilterFloatFragment(sexType, listener);
+        if (!sexFilterFloatFragment.isAdded()) {
+            sexFilterFloatFragment.show(getFragmentManager(),
+                    ClassUtils.getClassName(SexFilterFloatFragment.class));
         }
     }
 }

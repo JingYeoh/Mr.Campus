@@ -111,6 +111,8 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
         rootView.findViewById(R.id.fpc_ll_normal).setOnClickListener(this);
         //刷新控件监听器
         refreshLayout.setOnRefreshListener(this);
+        //设置点击事件
+        circleAdapter.setOnCircleItemClickListener(circleItemClickListener);
     }
 
     @Override
@@ -138,6 +140,18 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
     }
+
+    /**
+     * 圈子条目的点击事件监听
+     */
+    private PersonCenterCircleAdapter.OnCircleItemClickListener circleItemClickListener
+            = new PersonCenterCircleAdapter.OnCircleItemClickListener() {
+        @Override
+        public void onItemClick(int position) {
+            //得到圈子id
+            personCenterActivity.startCircleView(mPresenter.getCircleId(position));
+        }
+    };
 
     @Override
     public void onClick(View view) {

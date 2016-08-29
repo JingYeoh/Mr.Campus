@@ -46,11 +46,12 @@ public interface PersonCenterDataSource {
      * 得到订阅的圈子
      *
      * @param user_id     用户id
+     * @param visitor_id  訪客id
      * @param page        页数
      * @param apiCallback 回调方法
      */
     void subscribeCircle(
-            @NonNull int user_id, @NonNull int page,
+            @NonNull int user_id, int visitor_id, @NonNull int page,
             @NonNull ApiCallback<ApiResponse<UserActionCircleEntity>> apiCallback);
 
     /**

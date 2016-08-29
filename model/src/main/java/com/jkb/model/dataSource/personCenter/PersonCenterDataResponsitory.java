@@ -57,9 +57,9 @@ public class PersonCenterDataResponsitory implements PersonCenterDataSource {
 
     @Override
     public void subscribeCircle(
-            @NonNull int user_id, @NonNull int page,
+            @NonNull int user_id, int visitor_id, @NonNull int page,
             @NonNull ApiCallback<ApiResponse<UserActionCircleEntity>> apiCallback) {
-        remoteDataSource.subscribeCircle(user_id, page, apiCallback);
+        remoteDataSource.subscribeCircle(user_id, visitor_id, page, apiCallback);
     }
 
     @Override

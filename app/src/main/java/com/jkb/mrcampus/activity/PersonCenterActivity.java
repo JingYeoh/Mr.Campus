@@ -193,7 +193,7 @@ public class PersonCenterActivity extends BaseActivity {
      * 通知数据改变
      */
     public void notifyDataChanged() {
-        Log.d(TAG,"notifyDataChanged");
+        Log.d(TAG, "notifyDataChanged");
         if (personCenterPresenter != null) {
             //设置数据过期
             personCenterPresenter.notifyDataChanged();
@@ -238,6 +238,15 @@ public class PersonCenterActivity extends BaseActivity {
         Intent intent = new Intent(this, UsersListActivity.class);
         intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
         intent.putExtra(Config.INTENT_KEY_SHOW_USERSLIST, action);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    /**
+     * 显示圈子页面
+     */
+    public void startCircleView(@NonNull int circle_id) {
+        Intent intent = new Intent(this, CircleActivity.class);
+        intent.putExtra(Config.INTENT_KEY_CIRCLE_ID, circle_id);
         startActivityWithPushLeftAnim(intent);
     }
 

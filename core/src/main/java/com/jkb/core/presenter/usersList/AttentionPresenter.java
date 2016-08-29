@@ -40,7 +40,7 @@ public class AttentionPresenter implements AttentionContract.Presenter {
     private static final int ACTION_LOADMORE = 1;
     private boolean isLoading = false;//正在加载
 
-    private List<UserActionUserEntity.UserBean.DataBean> users;//用户数据
+    private List<UserActionUserEntity.DataBean> users;//用户数据
     private List<UserData> userDatas;//转换后要传递的用户数据
     private boolean isCached = false;//是否缓存
 
@@ -81,7 +81,7 @@ public class AttentionPresenter implements AttentionContract.Presenter {
             return;
         }
         //请求关注接口
-        UserActionUserEntity.UserBean.DataBean user = users.get(position);
+        UserActionUserEntity.DataBean user = users.get(position);
         payAttentionOrCancle(user.getId());
         //刷新数据
     }
@@ -89,7 +89,7 @@ public class AttentionPresenter implements AttentionContract.Presenter {
     @Override
     public void onHeadImgClicked(int position) {
         //得到用户id
-        UserActionUserEntity.UserBean.DataBean user = users.get(position);
+        UserActionUserEntity.DataBean user = users.get(position);
         int user_id = user.getId();
         Log.d(TAG, "user_id=" + user_id);
         view.showPersonCenter(user_id);
@@ -103,9 +103,13 @@ public class AttentionPresenter implements AttentionContract.Presenter {
     @Override
     public void getAttentionUsersListData() {
         isLoading = true;
-        responsitory.payAttention(
-                pageControl.getCurrent_page(),
-                user_id, apiCallback);
+        int visitor_id = 0;
+        if (LoginContext.getInstance().isLogined()) {
+            Users users = getUsers();
+            visitor_id = users.getUser_id();
+        }
+        responsitory.payAttention(pageControl.getCurrent_page(),
+                user_id, visitor_id, apiCallback);
     }
 
     @Override
@@ -207,6 +211,56 @@ public class AttentionPresenter implements AttentionContract.Presenter {
                     }
                 }
 
+                /**
+                 * 解析数据
+                 */
+                private void handleUserActionEntity(ApiResponse<UserActionUserEntity> body) {
+                    UserActionUserEntity entity = body.getMsg();
+                    if (entity == null) {
+                        return;
+                    }
+
+                    isCached = true;//设置为已缓存
+
+                    //设置页码控制器
+                    pageControl.setTotal(entity.getTotal());
+                    pageControl.setPer_page(entity.getPer_page());
+                    pageControl.setCurrent_page(entity.getCurrent_page());
+                    pageControl.setLast_page(entity.getLast_page());
+                    pageControl.setNext_page_url(entity.getNext_page_url());
+                    pageControl.setPrev_page_url(entity.getPrev_page_url());
+                    pageControl.setFrom(entity.getFrom());
+                    pageControl.setTo(entity.getTo());
+
+                    Log.d(TAG, pageControl.toString());
+                    //处理数据
+                    handleUserData(entity);
+                    //绑定数据
+                    bindDataToView();
+                }
+
+                /**
+                 * 处理用户数据
+                 */
+                private void handleUserData(UserActionUserEntity userBean) {
+                    //判断操作动作
+                    switch (action) {
+                        case ACTION_REFRESH://刷新
+                            users.clear();
+                            break;
+                        case ACTION_LOADMORE://加载
+                            break;
+                    }
+                    //更新数据进去
+                    List<UserActionUserEntity.DataBean> dataBeen = userBean.getData();
+                    if (dataBeen == null) {
+                        return;
+                    }
+                    for (int i = 0; i < dataBeen.size(); i++) {
+                        users.add(dataBeen.get(i));
+                    }
+                }
+
                 @Override
                 public void onError(Response<ApiResponse<UserActionUserEntity>> response,
                                     String error, ApiResponse<UserActionUserEntity> apiResponse) {
@@ -229,59 +283,6 @@ public class AttentionPresenter implements AttentionContract.Presenter {
                 }
             };
 
-    /**
-     * 解析数据
-     */
-    private void handleUserActionEntity(ApiResponse<UserActionUserEntity> body) {
-        UserActionUserEntity entity = body.getMsg();
-        if (entity == null) {
-            return;
-        }
-        UserActionUserEntity.UserBean userBean = entity.getUser();
-        if (userBean == null) {
-            return;
-        }
-
-        isCached = true;//设置为已缓存
-
-        //设置页码控制器
-        pageControl.setTotal(userBean.getTotal());
-        pageControl.setPer_page(userBean.getPer_page());
-        pageControl.setCurrent_page(userBean.getCurrent_page());
-        pageControl.setLast_page(userBean.getLast_page());
-        pageControl.setNext_page_url(userBean.getNext_page_url());
-        pageControl.setPrev_page_url(userBean.getPrev_page_url());
-        pageControl.setFrom(userBean.getFrom());
-        pageControl.setTo(userBean.getTo());
-
-        Log.d(TAG, pageControl.toString());
-        //处理数据
-        handleUserData(userBean);
-        //绑定数据
-        bindDataToView();
-    }
-
-    /**
-     * 处理用户数据
-     */
-    private void handleUserData(UserActionUserEntity.UserBean userBean) {
-        //判断操作动作
-        switch (action) {
-            case ACTION_REFRESH://刷新
-                users.clear();
-                break;
-            case ACTION_LOADMORE://加载
-                break;
-        }
-        //更新数据进去
-        List<UserActionUserEntity.UserBean.DataBean> dataBeen = userBean.getData();
-        if (dataBeen == null) {
-            return;
-        }
-        for (int i = 0; i < dataBeen.size(); i++) {
-            users.add(dataBeen.get(i));
-        }
-    }
 
     /**
      * 转换当前数据到userData数据
@@ -290,7 +291,7 @@ public class AttentionPresenter implements AttentionContract.Presenter {
         userDatas.clear();
         for (int i = 0; i < users.size(); i++) {
             UserData data = new UserData();
-            UserActionUserEntity.UserBean.DataBean bean = users.get(i);
+            UserActionUserEntity.DataBean bean = users.get(i);
             data.setAttentioned(true);
             data.setAvatar(bean.getAvatar());
             data.setBref_introduction(bean.getBref_introduction());
@@ -299,5 +300,18 @@ public class AttentionPresenter implements AttentionContract.Presenter {
             userDatas.add(data);
         }
         return userDatas;
+    }
+
+    /**
+     * 得到用户数据
+     */
+    private Users getUsers() {
+        UserInfoSingleton userInfo = UserInfoSingleton.getInstance();
+        Users users = userInfo.getUsers();
+        if (users == null) {
+            LoginContext.getInstance().setUserState(new LogoutState());
+            view.showReqResult("登录过期，请重新登录~");
+        }
+        return users;
     }
 }

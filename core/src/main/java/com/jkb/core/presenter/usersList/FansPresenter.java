@@ -107,12 +107,15 @@ public class FansPresenter implements FansContract.Presenter {
     @Override
     public void getFansUsersListData() {
         isLoading = true;
-        UserAuths auths = getUserAuths();
-        if (auths == null) {
-            return;
+        int visitor_id = 0;
+        if (LoginContext.getInstance().isLogined()) {
+            UserAuths auths = getUserAuths();
+            if (auths == null) {
+                return;
+            }
+            visitor_id = auths.getUser_id();
         }
-        String Authorization = Config.HEADER_BEARER + auths.getToken();
-        responsitory.fans(Authorization,
+        responsitory.fans(visitor_id,
                 pageControl.getCurrent_page(),
                 user_id, apiCallback);
     }
@@ -127,6 +130,10 @@ public class FansPresenter implements FansContract.Presenter {
 
     @Override
     public void payAttentionOrCancle(int target_id) {
+        if (!LoginContext.getInstance().isLogined()) {
+            view.showReqResult("您未登录，请先去登录才能操作");
+            return;
+        }
         //得到操作者id
         UserInfoSingleton userInfo = UserInfoSingleton.getInstance();
         UserAuths auths = userInfo.getUserAuths();
@@ -214,6 +221,56 @@ public class FansPresenter implements FansContract.Presenter {
                     }
                 }
 
+                /**
+                 * 解析数据
+                 */
+                private void handleUserActionEntity(ApiResponse<OperationUserEntity> body) {
+                    OperationUserEntity entity = body.getMsg();
+                    if (entity == null) {
+                        return;
+                    }
+
+                    //设置为已缓存
+                    isCached = true;
+
+                    pageControl.setTotal(entity.getTotal());
+                    pageControl.setPer_page(entity.getPer_page());
+                    pageControl.setCurrent_page(entity.getCurrent_page());
+                    pageControl.setLast_page(entity.getLast_page());
+                    pageControl.setNext_page_url(entity.getNext_page_url());
+                    pageControl.setPrev_page_url(entity.getPrev_page_url());
+                    pageControl.setFrom(entity.getFrom());
+                    pageControl.setTo(entity.getTo());
+
+                    Log.d(TAG, pageControl.toString());
+                    //处理数据
+                    handleUserData(entity);
+
+                    bindDataToView();
+                }
+
+                /**
+                 * 处理用户数据
+                 */
+                private void handleUserData(OperationUserEntity userBean) {
+                    //判断操作动作
+                    switch (action) {
+                        case ACTION_REFRESH://刷新
+                            users.clear();
+                            break;
+                        case ACTION_LOADMORE://加载
+                            break;
+                    }
+                    //更新数据进去
+                    List<OperationUserEntity.DataBean> dataBeen = userBean.getData();
+                    if (dataBeen == null) {
+                        return;
+                    }
+                    for (int i = 0; i < dataBeen.size(); i++) {
+                        users.add(dataBeen.get(i));
+                    }
+                }
+
                 @Override
                 public void onError(Response<ApiResponse<OperationUserEntity>> response,
                                     String error, ApiResponse<OperationUserEntity> apiResponse) {
@@ -237,56 +294,6 @@ public class FansPresenter implements FansContract.Presenter {
             };
 
     /**
-     * 解析数据
-     */
-    private void handleUserActionEntity(ApiResponse<OperationUserEntity> body) {
-        OperationUserEntity entity = body.getMsg();
-        if (entity == null) {
-            return;
-        }
-
-        //设置为已缓存
-        isCached = true;
-
-        pageControl.setTotal(entity.getTotal());
-        pageControl.setPer_page(entity.getPer_page());
-        pageControl.setCurrent_page(entity.getCurrent_page());
-        pageControl.setLast_page(entity.getLast_page());
-        pageControl.setNext_page_url(entity.getNext_page_url());
-        pageControl.setPrev_page_url(entity.getPrev_page_url());
-        pageControl.setFrom(entity.getFrom());
-        pageControl.setTo(entity.getTo());
-
-        Log.d(TAG, pageControl.toString());
-        //处理数据
-        handleUserData(entity);
-
-        bindDataToView();
-    }
-
-    /**
-     * 处理用户数据
-     */
-    private void handleUserData(OperationUserEntity userBean) {
-        //判断操作动作
-        switch (action) {
-            case ACTION_REFRESH://刷新
-                users.clear();
-                break;
-            case ACTION_LOADMORE://加载
-                break;
-        }
-        //更新数据进去
-        List<OperationUserEntity.DataBean> dataBeen = userBean.getData();
-        if (dataBeen == null) {
-            return;
-        }
-        for (int i = 0; i < dataBeen.size(); i++) {
-            users.add(dataBeen.get(i));
-        }
-    }
-
-    /**
      * 转换当前数据到userData数据
      */
     public List<UserData> getUsersData() {
@@ -294,8 +301,13 @@ public class FansPresenter implements FansContract.Presenter {
         for (int i = 0; i < users.size(); i++) {
             UserData data = new UserData();
             OperationUserEntity.DataBean bean = users.get(i);
+
             //是否被关注
-            data.setAttentioned(true);
+            if (bean.getHasPayAttention() == 1) {
+                data.setAttentioned(true);
+            } else {
+                data.setAttentioned(false);
+            }
             data.setAvatar(bean.getAvatar());
             data.setBref_introduction(bean.getBref_introduction());
             data.setNickname(bean.getNickname());

@@ -17,10 +17,11 @@ public interface AttentionDataSource {
     /**
      * 获取用户关注的用户
      *
-     * @param page   请求页数
-     * @param userId 用户id
+     * @param page       请求页数
+     * @param userId     用户id
+     * @param visitor_id 访客id,可选
      */
-    void payAttention(@NonNull int page, @NonNull int userId,
+    void payAttention(@NonNull int page, @NonNull int userId, int visitor_id,
                       @NonNull ApiCallback<ApiResponse<UserActionUserEntity>> apiCallback);
 
     /**

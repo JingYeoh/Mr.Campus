@@ -129,4 +129,19 @@ public class PersonSettingRemoteDataSource implements PersonSettingDataSource {
         new ApiEngine<ApiResponse<UserUpdateEntity>>(apiCallback, call, type);
     }
 
+    @Override
+    public void updateUserInfo(
+            @NonNull String Authorization, @NonNull int id, @NonNull String column,
+            @NonNull String value, @NonNull ApiCallback<ApiResponse<UserUpdateEntity>> apiCallback) {
+        ApiFactoryImpl factory = ApiFactoryImpl.newInstance();
+        factory.setHttpClient(factory.genericClient());
+        factory.initRetrofit();
+        UserUpdateApi userUpdateApi = factory.createApi(UserUpdateApi.class);
+        Call<ApiResponse<UserUpdateEntity>> call;
+        call = userUpdateApi.updateUserInfo(Authorization, id, column, value);
+        Type type = new TypeToken<ApiResponse<UserUpdateEntity>>() {
+        }.getType();
+        new ApiEngine<ApiResponse<UserUpdateEntity>>(apiCallback, call, type);
+    }
+
 }

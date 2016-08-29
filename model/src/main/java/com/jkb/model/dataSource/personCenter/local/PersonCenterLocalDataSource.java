@@ -55,7 +55,7 @@ public class PersonCenterLocalDataSource implements PersonCenterDataSource {
 
     @Override
     public void subscribeCircle(
-            @NonNull int user_id, @NonNull int page,
+            @NonNull int user_id, int visitor_id, @NonNull int page,
             @NonNull ApiCallback<ApiResponse<UserActionCircleEntity>> apiCallback) {
 
     }

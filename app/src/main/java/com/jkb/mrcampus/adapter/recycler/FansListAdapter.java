@@ -123,11 +123,11 @@ public class FansListAdapter extends RecyclerView.Adapter<FansListAdapter.ViewHo
         } else {//奇数
             holder.contentView.setBackgroundColor(colorWhite);
         }
-        holder.tvTime.setVisibility(View.GONE);
-
+        holder.tvTime.setVisibility(View.VISIBLE);
         UserData userData = userDatas.get(position);
         holder.tvNickName.setText(userData.getNickname());
         holder.tvSign.setText(userData.getBref_introduction());
+        holder.tvTime.setText(userData.getTime());
         String headImgUrl = userData.getAvatar();
         if (!StringUtils.isEmpty(headImgUrl)) {
             setImageLoad(holder.ivHeadImg, headImgUrl);
@@ -136,6 +136,8 @@ public class FansListAdapter extends RecyclerView.Adapter<FansListAdapter.ViewHo
         }
         //设置头像
         if (!userData.isAttentioned()) {
+            holder.tvAttention.setBackgroundResource(
+                    R.drawable.bg_edittext_maintheme_white_round_content);
             holder.tvAttention.setText("关注");
         } else {
             holder.tvAttention.setBackgroundResource(

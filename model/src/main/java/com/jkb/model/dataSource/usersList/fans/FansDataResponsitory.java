@@ -34,10 +34,10 @@ public class FansDataResponsitory implements FansDataSource {
 
     @Override
     public void fans(
-            @NonNull String Authorization, @NonNull int page,
+            int user_id, @NonNull int page,
             @NonNull int target_id,
             @NonNull ApiCallback<ApiResponse<OperationUserEntity>> apiCallback) {
-        remoteDataSource.fans(Authorization, page, target_id, apiCallback);
+        remoteDataSource.fans(user_id, page, target_id, apiCallback);
     }
 
     @Override

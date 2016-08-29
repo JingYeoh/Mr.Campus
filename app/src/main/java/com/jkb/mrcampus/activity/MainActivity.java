@@ -339,8 +339,6 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     @Override
     public void startChooseSchools() {
         Log.d(TAG, "startChooseSchools");
-//        Intent intent = new Intent(this, TestActivity.class);
-//        startActivityWithPushLeftAnim(intent);
         LoginContext.getInstance().setUserState(new LogoutState());
     }
 

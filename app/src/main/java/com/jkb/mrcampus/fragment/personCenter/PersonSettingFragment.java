@@ -17,6 +17,8 @@ import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
+import com.jkb.mrcampus.fragment.dialog.InputTextFloatFragment;
+import com.jkb.mrcampus.fragment.dialog.SexFilterFloatFragment;
 import com.jkb.mrcampus.helper.cropphoto.CropHandler;
 import com.jkb.mrcampus.helper.cropphoto.CropHelper;
 import com.jkb.mrcampus.helper.cropphoto.CropParams;
@@ -49,8 +51,14 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
 
     private CropParams mCropParams;//头像裁剪用到的
     private int photoCropType = -1;
+    //常量
+    //裁剪类型
     private static final int CROP_TYPE_HEADIMG = 0;
     private static final int CROP_TYPE_BG = 1;
+    //输入类型
+    private static final int INPUT_TYPE_NICKNAME = 1000;
+    private static final int INPUT_TYPE_NAME = 1001;
+    private static final int INPUT_TYPE_BREF = 1002;
 
     @Nullable
     @Override
@@ -114,15 +122,18 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
                 onBackGroundClick();
                 break;
             case R.id.fps_ll_nickName://昵称
-                showInputTextView();
+                showInputTextView(INPUT_TYPE_NICKNAME);
                 break;
             case R.id.fps_ll_approve://认证
                 break;
             case R.id.fps_ll_sex://性别
+                showSexFilterView();
                 break;
             case R.id.fps_ll_name://名称
+                showInputTextView(INPUT_TYPE_NAME);
                 break;
             case R.id.fps_ll_bref://简介
+                showInputTextView(INPUT_TYPE_BREF);
                 break;
             case R.id.fps_ll_phone://手机
                 break;
@@ -220,8 +231,71 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
     }
 
     @Override
-    public void showInputTextView() {
-        personCenterActivity.showInputTextFloatView("");
+    public void showSexFilterView() {
+        TextView tvSex = (TextView) rootView.findViewById(R.id.fps_tv_sex);
+        final String sex = tvSex.getText().toString();
+        personCenterActivity.showSexFilterFloatView(sex,
+                new SexFilterFloatFragment.SexFilterListener() {
+                    @Override
+                    public void onManSelected() {
+                        if (!sex.equals("男")) {
+                            mPresenter.updateSex("男");
+                        }
+                    }
+
+                    @Override
+                    public void onFemaleSelected() {
+                        if (!sex.equals("女")) {
+                            mPresenter.updateSex("女");
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void showInputTextView(final int type) {
+        TextView tvInputText = null;
+        switch (type) {
+            case INPUT_TYPE_NICKNAME:
+                tvInputText = (TextView) rootView.findViewById(R.id.fps_tv_nickName);
+                break;
+            case INPUT_TYPE_NAME:
+                tvInputText = (TextView) rootView.findViewById(R.id.fps_tv_name);
+                break;
+            case INPUT_TYPE_BREF:
+                tvInputText = (TextView) rootView.findViewById(R.id.fps_tv_bref_introduction);
+                break;
+        }
+        if (tvInputText == null) {
+            return;
+        }
+        final String value = tvInputText.getText().toString();
+        personCenterActivity.showInputTextFloatView(value,
+                new InputTextFloatFragment.OnSubmitClickListener() {
+                    @Override
+                    public void onSure(String value2) {
+                        if (!value2.equals(value)) {
+                            personCenterActivity.dismiss();
+                            updateInputText(type, value2);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void updateInputText(int type, String value) {
+        //根据类型判断应该请求什么接口
+        switch (type) {
+            case INPUT_TYPE_NICKNAME:
+                mPresenter.updateNickName(value);
+                break;
+            case INPUT_TYPE_NAME:
+                mPresenter.updateName(value);
+                break;
+            case INPUT_TYPE_BREF:
+                mPresenter.updateBref_introduction(value);
+                break;
+        }
     }
 
     @Override
@@ -267,10 +341,10 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
         String path = uri.getPath();
         switch (photoCropType) {
             case CROP_TYPE_BG://背景
-                mPresenter.changeBackGround(path);
+                mPresenter.updateBackGround(path);
                 break;
             case CROP_TYPE_HEADIMG://头像
-                mPresenter.changeHeadImg(path);
+                mPresenter.updateHeadImg(path);
                 break;
         }
     }

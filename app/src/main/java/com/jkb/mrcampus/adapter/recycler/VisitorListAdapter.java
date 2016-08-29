@@ -136,6 +136,8 @@ public class VisitorListAdapter extends RecyclerView.Adapter<VisitorListAdapter.
         }
         //设置头像
         if (!userData.isAttentioned()) {
+            holder.tvAttention.setBackgroundResource(
+                    R.drawable.bg_edittext_maintheme_white_round_content);
             holder.tvAttention.setText("关注");
         } else {
             holder.tvAttention.setBackgroundResource(

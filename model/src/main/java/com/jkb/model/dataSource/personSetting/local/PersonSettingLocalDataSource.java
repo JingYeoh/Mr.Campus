@@ -78,4 +78,12 @@ public class PersonSettingLocalDataSource implements PersonSettingDataSource {
             @NonNull ApiCallback<ApiResponse<UserUpdateEntity>> apiCallback) {
 
     }
+
+    @Override
+    public void updateUserInfo(
+            @NonNull String Authorization, @NonNull int id, @NonNull String column,
+            @NonNull String value,
+            @NonNull ApiCallback<ApiResponse<UserUpdateEntity>> apiCallback) {
+
+    }
 }

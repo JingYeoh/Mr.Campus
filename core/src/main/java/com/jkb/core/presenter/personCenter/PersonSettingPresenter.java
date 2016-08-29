@@ -90,14 +90,48 @@ public class PersonSettingPresenter implements PersonSettingContract.Presenter {
     }
 
     @Override
-    public void changeHeadImg(String headImgPath) {
+    public void updateHeadImg(String headImgPath) {
         headImgLocalPath = headImgPath;
         uploadImage(headImgPath, 0);
     }
 
     @Override
-    public void changeBackGround(String bgPath) {
+    public void updateBackGround(String bgPath) {
         uploadImage(bgPath, 1);
+    }
+
+    @Override
+    public void updateNickName(String nickName) {
+        updateUserInfo(Config.COLUMN_NICKNAME, nickName);
+    }
+
+    @Override
+    public void updateName(String name) {
+        updateUserInfo(Config.COLUMN_NAME, name);
+    }
+
+    @Override
+    public void updateSex(String sex) {
+        updateUserInfo(Config.COLUMN_SEX, sex);
+    }
+
+    @Override
+    public void updateBref_introduction(String bref_introfuction) {
+        updateUserInfo(Config.COLUMN_BREF_INTRODUCTION, bref_introfuction);
+    }
+
+    /**
+     * 更新用户数据
+     *
+     * @param column 修改用户信息的类型
+     * @param value  要修改的用户信息
+     */
+    private void updateUserInfo(String column, String value) {
+        Users users = getUsers();
+        UserAuths auths = getUserAuths();
+        int user_id = users.getUser_id();
+        String Authorization = Config.HEADER_BEARER + auths.getToken();
+        responsitory.updateUserInfo(Authorization, user_id, column, value, updateUserInfo);
     }
 
     /**
@@ -326,6 +360,40 @@ public class PersonSettingPresenter implements PersonSettingContract.Presenter {
             if (view.isActive()) {
                 view.dismissLoading();
                 view.showReqResult("请求失败，请检查您的网络");
+            }
+        }
+    };
+
+    /**
+     * 更新用户信息
+     */
+    private ApiCallback<ApiResponse<UserUpdateEntity>> updateUserInfo
+            = new ApiCallback<ApiResponse<UserUpdateEntity>>() {
+        @Override
+        public void onSuccess(Response<ApiResponse<UserUpdateEntity>> response) {
+            if (view.isActive()) {
+                view.dismissLoading();
+                view.showReqResult("修改成功");
+                isCacheOverDatad = true;//设置数据过期
+                notifyDataChanged();//通知数据过期
+                getUserInfo();
+            }
+        }
+
+        @Override
+        public void onError(Response<ApiResponse<UserUpdateEntity>> response,
+                            String error, ApiResponse<UserUpdateEntity> apiResponse) {
+            if (view.isActive()) {
+                view.dismissLoading();
+                view.showReqResult("修改失败");
+            }
+        }
+
+        @Override
+        public void onFail() {
+            if (view.isActive()) {
+                view.dismissLoading();
+                view.showReqResult("请求失败");
             }
         }
     };

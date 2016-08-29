@@ -10,6 +10,8 @@ import com.jkb.api.entity.user.UserActionVisitorEntity;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -23,16 +25,19 @@ public interface UserActionApi {
     /**
      * * 获取用户关注的圈子
      *
-     * @param action 操作类型.
-     *               允许值: "subscribe", "inCommonUse", "favorite", "payAttention", "visitor"
-     * @param userId 用户ID
-     * @param page   请求的页数字段
+     * @param action     操作类型.
+     *                   允许值: "subscribe", "inCommonUse", "favorite", "payAttention", "visitor"
+     * @param userId     用户ID
+     * @param visitor_id 访客id
+     * @param page       请求的页数字段
      * @return Call
      */
-    @GET(Config.URL_USER_ACTION)
+    @Multipart
+    @POST(Config.URL_USER_ACTION)
     Call<ApiResponse<UserActionCircleEntity>> subscribe(
-            @Path(Config.KEY_ACTION) String action,
-            @Path(Config.KEY_USERID) int userId,
+            @Part(Config.KEY_ACTION) String action,
+            @Part(Config.KEY_USER_ID) int userId,
+            @Part(Config.KEY_VISITOR_ID) int visitor_id,
             @Query(Config.KEY_PAGE) int page);
 
     /**
@@ -53,16 +58,19 @@ public interface UserActionApi {
     /**
      * * 获取用户关注的用户
      *
-     * @param action 操作类型.
-     *               允许值: "subscribe", "inCommonUse", "favorite", "payAttention", "visitor"
-     * @param userId 用户ID
-     * @param page   请求的页数字段
+     * @param action     操作类型.
+     *                   允许值: "subscribe", "inCommonUse", "favorite", "payAttention", "visitor"
+     * @param user_id    用户ID
+     * @param visitor_id 访客id，可空
+     * @param page       请求的页数字段
      * @return Call
      */
-    @GET(Config.URL_USER_ACTION)
+    @Multipart
+    @POST(Config.URL_USER_ACTION)
     Call<ApiResponse<UserActionUserEntity>> payAttention(
-            @Path(Config.KEY_ACTION) String action,
-            @Path(Config.KEY_USERID) int userId,
+            @Part(Config.KEY_ACTION) String action,
+            @Part(Config.KEY_USER_ID) int user_id,
+            @Part(Config.KEY_VISITOR_ID) int visitor_id,
             @Query(Config.KEY_PAGE) int page);
 
     /**

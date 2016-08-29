@@ -209,6 +209,11 @@ public interface PersonCenterContract {
         void getCircleData();
 
         /**
+         * 得到访客的id
+         */
+        int getCircleId(int position);
+
+        /**
          * 请求访客接口
          */
         void visit();

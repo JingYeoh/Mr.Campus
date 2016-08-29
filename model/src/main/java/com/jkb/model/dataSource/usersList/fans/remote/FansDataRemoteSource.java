@@ -39,7 +39,7 @@ public class FansDataRemoteSource implements FansDataSource {
 
     @Override
     public void fans(
-            @NonNull String Authorization, @NonNull int page,
+            int user_id, @NonNull int page,
             @NonNull int target_id,
             @NonNull ApiCallback<ApiResponse<OperationUserEntity>> apiCallback) {
         //请求网络数据
@@ -49,7 +49,7 @@ public class FansDataRemoteSource implements FansDataSource {
         OptionUserApi optionUserApi = apiFactory.createApi(OptionUserApi.class);
         Call<ApiResponse<OperationUserEntity>> call;
         call = optionUserApi.payAttention(
-                Authorization, Config.ACTION_PAYATTENTION, target_id, page);
+                Config.ACTION_PAYATTENTION, user_id, target_id, page);
         Type type = new TypeToken<ApiResponse<OperationUserEntity>>() {
         }.getType();
         new ApiEngine<ApiResponse<OperationUserEntity>>(apiCallback, call, type);

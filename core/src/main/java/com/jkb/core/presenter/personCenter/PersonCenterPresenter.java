@@ -68,6 +68,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
         responsitory.getUserInfo(user_id, userInfoApiCallback);
     }
 
+
     /**
      * 获取用户数据的回调接口
      */
@@ -80,6 +81,45 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
                         //处理数据并显示
                         handleUserData(response.body());
                     }
+                }
+
+                /**
+                 * 处理用户数据
+                 */
+                private void handleUserData(ApiResponse<UserInfoEntity> body) {
+                    UserInfoEntity entity = body.getMsg();
+                    UserInfoEntity.UserInfoBean infoBean = entity.getUserInfo();
+                    if (infoBean == null) {
+                        return;
+                    }
+                    //设置数据未过期
+                    isOverdue = false;
+                    //初始化缓存数据对象
+                    userData = new UserData();
+                    //获取圈子数据
+                    getCircleData();
+
+                    //判断是否设置头像
+                    if (!StringUtils.isEmpty(infoBean.getAvatar())) {
+                        //加载头像
+                        responsitory.loadHeadImgByUrl(infoBean.getAvatar(), bitmapLoadedCallback);
+                    }
+                    //加載背景圖片
+                    if (!StringUtils.isEmpty(infoBean.getBackground())) {
+                        responsitory.loadHeadImgByUrl(infoBean.getBackground(), backGroundBitmapCallback);
+                    }
+
+                    String name = (StringUtils.isEmpty(infoBean.getName()) ?
+                            infoBean.getNickname() + "菌" : infoBean.getName());
+                    //设置缓存的数据
+                    userData.setName(name);
+                    userData.setNickName(infoBean.getNickname());
+                    userData.setSign(infoBean.getBref_introduction());
+                    userData.setFansCount(infoBean.getFansCount());
+                    userData.setAttentionUserCount(infoBean.getAttentionUserCount());
+                    userData.setVisitorCount(infoBean.getVisitorCount());
+                    //绑定数据
+                    bindDataToView();
                 }
 
                 @Override
@@ -100,71 +140,6 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
                     }
                 }
             };
-
-    /**
-     * 处理用户数据
-     */
-    private void handleUserData(ApiResponse<UserInfoEntity> body) {
-        UserInfoEntity entity = body.getMsg();
-        UserInfoEntity.UserInfoBean infoBean = entity.getUserInfo();
-        if (infoBean == null) {
-            return;
-        }
-        //设置数据未过期
-        isOverdue = false;
-        //初始化缓存数据对象
-        userData = new UserData();
-        //获取圈子数据
-        getCircleData();
-
-        //判断是否设置头像
-        if (!StringUtils.isEmpty(infoBean.getAvatar())) {
-            //加载头像
-            responsitory.loadHeadImgByUrl(infoBean.getAvatar(), bitmapLoadedCallback);
-        }
-        //加載背景圖片
-        if (!StringUtils.isEmpty(infoBean.getBackground())) {
-            responsitory.loadHeadImgByUrl(infoBean.getBackground(), backGroundBitmapCallback);
-        }
-
-        String name = (StringUtils.isEmpty(infoBean.getName()) ?
-                infoBean.getNickname() + "菌" : infoBean.getName());
-        //设置缓存的数据
-        userData.setName(name);
-        userData.setNickName(infoBean.getNickname());
-        userData.setSign(infoBean.getBref_introduction());
-        userData.setFansCount(infoBean.getFansCount());
-        userData.setAttentionUserCount(infoBean.getAttentionUserCount());
-        userData.setVisitorCount(infoBean.getVisitorCount());
-        //绑定数据
-        bindDataToView();
-    }
-
-    /**
-     * 绑定数据到view中
-     */
-    private void bindDataToView() {
-        if (!view.isActive()) {
-            return;
-        }
-        view.showContentView();//显示视图
-        view.setUserName(userData.getNickName());
-        view.setUserSign(userData.getSign());
-        view.setName(userData.getName());
-        //设置关注栏的数据
-        view.setFansNum(userData.getFansCount());
-        view.setVistiorsNum(userData.getVisitorCount());
-        view.setWatchedNum(userData.getAttentionUserCount());
-        if (userData.getHeadImg() != null) {
-            view.setHeadImg(userData.getHeadImg());//设置头像
-        }
-        if (userData.getBackGround() != null) {
-            view.setBackGround(userData.getBackGround());//设置背景图片
-        }
-        //设置圈子
-        view.setCircleViewData(userData.getCircleDatas());
-    }
-
     /**
      * 头像加载的回调
      */
@@ -242,22 +217,17 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
                     }
                     UserActionCircleEntity entity = body.getMsg();
                     if (entity == null) {
+                        userData.setCircleDatas(null);
                         view.showCircleNonDataView();
                         return;
                     }
-                    UserActionCircleEntity.CircleBean circle = entity.getCircle();
-                    if (circle == null) {
-                        view.showCircleNonDataView();
-                        return;
-                    }
-                    List<UserActionCircleEntity.CircleBean.DataBean> circles = circle.getData();
+                    List<UserActionCircleEntity.DataBean> circles = entity.getData();
                     if (circles == null || circles.size() == 0) {
-                        view.showCircleNonDataView();
-                        return;
+                        userData.setCircleDatas(null);
+                    } else {
+                        //设置数据进去
+                        userData.setCircleDatas(changeToCircleData(circles));
                     }
-                    //设置数据进去
-//                    view.setCircleViewData(changeToCircleData(circles));
-                    userData.setCircleDatas(changeToCircleData(circles));
                     bindDataToView();
                 }
 
@@ -265,16 +235,17 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
                  * 转换为可用的数据
                  */
                 private List<CircleData> changeToCircleData(
-                        List<UserActionCircleEntity.CircleBean.DataBean> circles) {
+                        List<UserActionCircleEntity.DataBean> circles) {
                     circleDatas.clear();
                     for (int i = 0; i < circles.size(); i++) {
                         CircleData data = new CircleData();
-                        UserActionCircleEntity.CircleBean.DataBean bean = circles.get(i);
+                        UserActionCircleEntity.DataBean bean = circles.get(i);
                         data.setCircleName(bean.getName());
                         data.setCircleType(bean.getType());
                         data.setPictureUrl(bean.getPicture());
                         data.setDynamics_count(bean.getDynamics_count());
                         data.setOperation_count(bean.getOperation_count());
+                        data.setCircleId(bean.getId());
                         circleDatas.add(data);
                     }
                     return circleDatas;
@@ -372,6 +343,35 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
                 }
             };
 
+    /**
+     * 绑定数据到view中
+     */
+    private void bindDataToView() {
+        if (!view.isActive()) {
+            return;
+        }
+        view.showContentView();//显示视图
+        view.setUserName(userData.getNickName());
+        view.setUserSign(userData.getSign());
+        view.setName(userData.getName());
+        //设置关注栏的数据
+        view.setFansNum(userData.getFansCount());
+        view.setVistiorsNum(userData.getVisitorCount());
+        view.setWatchedNum(userData.getAttentionUserCount());
+        if (userData.getHeadImg() != null) {
+            view.setHeadImg(userData.getHeadImg());//设置头像
+        }
+        if (userData.getBackGround() != null) {
+            view.setBackGround(userData.getBackGround());//设置背景图片
+        }
+        if (userData.getCircleDatas() == null || userData.getCircleDatas().size() == 0) {
+            view.showCircleNonDataView();
+        } else {
+            //设置圈子
+            view.setCircleViewData(userData.getCircleDatas());
+        }
+    }
+
     @Override
     public void judgeUserToSetTitleStyle() {
         if (LoginContext.getInstance().isLogined()) {
@@ -395,7 +395,18 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
     public void getCircleData() {
         //从网上获取圈子数据
         //只获取第一页的数据
-        responsitory.subscribeCircle(user_id, 1, subscribeCircleApiCallback);
+        Users users = getUsers();
+        int visitor_id = users.getUser_id();
+        responsitory.subscribeCircle(user_id, visitor_id, 1, subscribeCircleApiCallback);
+    }
+
+    @Override
+    public int getCircleId(int position) {
+        CircleData data = userData.getCircleDatas().get(position);
+        if (data == null) {
+            return 0;
+        }
+        return data.getCircleId();
     }
 
     @Override

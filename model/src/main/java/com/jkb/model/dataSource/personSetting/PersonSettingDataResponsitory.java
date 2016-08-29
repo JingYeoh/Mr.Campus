@@ -75,4 +75,11 @@ public class PersonSettingDataResponsitory implements PersonSettingDataSource {
         remoteDataSource.uploadBackGround(Authorization, id, image, apiCallback);
     }
 
+    @Override
+    public void updateUserInfo(
+            @NonNull String Authorization, @NonNull int id, @NonNull String column,
+            @NonNull String value, @NonNull ApiCallback<ApiResponse<UserUpdateEntity>> apiCallback) {
+        remoteDataSource.updateUserInfo(Authorization, id, column, value, apiCallback);
+    }
+
 }

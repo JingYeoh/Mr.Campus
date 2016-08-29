@@ -90,9 +90,22 @@ public interface PersonSettingContract {
         void choosePictureFromAlbum();
 
         /**
+         * 筛选性别
+         */
+        void showSexFilterView();
+
+        /**
          * 显示输入文字的View
          */
-        void showInputTextView();
+        void showInputTextView(int type);
+
+        /**
+         * 修改输入的内容
+         *
+         * @param type  類型
+         * @param value 数据
+         */
+        void updateInputText(int type, String value);
 
         /**
          * 通知数据过期
@@ -114,12 +127,32 @@ public interface PersonSettingContract {
         /**
          * 改变头像
          */
-        void changeHeadImg(String headImgPath);
+        void updateHeadImg(String headImgPath);
 
         /**
          * 改变背景
          */
-        void changeBackGround(String bgPath);
+        void updateBackGround(String bgPath);
+
+        /**
+         * 更新昵称
+         */
+        void updateNickName(String nickName);
+
+        /**
+         * 更新名称
+         */
+        void updateName(String name);
+
+        /**
+         * 更新性别
+         */
+        void updateSex(String sex);
+
+        /**
+         * 更新简介
+         */
+        void updateBref_introduction(String bref_introfuction);
 
         /**
          * 通知数据过期

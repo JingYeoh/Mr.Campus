@@ -120,6 +120,28 @@ public class ApiFactoryImpl implements ApiFactory {
     }
 
     /**
+     * 只要 "Accept": "application/json"头部信息
+     */
+    public OkHttpClient acceptClient() {
+        httpClient = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request request = chain.request()
+                                .newBuilder()
+                                .addHeader("Accept", "application/json")
+                                .build();
+                        return chain.proceed(request);
+                    }
+
+                })
+                .build();
+
+        return httpClient;
+    }
+
+
+    /**
      * 设置OKHttp拦截器
      */
     public OkHttpClient filePostClient() {

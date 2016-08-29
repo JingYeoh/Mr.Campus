@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/titleStyle"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/ts5_ib_left"
+        style="@style/titleContentImage"
+        android:background="@drawable/general_item_selector2"
+        android:src="@drawable/ic_back_black" />
+
+    <View
+        android:layout_width="0.01dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/black" />
+
+    <TextView
+        android:id="@+id/ts5_tv_name"
+        style="@style/titleNameStyle"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1"
+        android:gravity="center|left"
+        android:singleLine="true"
+        android:text="标题"
+        android:textColor="@color/black" />
+
+
+    <ImageButton
+        android:id="@+id/ts5_ib_right_0"
+        style="@style/titleContentImage"
+        android:background="@drawable/general_item_selector2"
+        android:src="@drawable/ic_comment_black" />
+
+    <ImageButton
+        android:id="@+id/ts5_ib_right_1"
+        style="@style/titleContentImage"
+        android:background="@drawable/general_item_selector2"
+        android:src="@drawable/ic_set_black" />
+</LinearLayout>

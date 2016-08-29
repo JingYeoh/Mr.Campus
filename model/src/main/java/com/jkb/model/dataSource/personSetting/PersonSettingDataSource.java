@@ -71,4 +71,18 @@ public interface PersonSettingDataSource {
             @NonNull int id,
             @NonNull MultipartBody.Part image,
             @NonNull ApiCallback<ApiResponse<UserUpdateEntity>> apiCallback);
+
+    /**
+     * 修改用户资料
+     *
+     * @param Authorization Token
+     * @param id            用户id
+     * @param column        所修改用户信息的类型.
+     * @param value         修改的信息
+     * @param apiCallback   ApiCallback
+     */
+    void updateUserInfo(
+            @NonNull String Authorization, @NonNull int id,
+            @NonNull String column, @NonNull String value,
+            @NonNull ApiCallback<ApiResponse<UserUpdateEntity>> apiCallback);
 }

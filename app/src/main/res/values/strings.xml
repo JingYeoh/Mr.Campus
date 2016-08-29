@@ -47,4 +47,7 @@
     <string name="Name">名称</string>
     <string name="bref_introduction">简介</string>
     <string name="Background">背景</string>
+    <string name="Man">男</string>
+    <string name="Female">女</string>
+    <string name="Zero">0</string>
 </resources>

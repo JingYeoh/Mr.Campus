@@ -34,7 +34,7 @@ public class FansDataLocalSource implements FansDataSource {
 
     @Override
     public void fans(
-            @NonNull String Authorization,
+            int user_id,
             @NonNull int page, @NonNull int target_id,
             @NonNull ApiCallback<ApiResponse<OperationUserEntity>> apiCallback) {
 

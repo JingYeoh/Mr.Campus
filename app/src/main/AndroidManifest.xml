@@ -72,10 +72,11 @@
         //用户列表的控制器——访客、粉丝、关注
         <activity android:name=".activity.UsersListActivity" />
 
+        //关于圈子的页面控制器
+        <activity android:name=".activity.CircleActivity" />
+
         //用于定位的服务
         <service android:name=".service.LocationService" />
-
-        <activity android:name=".activity.TestActivity" />
 
         <!--BaiduMap start-->
         <meta-data

@@ -1,7 +1,5 @@
 package com.jkb.api.config;
 
-import android.content.SyncRequest;
-
 /**
  * 用于保存要用到的键值对的常量类
  * Created by JustKiddingBaby on 2016/7/31.
@@ -29,20 +27,20 @@ public class Config {
     public static final String URL_RESET_PASSWORD_WITH_PHONE = "auth/resetPasswordWithPhone";//手机号修改密码
     //circle的接口地址
     public static final String URL_CIRCLE_CREATE = "circle";
+    public static final String URL_CIRCLE_INFO = "circle/{userId}/{id}";
     //user接口地址
-    public static final String URL_USER_ACTION = "user/{action}/{userId}";
+    public static final String URL_USER_ACTION = "getOperation";
     public static final String URL_USER_INFO = "user/{id}";
     public static final String URL_USER_UPDATE_IMAGE = "user/image/{id}";
+    public static final String URL_USER_UPDATE_INFO = "user/{id}";
     //operation的接口地址
     public static final String URL_OPERATION = "operation";//关注订阅等操作
-    public static final String URL_OPERATION_USER = "operation/{action}/{targetId}";//获取设计操作的用户
+    public static final String URL_OPERATION_USER = "operation/getUser";//获取涉及操作的用户
     public static final String URL_OPERATION_VERIFYIFPAYATTENTION = "verifyIfPayAttention";//是否被关注
     public static final String URL_OPERATION_VISITME = "getVisitMe";//访问我的人
     public static final String URL_OPERATION_VISITOTHER = "getVisitOther";//我访问的人
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
-    //用于分页的后缀
-    public static final String URL_PAGE = "?page={page}";
 
     //需要添加的头部
     public static final String HEADER_KEY_AUTHORIZATION = "Authorization";
@@ -114,5 +112,10 @@ public class Config {
     public static final String ACTION_INCOMMONUSE = "inCommonUse";
     public static final String ACTION_VISITOR = "visitor";
     public static final String ACTION_VISIT = "visit";
+
+    public static final String COLUMN_NICKNAME = "nickname";
+    public static final String COLUMN_SEX = "sex";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_BREF_INTRODUCTION = "bref_introduction";
 
 }

@@ -55,7 +55,7 @@ public class PersonCenterRemoteDataSource implements PersonCenterDataSource {
         factory.setHttpClient(factory.genericClient());
         factory.initRetrofit();
         UserInfoApi userInfoApi = factory.createApi(UserInfoApi.class);
-        Call<ApiResponse<UserInfoEntity>> call = null;
+        Call<ApiResponse<UserInfoEntity>> call;
         call = userInfoApi.getUserInfo(user_id);
         Type type = new TypeToken<ApiResponse<UserInfoEntity>>() {
         }.getType();
@@ -105,7 +105,7 @@ public class PersonCenterRemoteDataSource implements PersonCenterDataSource {
 
     @Override
     public void subscribeCircle(
-            @NonNull int user_id, @NonNull int page,
+            @NonNull int user_id, int visitor_id, @NonNull int page,
             @NonNull ApiCallback<ApiResponse<UserActionCircleEntity>> apiCallback) {
         //获取网络数据
         ApiFactoryImpl factory = ApiFactoryImpl.newInstance();
@@ -113,7 +113,7 @@ public class PersonCenterRemoteDataSource implements PersonCenterDataSource {
         factory.initRetrofit();
         UserActionApi userActionApi = factory.createApi(UserActionApi.class);
         Call<ApiResponse<UserActionCircleEntity>> call;
-        call = userActionApi.subscribe(Config.ACTION_SUBSCRIBE, user_id, page);
+        call = userActionApi.subscribe(Config.ACTION_SUBSCRIBE, user_id, visitor_id, page);
         Type type = new TypeToken<ApiResponse<UserActionCircleEntity>>() {
         }.getType();
         new ApiEngine<ApiResponse<UserActionCircleEntity>>(apiCallback, call, type);

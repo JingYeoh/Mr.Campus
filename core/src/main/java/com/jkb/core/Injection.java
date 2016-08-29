@@ -7,6 +7,9 @@ import com.jkb.core.presenter.usersList.VisitorPresenter;
 import com.jkb.model.dataSource.baidu.map.webService.BaiduMapWebServiceResponsitory;
 import com.jkb.model.dataSource.baidu.map.webService.local.BaiduMapWebServiceLocalDataSource;
 import com.jkb.model.dataSource.baidu.map.webService.remote.BaiduMapWebServiceRemoteDataSource;
+import com.jkb.model.dataSource.circle.circleIndex.CircleIndexDataResponsitiry;
+import com.jkb.model.dataSource.circle.circleIndex.local.CircleIndexLocalDataSource;
+import com.jkb.model.dataSource.circle.circleIndex.remote.CircleIndexRemoteDataSource;
 import com.jkb.model.dataSource.create$circle.CircleCreateDataResponsitory;
 import com.jkb.model.dataSource.create$circle.local.CircleCreateLocalDataSource;
 import com.jkb.model.dataSource.create$circle.remote.CircleCreateRemoteDataSource;
@@ -231,5 +234,20 @@ public class Injection {
                 PersonSettingRemoteDataSource.getInstance()
         );
         return responsitory;
+    }
+
+    /**
+     * 返回CircleIndexDataResponsitiry实例
+     *
+     * @param applicationContext 上下文
+     * @return CircleIndexDataResponsitiry
+     */
+    public static CircleIndexDataResponsitiry provideCircleIndexDataResponsitiry(
+            @NonNull Context applicationContext) {
+        CircleIndexDataResponsitiry responsitiry = CircleIndexDataResponsitiry.getInstance(
+                CircleIndexLocalDataSource.getInstance(applicationContext),
+                CircleIndexRemoteDataSource.getInstance()
+        );
+        return responsitiry;
     }
 }

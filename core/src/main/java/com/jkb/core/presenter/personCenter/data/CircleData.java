@@ -12,6 +12,7 @@ public class CircleData {
     private String pictureUrl;//图片的地址
     private int dynamics_count;//动态总数.
     private int operation_count;//订阅总数
+    private int circleId;//圈子id
 
 
     public String getCircleName() {
@@ -52,5 +53,13 @@ public class CircleData {
 
     public void setOperation_count(int operation_count) {
         this.operation_count = operation_count;
+    }
+
+    public int getCircleId() {
+        return circleId;
+    }
+
+    public void setCircleId(int circleId) {
+        this.circleId = circleId;
     }
 }

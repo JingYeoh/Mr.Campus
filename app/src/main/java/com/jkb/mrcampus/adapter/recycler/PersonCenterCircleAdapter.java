@@ -2,6 +2,8 @@ package com.jkb.mrcampus.adapter.recycler;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +14,9 @@ import android.widget.TextView;
 import com.jkb.core.presenter.personCenter.data.CircleData;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.StringUtils;
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
+import com.jkb.mrcampus.utils.ClassUtils;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -24,10 +28,11 @@ import java.util.List;
  * Created by JustKiddingBaby on 2016/8/16.
  */
 
-public class PersonCenterCircleAdapter extends RecyclerView.Adapter<PersonCenterCircleAdapter.ViewHolder> {
+public class PersonCenterCircleAdapter extends RecyclerView.Adapter<PersonCenterCircleAdapter.ViewHolder> implements View.OnClickListener {
 
     private Context context;
     public List<CircleData> circleDatas = null;
+    private OnCircleItemClickListener onCircleItemClickListener;
 
     public PersonCenterCircleAdapter(Context context, List<CircleData> circleDatas) {
         this.context = context;
@@ -35,6 +40,14 @@ public class PersonCenterCircleAdapter extends RecyclerView.Adapter<PersonCenter
             circleDatas = new ArrayList<>();
         }
         this.circleDatas = circleDatas;
+    }
+
+    /**
+     * 设置条目点击事件的监听器
+     */
+    public void setOnCircleItemClickListener(
+            @NonNull OnCircleItemClickListener onCircleItemClickListener) {
+        this.onCircleItemClickListener = onCircleItemClickListener;
     }
 
     @Override
@@ -48,11 +61,16 @@ public class PersonCenterCircleAdapter extends RecyclerView.Adapter<PersonCenter
         holder.tvDynamicsCount = (TextView) view.findViewById(R.id.ipcc_tv_dynamicsCount);
         holder.tvOperationCOunt = (TextView) view.findViewById(R.id.ipcc_tv_operationCount);
 
+        holder.ivPicture.setOnClickListener(this);
+
         return holder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        //绑定控件的TAG
+        ClassUtils.bindViewsTag(position, holder.ivPicture);
+
         //绑定数据
         CircleData data = circleDatas.get(position);
         holder.tvCircleName.setText(data.getCircleName());
@@ -100,6 +118,24 @@ public class PersonCenterCircleAdapter extends RecyclerView.Adapter<PersonCenter
         return circleDatas.size();
     }
 
+    @Override
+    public void onClick(View view) {
+        if (onCircleItemClickListener != null) {
+            //判断是哪个控件
+            Bundle bundle = (Bundle) view.getTag();
+            if (bundle == null) {
+                return;
+            }
+            int viewId = bundle.getInt(Config.BUNDLE_KEY_VIEW_ID);
+            int position = bundle.getInt(Config.BUNDLE_KEY_VIEW_POSITION);
+            switch (viewId) {
+                case R.id.ipcc_iv_picture:
+                    onCircleItemClickListener.onItemClick(position);
+                    break;
+            }
+        }
+    }
+
     /**
      * ViewHolder类
      */
@@ -114,5 +150,17 @@ public class PersonCenterCircleAdapter extends RecyclerView.Adapter<PersonCenter
         TextView tvDynamicsCount;//动态总数
         TextView tvOperationCOunt;//订阅总数
         ImageView ivPicture;
+    }
+
+    /**
+     * 圈子条目的点击事件的监听器
+     */
+    public interface OnCircleItemClickListener {
+        /**
+         * 条目点击方法
+         *
+         * @param position 被点击的条目
+         */
+        void onItemClick(int position);
     }
 }

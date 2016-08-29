@@ -5,21 +5,23 @@
     android:orientation="vertical">
 
     <EditText
+        android:id="@+id/fdit_etInput"
         style="@style/PersonSettingTextPromptStyle"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="130dp"
         android:background="@color/white"
         android:gravity="top"
         android:padding="10dp"
-        android:text="啦啦啦"
+        android:text="内容"
         android:textColor="@color/black" />
 
 
     <Button
+        android:id="@+id/fdit_bt_submit"
         style="@style/Dynamic_ContentText_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/main_theme"
+        android:background="@drawable/selecter_main_gravy"
         android:gravity="center"
         android:padding="10dp"
         android:text="确定"
