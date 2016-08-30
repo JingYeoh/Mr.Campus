@@ -20,6 +20,7 @@ import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.usersList.AttentionFragment;
 import com.jkb.mrcampus.fragment.usersList.FansFragment;
 import com.jkb.mrcampus.fragment.usersList.VisitorFragment;
+import com.jkb.mrcampus.utils.BitmapUtil;
 import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.List;
@@ -228,6 +229,7 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void setBackGround(Bitmap bitmap) {
+        bitmap = BitmapUtil.fastBlur(bitmap, 15, 2);//设置高斯模糊效果
         ((ImageView) rootView.findViewById(R.id.fpc_iv_backGround)).setImageBitmap(bitmap);
     }
 

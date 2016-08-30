@@ -1,14 +1,17 @@
 package com.jkb.api;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Response;
 import rx.Observable;
@@ -102,8 +105,15 @@ public class ApiEngine<T> {
             default:
                 String error = response.errorBody().string();
                 Log.i(TAG, error);
-                T obj = new Gson().fromJson(error, mType);
-                apiCallback.onError(response, error, obj);
+                //这一层主要为了放置返回的不是json数据
+                try {
+                    JSONObject object = new JSONObject(error);
+                    T obj = new Gson().fromJson(error, mType);
+                    apiCallback.onError(response, error, obj);
+                } catch (JSONException e) {
+                    apiCallback.onError(response, "服务器异常", null);
+                    e.printStackTrace();
+                }
                 break;
         }
     }

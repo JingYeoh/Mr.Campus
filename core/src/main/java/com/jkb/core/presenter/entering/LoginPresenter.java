@@ -133,30 +133,32 @@ public class LoginPresenter implements LoginContract.Presenter {
     /**
      * 登录的回调接口
      */
-    private ApiCallback<ApiResponse<LoginEntity>> loginApiCallback = new ApiCallback<ApiResponse<LoginEntity>>() {
-        @Override
-        public void onSuccess(Response<ApiResponse<LoginEntity>> response) {
+    private ApiCallback<ApiResponse<LoginEntity>> loginApiCallback =
+            new ApiCallback<ApiResponse<LoginEntity>>() {
+                @Override
+                public void onSuccess(Response<ApiResponse<LoginEntity>> response) {
 //            loginView.dismissLoading();
 //            loginView.showReqResult("登录成功，宝宝好棒");
 //            loginSystem();//进入系统
-            //存储数据到数据库中
-            saveUserDataToDb(response.body().getMsg());
-        }
+                    //存储数据到数据库中
+                    saveUserDataToDb(response.body().getMsg());
+                }
 
-        @Override
-        public void onError(Response<ApiResponse<LoginEntity>> response, String error, ApiResponse<LoginEntity> apiResponse) {
-            loginView.dismissLoading();
-            loginView.showReqResult("帐号或密码错误");
-        }
+                @Override
+                public void onError(Response<ApiResponse<LoginEntity>> response,
+                                    String error, ApiResponse<LoginEntity> apiResponse) {
+                    loginView.dismissLoading();
+                    loginView.showReqResult("帐号或密码错误");
+                }
 
-        @Override
-        public void onFail() {
-            if (loginView.isActive()) {
-                loginView.dismissLoading();
-                loginView.showReqResult("请求失败，网路错误，请重试");
-            }
-        }
-    };
+                @Override
+                public void onFail() {
+                    if (loginView.isActive()) {
+                        loginView.dismissLoading();
+                        loginView.showReqResult("请求失败，网路错误，请重试");
+                    }
+                }
+            };
 
     /**
      * 请求的监听接口
@@ -221,7 +223,8 @@ public class LoginPresenter implements LoginContract.Presenter {
                     }
 
                     @Override
-                    public void onError(Response<ApiResponse<LoginEntity>> response, String error, ApiResponse<LoginEntity> apiResponse) {
+                    public void onError(Response<ApiResponse<LoginEntity>> response,
+                                        String error, ApiResponse<LoginEntity> apiResponse) {
                         loginView.dismissLoading();
                         loginView.showReqResult("登录失败");
                     }
@@ -292,21 +295,22 @@ public class LoginPresenter implements LoginContract.Presenter {
     /**
      * 转换bitmap为file并得到path的回调
      */
-    private LoginDataSource.BitmapToFileDataCallback bitmapToFileDataCallback = new LoginDataSource.BitmapToFileDataCallback() {
-        @Override
-        public void onBitmapDataLoaded(String path) {
-            Log.d(TAG, "bitmapToFileDataCallback-------->存储头像成功！");
-            Users users = UserInfoSingleton.getInstance().getUsers();
-            users.setAvatarLocalPath(path);
-            loginResponsitory.saveUserToDb(users);
-            UserInfoSingleton.getInstance().setUsers(users);//更新个人信息
-        }
+    private LoginDataSource.BitmapToFileDataCallback bitmapToFileDataCallback =
+            new LoginDataSource.BitmapToFileDataCallback() {
+                @Override
+                public void onBitmapDataLoaded(String path) {
+                    Log.d(TAG, "bitmapToFileDataCallback-------->存储头像成功！");
+                    Users users = UserInfoSingleton.getInstance().getUsers();
+                    users.setAvatarLocalPath(path);
+                    loginResponsitory.saveUserToDb(users);
+                    UserInfoSingleton.getInstance().setUsers(users);//更新个人信息
+                }
 
-        @Override
-        public void onDataNotAvailable(Bitmap bitmap) {
-            Log.d(TAG, "bitmapToFileDataCallback-------->存储头像失败！");
-        }
-    };
+                @Override
+                public void onDataNotAvailable(Bitmap bitmap) {
+                    Log.d(TAG, "bitmapToFileDataCallback-------->存储头像失败！");
+                }
+            };
 
 
     /**

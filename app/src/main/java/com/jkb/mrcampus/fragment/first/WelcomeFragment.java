@@ -146,7 +146,8 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
     public void showBackGround(Bitmap bitmap) {
         Log.d(TAG, "bitmap=" + bitmap);
         if (bitmap == null) {
-            BitmapDrawable drawable = (BitmapDrawable) mActivity.getResources().getDrawable(R.drawable.ic_screen_default);
+            BitmapDrawable drawable =
+                    (BitmapDrawable) mActivity.getResources().getDrawable(R.drawable.ic_screen_default);
             bitmap = drawable.getBitmap();
         }
         imageView.setImageBitmap(bitmap);

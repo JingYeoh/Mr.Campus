@@ -19,7 +19,6 @@
         android:layout_marginRight="20dp"
         android:layout_weight="1"
         android:gravity="center|right"
-        android:text="@string/login"
         android:textColor="#FFFFFF" />
 
 </LinearLayout>

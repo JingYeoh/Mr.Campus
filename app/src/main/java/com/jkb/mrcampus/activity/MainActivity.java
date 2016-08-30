@@ -323,7 +323,11 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     public void startMessage() {
         Log.d(TAG, "startMessage");
         //显示创建圈子视图
-        Intent intent = new Intent(this, CreateCircleActivity.class);
+//        Intent intent = new Intent(this, CreateCircleActivity.class);
+//        startActivityWithPushLeftAnim(intent);
+        //显示圈子首页视图
+        Intent intent = new Intent(this, CircleActivity.class);
+        intent.putExtra(Config.INTENT_KEY_CIRCLE_ID, 1);
         startActivityWithPushLeftAnim(intent);
     }
 

@@ -10,6 +10,7 @@ import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
 import com.jkb.mrcampus.fragment.circle.CircleIndexFragment;
+import com.jkb.mrcampus.fragment.circle.CircleIndexFragment2;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.helper.FragmentStack;
 import com.jkb.mrcampus.utils.ClassUtils;
@@ -26,7 +27,7 @@ public class CircleActivity extends BaseActivity {
     private int contentViewId = 0;//布局的父类布局容器
 
     //圈子首页
-    private CircleIndexFragment circleIndexFragment;
+    private CircleIndexFragment2 circleIndexFragment;
     private CircleIndexPresenter circleIndexPresenter;
 
     //data
@@ -110,7 +111,7 @@ public class CircleActivity extends BaseActivity {
     @Override
     protected void restoreFragments(String fragmentTAG) {
         if (ClassUtils.isNameEquals(fragmentTAG, CircleIndexFragment.class)) {
-            circleIndexFragment = (CircleIndexFragment) fm.findFragmentByTag(fragmentTAG);
+            circleIndexFragment = (CircleIndexFragment2) fm.findFragmentByTag(fragmentTAG);
             circleIndexPresenter = new CircleIndexPresenter(circleIndexFragment,
                     Injection.provideCircleIndexDataResponsitiry(getApplicationContext()));
         }
@@ -130,7 +131,7 @@ public class CircleActivity extends BaseActivity {
      */
     private void initCircleIndex() {
         if (circleIndexFragment == null) {
-            circleIndexFragment = CircleIndexFragment.newInstance(circleId);
+            circleIndexFragment = CircleIndexFragment2.newInstance(circleId);
             ActivityUtils.addFragmentToActivity(fm, circleIndexFragment, contentViewId);
         }
         if (circleIndexPresenter == null) {

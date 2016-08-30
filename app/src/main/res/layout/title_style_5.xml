@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ts5_content"
     style="@style/titleStyle"
-    android:background="@color/white"
+    android:background="@color/white_30"
     android:orientation="horizontal">
 
     <ImageButton
@@ -27,7 +28,6 @@
         android:layout_weight="1"
         android:gravity="center|left"
         android:singleLine="true"
-        android:text="标题"
         android:textColor="@color/black" />
 
 

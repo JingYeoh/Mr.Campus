@@ -3,6 +3,9 @@ package com.jkb.mrcampus.fragment.circle;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,22 +25,22 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by JustKiddingBaby on 2016/8/29.
  */
 
-public class CircleIndexFragment extends BaseFragment
+public class CircleIndexFragment2 extends BaseFragment
         implements CircleIndexContract.View, View.OnClickListener {
 
 
-    private static CircleIndexFragment INSTANCE = null;
+    private static CircleIndexFragment2 INSTANCE = null;
 
-    public CircleIndexFragment(int circleId) {
+    public CircleIndexFragment2(int circleId) {
         this.circleId = circleId;
     }
 
-    public CircleIndexFragment() {
+    public CircleIndexFragment2() {
     }
 
-    public static CircleIndexFragment newInstance(int circleId) {
+    public static CircleIndexFragment2 newInstance(int circleId) {
         if (INSTANCE == null || circleId != 0) {
-            INSTANCE = new CircleIndexFragment(circleId);
+            INSTANCE = new CircleIndexFragment2(circleId);
         }
         return INSTANCE;
     }
@@ -51,12 +54,27 @@ public class CircleIndexFragment extends BaseFragment
     //View
     private ImageView ivBg;
     private CircleImageView ivHeadImg;
+    private AppBarLayout appBarLayout;
+    private Toolbar toolbar;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    //滑动监听状态
+    private CollapsingToolbarLayoutState state;
+    private int color_translate;
+    private int color_white;
 
+    /**
+     * 滑动监听状态
+     */
+    private enum CollapsingToolbarLayoutState {
+        EXPANDED,
+        COLLAPSED,
+        INTERNEDIATE
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setRootView(R.layout.frg_circle_index);
+        setRootView(R.layout.frg_circle_index2);
         circleActivity = (CircleActivity) mActivity;
         init(savedInstanceState);
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -84,7 +102,8 @@ public class CircleIndexFragment extends BaseFragment
         rootView.findViewById(R.id.ts5_ib_right_1).setOnClickListener(this);
         //头像点击事件
         ivHeadImg.setOnClickListener(this);
-
+        //新特性特效处理
+        appBarLayout.addOnOffsetChangedListener(onOffsetChangedListener);
     }
 
     @Override
@@ -98,9 +117,48 @@ public class CircleIndexFragment extends BaseFragment
 
     @Override
     protected void initView() {
+        //初始化颜色数据
+        color_translate = mActivity.getResources().getColor(R.color.clarity);
+        color_white = mActivity.getResources().getColor(R.color.white);
+
         ivBg = (ImageView) rootView.findViewById(R.id.fci_iv_backGround);
         ivHeadImg = (CircleImageView) rootView.findViewById(R.id.fci_iv_headImg);
+        //初始化新特性
+        appBarLayout = (AppBarLayout) rootView.findViewById(R.id.fci_abl);
+        toolbar = (Toolbar) rootView.findViewById(R.id.fci_toolbar);
+        collapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.fci_ctl);
     }
+
+    /**
+     * 滑动监听
+     */
+    private AppBarLayout.OnOffsetChangedListener onOffsetChangedListener
+            = new AppBarLayout.OnOffsetChangedListener() {
+        @Override
+        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+            if (verticalOffset == 0) {
+                if (state != CollapsingToolbarLayoutState.EXPANDED) {
+                    state = CollapsingToolbarLayoutState.EXPANDED;//修改状态标记为展开
+                    collapsingToolbarLayout.setTitle("");//设置title为EXPANDED
+                    toolbar.setBackgroundColor(color_translate);//设置颜色为透明点的颜色
+                }
+            } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
+                if (state != CollapsingToolbarLayoutState.COLLAPSED) {
+                    collapsingToolbarLayout.setTitle("");//设置title不显示
+                    toolbar.setBackgroundColor(color_white);//设置颜色为透明点的颜色
+                    state = CollapsingToolbarLayoutState.COLLAPSED;//修改状态标记为折叠
+                }
+            } else {
+                if (state != CollapsingToolbarLayoutState.INTERNEDIATE) {
+                    if (state == CollapsingToolbarLayoutState.COLLAPSED) {
+                        toolbar.setBackgroundColor(color_translate);//设置颜色为不透明
+                    }
+                    collapsingToolbarLayout.setTitle("");//设置title为INTERNEDIATE
+                    state = CollapsingToolbarLayoutState.INTERNEDIATE;//修改状态标记为中间
+                }
+            }
+        }
+    };
 
     @Override
     public void onClick(View view) {
@@ -140,7 +198,7 @@ public class CircleIndexFragment extends BaseFragment
     public void setCirclePicture(Bitmap picture) {
         ivHeadImg.setImageBitmap(picture);
         //设置高斯模糊效果
-        ivBg.setImageBitmap(BitmapUtil.fastBlur(picture, 20, 2));
+        ivBg.setImageBitmap(BitmapUtil.fastBlur(picture, 8, 2));
     }
 
     @Override

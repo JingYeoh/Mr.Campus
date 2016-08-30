@@ -14,6 +14,7 @@ import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.utils.BitmapUtil;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
