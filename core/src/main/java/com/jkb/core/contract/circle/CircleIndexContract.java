@@ -31,6 +31,11 @@ public interface CircleIndexContract {
         void hideContentView();
 
         /**
+         * 设置标题栏名称
+         */
+        void setTitleName(String titleName);
+
+        /**
          * 设置图片
          */
         void setCirclePicture(Bitmap picture);
@@ -61,6 +66,11 @@ public interface CircleIndexContract {
         void setCircleOperation_count(int count);
 
         /**
+         * 设置是否订阅的状态
+         */
+        void setSubscribeStatus(boolean isSubscribe);
+
+        /**
          * 返回
          */
         void back();
@@ -83,6 +93,12 @@ public interface CircleIndexContract {
     }
 
     interface Presenter extends BasePresenter {
+
+        /**
+         * 刷新数据
+         */
+        void onRefresh();
+
         /**
          * 得到圈子id
          */
@@ -97,5 +113,10 @@ public interface CircleIndexContract {
          * 绑定数据到视图中
          */
         void bindData();
+
+        /**
+         * 请求订阅/取消订阅圈子
+         */
+        void subscribeOrCancleCircle();
     }
 }

@@ -13,8 +13,9 @@ public class CircleIndexData {
     private String circleType;
     private String circleIntroducton;
     private int subsribeCount;//订阅数
-    private int operationCount;//动态数
+    private int dynamicsCount;//动态数
     private Bitmap picture;
+    private boolean hasSubscribe;//是否被用戶订阅
 
 
     public String getCircleName() {
@@ -49,12 +50,12 @@ public class CircleIndexData {
         this.subsribeCount = subsribeCount;
     }
 
-    public int getOperationCount() {
-        return operationCount;
+    public int getDynamicsCount() {
+        return dynamicsCount;
     }
 
-    public void setOperationCount(int operationCount) {
-        this.operationCount = operationCount;
+    public void setDynamicsCount(int dynamicsCount) {
+        this.dynamicsCount = dynamicsCount;
     }
 
     public Bitmap getPicture() {
@@ -63,5 +64,13 @@ public class CircleIndexData {
 
     public void setPicture(Bitmap picture) {
         this.picture = picture;
+    }
+
+    public boolean isHasSubscribe() {
+        return hasSubscribe;
+    }
+
+    public void setHasSubscribe(boolean hasSubscribe) {
+        this.hasSubscribe = hasSubscribe;
     }
 }

@@ -23,6 +23,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:statusBarScrim="@color/main_theme_gravy">
 
+
             <RelativeLayout
                 android:id="@+id/fci_contentView"
                 android:layout_width="match_parent"
@@ -51,7 +52,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:paddingLeft="20dp"
                             android:paddingRight="20dp">
@@ -127,6 +128,19 @@
                                 android:textColor="@color/line_deep"
                                 android:textSize="14sp" />
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/fci_iv_subscribe"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_subscription_essays" />
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -155,6 +169,32 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_scrolling" />
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/fci_nsv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fci_rv_dynamic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/fci_nonData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="无数据"
+                android:textSize="20dp"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -18,12 +18,13 @@ public class CircleInfoEntity {
      * longitude : 53.888736
      * latitude : -59.623723
      * created_at : 2016-08-03 16:24:08
+     * dynamics_count : 2
      * hasSubscribe : 0
      * hasInCommonUse : 0
      * subscribe_count : 28
      * school : {"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg","summary":"jlkj","longitude":"118.905518","latitude":"31.912587"}
-     * user : {"id":245,"UID":"8958226","nickname":"zstiedemann","avatar":"http://lorempixel.com/640/480/?61017","sex":"女","name":"Abbigail Streich的菌菌","bref_introduction":"Harum beatae adipisci eum commodi consequuntur qui. Corporis tenetur aut quia. Optio iure qui tenetur facilis ut.","background":"http://lorempixel.com/640/480/?32104","longitude":-67.332543,"latitude":18.948517,"created_at":"2016-08-03 16:23:55","email":"efeil@kunde.com","phone":null,"attentionCount":14,"attentionUserCount":22,"fansCount":27,"visitorCount":2,"schoolInfo":{"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg","summary":"jlkj","longitude":"118.905518","latitude":"31.912587"}}
-     * dynamic : {"total":2,"per_page":10,"current_page":1,"last_page":1,"next_page_url":"","prev_page_url":"","from":1,"to":2,"data":[{"id":108,"dtype":"normal","title":"Natus vitae deleniti sed.","content":"Totam blanditiis laborum dolores. Nihil laboriosam dolor veniam blanditiis saepe. Aut fuga veritatis fugiat voluptatem sed dolorem ut ea. Quos inventore voluptatem iure quas omnis maxime.","tag":"harum","is_original":1,"created_at":"2016-08-06 09:29:06"},{"id":333,"dtype":"article","title":"hello world","content":"hihihihihihihihihihi","tag":null,"is_original":1,"created_at":"2016-08-10 17:43:19"}]}
+     * user : {"id":245,"UID":"8958226","nickname":"zstiedemann","avatar":"http://lorempixel.com/640/480/?61017","sex":"女","name":"Abbigail Streich的菌菌","bref_introduction":"Harum beatae adipisci eum commodi consequuntur qui. Corporis tenetur aut quia. Optio iure qui tenetur facilis ut.","background":"http://lorempixel.com/640/480/?32104","longitude":-67.332543,"latitude":18.948517,"created_at":"2016-08-03 16:23:55","email":"efeil@kunde.com","phone":"","attentionCount":14,"attentionUserCount":23,"fansCount":28,"visitorCount":38,"schoolInfo":{"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg","summary":"jlkj","longitude":"118.905518","latitude":"31.912587"}}
+     * dynamic : {"total":2,"per_page":10,"current_page":1,"last_page":1,"next_page_url":"","prev_page_url":"","from":1,"to":2,"data":[{"id":108,"dtype":"normal","title":"Natus vitae deleniti sed.","content":"Totam blanditiis laborum dolores. Nihil laboriosam dolor veniam blanditiis saepe. Aut fuga veritatis fugiat voluptatem sed dolorem ut ea. Quos inventore voluptatem iure quas omnis maxime.","tag":"","is_original":1,"created_at":"2016-08-06 09:29:06"},{"id":333,"dtype":"article","title":"hello world","content":"hihihihihihihihihihi","tag":"da","is_original":1,"created_at":"2016-08-10 17:43:19"}]}
      */
 
     private CircleBean circle;
@@ -45,6 +46,7 @@ public class CircleInfoEntity {
         private double longitude;
         private double latitude;
         private String created_at;
+        private int dynamics_count;
         private int hasSubscribe;
         private int hasInCommonUse;
         private int subscribe_count;
@@ -71,11 +73,11 @@ public class CircleInfoEntity {
          * latitude : 18.948517
          * created_at : 2016-08-03 16:23:55
          * email : efeil@kunde.com
-         * phone : null
+         * phone :
          * attentionCount : 14
-         * attentionUserCount : 22
-         * fansCount : 27
-         * visitorCount : 2
+         * attentionUserCount : 23
+         * fansCount : 28
+         * visitorCount : 38
          * schoolInfo : {"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg","summary":"jlkj","longitude":"118.905518","latitude":"31.912587"}
          */
 
@@ -89,7 +91,7 @@ public class CircleInfoEntity {
          * prev_page_url :
          * from : 1
          * to : 2
-         * data : [{"id":108,"dtype":"normal","title":"Natus vitae deleniti sed.","content":"Totam blanditiis laborum dolores. Nihil laboriosam dolor veniam blanditiis saepe. Aut fuga veritatis fugiat voluptatem sed dolorem ut ea. Quos inventore voluptatem iure quas omnis maxime.","tag":"harum","is_original":1,"created_at":"2016-08-06 09:29:06"},{"id":333,"dtype":"article","title":"hello world","content":"hihihihihihihihihihi","tag":null,"is_original":1,"created_at":"2016-08-10 17:43:19"}]
+         * data : [{"id":108,"dtype":"normal","title":"Natus vitae deleniti sed.","content":"Totam blanditiis laborum dolores. Nihil laboriosam dolor veniam blanditiis saepe. Aut fuga veritatis fugiat voluptatem sed dolorem ut ea. Quos inventore voluptatem iure quas omnis maxime.","tag":"","is_original":1,"created_at":"2016-08-06 09:29:06"},{"id":333,"dtype":"article","title":"hello world","content":"hihihihihihihihihihi","tag":"da","is_original":1,"created_at":"2016-08-10 17:43:19"}]
          */
 
         private DynamicBean dynamic;
@@ -156,6 +158,14 @@ public class CircleInfoEntity {
 
         public void setCreated_at(String created_at) {
             this.created_at = created_at;
+        }
+
+        public int getDynamics_count() {
+            return dynamics_count;
+        }
+
+        public void setDynamics_count(int dynamics_count) {
+            this.dynamics_count = dynamics_count;
         }
 
         public int getHasSubscribe() {
@@ -276,7 +286,7 @@ public class CircleInfoEntity {
             private double latitude;
             private String created_at;
             private String email;
-            private Object phone;
+            private String phone;
             private int attentionCount;
             private int attentionUserCount;
             private int fansCount;
@@ -388,11 +398,11 @@ public class CircleInfoEntity {
                 this.email = email;
             }
 
-            public Object getPhone() {
+            public String getPhone() {
                 return phone;
             }
 
-            public void setPhone(Object phone) {
+            public void setPhone(String phone) {
                 this.phone = phone;
             }
 
@@ -508,7 +518,7 @@ public class CircleInfoEntity {
              * dtype : normal
              * title : Natus vitae deleniti sed.
              * content : Totam blanditiis laborum dolores. Nihil laboriosam dolor veniam blanditiis saepe. Aut fuga veritatis fugiat voluptatem sed dolorem ut ea. Quos inventore voluptatem iure quas omnis maxime.
-             * tag : harum
+             * tag :
              * is_original : 1
              * created_at : 2016-08-06 09:29:06
              */

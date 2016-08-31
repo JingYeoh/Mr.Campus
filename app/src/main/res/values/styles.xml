@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/main_theme_gravy</item>
         <item name="colorPrimaryDark">@color/main_theme_gravy</item>
         <item name="colorAccent">@color/main_theme_gravy</item>
+        <!--设置分割线主题-->
+        <item name="android:listDivider">@drawable/divider</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

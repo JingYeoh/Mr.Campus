@@ -32,7 +32,6 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
     private int circle_id = 0;
     private boolean isCached = false;//是否有缓存的数据
     private CircleIndexData circleIndexData = null;
-    private Object circleData;
 
     public CircleIndexPresenter(
             @NonNull CircleIndexContract.View view,
@@ -46,6 +45,13 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
     @Override
     public void start() {
         //初始化数据
+        initCircleData();
+    }
+
+    @Override
+    public void onRefresh() {
+        //刷新数据
+        isCached = false;
         initCircleData();
     }
 
@@ -75,11 +81,17 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
         view.setCircleName(circleIndexData.getCircleName());
         view.setCircleType(circleIndexData.getCircleType());
         view.setCircleIntroduction(circleIndexData.getCircleIntroducton());
-        view.setCircleOperation_count(circleIndexData.getOperationCount());
-        view.setCircleSubscribe_count(circleIndexData.getOperationCount());
+        view.setCircleOperation_count(circleIndexData.getDynamicsCount());
+        view.setCircleSubscribe_count(circleIndexData.getDynamicsCount());
         if (circleIndexData.getPicture() != null) {
             view.setCirclePicture(circleIndexData.getPicture());
         }
+        view.setSubscribeStatus(circleIndexData.isHasSubscribe());//设置是否有状态
+    }
+
+    @Override
+    public void subscribeOrCancleCircle() {
+        //订阅或者取消订阅的操作
     }
 
     /**
@@ -141,8 +153,13 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                     circleIndexData.setCircleName(bean.getName());
                     circleIndexData.setCircleType(bean.getType());
                     circleIndexData.setCircleIntroducton(bean.getIntroduction());
-                    circleIndexData.setOperationCount(bean.getSubscribe_count());
+                    circleIndexData.setDynamicsCount(bean.getDynamics_count());
                     circleIndexData.setSubsribeCount(bean.getSubscribe_count());
+                    if (bean.getHasSubscribe() == 0) {
+                        circleIndexData.setHasSubscribe(false);
+                    } else {
+                        circleIndexData.setHasSubscribe(true);
+                    }
                 }
 
                 /**

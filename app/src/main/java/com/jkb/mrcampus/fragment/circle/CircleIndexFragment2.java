@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +19,12 @@ import android.widget.TextView;
 import com.jkb.core.contract.circle.CircleIndexContract;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleActivity;
+import com.jkb.mrcampus.adapter.recycler.DynamicCircleAdapter;
+import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.utils.BitmapUtil;
+import com.jkb.mrcampus.view.FullyLinearLayoutManager;
+import com.jkb.mrcampus.view.MyLinearLayoutManager;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -26,7 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class CircleIndexFragment2 extends BaseFragment
-        implements CircleIndexContract.View, View.OnClickListener {
+        implements CircleIndexContract.View, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
 
     private static CircleIndexFragment2 INSTANCE = null;
@@ -50,6 +58,7 @@ public class CircleIndexFragment2 extends BaseFragment
     private CircleActivity circleActivity;
     private CircleIndexContract.Presenter mPresenter;
     private static final String SAVED_CIRCLE_ID = "saved_circle_id";
+    private DynamicCircleAdapter dynamicCircleAdapter;
 
     //View
     private ImageView ivBg;
@@ -57,10 +66,19 @@ public class CircleIndexFragment2 extends BaseFragment
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
     //滑动监听状态
-    private CollapsingToolbarLayoutState state;
+    private CollapsingToolbarLayoutState state;//默认为展开
     private int color_translate;
     private int color_white;
+    private String circleName = "";
+
+    @Override
+    public void onRefresh() {
+        //刷新数据
+        mPresenter.onRefresh();//无用
+    }
 
     /**
      * 滑动监听状态
@@ -113,6 +131,8 @@ public class CircleIndexFragment2 extends BaseFragment
         } else {
             circleId = savedInstanceState.getInt(SAVED_CIRCLE_ID);
         }
+        dynamicCircleAdapter = new DynamicCircleAdapter(mActivity, null);
+        recyclerView.setAdapter(dynamicCircleAdapter);
     }
 
     @Override
@@ -127,6 +147,14 @@ public class CircleIndexFragment2 extends BaseFragment
         appBarLayout = (AppBarLayout) rootView.findViewById(R.id.fci_abl);
         toolbar = (Toolbar) rootView.findViewById(R.id.fci_toolbar);
         collapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.fci_ctl);
+
+        //初始化动态的控件
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.fci_rv_dynamic);
+        linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setNestedScrollingEnabled(false);//为了解决滑动冲突的问题
+        recyclerView.addItemDecoration(
+                new LineDecoration(mActivity, LineDecoration.VERTICAL_LIST));//添加分割线
     }
 
     /**
@@ -141,12 +169,16 @@ public class CircleIndexFragment2 extends BaseFragment
                     state = CollapsingToolbarLayoutState.EXPANDED;//修改状态标记为展开
                     collapsingToolbarLayout.setTitle("");//设置title为EXPANDED
                     toolbar.setBackgroundColor(color_translate);//设置颜色为透明点的颜色
+                    //展开时候进行的操作
+                    expandedWork();
                 }
             } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
                 if (state != CollapsingToolbarLayoutState.COLLAPSED) {
                     collapsingToolbarLayout.setTitle("");//设置title不显示
                     toolbar.setBackgroundColor(color_white);//设置颜色为透明点的颜色
                     state = CollapsingToolbarLayoutState.COLLAPSED;//修改状态标记为折叠
+                    //折叠起来的动作
+                    collapsedWork();
                 }
             } else {
                 if (state != CollapsingToolbarLayoutState.INTERNEDIATE) {
@@ -159,6 +191,24 @@ public class CircleIndexFragment2 extends BaseFragment
             }
         }
     };
+
+    /**
+     * 折叠起来的工作
+     * 设置标题栏名称为圈子名称
+     */
+    private void collapsedWork() {
+        setTitleName(circleName);
+    }
+
+    /**
+     * 展开时候的工作
+     * 设置标题栏名称不可见
+     * 请求圈子信息
+     * 请求动态信息
+     */
+    private void expandedWork() {
+        setTitleName("");
+    }
 
     @Override
     public void onClick(View view) {
@@ -195,6 +245,11 @@ public class CircleIndexFragment2 extends BaseFragment
     }
 
     @Override
+    public void setTitleName(String titleName) {
+        ((TextView) rootView.findViewById(R.id.ts5_tv_name)).setText(titleName);
+    }
+
+    @Override
     public void setCirclePicture(Bitmap picture) {
         ivHeadImg.setImageBitmap(picture);
         //设置高斯模糊效果
@@ -203,6 +258,7 @@ public class CircleIndexFragment2 extends BaseFragment
 
     @Override
     public void setCircleName(String name) {
+        circleName = name;
         ((TextView) rootView.findViewById(R.id.fci_tv_name)).setText(name);
     }
 
@@ -224,6 +280,17 @@ public class CircleIndexFragment2 extends BaseFragment
     @Override
     public void setCircleOperation_count(int count) {
         ((TextView) rootView.findViewById(R.id.fci_tv_operationCount)).setText(count + "");
+    }
+
+    @Override
+    public void setSubscribeStatus(boolean isSubscribe) {
+        if (!isSubscribe) {//没订阅状态
+            ((ImageView) rootView.findViewById(R.id.fci_iv_subscribe)).
+                    setImageResource(R.drawable.ic_subscription_essays);
+        } else {//订阅状态
+            ((ImageView) rootView.findViewById(R.id.fci_iv_subscribe)).
+                    setImageResource(R.drawable.ic_subscription_already_essays);
+        }
     }
 
     @Override

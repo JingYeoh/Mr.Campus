@@ -137,6 +137,11 @@ public class CircleIndexFragment extends BaseFragment
     }
 
     @Override
+    public void setTitleName(String titleName) {
+
+    }
+
+    @Override
     public void setCirclePicture(Bitmap picture) {
         ivHeadImg.setImageBitmap(picture);
         //设置高斯模糊效果
@@ -166,6 +171,11 @@ public class CircleIndexFragment extends BaseFragment
     @Override
     public void setCircleOperation_count(int count) {
         ((TextView) rootView.findViewById(R.id.fci_tv_operationCount)).setText(count + "");
+    }
+
+    @Override
+    public void setSubscribeStatus(boolean isSubscribe) {
+
     }
 
     @Override

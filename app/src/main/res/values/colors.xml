@@ -50,6 +50,7 @@
     <!--  -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="black_200">#c8000000</color>
     <color name="line">#858585</color>
     <color name="gravy_70">#46858585</color>
     <color name="line_deep">#3c3c3c</color>
