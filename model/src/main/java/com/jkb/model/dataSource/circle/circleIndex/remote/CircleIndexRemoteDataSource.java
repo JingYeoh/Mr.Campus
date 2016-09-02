@@ -1,6 +1,5 @@
 package com.jkb.model.dataSource.circle.circleIndex.remote;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -10,9 +9,11 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiEngine;
 import com.jkb.api.ApiFactoryImpl;
 import com.jkb.api.ApiResponse;
-import com.jkb.api.entity.circle.CircleCreateEntity;
+import com.jkb.api.config.Config;
 import com.jkb.api.entity.circle.CircleInfoEntity;
+import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.net.circle.CircleInfoApi;
+import com.jkb.api.net.operation.OperationApi;
 import com.jkb.model.dataSource.circle.circleIndex.CircleIndexDataSource;
 import com.jkb.model.intfc.BitmapLoadedCallback;
 import com.jkb.model.net.ImageLoaderFactory;
@@ -81,5 +82,22 @@ public class CircleIndexRemoteDataSource implements CircleIndexDataSource {
                 callback.onDataNotAvailable(url);
             }
         });
+    }
+
+    @Override
+    public void circleSubscribeOrNot(
+            @NonNull int user_id, @NonNull int target_id, @NonNull String Authorization,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
+        //请求网络数据
+        ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
+        apiFactory.setHttpClient(apiFactory.genericClient());
+        apiFactory.initRetrofit();
+        OperationApi operationApi = apiFactory.createApi(OperationApi.class);
+        Call<ApiResponse<OperationActionEntity>> call;
+        call = operationApi.subscribe(
+                Authorization, Config.ACTION_SUBSCRIBE, user_id, target_id);
+        Type type = new TypeToken<ApiResponse<OperationActionEntity>>() {
+        }.getType();
+        new ApiEngine<ApiResponse<OperationActionEntity>>(apiCallback, call, type);
     }
 }

@@ -3,7 +3,7 @@
     android:id="@+id/idon_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background_general"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout

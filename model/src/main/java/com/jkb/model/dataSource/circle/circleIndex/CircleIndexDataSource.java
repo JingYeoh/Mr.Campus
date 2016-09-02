@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.circle.CircleInfoEntity;
+import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.model.intfc.BitmapLoadedCallback;
 
 /**
@@ -29,4 +30,17 @@ public interface CircleIndexDataSource {
      * 通过网络加载图片
      */
     void loadBitmapByUrl(@NonNull String url, @NonNull BitmapLoadedCallback callback);
+
+    /**
+     * 订阅/取消订阅圈子
+     *
+     * @param user_id       用户id
+     * @param target_id     圈子Id
+     * @param Authorization 头
+     * @param apiCallback   回调
+     */
+    void circleSubscribeOrNot(
+            @NonNull int user_id, @NonNull int target_id,
+            @NonNull String Authorization,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback);
 }

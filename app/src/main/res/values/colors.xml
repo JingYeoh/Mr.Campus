@@ -47,6 +47,8 @@
     <color name="main_theme_gravy">#313131</color>
     <color name="main_theme_gravy_170">#aa313131</color>
     <color name="main_theme_green">#57ac68</color>
+    <!--默认的-->
+    <color name="default_picture">#858585</color>
     <!--  -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>

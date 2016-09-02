@@ -15,6 +15,7 @@ import com.jkb.core.presenter.function.homepage.DynamicPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.adapter.recycler.DynamicAdapter;
+import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
 
 /**
@@ -79,7 +80,6 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         } else {
 
         }
-
         dynamicAdapter = new DynamicAdapter(mActivity);
         recyclerView.setAdapter(dynamicAdapter);
     }
@@ -90,9 +90,10 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fhd_srl);
         //初始化列表栏
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fhd_rv);
-        linearLayoutManager = new LinearLayoutManager(mActivity);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager = new LinearLayoutManager(mActivity,LinearLayoutManager.VERTICAL,true);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(
+                new LineDecoration(mActivity, LineDecoration.VERTICAL_LIST));//添加分割线
     }
 
     /**

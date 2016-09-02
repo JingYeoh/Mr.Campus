@@ -223,8 +223,10 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
      * 从FragmentManager中得到Fragment
      */
     private void getMenuFragmentsFromFm() {
-        functionFragment = (SwitchFunctionFragment) fm.findFragmentByTag(SwitchFunctionFragment.class.getName());
-        rightMenuFragment = (RightMenuFragment) fm.findFragmentByTag(RightMenuFragment.class.getName());
+        functionFragment = (SwitchFunctionFragment) fm.
+                findFragmentByTag(SwitchFunctionFragment.class.getName());
+        rightMenuFragment = (RightMenuFragment) fm.
+                findFragmentByTag(RightMenuFragment.class.getName());
     }
 
     /**
@@ -325,9 +327,9 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         //显示创建圈子视图
 //        Intent intent = new Intent(this, CreateCircleActivity.class);
 //        startActivityWithPushLeftAnim(intent);
-        //显示圈子首页视图
-        Intent intent = new Intent(this, CircleActivity.class);
-        intent.putExtra(Config.INTENT_KEY_CIRCLE_ID, 1);
+        //显示圈子列表的数据
+        Intent intent = new Intent(this, CircleListActivity.class);
+        intent.putExtra(Config.INTENT_KEY_USER_ID, 1);
         startActivityWithPushLeftAnim(intent);
     }
 

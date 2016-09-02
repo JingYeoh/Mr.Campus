@@ -294,7 +294,11 @@ public class VisitorPresenter implements VisitorContract.Presenter {
             UserData data = new UserData();
             OperationVisitorEntity.UserBean.DataBean bean = users.get(i);
             //是否被关注
-            data.setAttentioned(true);
+            if(bean.getHasPayAttention()==0){
+                data.setAttentioned(false);
+            }else{
+                data.setAttentioned(true);
+            }
             data.setAvatar(bean.getAvatar());
             data.setBref_introduction(bean.getBref_introduction());
             data.setNickname(bean.getNickname());

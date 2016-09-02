@@ -39,7 +39,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         LayoutInflater inflater = LayoutInflater.from(context);
-        Log.d(TAG, "viewType=" + viewType);
+//        Log.d(TAG, "viewType=" + viewType);
         switch (viewType) {
             case DYNAMIC_TYPE_LEFT:
                 view = inflater.inflate(R.layout.item_dynamic_circle_left, parent, false);

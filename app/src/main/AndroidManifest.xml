@@ -75,6 +75,9 @@
         //关于圈子的页面控制器
         <activity android:name=".activity.CircleActivity" />
 
+        //圈子列表的页面控制器
+        <activity android:name=".activity.CircleListActivity" />
+
         //用于定位的服务
         <service android:name=".service.LocationService" />
 

@@ -2,10 +2,13 @@ package com.jkb.core.presenter.circle;
 
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
+import com.jkb.api.config.Config;
 import com.jkb.api.entity.circle.CircleInfoEntity;
+import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.core.contract.circle.CircleIndexContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
@@ -15,6 +18,7 @@ import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.model.intfc.BitmapLoadedCallback;
 import com.jkb.model.utils.StringUtils;
 
+import jkb.mrcampus.db.entity.UserAuths;
 import jkb.mrcampus.db.entity.Users;
 import retrofit2.Response;
 
@@ -29,6 +33,7 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
     private CircleIndexDataResponsitiry responsitiry;
 
     //data
+    private static final String TAG = "CircleIndexPresenter";
     private int circle_id = 0;
     private boolean isCached = false;//是否有缓存的数据
     private CircleIndexData circleIndexData = null;
@@ -82,7 +87,7 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
         view.setCircleType(circleIndexData.getCircleType());
         view.setCircleIntroduction(circleIndexData.getCircleIntroducton());
         view.setCircleOperation_count(circleIndexData.getDynamicsCount());
-        view.setCircleSubscribe_count(circleIndexData.getDynamicsCount());
+        view.setCircleSubscribe_count(circleIndexData.getSubsribeCount());
         if (circleIndexData.getPicture() != null) {
             view.setCirclePicture(circleIndexData.getPicture());
         }
@@ -91,7 +96,20 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
 
     @Override
     public void subscribeOrCancleCircle() {
+        Log.d(TAG, "subscribeOrCancleCircle");
+        if (!LoginContext.getInstance().isLogined()) {
+            view.showReqResult("您未登录，请先去登录");
+            return;
+        }
+        UserAuths auths = getUserAuths();
+        if (auths == null) {
+            return;
+        }
+        int userId = auths.getUser_id();
+        String Authorization = Config.HEADER_BEARER + auths.getToken();
+        view.showLoading("");
         //订阅或者取消订阅的操作
+        responsitiry.circleSubscribeOrNot(userId, circle_id, Authorization, subscribeApiCallBack);
     }
 
     /**
@@ -206,6 +224,38 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                     }
                 }
             };
+    /**
+     * 关注/取消关注圈子的回调
+     */
+    private ApiCallback<ApiResponse<OperationActionEntity>> subscribeApiCallBack =
+            new ApiCallback<ApiResponse<OperationActionEntity>>() {
+                @Override
+                public void onSuccess(Response<ApiResponse<OperationActionEntity>> response) {
+                    if (view.isActive()) {
+                        view.dismissLoading();
+                        view.showReqResult("操作成功");
+                        circleIndexData.setHasSubscribe(!circleIndexData.isHasSubscribe());
+                        bindData();
+                    }
+                }
+
+                @Override
+                public void onError(Response<ApiResponse<OperationActionEntity>> response,
+                                    String error, ApiResponse<OperationActionEntity> apiResponse) {
+                    if (view.isActive()) {
+                        view.dismissLoading();
+                        view.showReqResult("操作失败");
+                    }
+                }
+
+                @Override
+                public void onFail() {
+                    if (view.isActive()) {
+                        view.dismissLoading();
+                        view.showReqResult("请求失败，请检查您的网络连接");
+                    }
+                }
+            };
 
     /**
      * 得到用户数据
@@ -218,5 +268,18 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
             view.showReqResult("登录过期，请重新登录~");
         }
         return users;
+    }
+
+    /**
+     * 得到用户Auth数据
+     */
+    private UserAuths getUserAuths() {
+        UserInfoSingleton userInfo = UserInfoSingleton.getInstance();
+        UserAuths auths = userInfo.getUserAuths();
+        if (auths == null) {
+            LoginContext.getInstance().setUserState(new LogoutState());
+            view.showReqResult("登录过期，请重新登录~");
+        }
+        return auths;
     }
 }

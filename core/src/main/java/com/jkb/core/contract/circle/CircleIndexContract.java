@@ -86,6 +86,11 @@ public interface CircleIndexContract {
         void chat();
 
         /**
+         * 订阅/取消订阅圈子
+         */
+        void subscribeOrNot();
+
+        /**
          * 显示大图视图
          */
         void showBigPictureView();

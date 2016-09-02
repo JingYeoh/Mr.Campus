@@ -10,7 +10,6 @@ import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
 import com.jkb.mrcampus.fragment.circle.CircleIndexFragment;
-import com.jkb.mrcampus.fragment.circle.CircleIndexFragment2;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.helper.FragmentStack;
 import com.jkb.mrcampus.utils.ClassUtils;
@@ -27,7 +26,7 @@ public class CircleActivity extends BaseActivity {
     private int contentViewId = 0;//布局的父类布局容器
 
     //圈子首页
-    private CircleIndexFragment2 circleIndexFragment;
+    private CircleIndexFragment circleIndexFragment;
     private CircleIndexPresenter circleIndexPresenter;
 
     //data
@@ -65,11 +64,11 @@ public class CircleActivity extends BaseActivity {
         } else {
             circleId = savedInstanceState.getInt(SAVED_CIRCLE_ID, 0);
             currentShowFragment = savedInstanceState.getString(SAVED_CURRENT_SHOW_FRAGMENT);
+            //恢复Fragment
+            restoreFragments();
             //恢复保存的栈数据
             fragmentStack.setFragmetStackNames(
                     savedInstanceState.getStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK));
-            //恢复Fragment
-            restoreFragments();
         }
         //判断是否有数据
         if (circleId == 0) {
@@ -111,7 +110,7 @@ public class CircleActivity extends BaseActivity {
     @Override
     protected void restoreFragments(String fragmentTAG) {
         if (ClassUtils.isNameEquals(fragmentTAG, CircleIndexFragment.class)) {
-            circleIndexFragment = (CircleIndexFragment2) fm.findFragmentByTag(fragmentTAG);
+            circleIndexFragment = (CircleIndexFragment) fm.findFragmentByTag(fragmentTAG);
             circleIndexPresenter = new CircleIndexPresenter(circleIndexFragment,
                     Injection.provideCircleIndexDataResponsitiry(getApplicationContext()));
         }
@@ -131,7 +130,7 @@ public class CircleActivity extends BaseActivity {
      */
     private void initCircleIndex() {
         if (circleIndexFragment == null) {
-            circleIndexFragment = CircleIndexFragment2.newInstance(circleId);
+            circleIndexFragment = circleIndexFragment.newInstance(circleId);
             ActivityUtils.addFragmentToActivity(fm, circleIndexFragment, contentViewId);
         }
         if (circleIndexPresenter == null) {
@@ -153,5 +152,7 @@ public class CircleActivity extends BaseActivity {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVED_CIRCLE_ID, circleId);
         outState.putString(SAVED_CURRENT_SHOW_FRAGMENT, currentShowFragment);
+        outState.putStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK,
+                fragmentStack.getFragmetStackNames());
     }
 }

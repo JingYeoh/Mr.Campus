@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.circle.CircleInfoEntity;
+import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.model.intfc.BitmapLoadedCallback;
 
 /**
@@ -44,5 +45,12 @@ public class CircleIndexDataResponsitiry implements CircleIndexDataSource {
     @Override
     public void loadBitmapByUrl(@NonNull String url, @NonNull BitmapLoadedCallback callback) {
         remoteDataSource.loadBitmapByUrl(url, callback);
+    }
+
+    @Override
+    public void circleSubscribeOrNot(
+            @NonNull int user_id, @NonNull int target_id, @NonNull String Authorization,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
+        remoteDataSource.circleSubscribeOrNot(user_id, target_id, Authorization, apiCallback);
     }
 }
