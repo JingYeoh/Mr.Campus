@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -423,4 +422,12 @@
     <include
         layout="@layout/title_style_3"
         android:background="@color/main_theme_gravy_170" />
+
+    <ImageView
+        android:id="@+id/fpc_iv_floatBt"
+        style="@style/FunctionSetIcStyle"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_cafe_message" />
 </RelativeLayout>

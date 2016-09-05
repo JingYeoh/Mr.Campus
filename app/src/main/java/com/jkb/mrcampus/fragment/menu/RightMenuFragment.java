@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jkb.core.contract.menu.RightMenuContract;
 import com.jkb.core.control.userstate.UserState;
 import com.jkb.mrcampus.R;
@@ -31,10 +32,11 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
     //View层
     private TabLayout mTab;
     private ViewPager mViewPager;
-    private MainActivity mainActivity;
-
     //P层
     private RightMenuContract.Presenter mPresenter;
+
+    //Data
+    private MainActivity mainActivity;
 
     public RightMenuFragment() {
     }
@@ -77,6 +79,9 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
         rootView.findViewById(R.id.fmc_ll_watched).setOnClickListener(this);
         rootView.findViewById(R.id.fmc_ll_fans).setOnClickListener(this);
         rootView.findViewById(R.id.fmc_ll_visitors).setOnClickListener(this);
+
+        //设置菜单打开的监听器
+        mainActivity.setMenuOpenedListener(onOpenedListener);
     }
 
     @Override
@@ -118,6 +123,16 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
                 break;
         }
     }
+
+    /**
+     * 右滑菜单打开时候的监听器
+     */
+    private SlidingMenu.OnOpenedListener onOpenedListener = new SlidingMenu.OnOpenedListener() {
+        @Override
+        public void onOpened() {
+            mPresenter.start();//初始化数据
+        }
+    };
 
     @Override
     public void setVisitorCount(int count) {

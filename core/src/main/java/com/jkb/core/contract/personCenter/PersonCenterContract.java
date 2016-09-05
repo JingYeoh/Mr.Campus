@@ -28,6 +28,16 @@ public interface PersonCenterContract {
         int getUser_id();
 
         /**
+         * 显示为用户自己的视图
+         */
+        void setSelfConfig();
+
+        /**
+         * 显示为非自己的视图
+         */
+        void setNonSelfConfig();
+
+        /**
          * 显示自己的标题栏样式
          */
         void showSelfTitleStyle();
@@ -36,6 +46,16 @@ public interface PersonCenterContract {
          * 显示非自己的标题栏样式
          */
         void showNonSelfTitleStyle();
+
+        /**
+         * 设置为聊天的浮动按钮
+         */
+        void showChatFloatBtView();
+
+        /**
+         * 设置为写的浮动按钮
+         */
+        void showWriteFloatBtView();
 
         /**
          * 设置头像
@@ -110,6 +130,11 @@ public interface PersonCenterContract {
         void showHeadImgView();
 
         /**
+         * 浮动按钮被点击的时候
+         */
+        void onFloatBtClick();
+
+        /**
          * 显示签名视图
          */
         void showSignView();
@@ -178,6 +203,16 @@ public interface PersonCenterContract {
          * 显示圈子动态视图
          */
         void showDynamicCircleView();
+
+        /**
+         * 聊天
+         */
+        void chat();
+
+        /**
+         * 显示写动态视图
+         */
+        void showWriteDynamicView();
 
         /**
          * 隐藏所有的视图显示

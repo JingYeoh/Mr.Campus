@@ -17,13 +17,7 @@
             android:src="@color/default_picture" />
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@color/gravy_70" />
-
-        <ImageView
-            android:id="@+id/ic_iv_picture"
+            android:id="@+id/icl_iv_picture"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerInParent="true"
@@ -33,14 +27,12 @@
             android:src="@color/default_picture" />
 
         <ImageView
-            android:id="@+id/icl_iv_picture"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerInParent="true"
             android:layout_marginBottom="10dp"
             android:background="@drawable/ic_essays_cover"
-            android:scaleType="fitXY"
-            android:src="@color/clarity" />
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/icl_tv_name"
@@ -56,7 +48,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ic_iv_picture"
+            android:layout_below="@id/icl_iv_picture"
             android:gravity="center"
             android:orientation="horizontal">
 

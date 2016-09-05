@@ -19,7 +19,7 @@
             android:id="@+id/idc_iv_image"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:background="@drawable/ic_screen_default" />
+            android:background="@color/default_picture" />
     </LinearLayout>
 
     <LinearLayout

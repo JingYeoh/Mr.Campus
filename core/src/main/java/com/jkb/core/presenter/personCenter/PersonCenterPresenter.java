@@ -378,16 +378,16 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
             Users users = getUsers();
             if (user_id == users.getUser_id()) {
                 //设置自己的样式
-                view.showSelfTitleStyle();
+                view.setSelfConfig();
             } else {
                 //设置非自己的样式
-                view.showNonSelfTitleStyle();
+                view.setNonSelfConfig();
                 verifyIfPayAttention();//请求是否被关注
                 return;
             }
         } else {
             //设置非自己的样式
-            view.showNonSelfTitleStyle();
+            view.setNonSelfConfig();
         }
     }
 

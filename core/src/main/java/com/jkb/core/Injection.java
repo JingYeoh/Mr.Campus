@@ -34,6 +34,12 @@ import com.jkb.model.dataSource.first.firstlogic.remote.FirstRemoteDataSource;
 import com.jkb.model.dataSource.first.welcome.WelcomeDataResponsitory;
 import com.jkb.model.dataSource.first.welcome.local.WelcomeLocalDataSource;
 import com.jkb.model.dataSource.first.welcome.remote.WelcomeRemoteDataSource;
+import com.jkb.model.dataSource.function.index.dynamic.DynamicDataResponsitory;
+import com.jkb.model.dataSource.function.index.dynamic.local.DynamicLocalDataSource;
+import com.jkb.model.dataSource.function.index.dynamic.remote.DynamicRemoteDataSource;
+import com.jkb.model.dataSource.menuRight.rightMenu.RightMenuDataRepertory;
+import com.jkb.model.dataSource.menuRight.rightMenu.local.RightMenuLocalDataSource;
+import com.jkb.model.dataSource.menuRight.rightMenu.remote.RightMenuRemoteDataSource;
 import com.jkb.model.dataSource.personCenter.PersonCenterDataResponsitory;
 import com.jkb.model.dataSource.personCenter.local.PersonCenterLocalDataSource;
 import com.jkb.model.dataSource.personCenter.remote.PersonCenterRemoteDataSource;
@@ -263,5 +269,27 @@ public class Injection {
                 CircleListLocalDatasource.getInstance(applicationContext),
                 CircleListRemoteDatasource.getInstance());
         return responsitory;
+    }
+
+    /**
+     * 得到DynamicDataResponsitory对象
+     */
+    public static DynamicDataResponsitory provideDynamicDataResponsitory(
+            @NonNull Context applicationContext) {
+        DynamicDataResponsitory responsitory = DynamicDataResponsitory.getInstance(
+                DynamicLocalDataSource.getInstance(applicationContext),
+                DynamicRemoteDataSource.getInstance());
+        return responsitory;
+    }
+
+    /**
+     * 得到RightMenuDataRepertory对象
+     */
+    public static RightMenuDataRepertory provideRightMenuDataRepertory(
+            @NonNull Context applicationContext) {
+        RightMenuDataRepertory repertory = RightMenuDataRepertory.getInstance(
+                RightMenuLocalDataSource.getInstance(applicationContext),
+                RightMenuRemoteDataSource.getInstance());
+        return repertory;
     }
 }

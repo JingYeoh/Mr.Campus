@@ -33,4 +33,12 @@
             android:text="小伙子，先去登录再来哦" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/fhd_iv_floatBt"
+        style="@style/FunctionSetIcStyle"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:src="@drawable/ic_write" />
+
 </RelativeLayout>

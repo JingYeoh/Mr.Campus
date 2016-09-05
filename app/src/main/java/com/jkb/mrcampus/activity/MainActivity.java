@@ -3,7 +3,6 @@ package com.jkb.mrcampus.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.FrameLayout;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jkb.core.Injection;
@@ -11,7 +10,7 @@ import com.jkb.core.contract.menu.MenuContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.core.control.userstate.UserState;
-import com.jkb.core.presenter.function.homepage.HomePagePresenter;
+import com.jkb.core.presenter.function.index.HomePagePresenter;
 import com.jkb.core.presenter.menu.MenuPresenter;
 import com.jkb.core.presenter.menu.RightMenuPresenter;
 import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
@@ -31,7 +30,6 @@ import com.jkb.mrcampus.service.LocationService;
  */
 public class MainActivity extends BaseSlideMenuActivity implements MenuContract.View {
 
-    private FrameLayout fmContain;
     /**
      * 展示的当前页面
      */
@@ -120,8 +118,6 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
 
     /**
      * 恢复添加过的Presenter
-     *
-     * @param fragmentTAG
      */
     @Override
     public void restorePresenter(String fragmentTAG) {
@@ -144,8 +140,6 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
 
     @Override
     protected void initView() {
-        fmContain = (FrameLayout) findViewById(R.id.fm_content);
-
         slideMenuSetting();//设置SlideMenu
     }
 
@@ -164,7 +158,8 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
             switchFunctionPresenter = new SwitchFunctionPresenter(this, functionFragment);
         }
         if (rightMenuPresenter == null) {
-            rightMenuPresenter = new RightMenuPresenter(rightMenuFragment);
+            rightMenuPresenter = new RightMenuPresenter(rightMenuFragment,
+                    Injection.provideRightMenuDataRepertory(getApplicationContext()));
         }
     }
 
@@ -179,6 +174,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
                     //设置首页的右侧视图
                     if (homePageFragment != null && homePageFragment.isActive()) {
                         homePageFragment.setLoginRightMenuView();
+                        //设置动态的页面数据
                         if (dynamicLoginStatusChangedListener != null) {
                             dynamicLoginStatusChangedListener.showLoginDynamicView();
                         }
@@ -188,8 +184,10 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
                 @Override
                 public void showLogoutView() {
                     slidingMenu.setMode(SlidingMenu.LEFT);//设置为只有左侧滑动
+                    //设置首页的右侧视图
                     if (homePageFragment != null && homePageFragment.isActive()) {
                         homePageFragment.setLogoutRightMenuView();
+                        //设置动态的页面数据
                         if (dynamicLoginStatusChangedListener != null) {
                             dynamicLoginStatusChangedListener.showLogoutDynamicView();
                         }
@@ -325,12 +323,12 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     public void startMessage() {
         Log.d(TAG, "startMessage");
         //显示创建圈子视图
-//        Intent intent = new Intent(this, CreateCircleActivity.class);
-//        startActivityWithPushLeftAnim(intent);
-        //显示圈子列表的数据
-        Intent intent = new Intent(this, CircleListActivity.class);
-        intent.putExtra(Config.INTENT_KEY_USER_ID, 1);
+        Intent intent = new Intent(this, CreateCircleActivity.class);
         startActivityWithPushLeftAnim(intent);
+        //显示圈子列表的数据
+//        Intent intent = new Intent(this, CircleListActivity.class);
+//        intent.putExtra(Config.INTENT_KEY_USER_ID, 1);
+//        startActivityWithPushLeftAnim(intent);
     }
 
     @Override

@@ -39,6 +39,8 @@ public class Config {
     public static final String URL_OPERATION_VERIFYIFPAYATTENTION = "verifyIfPayAttention";//是否被关注
     public static final String URL_OPERATION_VISITME = "getVisitMe";//访问我的人
     public static final String URL_OPERATION_VISITOTHER = "getVisitOther";//我访问的人
+    //dynamic接口地址
+    public static final String URL_DYNAMIC_GET_ALL = "dynamic/getAllDynamic";
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
 

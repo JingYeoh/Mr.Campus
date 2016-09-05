@@ -102,7 +102,7 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
             public void onLoadingComplete(String s, View view, Bitmap bitmap) {
                 tvHeadImg.setImageBitmap(bitmap);
                 //设置模糊效果
-                ivPicBg.setImageBitmap(BitmapUtil.fastBlur(bitmap, 20, 2));
+                ivPicBg.setImageBitmap(BitmapUtil.fastBlur(bitmap, 25, 5));
             }
 
             @Override

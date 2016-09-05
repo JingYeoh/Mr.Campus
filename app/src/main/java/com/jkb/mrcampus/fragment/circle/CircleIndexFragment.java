@@ -151,7 +151,7 @@ public class CircleIndexFragment extends BaseFragment
 
         //初始化动态的控件
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fci_rv_dynamic);
-        linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, true);
+        linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setNestedScrollingEnabled(false);//为了解决滑动冲突的问题
         recyclerView.addItemDecoration(

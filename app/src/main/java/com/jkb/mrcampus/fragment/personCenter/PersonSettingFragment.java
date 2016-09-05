@@ -101,7 +101,7 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mCropParams = new CropParams(mActivity);
+
     }
 
     @Override
@@ -195,12 +195,16 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
 
     @Override
     public void onHeadImgClick() {
+        //再次处初始化主要为了解决某些系统问题：再次选图片后无法裁剪
+        mCropParams = new CropParams(mActivity);
         photoCropType = CROP_TYPE_HEADIMG;
         showChoosePictureView();
     }
 
     @Override
     public void onBackGroundClick() {
+        //再次处初始化主要为了解决某些系统问题：再次选图片后无法裁剪
+        mCropParams = new CropParams(mActivity);
         photoCropType = CROP_TYPE_BG;
         showChoosePictureView();
     }

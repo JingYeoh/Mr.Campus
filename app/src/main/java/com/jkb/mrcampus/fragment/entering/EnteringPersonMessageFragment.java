@@ -79,7 +79,7 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mCropParams = new CropParams(mActivity);
+
     }
 
     @Override
@@ -100,6 +100,7 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
 
     @Override
     public void showChoosePictureView() {
+        mCropParams = new CropParams(mActivity);
         //显示选择图片的View
         enteringActivity.showChoosePictureDialog();
         enteringActivity.setChoosePictureWayListener(this);

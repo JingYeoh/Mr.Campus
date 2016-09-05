@@ -11,7 +11,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:scaleType="fitXY"
-        android:src="@drawable/aliwx_head_bg_0" />
+        android:src="@color/default_picture" />
 
     <TextView
         android:id="@+id/ipcc_tv_circleName"

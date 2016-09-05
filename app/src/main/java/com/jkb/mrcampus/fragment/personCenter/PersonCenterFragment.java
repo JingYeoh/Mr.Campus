@@ -35,7 +35,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PersonCenterFragment extends BaseFragment implements PersonCenterContract.View,
         View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-
     private static PersonCenterFragment INSTANCE = null;
 
     public PersonCenterFragment() {
@@ -63,6 +62,7 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     //Data数据
     private PersonCenterCircleAdapter circleAdapter;
+    private boolean isUserSelf = true;//是否是用户本身
 
     //用户数据
     private int user_id = -1;//要显示的用户的数据
@@ -97,6 +97,8 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
         rootView.findViewById(R.id.ts3_ib_left).setOnClickListener(this);
         rootView.findViewById(R.id.ts3_ib_right).setOnClickListener(this);
         rootView.findViewById(R.id.ts3_tv_attention).setOnClickListener(this);
+        //浮动按钮
+        rootView.findViewById(R.id.fpc_iv_floatBt).setOnClickListener(this);
         //个人信息
         rootView.findViewById(R.id.fpc_tv_sign).setOnClickListener(this);
         rootView.findViewById(R.id.fpc_iv_headImg).setOnClickListener(this);
@@ -166,6 +168,9 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
             case R.id.ts3_tv_attention://关注按钮
                 payAttentionOrCancle();
                 break;
+            case R.id.fpc_iv_floatBt://浮动按钮
+                onFloatBtClick();
+                break;
             case R.id.fpc_tv_sign://签名
                 showSignView();
                 break;
@@ -211,6 +216,22 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     }
 
     @Override
+    public void setSelfConfig() {
+        isUserSelf = true;
+        Log.d(TAG, "isSelf=" + isUserSelf);
+        showSelfTitleStyle();
+        showWriteFloatBtView();
+    }
+
+    @Override
+    public void setNonSelfConfig() {
+        isUserSelf = false;
+        Log.d(TAG, "isSelf=" + isUserSelf);
+        showNonSelfTitleStyle();
+        showChatFloatBtView();
+    }
+
+    @Override
     public void showSelfTitleStyle() {
         rootView.findViewById(R.id.ts3_tv_attention).setVisibility(View.GONE);
         rootView.findViewById(R.id.ts3_ib_right).setVisibility(View.VISIBLE);
@@ -220,6 +241,18 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     public void showNonSelfTitleStyle() {
         rootView.findViewById(R.id.ts3_ib_right).setVisibility(View.GONE);
         rootView.findViewById(R.id.ts3_tv_attention).setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showChatFloatBtView() {
+        ((ImageView) rootView.findViewById(R.id.fpc_iv_floatBt))
+                .setImageResource(R.drawable.ic_cafe_message);
+    }
+
+    @Override
+    public void showWriteFloatBtView() {
+        ((ImageView) rootView.findViewById(R.id.fpc_iv_floatBt))
+                .setImageResource(R.drawable.ic_write);
     }
 
     @Override
@@ -305,6 +338,15 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     }
 
     @Override
+    public void onFloatBtClick() {
+        if (!isUserSelf) {
+            chat();
+        } else {
+            showWriteDynamicView();
+        }
+    }
+
+    @Override
     public void showSignView() {
         String sign = ((TextView) rootView.findViewById(R.id.fpc_tv_sign)).getText().toString();
         personCenterActivity.showTextFloatView(sign);
@@ -386,6 +428,16 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     @Override
     public void showDynamicCircleView() {
 
+    }
+
+    @Override
+    public void chat() {
+        showReqResult("聊天");
+    }
+
+    @Override
+    public void showWriteDynamicView() {
+        showReqResult("写动态");
     }
 
     @Override

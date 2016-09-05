@@ -308,6 +308,7 @@ public class PersonSettingPresenter implements PersonSettingContract.Presenter {
         public void onSuccess(Response<ApiResponse<UserUpdateEntity>> response) {
             if (view.isActive()) {
                 view.dismissLoading();
+                view.showReqResult("修改成功");
                 isCacheOverDatad = true;//设置数据过期
                 notifyDataChanged();//通知数据过期
                 getUserInfo();
@@ -340,6 +341,7 @@ public class PersonSettingPresenter implements PersonSettingContract.Presenter {
         public void onSuccess(Response<ApiResponse<UserUpdateEntity>> response) {
             if (view.isActive()) {
                 view.dismissLoading();
+                view.showReqResult("修改成功");
                 isCacheOverDatad = true;//设置数据过期
                 notifyDataChanged();//通知数据过期
                 getUserInfo();

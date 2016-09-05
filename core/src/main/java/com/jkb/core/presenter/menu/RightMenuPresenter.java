@@ -1,9 +1,12 @@
 package com.jkb.core.presenter.menu;
 
+import android.support.annotation.NonNull;
+
 import com.jkb.core.contract.menu.RightMenuContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.core.control.userstate.UserState;
+import com.jkb.model.dataSource.menuRight.rightMenu.RightMenuDataRepertory;
 import com.jkb.model.info.UserInfoSingleton;
 
 import jkb.mrcampus.db.entity.Users;
@@ -16,9 +19,13 @@ import jkb.mrcampus.db.entity.Users;
 public class RightMenuPresenter implements RightMenuContract.Presenter {
 
     private RightMenuContract.View view;
+    private RightMenuDataRepertory repertory;
 
-    public RightMenuPresenter(RightMenuContract.View view) {
+    public RightMenuPresenter(
+            @NonNull RightMenuContract.View view,
+            @NonNull RightMenuDataRepertory repertory) {
         this.view = view;
+        this.repertory = repertory;
 
         this.view.setPresenter(this);
     }
