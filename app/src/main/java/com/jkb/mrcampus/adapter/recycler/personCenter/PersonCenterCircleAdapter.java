@@ -1,4 +1,4 @@
-package com.jkb.mrcampus.adapter.recycler;
+package com.jkb.mrcampus.adapter.recycler.personCenter;
 
 import android.content.Context;
 import android.graphics.Bitmap;

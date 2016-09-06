@@ -37,6 +37,9 @@ import com.jkb.model.dataSource.first.welcome.remote.WelcomeRemoteDataSource;
 import com.jkb.model.dataSource.function.index.dynamic.DynamicDataResponsitory;
 import com.jkb.model.dataSource.function.index.dynamic.local.DynamicLocalDataSource;
 import com.jkb.model.dataSource.function.index.dynamic.remote.DynamicRemoteDataSource;
+import com.jkb.model.dataSource.menuRight.friends.FriendsRepertory;
+import com.jkb.model.dataSource.menuRight.friends.local.FriendsLocalDataSource;
+import com.jkb.model.dataSource.menuRight.friends.remote.FriendsRemoteDataSource;
 import com.jkb.model.dataSource.menuRight.rightMenu.RightMenuDataRepertory;
 import com.jkb.model.dataSource.menuRight.rightMenu.local.RightMenuLocalDataSource;
 import com.jkb.model.dataSource.menuRight.rightMenu.remote.RightMenuRemoteDataSource;
@@ -290,6 +293,17 @@ public class Injection {
         RightMenuDataRepertory repertory = RightMenuDataRepertory.getInstance(
                 RightMenuLocalDataSource.getInstance(applicationContext),
                 RightMenuRemoteDataSource.getInstance());
+        return repertory;
+    }
+
+    /**
+     * 得到FriendsRepertory对象
+     */
+    public static FriendsRepertory provideFriendsRepertory(@NonNull Context applicationContext) {
+        FriendsRepertory repertory = FriendsRepertory.getInstance(
+                FriendsLocalDataSource.getInstance(applicationContext),
+                FriendsRemoteDataSource.getInstance()
+        );
         return repertory;
     }
 }

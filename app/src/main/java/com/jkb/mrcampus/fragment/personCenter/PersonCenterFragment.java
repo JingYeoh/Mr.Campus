@@ -15,7 +15,7 @@ import com.jkb.core.contract.personCenter.PersonCenterContract;
 import com.jkb.core.presenter.personCenter.data.CircleData;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
-import com.jkb.mrcampus.adapter.recycler.PersonCenterCircleAdapter;
+import com.jkb.mrcampus.adapter.recycler.personCenter.PersonCenterCircleAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.usersList.AttentionFragment;
 import com.jkb.mrcampus.fragment.usersList.FansFragment;

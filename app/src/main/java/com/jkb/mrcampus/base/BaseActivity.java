@@ -21,6 +21,7 @@ import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
 import com.jkb.mrcampus.fragment.dialog.InputTextFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.SexFilterFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.TextFloatFragment;
+import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.utils.ClassUtils;
@@ -34,7 +35,7 @@ import java.util.List;
  * 注：在此处Activity不是视图的载体，View的显示及UI的载体为Fragment
  * Created by JustKiddingBaby on 2016/7/20.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements BaseActivityAction {
 
     protected String TAG = this.getClass().getSimpleName();
     protected Context context;
@@ -50,6 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private TextFloatFragment textFloatFragment;
     private InputTextFloatFragment inputTextFloatFragment;
     private SexFilterFloatFragment sexFilterFloatFragment;
+    private WriteDynamicDialogFragment writeDynamicDialogFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -275,6 +277,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 取消所有的显示子视图
      */
+    @Override
     public void dismiss() {
         if (choosePictureFragment != null && choosePictureFragment.isAdded()) {
             choosePictureFragment.dismiss();
@@ -287,6 +290,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         if (sexFilterFloatFragment != null && sexFilterFloatFragment.isAdded()) {
             sexFilterFloatFragment.dismiss();
+        }
+        //取消写动态视图的加载
+        if (writeDynamicDialogFragment != null && writeDynamicDialogFragment.isAdded()) {
+            writeDynamicDialogFragment.dismiss();
         }
         dismissLoading();
     }
@@ -340,6 +347,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (!sexFilterFloatFragment.isAdded()) {
             sexFilterFloatFragment.show(getFragmentManager(),
                     ClassUtils.getClassName(SexFilterFloatFragment.class));
+        }
+    }
+
+    @Override
+    public void showWriteDynamicView(WriteDynamicDialogFragment.OnWriteDynamicClickListener listener) {
+        if (writeDynamicDialogFragment == null) {
+            writeDynamicDialogFragment = new WriteDynamicDialogFragment(listener);
+        }
+        if (!writeDynamicDialogFragment.isAdded()) {
+            writeDynamicDialogFragment.show(getFragmentManager(),
+                    ClassUtils.getClassName(WriteDynamicDialogFragment.class));
         }
     }
 }

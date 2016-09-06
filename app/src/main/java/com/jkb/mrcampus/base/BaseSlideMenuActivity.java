@@ -13,8 +13,10 @@ import android.widget.Toast;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
+import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
 import com.jkb.mrcampus.helper.ActivityUtils;
+import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.List;
 import java.util.Timer;
@@ -24,7 +26,7 @@ import java.util.TimerTask;
  * 帶有侧滑菜單的Activity基类
  * Created by JustKiddingBaby on 2016/7/21.
  */
-public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity {
+public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity implements BaseActivityAction {
 
     protected String TAG = this.getClass().getSimpleName();
     protected Context context;
@@ -38,6 +40,7 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity {
 
     //展示视图
     protected GifLoadingView2 gifLoadingView;
+    private WriteDynamicDialogFragment writeDynamicDialogFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -206,15 +209,39 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity {
             gifLoadingView = new GifLoadingView2();
         }
         gifLoadingView.setImageResource(R.drawable.num31);
-        gifLoadingView.show(getFragmentManager(), null);
+        if (!gifLoadingView.isAdded()) {
+            gifLoadingView.show(getFragmentManager(),
+                    ClassUtils.getClassName(GifLoadingView2.class));
+        }
     }
 
     /**
      * 取消加载的loading效果
      */
     public void dismissLoading() {
-        if (gifLoadingView != null) {
+        if (gifLoadingView != null && gifLoadingView.isAdded()) {
             gifLoadingView.dismiss();
+        }
+    }
+
+    @Override
+    public void showWriteDynamicView(WriteDynamicDialogFragment.OnWriteDynamicClickListener listener) {
+        //显示写动态的视图
+        if (writeDynamicDialogFragment == null) {
+            writeDynamicDialogFragment = new WriteDynamicDialogFragment(listener);
+        }
+        if (!writeDynamicDialogFragment.isAdded()) {
+            writeDynamicDialogFragment.show(getFragmentManager(),
+                    ClassUtils.getClassName(WriteDynamicDialogFragment.class));
+        }
+    }
+
+    @Override
+    public void dismiss() {
+        dismissLoading();
+        //取消写动态视图的加载
+        if (writeDynamicDialogFragment != null && writeDynamicDialogFragment.isAdded()) {
+            writeDynamicDialogFragment.dismiss();
         }
     }
 }

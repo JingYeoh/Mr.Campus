@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/icf_content"
     android:layout_height="wrap_content"
     android:background="@drawable/general_item_selector2"
     android:orientation="horizontal">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/icf_iv_headImg"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_margin="10dp"
@@ -20,6 +22,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/icf_tv_name"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -30,6 +33,7 @@
             android:textSize="17sp" />
 
         <TextView
+            android:id="@+id/icf_tv_sign"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

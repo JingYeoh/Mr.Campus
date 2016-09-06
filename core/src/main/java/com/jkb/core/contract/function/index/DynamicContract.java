@@ -33,6 +33,11 @@ public interface DynamicContract {
         void hideRefreshingView();
 
         /**
+         * 显示书写动态视图
+         */
+        void showWriteDynamicView();
+
+        /**
          * 显示评论的页面
          */
         void showCommentView();

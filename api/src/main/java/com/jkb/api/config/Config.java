@@ -41,6 +41,8 @@ public class Config {
     public static final String URL_OPERATION_VISITOTHER = "getVisitOther";//我访问的人
     //dynamic接口地址
     public static final String URL_DYNAMIC_GET_ALL = "dynamic/getAllDynamic";
+    //Contacts接口
+    public static final String URL_CONTACTS_FRIENDS = "contacts";//相互关注的好友
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
 

@@ -40,7 +40,8 @@ import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
  * Created by JustKiddingBaby on 2016/8/11.
  */
 
-public class SelectCircleCoordinateFragment extends BlurDialogFragment implements SelectCircleCoordinateContract.View, View.OnClickListener, MyOrientationListener.OnOrientationListener, BaiduMap.OnMapStatusChangeListener {
+public class SelectCircleCoordinateFragment
+        extends BlurDialogFragment implements SelectCircleCoordinateContract.View, View.OnClickListener, MyOrientationListener.OnOrientationListener, BaiduMap.OnMapStatusChangeListener {
 
 
     private static SelectCircleCoordinateFragment INSTANCE = null;

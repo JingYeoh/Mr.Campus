@@ -6,7 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.jkb.core.contract.menu.data.FriendsData;
 import com.jkb.mrcampus.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 右滑菜单的好友列表的适配器
@@ -16,24 +20,29 @@ import com.jkb.mrcampus.R;
 public class RightMenuFriendsAdapter extends BaseAdapter {
 
     private Context context;
+    private List<FriendsData> friendsData;
 
-    public RightMenuFriendsAdapter(Context context) {
+    public RightMenuFriendsAdapter(Context context, List<FriendsData> friendsData) {
         this.context = context;
+        if (friendsData == null) {
+            friendsData = new ArrayList<>();
+        }
+        this.friendsData = friendsData;
     }
 
     @Override
     public int getCount() {
-        return 10;
+        return friendsData.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return friendsData.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return i;
     }
 
     @Override

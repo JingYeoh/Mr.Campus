@@ -1,4 +1,4 @@
-package com.jkb.mrcampus.adapter.recycler;
+package com.jkb.mrcampus.adapter.recycler.userList;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,24 +25,24 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * 关注用户列表的适配器
+ * 访客用户列表的适配器
  * Created by JustKiddingBaby on 2016/8/17.
  */
 
-public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdapter.ViewHolder>
+public class VisitorListAdapter extends RecyclerView.Adapter<VisitorListAdapter.ViewHolder>
         implements View.OnClickListener {
 
     private Context context;
     private int colorWhite;
     private int colorGravy;
     public List<UserData> userDatas;
-    private AttentionListAdapter.OnUserListItemsClickListener onUserListItemsClickListener;
+    private OnUserListItemsClickListener onUserListItemsClickListener;
 
     /**
      * 设置条目的子控件的点击监听
      */
     public void setOnUserListItemsClickListener(
-            AttentionListAdapter.OnUserListItemsClickListener onUserListItemsClickListener) {
+            OnUserListItemsClickListener onUserListItemsClickListener) {
         this.onUserListItemsClickListener = onUserListItemsClickListener;
     }
 
@@ -82,7 +82,7 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
         void onAttentionClick(int position);
     }
 
-    public AttentionListAdapter(Context context, List<UserData> userDatas) {
+    public VisitorListAdapter(Context context, List<UserData> userDatas) {
         this.context = context;
         colorWhite = context.getResources().getColor(R.color.white);
         colorGravy = context.getResources().getColor(R.color.background_general);
@@ -94,9 +94,9 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
     }
 
     @Override
-    public AttentionListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_userslist, parent, false);
-        AttentionListAdapter.ViewHolder holder = new AttentionListAdapter.ViewHolder(view);
+        VisitorListAdapter.ViewHolder holder = new VisitorListAdapter.ViewHolder(view);
         //初始化控件
         holder.ivHeadImg = (CircleImageView) view.findViewById(R.id.iul_iv_headImg);
         holder.tvAttention = (TextView) view.findViewById(R.id.iul_tv_attentionStatus);
@@ -113,7 +113,7 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
     }
 
     @Override
-    public void onBindViewHolder(AttentionListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         //绑定控件的TAG
         ClassUtils.bindViewsTag(position, holder.ivHeadImg, holder.tvAttention);
 

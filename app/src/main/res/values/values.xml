@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!--进入的动画-->
+    <style name="animate_dialog">
+        <item name="android:windowEnterAnimation">@anim/dialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_out</item>
+    </style>
     <!--标题栏样式-->
     <style name="titleStyle">
         <item name="android:layout_height">50dp</item>

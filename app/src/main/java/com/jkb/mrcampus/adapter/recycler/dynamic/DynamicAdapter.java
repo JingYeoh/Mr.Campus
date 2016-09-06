@@ -1,7 +1,6 @@
-package com.jkb.mrcampus.adapter.recycler;
+package com.jkb.mrcampus.adapter.recycler.dynamic;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;

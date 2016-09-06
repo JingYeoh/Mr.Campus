@@ -15,9 +15,10 @@ import com.jkb.core.contract.menu.MenuContract;
 import com.jkb.core.presenter.function.index.DynamicPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
-import com.jkb.mrcampus.adapter.recycler.DynamicAdapter;
+import com.jkb.mrcampus.adapter.recycler.dynamic.DynamicAdapter;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
 
 /**
  * 首页——动态的View层
@@ -25,7 +26,7 @@ import com.jkb.mrcampus.base.BaseFragment;
  */
 
 public class DynamicFragment extends BaseFragment implements DynamicContract.View,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     public DynamicFragment() {
     }
@@ -50,7 +51,8 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mainActivity = (MainActivity) mActivity;
         setRootView(R.layout.frg_homepage_dynamic);
         init(savedInstanceState);
@@ -74,6 +76,9 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
     @Override
     protected void initListener() {
         refreshLayout.setOnRefreshListener(this);
+
+        //设置添加动态按钮监听器
+        rootView.findViewById(R.id.fhd_iv_floatBt).setOnClickListener(this);
 
         //设置登录状态改变时候的监听器
         mainActivity.setDynamicLoginStatusChangedListener(dynamicLoginStatusChangedListener);
@@ -102,6 +107,15 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(
                 new LineDecoration(mActivity, LineDecoration.VERTICAL_LIST));//添加分割线
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.fhd_iv_floatBt:
+                showWriteDynamicView();
+                break;
+        }
     }
 
     /**
@@ -139,6 +153,11 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
     @Override
     public void hideRefreshingView() {
         refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showWriteDynamicView() {
+        mainActivity.showWriteDynamicView(onWriteDynamicClickListener);
     }
 
     @Override
@@ -201,4 +220,25 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
             showUnLoginView();
         }
     };
+    /**
+     * 写动态的监听器
+     */
+    private WriteDynamicDialogFragment.OnWriteDynamicClickListener onWriteDynamicClickListener
+            = new WriteDynamicDialogFragment.OnWriteDynamicClickListener() {
+        @Override
+        public void onTopicClick() {
+
+        }
+
+        @Override
+        public void onArticleClick() {
+
+        }
+
+        @Override
+        public void onNormalClick() {
+
+        }
+    };
+
 }
