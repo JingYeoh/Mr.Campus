@@ -1,6 +1,5 @@
 package com.jkb.mrcampus.fragment.personCenter;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 
 import com.jkb.core.contract.personCenter.PersonCenterContract;
 import com.jkb.core.presenter.personCenter.data.CircleData;
+import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.adapter.recycler.personCenter.PersonCenterCircleAdapter;
@@ -20,7 +20,6 @@ import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.usersList.AttentionFragment;
 import com.jkb.mrcampus.fragment.usersList.FansFragment;
 import com.jkb.mrcampus.fragment.usersList.VisitorFragment;
-import com.jkb.mrcampus.utils.BitmapUtil;
 import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.List;
@@ -256,14 +255,16 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     }
 
     @Override
-    public void setHeadImg(Bitmap headImg) {
-        ivHeadImg.setImageBitmap(headImg);
+    public void setHeadImg(String headImg) {
+        ImageLoaderFactory.getInstance().displayImage(ivHeadImg,headImg);
+//        ivHeadImg.setImageBitmap(headImg);
     }
 
     @Override
-    public void setBackGround(Bitmap bitmap) {
-        bitmap = BitmapUtil.fastBlur(bitmap, 15, 2);//设置高斯模糊效果
-        ((ImageView) rootView.findViewById(R.id.fpc_iv_backGround)).setImageBitmap(bitmap);
+    public void setBackGround(String bitmap) {
+        ImageView ivBg=((ImageView) rootView.findViewById(R.id.fpc_iv_backGround));
+        ImageLoaderFactory.getInstance().displayBlurImage(ivBg,bitmap,15,2);
+//        bitmap = BitmapUtil.fastBlur(bitmap, 15, 2);//设置高斯模糊效果
     }
 
     @Override

@@ -2,22 +2,30 @@ package com.jkb.model.net;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.ImageView;
 
+import com.bumptech.glide.load.engine.cache.LruResourceCache;
+import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
 import com.jkb.api.config.Config;
 import com.jkb.model.R;
+import com.jkb.model.utils.BitmapUtils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.MemoryCache;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -90,11 +98,52 @@ public class ImageLoaderFactory {
         }
     }
 
+    /**
+     * 加载图片
+     *
+     * @param imageView ImageView
+     * @param imageUrl  Url
+     */
+    public void displayImage(ImageView imageView, String imageUrl) {
+        ImageLoader.getInstance().displayImage(imageUrl, imageView);
+    }
+
+    /**
+     * 加载高斯模糊的图片
+     */
+    public void displayBlurImage(final ImageView imageView,
+                                 final String imageUrl, final int radius, final int downSampling) {
+        ImageLoader.getInstance().displayImage(imageUrl, imageView, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+
+            }
+
+            @Override
+            public void onLoadingFailed(String s, View view, FailReason failReason) {
+
+            }
+
+            @Override
+            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                if (view.getId() == imageView.getId()) {
+                    ((ImageView) view).
+                            setImageBitmap(BitmapUtils.fastBlur(bitmap, radius, downSampling));
+                }
+            }
+
+            @Override
+            public void onLoadingCancelled(String s, View view) {
+
+            }
+        });
+    }
+
     public DisplayImageOptions getDisplayOptions() {
         options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.welcome) // 设置图片在下载期间显示的图片
-                .showImageForEmptyUri(R.drawable.welcome)// 设置图片Uri为空或是错误的时候显示的图片
-                .showImageOnFail(R.drawable.welcome) // 设置图片加载/解码过程中错误时候显示的图片
+                .showImageOnLoading(R.color.default_picture) // 设置图片在下载期间显示的图片
+                .showImageForEmptyUri(R.color.default_picture)// 设置图片Uri为空或是错误的时候显示的图片
+                .showImageOnFail(R.color.default_picture) // 设置图片加载/解码过程中错误时候显示的图片
                 .cacheInMemory(true)// 设置下载的图片是否缓存在内存中
                 .cacheOnDisc(true)// 设置下载的图片是否缓存在SD卡中
                 .considerExifParams(true) // 是否考虑JPEG图像EXIF参数（旋转，翻转）
@@ -104,14 +153,16 @@ public class ImageLoaderFactory {
                 // delayInMillis为你设置的下载前的延迟时间
                 // 设置图片加入缓存前，对bitmap进行设置
                 // .preProcessor(BitmapProcessor preProcessor)
-                .resetViewBeforeLoading(true)// 设置图片在下载前是否重置，复位
-                .displayer(new RoundedBitmapDisplayer(20))// 是否设置为圆角，弧度为多少
-                .displayer(new FadeInBitmapDisplayer(100))// 是否图片加载好后渐入的动画时间
+                .resetViewBeforeLoading(false)// 设置图片在下载前是否重置，复位
+//                .displayer(new RoundedBitmapDisplayer(20))// 是否设置为圆角，弧度为多少
+//                .displayer(new FadeInBitmapDisplayer(100))// 是否图片加载好后渐入的动画时间
+                .displayer(new SimpleBitmapDisplayer())//解决闪烁的问题
                 .build();
         return options;
     }
 
     public ImageLoaderConfiguration getLoaderConfig() {
+        // 我们可以根据这个推荐大小做出调整：
         config = new ImageLoaderConfiguration.Builder(
                 context)
                 .memoryCacheExtraOptions(480, 800)
@@ -123,7 +174,10 @@ public class ImageLoaderFactory {
                 // 线程池内加载的数量
                 .threadPriority(Thread.NORM_PRIORITY - 2)
                 .denyCacheImageMultipleSizesInMemory()
-                .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024))
+                .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+                .memoryCacheSize(2 * 1024 * 1024)
+                .memoryCacheSizePercentage(13) // default
+//                .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024))
                 // You can pass your own memory cache
                 // implementation/你可以通过自己的内存缓存实现
                 .memoryCacheSize(2 * 1024 * 1024)

@@ -60,12 +60,12 @@ public interface PersonCenterContract {
         /**
          * 设置头像
          */
-        void setHeadImg(Bitmap headImg);
+        void setHeadImg(String headImg);
 
         /**
          * 设置背景图片
          */
-        void setBackGround(Bitmap bitmap);
+        void setBackGround(String bitmap);
 
         /**
          * 设置昵称

@@ -17,7 +17,7 @@ public interface PersonSettingContract {
         /**
          * 设置头像
          */
-        void setHeadImg(Bitmap bitmap);
+        void setHeadImg(String bitmap);
 
         /**
          * 设置名称
@@ -42,7 +42,7 @@ public interface PersonSettingContract {
         /**
          * 设置背景
          */
-        void setBackGround(Bitmap bitmap);
+        void setBackGround(String bitmap);
 
         /**
          * 设置手机号

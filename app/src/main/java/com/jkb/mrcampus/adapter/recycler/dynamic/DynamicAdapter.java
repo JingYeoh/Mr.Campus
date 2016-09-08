@@ -9,8 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jkb.api.config.Config;
+import com.jkb.core.contract.function.data.dynamic.CircleData;
+import com.jkb.core.contract.function.data.dynamic.DynamicBaseData;
+import com.jkb.core.contract.function.data.dynamic.DynamicData;
+import com.jkb.model.net.ImageLoaderFactory;
+import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
+import com.jkb.mrcampus.utils.BitmapUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -26,6 +35,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     private int colorGravy;
     private Random random;
 
+    public List<DynamicBaseData> dynamicBaseDatas;
+
     //用到的常量
     private static final int ORIGINAL_TYPE_NORMAL = 1001;
     private static final int ORIGINAL_TYPE_TOPIC = 1002;
@@ -33,8 +44,12 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     private static final int UNORIGINAL_TYPE_SUBSCRIBE_CIRCLE = 2001;
 
 
-    public DynamicAdapter(Context context) {
+    public DynamicAdapter(Context context, List<DynamicBaseData> dynamicBaseDatas) {
         this.context = context;
+        if (dynamicBaseDatas == null) {
+            dynamicBaseDatas = new ArrayList<>();
+        }
+        this.dynamicBaseDatas = dynamicBaseDatas;
 
         colorWhite = context.getResources().getColor(R.color.white);
         colorGravy = context.getResources().getColor(R.color.background_general);
@@ -44,16 +59,38 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        int type = random.nextInt(4);
-        if (type == 0) {
-            return ORIGINAL_TYPE_TOPIC;
-        } else if (type == 1) {
-            return ORIGINAL_TYPE_ARTICLE;
-        } else if (type == 2) {
-            return ORIGINAL_TYPE_NORMAL;
-        } else {
+        DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
+        int itemType = 0;
+        String target_type = dynamicBaseData.getTarget_type();
+        if (target_type.equals(Config.TARGET_TYPE_CIRCLE)) {
             return UNORIGINAL_TYPE_SUBSCRIBE_CIRCLE;
+        } else if (target_type.equals(Config.TARGET_TYPE_DYNAMIC)) {
+            if (dynamicBaseData instanceof DynamicData) {
+                //设置动态数据
+                DynamicData dynamicData = (DynamicData) dynamicBaseData;
+                String dType = dynamicData.getDtype();
+                if (dType.equals(Config.D_TYPE_ARTICLE)) {
+                    itemType = ORIGINAL_TYPE_ARTICLE;
+                } else if (dType.equals(Config.D_TYPE_TOPIC)) {
+                    itemType = ORIGINAL_TYPE_TOPIC;
+                } else {
+                    itemType = ORIGINAL_TYPE_NORMAL;
+                }
+            } else {
+                dynamicBaseDatas.remove(position);
+            }
         }
+//        int type = random.nextInt(4);
+//        if (type == 0) {
+//            return ORIGINAL_TYPE_TOPIC;
+//        } else if (type == 1) {
+//            return ORIGINAL_TYPE_ARTICLE;
+//        } else if (type == 2) {
+//            return ORIGINAL_TYPE_NORMAL;
+//        } else {
+//            return UNORIGINAL_TYPE_SUBSCRIBE_CIRCLE;
+//        }
+        return itemType;
     }
 
     @Override
@@ -107,6 +144,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         if (holder.unOriginalSubscribeCircle == null) {
             holder.unOriginalSubscribeCircle = new UnOriginalSubscribeCircle();
         }
+        holder.viewType = UNORIGINAL_TYPE_SUBSCRIBE_CIRCLE;
         //圈子相关
         holder.unOriginalSubscribeCircle.ivCirclePicBg =
                 (ImageView) view.findViewById(R.id.idsc_iv_picBg);
@@ -205,20 +243,150 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         } else {//奇数
             holder.contentView.setBackgroundColor(colorWhite);
         }
-        //判断类型
+        //设置作者信息
+        handleDynamicData(holder, position);
+    }
+
+    /**
+     * 处理用户数据
+     */
+    private void handleDynamicData(ViewHolder holder, int position) {
+        DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
+        if (dynamicBaseData == null) {
+            dynamicBaseDatas.remove(position);
+            return;
+        }
+        //设置作者信息
         switch (holder.viewType) {
             case ORIGINAL_TYPE_NORMAL:
-                //初始化图片
-                int picNum = random.nextInt(7);
-                initOriginalPicturesView(picNum, holder);
                 break;
             case ORIGINAL_TYPE_ARTICLE:
+                handleDynamicArticleData(holder, position);//绑定文章数据
                 break;
             case ORIGINAL_TYPE_TOPIC:
+                handleDynamicTopicData(holder, position);//绑定话题数据
                 break;
             case UNORIGINAL_TYPE_SUBSCRIBE_CIRCLE:
+                handleCircleSubscribe(holder, position);//绑定圈子数据
                 break;
         }
+    }
+
+    /**
+     * 解析话题数据
+     */
+    private void handleDynamicTopicData(ViewHolder holder, int position) {
+        Log.d(TAG, "handleDynamicTopicData");
+        DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
+        if (!(dynamicBaseData instanceof DynamicData)) {
+            dynamicBaseDatas.remove(position);
+            return;
+        }
+        //设置用户数据
+        holder.originalTopic.tvName.setText(dynamicBaseData.getCreator_nickname());
+        holder.originalTopic.tvTime.setText(dynamicBaseData.getCreated_at());
+        //设置头像
+        String headImgUrl = dynamicBaseData.getCreator_avatar();
+        if (!StringUtils.isEmpty(headImgUrl)) {
+            bindImageViewAndUrl(holder.originalTopic.iv_headImg, headImgUrl);
+        }
+        //解析话题的数据
+        holder.originalTopic.tvTitle.setText(((DynamicData) dynamicBaseData).getTitle());
+        holder.originalTopic.tvPartNum.setText(((DynamicData) dynamicBaseData).getParticipation() + "");
+        //设置图片和内容
+        DynamicData.Topic topic = ((DynamicData) dynamicBaseData).getTopic();
+        if (topic != null) {
+            DynamicData.Topic.TopicBean bean = topic.getTopic();
+            if (bean != null) {
+                holder.originalTopic.tvContent.setText(bean.getDoc());
+                bindImageViewAndUrl(holder.originalTopic.iv_picture, bean.getImg());
+            }
+        }
+    }
+
+    /**
+     * 解析订阅圈子操作的数据
+     */
+    private void handleCircleSubscribe(ViewHolder holder, int position) {
+        Log.d(TAG, "handleCircleSubscribe");
+        DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
+        if (!(dynamicBaseData instanceof CircleData)) {
+            dynamicBaseDatas.remove(position);
+            return;
+        }
+        //设置用户数据
+        holder.unOriginalSubscribeCircle.tvName.setText(dynamicBaseData.getCreator_nickname());
+        holder.unOriginalSubscribeCircle.tvTime.setText(dynamicBaseData.getCreated_at());
+        holder.unOriginalSubscribeCircle.tvAction.setText(dynamicBaseData.getActionTitle());
+        //设置头像
+        String headImgUrl = dynamicBaseData.getCreator_avatar();
+        if (!StringUtils.isEmpty(headImgUrl)) {
+            bindImageViewAndUrl(holder.unOriginalSubscribeCircle.ivHeadImg, headImgUrl);
+        }
+        //设置圈子数据
+        CircleData circleData = (CircleData) dynamicBaseData;
+        holder.unOriginalSubscribeCircle.tvCircleName.setText(circleData.getName());
+        holder.unOriginalSubscribeCircle.tvCircleContent.setText(circleData.getIntroduction());
+        holder.unOriginalSubscribeCircle.tvCircleOperationNum.setText(circleData.getOperation_count() + "");
+        holder.unOriginalSubscribeCircle.tvCircleSubscribeNum.setText(circleData.getDynamics_count() + "");
+        holder.unOriginalSubscribeCircle.tvCircleType.setText(circleData.getType());
+        //设置图片
+        bindImageViewAndUrl(holder.unOriginalSubscribeCircle.ivCirclePicture,
+                circleData.getPicture());
+        bindBlurImageViewAndUrl(holder.unOriginalSubscribeCircle.ivCirclePicBg,
+                circleData.getPicture(), 25, 5);
+    }
+
+    /**
+     * 解析文章数据
+     */
+    private void handleDynamicArticleData(ViewHolder holder, int position) {
+        DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
+        if (!(dynamicBaseData instanceof DynamicData)) {
+            dynamicBaseDatas.remove(position);
+            return;
+        }
+        //设置用户数据
+        holder.originalArticle.tvName.setText(dynamicBaseData.getCreator_nickname());
+        holder.originalArticle.tvTime.setText(dynamicBaseData.getCreated_at());
+        //设置头像
+        String headImgUrl = dynamicBaseData.getCreator_avatar();
+        if (!StringUtils.isEmpty(headImgUrl)) {
+            bindImageViewAndUrl(holder.originalArticle.iv_headImg, headImgUrl);
+        }
+        //设置文章数据
+        DynamicData.Article article = ((DynamicData) dynamicBaseData).getArticle();
+        if (article != null) {
+            List<DynamicData.Article.ArticleBean> articleBeen = article.getArticle();
+            if (articleBeen != null && articleBeen.size() > 0) {
+                DynamicData.Article.ArticleBean bean = articleBeen.get(0);
+                holder.originalArticle.tvContent.setText(bean.getDoc());
+                String picUrl = bean.getImg();
+                bindImageViewAndUrl(holder.originalArticle.iv_picture, picUrl);
+            }
+        }
+        //设置文章标题
+        holder.originalArticle.tvTitle.setText(((DynamicData) dynamicBaseData).getTitle());
+        holder.originalArticle.tvCommentNum.setText(
+                ((DynamicData) dynamicBaseData).getComments_count() + "");
+        holder.originalArticle.tvLikeNum.setText(
+                ((DynamicData) dynamicBaseData).getOperation_count() + "");
+    }
+
+
+    /**
+     * 绑定图片到网址上
+     */
+    private void bindImageViewAndUrl(ImageView iv_headImg, String headImgUrl) {
+        ImageLoaderFactory.getInstance().displayImage(iv_headImg, headImgUrl);
+    }
+
+    /**
+     * 绑定图片到网址上并设置高斯模糊效果
+     */
+    private void bindBlurImageViewAndUrl(
+            ImageView iv_headImg, String headImgUrl, int radius, int downSampling) {
+        ImageLoaderFactory.getInstance().displayBlurImage(iv_headImg, headImgUrl, radius, downSampling);
     }
 
     /**
@@ -267,7 +435,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return 20;
+        return dynamicBaseDatas.size();
     }
 
     /**

@@ -28,6 +28,8 @@ import com.jkb.core.Injection;
 import com.jkb.core.contract.create$circle.SelectCircleCoordinateContract;
 import com.jkb.core.presenter.create$circle.SelectCircleCoordinatePresenter;
 import com.jkb.model.info.LocationInfoSingleton;
+import com.jkb.model.net.ImageLoaderFactory;
+import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CreateCircleActivity;
 import com.jkb.mrcampus.helper.map.MyOrientationListener;
@@ -300,14 +302,18 @@ public class SelectCircleCoordinateFragment
     }
 
     @Override
-    public void setLocationUserHeadImgBitmap(Bitmap bitmap) {
+    public void setLocationUserHeadImgBitmap(String bitmap) {
         //设置头像
-        if (bitmap != null) {
-            LayoutInflater inflater = LayoutInflater.from(mActivity);
-            View view = inflater.inflate(R.layout.view_baidu_descriptor, null);
-            ((CircleImageView) view.findViewById(R.id.vbd_iv_headImg)).setImageBitmap(bitmap);
-            bitmapDescriptor = BitmapDescriptorFactory.fromView(view);
+        LayoutInflater inflater = LayoutInflater.from(mActivity);
+        View view = inflater.inflate(R.layout.view_baidu_descriptor, null);
+        CircleImageView ivHeadImg= ((CircleImageView) view.findViewById(R.id.vbd_iv_headImg));
+        if (!StringUtils.isEmpty(bitmap)) {
+            ImageLoaderFactory.getInstance().displayImage(
+                    ivHeadImg  ,bitmap);
+        }else{
+            ivHeadImg.setImageResource(R.drawable.ic_user_head);
         }
+        bitmapDescriptor = BitmapDescriptorFactory.fromView(view);
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jkb.core.contract.personCenter.PersonSettingContract;
+import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.base.BaseFragment;
@@ -143,8 +144,9 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
     }
 
     @Override
-    public void setHeadImg(Bitmap bitmap) {
-        ((CircleImageView) rootView.findViewById(R.id.fps_iv_headImg)).setImageBitmap(bitmap);
+    public void setHeadImg(String bitmap) {
+        CircleImageView circleImageView= ((CircleImageView) rootView.findViewById(R.id.fps_iv_headImg));
+        ImageLoaderFactory.getInstance().displayImage(circleImageView,bitmap);
     }
 
     @Override
@@ -169,8 +171,9 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
     }
 
     @Override
-    public void setBackGround(Bitmap bitmap) {
-        ((ImageView) rootView.findViewById(R.id.fps_iv_backGround)).setImageBitmap(bitmap);
+    public void setBackGround(String bitmap) {
+        ImageView imageView=((ImageView) rootView.findViewById(R.id.fps_iv_backGround));
+        ImageLoaderFactory.getInstance().displayImage(imageView,bitmap);
     }
 
     @Override

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffda44</color>
+    <color name="colorPrimaryDark">#AA000000</color>
+    <color name="colorAccent">#AA000000</color>
+
+    <color name="clarity">#00000000</color>
+    <color name="text_selected">#6cd2f8</color>
+    <color name="text_normal">#61615f</color>
+    <color name="text_white">#ffffff</color>
+    <color name="text_gray">#e5e5e5</color>
+    <color name="text_city">#acacac</color>
+    <color name="text_coupon_normal">#707070</color>
+    <color name="text_border">#efefef</color>
+    <color name="text_opinion_select">#d6d6d6</color>
+    <color name="text_opinion_normal">#f0f0f0</color>
+    <color name="text_loginin">#6ac9ef</color>
+    <color name="text_edit">#c3c3c3</color>
+    <color name="text_order">#636363</color>
+    <color name="text_gravy_black">#c0c0c0</color>
+    <color name="layout_blue">#5bd0fb</color>
+    <color name="text_black">#000000</color>
+    <color name="text_alreay">#bfbfbf</color>
+    <color name="text_red">#FF0000</color>
+    <color name="text_orige">#f0a900</color>
+    <color name="bg_normal_gray">#eaeaea</color>
+    <color name="text_blue">#1E90FF</color>
+    <color name="text_blue_2">#10a9c4</color>
+    <color name="text_gravy_light">#C4C3C2</color>
+    <color name="text_dynamic_content">#737373</color>
+    <!-- wr -->
+    <color name="text_choose">#F4A7C4</color>
+    <color name="text_default">#AA000000</color>
+    <color name="transparent">#77000000</color>
+    <color name="layout_click">#20F4A0C0</color>
+    <color name="order_normal">#F4A0C0</color>
+    <color name="order_click">#88F4A0C0</color>
+    <color name="image_click">#50c0c0c0</color>
+    <color name="general_click">#50FFFFFF</color>
+    <color name="background_general">#f4f4f4</color>
+    <color name="white_30">#1EFFFFFF</color>
+    <color name="white_170">#AAFFFFFF</color>
+    <color name="white_200">#c8ffffff</color>
+    <!-- 主色调 -->
+    <color name="main_theme">#FFD344</color>
+    <color name="main_theme_200">#AAFFD344</color>
+    <color name="main_theme_gravy">#313131</color>
+    <color name="main_theme_gravy_170">#aa313131</color>
+    <color name="main_theme_green">#57ac68</color>
+    <!--默认的-->
+    <color name="default_picture">#858585</color>
+    <!--  -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="black_200">#c8000000</color>
+    <color name="line">#858585</color>
+    <color name="gravy_70">#46858585</color>
+    <color name="line_deep">#3c3c3c</color>
+    <color name="red_l">#F2345F</color>
+    <color name="crimson">#DC143C</color>
+    <color name="lightgray">#D3D3D3</color>
+    <color name="hint_color">#778899</color>
+    <color name="calendar_top_bg">#F5A0B3</color>
+    <color name="textcolor">#333333</color>
+    <color name="red">#FF0000</color>
+    <color name="man_color">#51b7F9</color>
+    <color name="woman_color">#F33D66</color>
+    <color name="B_black_20">#2c000000</color>
+    <color name="B_black_70">#b6000000</color>
+    <color name="white_20">#c2c1c1</color>
+    <color name="B_black_50">#404040</color>
+    <color name="actionbar_background_start">#00CD2626</color>
+    <color name="actionbar_background_end">#00CD2626</color>
+    <color name="actionbar_background_item_pressed_start">#FF7F00</color>
+    <color name="actionbar_background_item_pressed_end">#EE7600</color>
+</resources>

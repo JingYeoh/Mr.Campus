@@ -122,4 +122,10 @@ public class Config {
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_BREF_INTRODUCTION = "bref_introduction";
 
+    public static final String TARGET_TYPE_CIRCLE = "circle";
+    public static final String TARGET_TYPE_DYNAMIC = "dynamic";
+
+    public static final String D_TYPE_TOPIC = "topic";
+    public static final String D_TYPE_ARTICLE = "article";
+
 }

@@ -140,15 +140,40 @@ public class LoginPresenter implements LoginContract.Presenter {
 //            loginView.dismissLoading();
 //            loginView.showReqResult("登录成功，宝宝好棒");
 //            loginSystem();//进入系统
+                    if(loginView.isActive()){
+                        handleData(response.body());
+                    }
+                }
+
+                /**
+                 * 处理用户数据
+                 */
+                private void handleData(ApiResponse<LoginEntity> body) {
+                    if(body==null){
+                        return;
+                    }
+                    handleLoginData(body.getMsg());
+                }
+
+                /**
+                 * 处理登录数据
+                 */
+                private void handleLoginData(LoginEntity msg) {
+                    if(msg==null){
+                        loginView.showReqResult("登录失败");
+                        return;
+                    }
                     //存储数据到数据库中
-                    saveUserDataToDb(response.body().getMsg());
+                    saveUserDataToDb(msg);
                 }
 
                 @Override
                 public void onError(Response<ApiResponse<LoginEntity>> response,
                                     String error, ApiResponse<LoginEntity> apiResponse) {
-                    loginView.dismissLoading();
-                    loginView.showReqResult("帐号或密码错误");
+                    if(loginView.isActive()){
+                        loginView.dismissLoading();
+                        loginView.showReqResult("帐号或密码错误");
+                    }
                 }
 
                 @Override
@@ -273,11 +298,9 @@ public class LoginPresenter implements LoginContract.Presenter {
         @Override
         public void onBitmapDataLoaded(Bitmap bitmap) {
             Log.d(TAG, "bitmapDataCallback-------->获取头像成功！");
-            UserInfoSingleton.getInstance().setUserAvatar(bitmap);
             String UID = UserInfoSingleton.getInstance().getUsers().getUID();
 
-            LoginContext.getInstance().setUserState(new LoginState());//更新回调接口数据
-
+            //进入系统
             loginSystem();
 
             //缓存并且设置到本地
@@ -287,7 +310,6 @@ public class LoginPresenter implements LoginContract.Presenter {
         @Override
         public void onDataNotAvailable() {
             Log.d(TAG, "bitmapDataCallback-------->获取头像失败！");
-            UserInfoSingleton.getInstance().setUserAvatar(null);
             //进入系统
             loginSystem();
         }

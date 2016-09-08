@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jkb.core.contract.circle.CircleIndexContract;
+import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleActivity;
 import com.jkb.mrcampus.adapter.recycler.DynamicCircleAdapter;
@@ -254,10 +255,12 @@ public class CircleIndexFragment extends BaseFragment
     }
 
     @Override
-    public void setCirclePicture(Bitmap picture) {
-        ivHeadImg.setImageBitmap(picture);
-        //设置高斯模糊效果
-        ivBg.setImageBitmap(BitmapUtil.fastBlur(picture, 8, 2));
+    public void setCirclePicture(String picture) {
+        ImageLoaderFactory.getInstance().displayImage(ivHeadImg, picture);
+        ImageLoaderFactory.getInstance().displayBlurImage(ivBg, picture, 8, 4);
+//        ivHeadImg.setImageBitmap(picture);
+//        //设置高斯模糊效果
+//        ivBg.setImageBitmap(BitmapUtil.fastBlur(picture, 8, 2));
     }
 
     @Override

@@ -16,6 +16,7 @@ import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleListActivity;
 import com.jkb.mrcampus.adapter.recycler.CircleListAdapter;
+import com.jkb.mrcampus.adapter.recycler.NoAlphaItemAnimator;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.DividerGridItemDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
 
@@ -27,22 +28,22 @@ import java.util.List;
  * Created by JustKiddingBaby on 2016/9/1.
  */
 
-public class CircleListUserPayAttentiondFragment extends BaseFragment
+public class CircleListUserPayAttentionFragment extends BaseFragment
         implements CircleListContract.View, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
 
-    private static CircleListUserPayAttentiondFragment INSTANCE = null;
+    private static CircleListUserPayAttentionFragment INSTANCE = null;
 
-    public CircleListUserPayAttentiondFragment() {
+    public CircleListUserPayAttentionFragment() {
     }
 
-    private CircleListUserPayAttentiondFragment(int user_id) {
+    private CircleListUserPayAttentionFragment(int user_id) {
         this.user_id = user_id;
     }
 
-    public static CircleListUserPayAttentiondFragment newInstance(int user_id) {
+    public static CircleListUserPayAttentionFragment newInstance(int user_id) {
         if (INSTANCE == null || user_id != -1) {
-            INSTANCE = new CircleListUserPayAttentiondFragment(user_id);
+            INSTANCE = new CircleListUserPayAttentionFragment(user_id);
         }
         return INSTANCE;
     }
@@ -124,6 +125,7 @@ public class CircleListUserPayAttentiondFragment extends BaseFragment
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
         recyclerView.addItemDecoration(new DividerGridItemDecoration(mActivity));
+        recyclerView.setItemAnimator(new NoAlphaItemAnimator());//设置无动画,解决闪屏问题
 
         //初始化标题栏
         ((TextView) rootView.findViewById(R.id.ts4_tv_name)).setText("所有圈子");
@@ -227,6 +229,4 @@ public class CircleListUserPayAttentiondFragment extends BaseFragment
         super.onSaveInstanceState(outState);
         outState.putInt(Config.INTENT_KEY_USER_ID, user_id);
     }
-
-
 }

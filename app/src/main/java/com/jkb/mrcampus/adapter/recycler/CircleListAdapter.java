@@ -52,6 +52,7 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
         View view = LayoutInflater.from(context).inflate(R.layout.item_circle_list, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
 
+        viewHolder.content = view.findViewById(R.id.icl_content);
         viewHolder.tvName = (TextView) view.findViewById(R.id.icl_tv_name);
         viewHolder.tvType = (TextView) view.findViewById(R.id.icl_tv_circleType);
         viewHolder.tvOperationNum = (TextView) view.findViewById(R.id.icl_tv_operationCount);
@@ -59,7 +60,7 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
         viewHolder.ivPicture = (ImageView) view.findViewById(R.id.icl_iv_picture);
         viewHolder.ivPicBg = (ImageView) view.findViewById(R.id.icl_iv_picBg);
 
-        viewHolder.ivPicBg.setOnClickListener(this);
+        viewHolder.content.setOnClickListener(this);
 
         return viewHolder;
     }
@@ -68,7 +69,7 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
     public void onBindViewHolder(CircleListAdapter.ViewHolder holder, int position) {
 
         //绑定控件的TAG
-        ClassUtils.bindViewsTag(position, holder.ivPicBg);
+        ClassUtils.bindViewsTag(position, holder.content);
 
         CircleData data = circleDatas.get(position);
         holder.tvName.setText(data.getCircleName());
@@ -77,8 +78,26 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
         holder.tvType.setText(data.getCircleType());
         String picUrl = data.getPictureUrl();
         if (!StringUtils.isEmpty(picUrl)) {
-            setImageLoad(holder.ivPicture, holder.ivPicBg, picUrl);
+            //判断图片是否一致，放置闪屏操作
+            String url = (String) holder.ivPicture.getTag();
+            if (StringUtils.isEmpty(url) || !picUrl.equals(url)) {
+                loadImage(holder.ivPicBg, holder.ivPicture, picUrl);
+            }
+//            setImageLoad(holder.ivPicture, holder.ivPicBg, picUrl);
+        } else {
+            holder.ivPicture.setImageResource(R.color.default_picture);
+            holder.ivPicBg.setImageResource(R.color.default_picture);
         }
+    }
+
+    /**
+     * 加载图片
+     */
+    private void loadImage(ImageView ivPicBg, ImageView ivPicture, String picUrl) {
+        ivPicture.setTag(picUrl);
+        ImageLoaderFactory.getInstance().displayImage(ivPicture, picUrl);
+//        ImageLoaderFactory.getInstance().displayImage(ivPicBg, picUrl);
+        ImageLoaderFactory.getInstance().displayBlurImage(ivPicBg, picUrl, 25, 5);
     }
 
     /**
@@ -129,7 +148,7 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
             int viewId = bundle.getInt(Config.BUNDLE_KEY_VIEW_ID);
             int position = bundle.getInt(Config.BUNDLE_KEY_VIEW_POSITION);
             switch (viewId) {
-                case R.id.icl_iv_picBg:
+                case R.id.icl_content:
                     onCircleItemClickListener.onClick(position);
                     break;
             }
@@ -147,6 +166,7 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
         TextView tvType;
         TextView tvDynamicNum;
         TextView tvOperationNum;
+        View content;
     }
 
     public interface OnCircleItemClickListener {

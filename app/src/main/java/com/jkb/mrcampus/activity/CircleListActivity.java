@@ -10,7 +10,7 @@ import com.jkb.core.presenter.circleList.CircleListPresenter;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
-import com.jkb.mrcampus.fragment.circle.CircleListUserPayAttentiondFragment;
+import com.jkb.mrcampus.fragment.circle.CircleListUserPayAttentionFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.helper.FragmentStack;
 import com.jkb.mrcampus.utils.ClassUtils;
@@ -40,7 +40,7 @@ public class CircleListActivity extends BaseActivity {
 
     //要显示的View
     //圈子列表
-    private CircleListUserPayAttentiondFragment circleListFragment;
+    private CircleListUserPayAttentionFragment circleListFragment;
     private CircleListPresenter circleListPresenter;
 
     @Override
@@ -64,7 +64,7 @@ public class CircleListActivity extends BaseActivity {
             //初始化用户id
             Intent intent = getIntent();
             user_id = intent.getIntExtra(Config.INTENT_KEY_USER_ID, -1);
-            currentShowFragment = ClassUtils.getClassName(CircleListUserPayAttentiondFragment.class);
+            currentShowFragment = ClassUtils.getClassName(CircleListUserPayAttentionFragment.class);
             showFragment(currentShowFragment);
         } else {
             user_id = savedInstanceState.getInt(Config.INTENT_KEY_USER_ID, -1);
@@ -98,7 +98,7 @@ public class CircleListActivity extends BaseActivity {
             //添加到回退栈中
             fragmentStack.addFragmentToStack(fragmentName);
 
-            if (ClassUtils.isNameEquals(fragmentName, CircleListUserPayAttentiondFragment.class)) {
+            if (ClassUtils.isNameEquals(fragmentName, CircleListUserPayAttentionFragment.class)) {
                 showCircleList();
             }
         } catch (ClassNotFoundException e) {
@@ -109,8 +109,8 @@ public class CircleListActivity extends BaseActivity {
 
     @Override
     protected void restoreFragments(String fragmentTAG) {
-        if (ClassUtils.isNameEquals(fragmentTAG, CircleListUserPayAttentiondFragment.class)) {
-            circleListFragment = (CircleListUserPayAttentiondFragment)
+        if (ClassUtils.isNameEquals(fragmentTAG, CircleListUserPayAttentionFragment.class)) {
+            circleListFragment = (CircleListUserPayAttentionFragment)
                     fm.findFragmentByTag(fragmentTAG);
             circleListPresenter = new CircleListPresenter(circleListFragment,
                     Injection.provideCircleListDataResponsitory(getApplicationContext()));
@@ -121,7 +121,7 @@ public class CircleListActivity extends BaseActivity {
     protected void initFragmentStep2(Class<?> fragmentClass) {
         String fragmentTAG = fragmentClass.getName();
 
-        if (ClassUtils.isNameEquals(fragmentTAG, CircleListUserPayAttentiondFragment.class)) {
+        if (ClassUtils.isNameEquals(fragmentTAG, CircleListUserPayAttentionFragment.class)) {
             initCircleList();
         }
     }
@@ -131,7 +131,7 @@ public class CircleListActivity extends BaseActivity {
      */
     private void initCircleList() {
         if (circleListFragment == null) {
-            circleListFragment = CircleListUserPayAttentiondFragment.newInstance(user_id);
+            circleListFragment = CircleListUserPayAttentionFragment.newInstance(user_id);
             ActivityUtils.addFragmentToActivity(fm, circleListFragment, contentView);
         }
         if (circleListPresenter == null) {
@@ -177,7 +177,7 @@ public class CircleListActivity extends BaseActivity {
     public void backToLastView() {
         //如果当前页面就是登录页面的时候
         if (ClassUtils.isNameEquals(fragmentStack.getCurrentFragmentName(),
-                CircleListUserPayAttentiondFragment.class)) {
+                CircleListUserPayAttentionFragment.class)) {
             super.onBackPressed();
             return;
         }

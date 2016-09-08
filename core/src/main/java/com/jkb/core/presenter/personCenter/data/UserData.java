@@ -12,8 +12,8 @@ import java.util.List;
 
 public class UserData {
 
-    private Bitmap headImg;
-    private Bitmap backGround;//背景图
+    private String headImg;
+    private String backGround;//背景图
     private String name;
     private String nickName;
     private String sign;
@@ -27,13 +27,6 @@ public class UserData {
         circleDatas = new ArrayList<>();
     }
 
-    public Bitmap getHeadImg() {
-        return headImg;
-    }
-
-    public void setHeadImg(Bitmap headImg) {
-        this.headImg = headImg;
-    }
 
     public String getName() {
         return name;
@@ -91,11 +84,19 @@ public class UserData {
         this.circleDatas = circleDatas;
     }
 
-    public Bitmap getBackGround() {
+    public String getHeadImg() {
+        return headImg;
+    }
+
+    public void setHeadImg(String headImg) {
+        this.headImg = headImg;
+    }
+
+    public String getBackGround() {
         return backGround;
     }
 
-    public void setBackGround(Bitmap backGround) {
+    public void setBackGround(String backGround) {
         this.backGround = backGround;
     }
 }

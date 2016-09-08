@@ -201,7 +201,7 @@ public class MenuPresenter implements MenuContract.Presenter {
         @Override
         public void onBitmapDataLoaded(Bitmap bitmap) {
             Log.d(TAG, "bitmapDataCallback-------->获取头像成功！");
-            UserInfoSingleton.getInstance().setUserAvatar(bitmap);
+//            UserInfoSingleton.getInstance().setUserAvatar(bitmap);
             String UID = UserInfoSingleton.getInstance().getUsers().getUID();
 
             LoginContext.getInstance().setUserState(new LoginState());//更新回调接口数据
@@ -212,7 +212,6 @@ public class MenuPresenter implements MenuContract.Presenter {
         @Override
         public void onDataNotAvailable() {
             Log.d(TAG, "bitmapDataCallback-------->获取头像失败！");
-            UserInfoSingleton.getInstance().setUserAvatar(null);
         }
     };
     /**

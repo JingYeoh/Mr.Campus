@@ -38,7 +38,7 @@ public interface CircleIndexContract {
         /**
          * 设置图片
          */
-        void setCirclePicture(Bitmap picture);
+        void setCirclePicture(String picture);
 
         /**
          * 设置圈子名称

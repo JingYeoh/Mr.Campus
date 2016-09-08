@@ -1,6 +1,7 @@
 package com.jkb.core.presenter.menu.friends;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
@@ -67,7 +68,7 @@ public class FriendsPresenter implements FriendsContract.Presenter {
             return;
         }
         action = ACTION_LOADMORE;
-        if (pageControl.getCurrent_page() == pageControl.getLast_page()) {
+        if (pageControl.getCurrent_page() >= pageControl.getLast_page()) {
             return;
         }
         //设置当前页数+1
@@ -141,6 +142,7 @@ public class FriendsPresenter implements FriendsContract.Presenter {
                     if (body == null) {
                         return;
                     }
+                    //处理数据
                     FriendListEntity entity = body.getMsg();
                     handleFriendsData(entity);
                 }
@@ -152,6 +154,17 @@ public class FriendsPresenter implements FriendsContract.Presenter {
                     if (entity == null) {
                         return;
                     }
+
+                    //设置页码控制器
+                    pageControl.setTotal(entity.getTotal());
+                    pageControl.setPer_page(entity.getPer_page());
+                    pageControl.setCurrent_page(entity.getCurrent_page());
+                    pageControl.setLast_page(entity.getLast_page());
+                    pageControl.setNext_page_url(entity.getNext_page_url());
+                    pageControl.setPrev_page_url(entity.getPrev_page_url());
+                    pageControl.setFrom(entity.getFrom());
+                    pageControl.setTo(entity.getTo());
+
                     //绑定数据到缓存类中
                     List<FriendListEntity.DataBean> dataBean = entity.getData();
                     if (dataBean == null || dataBean.size() == 0) {

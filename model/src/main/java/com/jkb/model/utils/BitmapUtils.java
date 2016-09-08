@@ -1,5 +1,21 @@
 package com.jkb.model.utils;
 
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.support.annotation.NonNull;
+import android.text.format.DateFormat;
+import android.util.Base64;
+import android.util.Log;
+
+import com.commit451.nativestackblur.NativeStackBlur;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -10,19 +26,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Locale;
-
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.text.format.DateFormat;
-import android.util.Base64;
-import android.util.Log;
 
 /**
  * 图像处理工具类
@@ -294,5 +297,37 @@ public class BitmapUtils {
     public static Bitmap base64ToBitmap(String base64Data) {
         byte[] bytes = Base64.decode(base64Data, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+    }
+
+    /**
+     * 得到主要的颜色
+     *
+     * @param src Bitmap对象
+     * @return 得到色值
+     */
+    public static int getPixColor(Bitmap src) {
+        int pixelColor;
+        pixelColor = src.getPixel(5, 5);
+        return pixelColor;
+    }
+
+    /**
+     * 快速高斯模糊图片
+     *
+     * @param bitmap       传入的bitmap图片对象
+     * @param radius       高斯模糊的半径, 每一个像素都取周边(多少个)像素的平均值,推荐10以上
+     * @param downSampling 采样率 原本是设置到BlurPostprocessor上的,因为高斯模糊本身对图片清晰度要求就不高,
+     *                     所以此处直接设置到ResizeOptions上,直接让解码生成的bitmap就缩小,而BlurPostprocessor
+     *                     内部sampling设置为1,无需再缩
+     * @return 返回高斯模糊后的图片Bitmap对象
+     */
+    public static Bitmap fastBlur(@NonNull Bitmap bitmap, int radius, int downSampling) {
+        if (downSampling < 2) {
+            downSampling = 2;
+        }
+        Bitmap smallBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth() / downSampling,
+                bitmap.getHeight() / downSampling, true);
+
+        return NativeStackBlur.process(smallBitmap, radius);
     }
 }

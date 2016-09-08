@@ -39,6 +39,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+
+        //Glide的配置
+        <meta-data
+            android:name="com.jkb.model.net.glide.CampusGlideModule"
+            android:value="GlideModule" />
+
         <activity
             android:name=".activity.FirstActivity"
             android:label="@string/app_name"

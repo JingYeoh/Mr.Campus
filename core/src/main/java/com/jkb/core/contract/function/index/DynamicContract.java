@@ -2,6 +2,9 @@ package com.jkb.core.contract.function.index;
 
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
+import com.jkb.core.contract.function.data.dynamic.DynamicBaseData;
+
+import java.util.List;
 
 /**
  * 动态的页面协议类
@@ -56,6 +59,11 @@ public interface DynamicContract {
          * 点击喜欢
          */
         void like();
+
+        /**
+         * 设置动态数据到视图中
+         */
+        void setDynamicDataToView(List<DynamicBaseData> dynamicBaseDatas);
     }
 
     interface Presenter extends BasePresenter {

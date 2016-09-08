@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jkb.core.contract.menu.data.FriendsData;
+import com.jkb.model.net.GlideImageLoader;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
@@ -77,9 +78,22 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         String avatar = data.getHeadImgUrl();
         if (!StringUtils.isEmpty(avatar)) {
             //加載頭像
-            setImageLoad(holder.ivHeadImg, avatar);
+//            setImageLoad(holder.ivHeadImg, avatar);
+            loadImage(holder.ivHeadImg, avatar);
         }
     }
+
+    /**
+     * 加载图片
+     *
+     * @param ivHeadImg 头像
+     * @param avatar    头像地址
+     */
+    private void loadImage(ImageView ivHeadImg, String avatar) {
+//        GlideImageLoader.loadNormalImage(context, ivHeadImg, avatar);
+        ImageLoaderFactory.getInstance().displayImage(ivHeadImg,avatar);
+    }
+
 
     /**
      * 加载头像

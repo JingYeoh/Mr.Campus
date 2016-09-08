@@ -10,11 +10,11 @@ import android.widget.TextView;
 
 import com.jkb.core.contract.menu.SwitchFunctionContract;
 import com.jkb.core.control.userstate.UserState;
-import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
+import com.jkb.model.net.ImageLoaderFactory;
+import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.base.BaseFragment;
-import com.jkb.mrcampus.utils.BitmapUtil;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -45,7 +45,7 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
 
     //要恢复的数据
     private static final String SAVED_ITEMS_SELECTER = "savedItemsSelecter";
-    private int itemSelecter = 0;
+    private int itemSelector = 0;
 
     public SwitchFunctionFragment() {
     }
@@ -95,9 +95,9 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
     @Override
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            itemSelecter = savedInstanceState.getInt(SAVED_ITEMS_SELECTER);
+            itemSelector = savedInstanceState.getInt(SAVED_ITEMS_SELECTER);
         }
-        setItemSelected(itemSelecter);//设置显示的字体样式
+        setItemSelected(itemSelector);//设置显示的字体样式
     }
 
     @Override
@@ -171,7 +171,7 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
      */
     private void setItemSelected(int position) {
         clearItemSelectar();
-        itemSelecter = position;
+        itemSelector = position;
         tvItems[position].setTextColor(selectedColorId);
     }
 
@@ -218,11 +218,12 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
                 public void showLoginPersonView() {
                     ((TextView) rootView.findViewById(R.id.fms_tv_nickName)).
                             setText(mPresenter.getCurrentNickName());
-                    Bitmap bm = mPresenter.getCurrentHeadImg();
-                    if (bm != null) {
-                        ivHeadImg.setImageBitmap(bm);
-                    } else {
+//                    Bitmap bm = mPresenter.getCurrentHeadImg();
+                    String headImg = mPresenter.getCurrentHeadImg();
+                    if (StringUtils.isEmpty(headImg)) {
                         ivHeadImg.setImageResource(R.drawable.ic_user_head);
+                    } else {
+                        ImageLoaderFactory.getInstance().displayImage(ivHeadImg, headImg);
                     }
                 }
 
@@ -272,6 +273,6 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(SAVED_ITEMS_SELECTER, itemSelecter);
+        outState.putInt(SAVED_ITEMS_SELECTER, itemSelector);
     }
 }

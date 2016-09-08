@@ -103,6 +103,6 @@ public class SelectCircleCoordinatePresenter implements SelectCircleCoordinateCo
      */
     private void setImageHeadImg() {
         UserInfoSingleton userInfoSingleton = UserInfoSingleton.getInstance();
-        view.setLocationUserHeadImgBitmap(userInfoSingleton.getUserAvatar());
+        view.setLocationUserHeadImgBitmap(userInfoSingleton.getUsers().getAvatar());
     }
 }

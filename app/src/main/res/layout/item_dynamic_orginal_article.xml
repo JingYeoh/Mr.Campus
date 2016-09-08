@@ -56,7 +56,7 @@
             android:id="@+id/idoa_iv_pic"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:src="@color/default_picture" />
 
         <TextView
@@ -97,7 +97,7 @@
                 style="@style/Dynamic_IconText_style"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="9" />
+                android:text="0" />
 
             <ImageView
                 style="@style/Dynamic_Icon_style"
@@ -109,7 +109,7 @@
                 style="@style/Dynamic_IconText_style"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="9" />
+                android:text="0" />
 
         </LinearLayout>
     </LinearLayout>

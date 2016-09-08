@@ -19,8 +19,8 @@ public class UserSettingData {
     private String phone;
     private String email;
     private String createTime;
-    private Bitmap headImg;
-    private Bitmap backGround;
+    private String headImg;
+    private String backGround;
 
     public String getName() {
         return name;
@@ -86,19 +86,19 @@ public class UserSettingData {
         this.createTime = createTime;
     }
 
-    public Bitmap getHeadImg() {
+    public String getHeadImg() {
         return headImg;
     }
 
-    public void setHeadImg(Bitmap headImg) {
+    public void setHeadImg(String headImg) {
         this.headImg = headImg;
     }
 
-    public Bitmap getBackGround() {
+    public String getBackGround() {
         return backGround;
     }
 
-    public void setBackGround(Bitmap backGround) {
+    public void setBackGround(String backGround) {
         this.backGround = backGround;
     }
 }

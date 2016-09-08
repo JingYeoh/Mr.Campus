@@ -76,9 +76,9 @@ public class SwitchFunctionPresenter implements SwitchFunctionContract.Presenter
     }
 
     @Override
-    public Bitmap getCurrentHeadImg() {
+    public String getCurrentHeadImg() {
         //得到本地头像
-        return UserInfoSingleton.getInstance().getUserAvatar();
+        return UserInfoSingleton.getInstance().getUsers().getAvatar();
     }
 
     @Override

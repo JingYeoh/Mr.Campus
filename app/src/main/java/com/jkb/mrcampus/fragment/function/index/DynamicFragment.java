@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jkb.core.Injection;
+import com.jkb.core.contract.function.data.dynamic.DynamicBaseData;
 import com.jkb.core.contract.function.index.DynamicContract;
 import com.jkb.core.contract.menu.MenuContract;
 import com.jkb.core.presenter.function.index.DynamicPresenter;
@@ -19,6 +20,8 @@ import com.jkb.mrcampus.adapter.recycler.dynamic.DynamicAdapter;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
+
+import java.util.List;
 
 /**
  * 首页——动态的View层
@@ -80,6 +83,9 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         //设置添加动态按钮监听器
         rootView.findViewById(R.id.fhd_iv_floatBt).setOnClickListener(this);
 
+        //设置下拉加载
+        recyclerView.addOnScrollListener(onScrollListener);//设置滑动监听，设置是否下拉刷新
+
         //设置登录状态改变时候的监听器
         mainActivity.setDynamicLoginStatusChangedListener(dynamicLoginStatusChangedListener);
     }
@@ -93,7 +99,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         } else {
 
         }
-        dynamicAdapter = new DynamicAdapter(mActivity);
+        dynamicAdapter = new DynamicAdapter(mActivity, null);
         recyclerView.setAdapter(dynamicAdapter);
     }
 
@@ -119,6 +125,21 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
     }
 
     /**
+     * 滑动的监听器
+     */
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int lastVisibleItem = (linearLayoutManager).findLastVisibleItemPosition();
+            int totalItemCount = linearLayoutManager.getItemCount();
+            if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
+                mPresenter.onLoadMore();//设置下拉加载
+            }
+        }
+    };
+
+    /**
      * 初始化Presenter层
      */
     private void initPresenter() {
@@ -130,7 +151,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
 
     @Override
     public void onRefresh() {
-//        mPresenter.onRefresh();
+        mPresenter.onRefresh();
     }
 
     @Override
@@ -178,6 +199,12 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
     @Override
     public void like() {
 
+    }
+
+    @Override
+    public void setDynamicDataToView(List<DynamicBaseData> dynamicBaseDatas) {
+        dynamicAdapter.dynamicBaseDatas = dynamicBaseDatas;
+        dynamicAdapter.notifyDataSetChanged();
     }
 
     @Override

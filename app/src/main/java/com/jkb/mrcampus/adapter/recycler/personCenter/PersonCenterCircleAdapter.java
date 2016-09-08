@@ -80,15 +80,24 @@ public class PersonCenterCircleAdapter extends RecyclerView.Adapter<PersonCenter
         String pictureUrl = data.getPictureUrl();
         //设置头像
         if (!StringUtils.isEmpty(pictureUrl)) {
-            setImageLoad(holder.ivPicture, pictureUrl);
+//            setImageLoad(holder.ivPicture, pictureUrl);
+            loadImage(holder.ivPicture, pictureUrl);
         } else {
             holder.ivPicture.setImageResource(R.drawable.aliwx_head_bg_0);
         }
     }
 
     /**
+     * 加載圖片
+     */
+    private void loadImage(ImageView imageView, String imageUrl) {
+        ImageLoaderFactory.getInstance().displayImage(imageView, imageUrl);
+    }
+
+    /**
      * 加载头像
      */
+    @Deprecated
     private void setImageLoad(final ImageView tvHeadImg, String headImgUrl) {
         ImageLoaderFactory.getInstance().loadImage(headImgUrl, null, new ImageLoadingListener() {
             @Override

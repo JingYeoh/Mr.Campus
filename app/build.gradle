@@ -30,7 +30,6 @@ dependencies {
     //View相关
     compile 'com.roger.gifloadinglibrary:gifloadinglibrary:1.0.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    compile 'com.github.Commit451:NativeStackBlur:1.0.3'
 
     //百度地图start
     compile files('src/main/jniLibs/baidumapapi_base_v4_0_0.jar')

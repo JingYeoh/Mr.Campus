@@ -10,21 +10,21 @@ import java.util.List;
 public class CircleInfoEntity {
 
     /**
-     * id : 1
-     * name : test
-     * type : 学生会
-     * picture : http://lorempixel.com/640/480/?58413
-     * introduction : Veniam iure sequi perferendis. Molestias voluptatem ab molestiae ut vitae neque quia. Temporibus aut rerum porro pariatur autem possimus. Quam quia voluptas velit vel fuga autem voluptatem.
-     * longitude : 53.888736
-     * latitude : -59.623723
-     * created_at : 2016-08-03 16:24:08
-     * dynamics_count : 2
-     * hasSubscribe : 0
+     * id : 259
+     * name : Brain Hegmann MD
+     * type : 交友
+     * picture : http://lorempixel.com/640/480/?75486
+     * introduction : Aut molestiae numquam unde cum nam sint. Aliquid aliquid quaerat officiis. Dignissimos officiis aut sit vitae ex modi.
+     * longitude : -150.357624
+     * latitude : 9.843415
+     * created_at : 2016-08-03 16:24:14
+     * dynamics_count : 1
+     * hasSubscribe : 1
      * hasInCommonUse : 0
-     * subscribe_count : 28
+     * subscribe_count : 22
      * school : {"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg","summary":"jlkj","longitude":"118.905518","latitude":"31.912587"}
-     * user : {"id":245,"UID":"8958226","nickname":"zstiedemann","avatar":"http://lorempixel.com/640/480/?61017","sex":"女","name":"Abbigail Streich的菌菌","bref_introduction":"Harum beatae adipisci eum commodi consequuntur qui. Corporis tenetur aut quia. Optio iure qui tenetur facilis ut.","background":"http://lorempixel.com/640/480/?32104","longitude":-67.332543,"latitude":18.948517,"created_at":"2016-08-03 16:23:55","email":"efeil@kunde.com","phone":"","attentionCount":14,"attentionUserCount":23,"fansCount":28,"visitorCount":38,"schoolInfo":{"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg","summary":"jlkj","longitude":"118.905518","latitude":"31.912587"}}
-     * dynamic : {"total":2,"per_page":10,"current_page":1,"last_page":1,"next_page_url":"","prev_page_url":"","from":1,"to":2,"data":[{"id":108,"dtype":"normal","title":"Natus vitae deleniti sed.","content":"Totam blanditiis laborum dolores. Nihil laboriosam dolor veniam blanditiis saepe. Aut fuga veritatis fugiat voluptatem sed dolorem ut ea. Quos inventore voluptatem iure quas omnis maxime.","tag":"","is_original":1,"created_at":"2016-08-06 09:29:06"},{"id":333,"dtype":"article","title":"hello world","content":"hihihihihihihihihihi","tag":"da","is_original":1,"created_at":"2016-08-10 17:43:19"}]}
+     * user : {"id":80,"UID":"7578671","nickname":"yvon","avatar":"http://lorempixel.com/640/480/?80667","sex":"男","name":"Mrs. Rowena Koepp Sr.的菌菌","bref_introduction":"Consequatur quae odit et ut. Sint et et maiores iure. Dolorem eaque et error placeat quia ut. Dolor nihil perspiciatis rerum ad.","background":"http://lorempixel.com/640/480/?62237","longitude":83.867473,"latitude":-62.09432,"created_at":"2016-08-03 16:23:36","email":"nia.bednar@wisozk.com","phone":null,"attentionCount":30,"attentionUserCount":37,"fansCount":28,"visitorCount":36,"schoolInfo":{"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg","summary":"jlkj","longitude":"118.905518","latitude":"31.912587"}}
+     * dynamic : {"total":1,"per_page":10,"current_page":1,"last_page":1,"next_page_url":"","prev_page_url":"","from":1,"to":1,"data":[{"id":147,"dtype":"topic","title":"Maiores quia earum.","content":{"doc":"Ab tenetur possimus cupiditate earum. Quo dolorum cum asperiores ut sed. Dicta quia similique voluptatibus eos aut recusandae facilis.","img":"http://lorempixel.com/640/480/?94818"},"tag":"magni","is_original":1,"created_at":"2016-09-06 14:02:10"}]}
      */
 
     private CircleBean circle;
@@ -61,37 +61,37 @@ public class CircleInfoEntity {
 
         private SchoolBean school;
         /**
-         * id : 245
-         * UID : 8958226
-         * nickname : zstiedemann
-         * avatar : http://lorempixel.com/640/480/?61017
-         * sex : 女
-         * name : Abbigail Streich的菌菌
-         * bref_introduction : Harum beatae adipisci eum commodi consequuntur qui. Corporis tenetur aut quia. Optio iure qui tenetur facilis ut.
-         * background : http://lorempixel.com/640/480/?32104
-         * longitude : -67.332543
-         * latitude : 18.948517
-         * created_at : 2016-08-03 16:23:55
-         * email : efeil@kunde.com
-         * phone :
-         * attentionCount : 14
-         * attentionUserCount : 23
+         * id : 80
+         * UID : 7578671
+         * nickname : yvon
+         * avatar : http://lorempixel.com/640/480/?80667
+         * sex : 男
+         * name : Mrs. Rowena Koepp Sr.的菌菌
+         * bref_introduction : Consequatur quae odit et ut. Sint et et maiores iure. Dolorem eaque et error placeat quia ut. Dolor nihil perspiciatis rerum ad.
+         * background : http://lorempixel.com/640/480/?62237
+         * longitude : 83.867473
+         * latitude : -62.09432
+         * created_at : 2016-08-03 16:23:36
+         * email : nia.bednar@wisozk.com
+         * phone : null
+         * attentionCount : 30
+         * attentionUserCount : 37
          * fansCount : 28
-         * visitorCount : 38
+         * visitorCount : 36
          * schoolInfo : {"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg","summary":"jlkj","longitude":"118.905518","latitude":"31.912587"}
          */
 
         private UserBean user;
         /**
-         * total : 2
+         * total : 1
          * per_page : 10
          * current_page : 1
          * last_page : 1
          * next_page_url :
          * prev_page_url :
          * from : 1
-         * to : 2
-         * data : [{"id":108,"dtype":"normal","title":"Natus vitae deleniti sed.","content":"Totam blanditiis laborum dolores. Nihil laboriosam dolor veniam blanditiis saepe. Aut fuga veritatis fugiat voluptatem sed dolorem ut ea. Quos inventore voluptatem iure quas omnis maxime.","tag":"","is_original":1,"created_at":"2016-08-06 09:29:06"},{"id":333,"dtype":"article","title":"hello world","content":"hihihihihihihihihihi","tag":"da","is_original":1,"created_at":"2016-08-10 17:43:19"}]
+         * to : 1
+         * data : [{"id":147,"dtype":"topic","title":"Maiores quia earum.","content":{"doc":"Ab tenetur possimus cupiditate earum. Quo dolorum cum asperiores ut sed. Dicta quia similique voluptatibus eos aut recusandae facilis.","img":"http://lorempixel.com/640/480/?94818"},"tag":"magni","is_original":1,"created_at":"2016-09-06 14:02:10"}]
          */
 
         private DynamicBean dynamic;
@@ -286,7 +286,7 @@ public class CircleInfoEntity {
             private double latitude;
             private String created_at;
             private String email;
-            private String phone;
+            private Object phone;
             private int attentionCount;
             private int attentionUserCount;
             private int fansCount;
@@ -398,11 +398,11 @@ public class CircleInfoEntity {
                 this.email = email;
             }
 
-            public String getPhone() {
+            public Object getPhone() {
                 return phone;
             }
 
-            public void setPhone(String phone) {
+            public void setPhone(Object phone) {
                 this.phone = phone;
             }
 
@@ -514,13 +514,13 @@ public class CircleInfoEntity {
             private int from;
             private int to;
             /**
-             * id : 108
-             * dtype : normal
-             * title : Natus vitae deleniti sed.
-             * content : Totam blanditiis laborum dolores. Nihil laboriosam dolor veniam blanditiis saepe. Aut fuga veritatis fugiat voluptatem sed dolorem ut ea. Quos inventore voluptatem iure quas omnis maxime.
-             * tag :
+             * id : 147
+             * dtype : topic
+             * title : Maiores quia earum.
+             * content : {"doc":"Ab tenetur possimus cupiditate earum. Quo dolorum cum asperiores ut sed. Dicta quia similique voluptatibus eos aut recusandae facilis.","img":"http://lorempixel.com/640/480/?94818"}
+             * tag : magni
              * is_original : 1
-             * created_at : 2016-08-06 09:29:06
+             * created_at : 2016-09-06 14:02:10
              */
 
             private List<DataBean> data;
@@ -601,7 +601,12 @@ public class CircleInfoEntity {
                 private int id;
                 private String dtype;
                 private String title;
-                private String content;
+                /**
+                 * doc : Ab tenetur possimus cupiditate earum. Quo dolorum cum asperiores ut sed. Dicta quia similique voluptatibus eos aut recusandae facilis.
+                 * img : http://lorempixel.com/640/480/?94818
+                 */
+
+                private ContentBean content;
                 private String tag;
                 private int is_original;
                 private String created_at;
@@ -630,11 +635,11 @@ public class CircleInfoEntity {
                     this.title = title;
                 }
 
-                public String getContent() {
+                public ContentBean getContent() {
                     return content;
                 }
 
-                public void setContent(String content) {
+                public void setContent(ContentBean content) {
                     this.content = content;
                 }
 
@@ -660,6 +665,27 @@ public class CircleInfoEntity {
 
                 public void setCreated_at(String created_at) {
                     this.created_at = created_at;
+                }
+
+                public static class ContentBean {
+                    private String doc;
+                    private String img;
+
+                    public String getDoc() {
+                        return doc;
+                    }
+
+                    public void setDoc(String doc) {
+                        this.doc = doc;
+                    }
+
+                    public String getImg() {
+                        return img;
+                    }
+
+                    public void setImg(String img) {
+                        this.img = img;
+                    }
                 }
             }
         }

@@ -91,7 +91,7 @@ public interface SwitchFunctionContract {
         /**
          * 得到当前的头像
          */
-        Bitmap getCurrentHeadImg();
+        String getCurrentHeadImg();
 
         /**
          * 得到用户id

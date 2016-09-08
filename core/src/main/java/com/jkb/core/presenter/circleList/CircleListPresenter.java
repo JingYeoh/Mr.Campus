@@ -70,7 +70,7 @@ public class CircleListPresenter implements CircleListContract.Presenter {
             return;
         }
         action = ACTION_LOADMORE;
-        if (pageControl.getCurrent_page() == pageControl.getLast_page()) {
+        if (pageControl.getCurrent_page() >= pageControl.getLast_page()) {
 //            view.showReqResult("无更多数据");
             return;
         }
@@ -165,12 +165,25 @@ public class CircleListPresenter implements CircleListContract.Presenter {
                         view.showCircleNonDataView();
                         return;
                     }
+
                     UserActionCircleEntity entity = body.getMsg();
                     if (entity == null) {
                         isCached = false;
                         view.showCircleNonDataView();
                         return;
                     }
+
+
+                    //设置页码控制器
+                    pageControl.setTotal(entity.getTotal());
+                    pageControl.setPer_page(entity.getPer_page());
+                    pageControl.setCurrent_page(entity.getCurrent_page());
+                    pageControl.setLast_page(entity.getLast_page());
+                    pageControl.setNext_page_url(entity.getNext_page_url());
+                    pageControl.setPrev_page_url(entity.getPrev_page_url());
+                    pageControl.setFrom(entity.getFrom());
+                    pageControl.setTo(entity.getTo());
+
                     List<UserActionCircleEntity.DataBean> circles = entity.getData();
                     if (circles == null || circles.size() == 0) {
                         isCached = false;
@@ -186,6 +199,7 @@ public class CircleListPresenter implements CircleListContract.Presenter {
                  */
                 private List<CircleData> changeToCircleData(
                         List<UserActionCircleEntity.DataBean> circles) {
+
                     switch (action) {
                         case ACTION_REFRESH://刷新
                             circleDatas.clear();

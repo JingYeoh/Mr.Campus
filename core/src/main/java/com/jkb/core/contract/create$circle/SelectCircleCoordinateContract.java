@@ -75,7 +75,7 @@ public interface SelectCircleCoordinateContract {
         /**
          * 设置当前头像定位的Bitmap位图对象
          */
-        void setLocationUserHeadImgBitmap(Bitmap bitmap);
+        void setLocationUserHeadImgBitmap(String headImg);
     }
 
 

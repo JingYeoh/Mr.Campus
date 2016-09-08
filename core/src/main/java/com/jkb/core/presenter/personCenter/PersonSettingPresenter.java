@@ -215,8 +215,10 @@ public class PersonSettingPresenter implements PersonSettingContract.Presenter {
             userSettingData.setUID(userInfoBean.getUID());
             userSettingData.setCreateTime(userInfoBean.getCreated_at());
             //得到頭像和背景
-            getHeadImgBitmapByUrl(userInfoBean.getAvatar());
-            getBackGroundBitmapByUrl(userInfoBean.getBackground());
+//            getHeadImgBitmapByUrl(userInfoBean.getAvatar());
+//            getBackGroundBitmapByUrl(userInfoBean.getBackground());
+            userSettingData.setHeadImg(userInfoBean.getAvatar());
+            userSettingData.setBackGround(userInfoBean.getBackground());
             //存到数据库中
             saveToDb(userInfoBean);
             //绑定数据
@@ -242,7 +244,7 @@ public class PersonSettingPresenter implements PersonSettingContract.Presenter {
             responsitory.loadBitmapByUrl(background, new BitmapLoadedCallback() {
                 @Override
                 public void onBitmapDataLoaded(Bitmap bitmap) {
-                    userSettingData.setBackGround(bitmap);
+//                    userSettingData.setBackGround(bitmap);
                     bindInformation(); //绑定数据
                 }
 
@@ -265,9 +267,9 @@ public class PersonSettingPresenter implements PersonSettingContract.Presenter {
             responsitory.loadBitmapByUrl(avatar, new BitmapLoadedCallback() {
                 @Override
                 public void onBitmapDataLoaded(Bitmap bitmap) {
-                    userSettingData.setHeadImg(bitmap);
+//                    userSettingData.setHeadImg(bitmap);
                     bindInformation(); //绑定数据
-                    UserInfoSingleton.getInstance().setUserAvatar(bitmap);
+//                    UserInfoSingleton.getInstance().setUserAvatar(bitmap);
                     //更新数据
                     LoginContext.getInstance().setUserState(new LoginState());
                 }

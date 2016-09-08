@@ -158,8 +158,8 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                     }
                     changeCircleData(bean);
                     //请求加载图片数据
-                    String pictureUrl = bean.getPicture();
-                    loadPicure(pictureUrl);
+//                    String pictureUrl = bean.getPicture();
+//                    loadPicure(pictureUrl);
                     bindData();
                 }
 
@@ -178,25 +178,29 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                     } else {
                         circleIndexData.setHasSubscribe(true);
                     }
+                    circleIndexData.setPicture(bean.getPicture());
                 }
 
                 /**
                  * 加载图片
                  */
+                @Deprecated
                 private void loadPicure(String pictureUrl) {
                     if (StringUtils.isEmpty(pictureUrl)) {
                         return;
                     }
-                    responsitiry.loadBitmapByUrl(pictureUrl, bitmapLoadedCallback);
+//                    responsitiry.loadBitmapByUrl(pictureUrl, bitmapLoadedCallback);
+
                 }
 
                 /**
                  * 加载图片的回调方法
                  */
+                @Deprecated
                 private BitmapLoadedCallback bitmapLoadedCallback = new BitmapLoadedCallback() {
                     @Override
                     public void onBitmapDataLoaded(Bitmap bitmap) {
-                        circleIndexData.setPicture(bitmap);
+//                        circleIndexData.setPicture(bitmap);
                         bindData();
                     }
 

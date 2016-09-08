@@ -130,7 +130,8 @@ public class VisitorListAdapter extends RecyclerView.Adapter<VisitorListAdapter.
         holder.tvTime.setText(userData.getTime());
         String headImgUrl = userData.getAvatar();
         if (!StringUtils.isEmpty(headImgUrl)) {
-            setImageLoad(holder.ivHeadImg, headImgUrl);
+//            setImageLoad(holder.ivHeadImg, headImgUrl);
+            loadImage(holder.ivHeadImg, headImgUrl);
         } else {
             holder.ivHeadImg.setImageResource(R.drawable.ic_user_head);
         }
@@ -147,8 +148,16 @@ public class VisitorListAdapter extends RecyclerView.Adapter<VisitorListAdapter.
     }
 
     /**
+     * 加載圖片
+     */
+    private void loadImage(ImageView imageView, String imageUrl) {
+        ImageLoaderFactory.getInstance().displayImage(imageView, imageUrl);
+    }
+
+    /**
      * 加载头像
      */
+    @Deprecated
     private void setImageLoad(final ImageView tvHeadImg, String headImgUrl) {
         ImageLoaderFactory.getInstance().loadImage(headImgUrl, null, new ImageLoadingListener() {
             @Override

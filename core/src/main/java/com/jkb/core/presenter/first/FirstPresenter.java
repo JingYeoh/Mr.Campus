@@ -84,7 +84,8 @@ public class FirstPresenter implements FirstContract.Presenter {
             Log.d(TAG, "getStatusData-------->>没有得到数据");
             firstView.showFragment(1);
             //设置状态为未登录状态
-            firstDataResponsitory.cacheStatus(firstDataResponsitory.getCurrentVersion(), false, 0, StringUtils.getSystemCurrentTime());
+            firstDataResponsitory.cacheStatus(firstDataResponsitory.getCurrentVersion(), false, 0,
+                    StringUtils.getSystemCurrentTime());
             //设置为未登录在状态
             LoginContext loginContext = LoginContext.getInstance();
             loginContext.setUserState(new LogoutState());
@@ -100,13 +101,13 @@ public class FirstPresenter implements FirstContract.Presenter {
             public void onUserDataLoaded(Users users) {
                 UserInfoSingleton.getInstance().setUsers(users);
                 //设置头像
-                String avatarLocalPath = users.getAvatarLocalPath();
-                if (!StringUtils.isEmpty(avatarLocalPath)) {
-                    firstDataResponsitory.loadHeadImgByLocalPath(avatarLocalPath, bitmapDataCallback);
-                } else {
-                    String avatarUrl = users.getAvatar();
-                    firstDataResponsitory.loadHeadImgByUrl(avatarUrl, bitmapDataCallback);
-                }
+//                String avatarLocalPath = users.getAvatarLocalPath();
+//                if (!StringUtils.isEmpty(avatarLocalPath)) {
+//                    firstDataResponsitory.loadHeadImgByLocalPath(avatarLocalPath, bitmapDataCallback);
+//                } else {
+//                    String avatarUrl = users.getAvatar();
+//                    firstDataResponsitory.loadHeadImgByUrl(avatarUrl, bitmapDataCallback);
+//                }
             }
 
             @Override
@@ -120,36 +121,36 @@ public class FirstPresenter implements FirstContract.Presenter {
         });
     }
 
-    /**
-     * 得到头像的Bitmap的回调方法
-     */
-    private FirstDataSource.BitmapDataCallback bitmapDataCallback = new FirstDataSource.BitmapDataCallback() {
-        @Override
-        public void onBitmapDataLoaded(Bitmap bitmap) {
-            UserInfoSingleton.getInstance().setUserAvatar(bitmap);
-        }
-
-        @Override
-        public void onDataNotAvailable(String url) {
-            UserInfoSingleton.getInstance().setUserAvatar(null);
-            //加载本地图片失败后加载网络图片
-            firstDataResponsitory.loadHeadImgByUrl(url, bitmapDataCallback2);
-        }
-    };
-    /**
-     * 得到头像的Bitmap的回调方法
-     */
-    private FirstDataSource.BitmapDataCallback bitmapDataCallback2 = new FirstDataSource.BitmapDataCallback() {
-        @Override
-        public void onBitmapDataLoaded(Bitmap bitmap) {
-            UserInfoSingleton.getInstance().setUserAvatar(bitmap);
-        }
-
-        @Override
-        public void onDataNotAvailable(String url) {
-            UserInfoSingleton.getInstance().setUserAvatar(null);
-        }
-    };
+//    /**
+//     * 得到头像的Bitmap的回调方法
+//     */
+//    private FirstDataSource.BitmapDataCallback bitmapDataCallback = new FirstDataSource.BitmapDataCallback() {
+//        @Override
+//        public void onBitmapDataLoaded(Bitmap bitmap) {
+//            UserInfoSingleton.getInstance().setUserAvatar(bitmap);
+//        }
+//
+//        @Override
+//        public void onDataNotAvailable(String url) {
+//            UserInfoSingleton.getInstance().setUserAvatar(null);
+//            //加载本地图片失败后加载网络图片
+//            firstDataResponsitory.loadHeadImgByUrl(url, bitmapDataCallback2);
+//        }
+//    };
+//    /**
+//     * 得到头像的Bitmap的回调方法
+//     */
+//    private FirstDataSource.BitmapDataCallback bitmapDataCallback2 = new FirstDataSource.BitmapDataCallback() {
+//        @Override
+//        public void onBitmapDataLoaded(Bitmap bitmap) {
+//            UserInfoSingleton.getInstance().setUserAvatar(bitmap);
+//        }
+//
+//        @Override
+//        public void onDataNotAvailable(String url) {
+//            UserInfoSingleton.getInstance().setUserAvatar(null);
+//        }
+//    };
 
     /**
      * 得到userAuth数据

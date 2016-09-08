@@ -14,7 +14,7 @@ public class CircleIndexData {
     private String circleIntroducton;
     private int subsribeCount;//订阅数
     private int dynamicsCount;//动态数
-    private Bitmap picture;
+    private String picture;
     private boolean hasSubscribe;//是否被用戶订阅
 
 
@@ -58,11 +58,11 @@ public class CircleIndexData {
         this.dynamicsCount = dynamicsCount;
     }
 
-    public Bitmap getPicture() {
+    public String getPicture() {
         return picture;
     }
 
-    public void setPicture(Bitmap picture) {
+    public void setPicture(String picture) {
         this.picture = picture;
     }
 

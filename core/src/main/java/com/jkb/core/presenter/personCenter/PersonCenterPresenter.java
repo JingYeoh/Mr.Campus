@@ -100,14 +100,17 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
                     getCircleData();
 
                     //判断是否设置头像
-                    if (!StringUtils.isEmpty(infoBean.getAvatar())) {
-                        //加载头像
-                        responsitory.loadHeadImgByUrl(infoBean.getAvatar(), bitmapLoadedCallback);
-                    }
-                    //加載背景圖片
-                    if (!StringUtils.isEmpty(infoBean.getBackground())) {
-                        responsitory.loadHeadImgByUrl(infoBean.getBackground(), backGroundBitmapCallback);
-                    }
+//                    if (!StringUtils.isEmpty(infoBean.getAvatar())) {
+//                        //加载头像
+//                        responsitory.loadHeadImgByUrl(infoBean.getAvatar(), bitmapLoadedCallback);
+//                    }
+//                    //加載背景圖片
+//                    if (!StringUtils.isEmpty(infoBean.getBackground())) {
+//                        responsitory.loadHeadImgByUrl(infoBean.getBackground(), backGroundBitmapCallback);
+//                    }
+
+                    userData.setHeadImg(infoBean.getAvatar());
+                    userData.setBackGround(infoBean.getBackground());
 
                     String name = (StringUtils.isEmpty(infoBean.getName()) ?
                             infoBean.getNickname() + "菌" : infoBean.getName());
@@ -143,11 +146,12 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
     /**
      * 头像加载的回调
      */
+    @Deprecated
     private BitmapLoadedCallback bitmapLoadedCallback = new BitmapLoadedCallback() {
         @Override
         public void onBitmapDataLoaded(Bitmap bitmap) {
             if (view.isActive()) {
-                userData.setHeadImg(bitmap);
+//                userData.setHeadImg(bitmap);
                 bindDataToView();
             }
         }
@@ -159,11 +163,12 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
     /**
      * 背景图片的回调
      */
+    @Deprecated
     private BitmapLoadedCallback backGroundBitmapCallback = new BitmapLoadedCallback() {
         @Override
         public void onBitmapDataLoaded(Bitmap bitmap) {
             if (view.isActive()) {
-                userData.setBackGround(bitmap);
+//                userData.setBackGround(bitmap);
                 bindDataToView();
             }
         }
