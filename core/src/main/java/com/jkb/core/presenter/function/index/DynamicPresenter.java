@@ -115,6 +115,11 @@ public class DynamicPresenter implements DynamicContract.Presenter {
         view.setDynamicDataToView(dynamicDatas);
     }
 
+    @Override
+    public int getCreator_id(int position) {
+        return dynamicDatas.get(position).getCreator_id();
+    }
+
     /**
      * 得到动态数据
      */
@@ -235,7 +240,7 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                     dynamicData.setParticipation(bean.getParticipation());
                     dynamicData.setHasFavorite(bean.isHasFavorite());
                     //判断是否原创
-                    if (dynamicData.is_orginal()) {
+                    if (!dynamicData.is_orginal()) {
                         DynamicData.Originator originator = new DynamicData.Originator();
                         DynamicListEntity.DataBean.DynamicBean.OriginatorBean originatorBean =
                                 bean.getOriginator();
@@ -243,8 +248,11 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                             originator.setOriginator_avatar(originatorBean.getOriginator_avatar());
                             originator.setOriginator_id(originatorBean.getOriginator_id());
                             originator.setOriginator_nickname(originatorBean.getOriginator_nickname());
+
                             dynamicData.setOriginator(originator);
                         }
+                    } else {
+                        dynamicData.setOriginator(null);
                     }
                     //设置内容
                     handleDynamicContentData(dynamicData, bean);
@@ -267,7 +275,28 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                         case Config.D_TYPE_ARTICLE://设置文章数据
                             handleDynamicArticleData(dynamicData, contentBean);
                             break;
+                        case Config.D_TYPE_NORMAL://设置普通数据
+                            handleDynamicNormalData(dynamicData, contentBean);
+                            break;
                     }
+                }
+
+                /**
+                 * 处理动态——内容——普通数据
+                 */
+                private void handleDynamicNormalData(
+                        DynamicData dynamicData,
+                        DynamicListEntity.DataBean.DynamicBean.ContentBean contentBean) {
+                    //初始化话题数据
+                    DynamicListEntity.DataBean.DynamicBean
+                            .ContentBean.NormalBean normalBean = contentBean.getNormal();
+                    if (normalBean == null) {
+                        return;
+                    }
+                    DynamicData.Normal normal = new DynamicData.Normal();
+                    normal.setDoc(normalBean.getDoc());
+                    normal.setImg(normalBean.getImg());
+                    dynamicData.setNormal(normal);
                 }
 
                 /**

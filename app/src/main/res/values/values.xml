@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--进入的动画-->
+    <!--上下转场的动画-->
     <style name="animate_dialog">
         <item name="android:windowEnterAnimation">@anim/dialog_enter</item>
         <item name="android:windowExitAnimation">@anim/dialog_out</item>
@@ -71,18 +71,18 @@
     </style>
     <!--动态头像显示的样式-->
     <style name="Dynamic_HeadImg_style">
-        <item name="android:layout_width">40dp</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
     </style>
     <!--动态图标显示的样式-->
     <style name="Dynamic_Icon_style">
-        <item name="android:layout_width">20dp</item>
-        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
     </style>
     <!--动态图标字体显示的样式-->
     <style name="Dynamic_IconText_style">
         <item name="android:textColor">@color/text_gravy_light</item>
-        <item name="android:textSize">9sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:gravity">center</item>
     </style>
     <!--动态内容显示的样式-->
@@ -91,6 +91,11 @@
         <item name="android:textSize">14sp</item>
         <item name="android:padding">20dp</item>
         <item name="android:gravity">center_vertical</item>
+    </style>
+    <!--动态-喜欢图片内容显示样式-->
+    <style name="Dynamic_Favorite_Image_Style">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">100dp</item>
     </style>
     <!--已经关注的主体主题-->
     <style name="TextView_UnPayAttentionedStyle">

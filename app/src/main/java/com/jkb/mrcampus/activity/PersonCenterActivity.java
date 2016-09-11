@@ -259,6 +259,19 @@ public class PersonCenterActivity extends BaseActivity {
         startActivityWithPushLeftAnim(intent);
     }
 
+
+    /**
+     * 打开个人中心页面
+     *
+     * @param user_id 用户id
+     */
+    public void startPersonalCenter(int user_id) {
+        Log.d(TAG, "startPersonalCenter");
+        Intent intent = new Intent(this, PersonCenterActivity.class);
+        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
+        startActivityWithPushLeftAnim(intent);
+    }
+
     /**
      * 销毁使用过后的Fragment
      */

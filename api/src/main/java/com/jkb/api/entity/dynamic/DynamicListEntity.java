@@ -383,6 +383,12 @@ public class DynamicListEntity {
                  */
 
                 private List<ArticleBean> article;
+                /**
+                 * doc : Sint omnis earum tempora dolore minus vel. Dolor unde esse quidem est quae cumque quidem. Dolor molestiae animi in reiciendis. Similique sapiente ullam est ad et. Odio enim culpa culpa quia.
+                 * img : ["http://lorempixel.com/640/480/?55242"]
+                 */
+
+                private NormalBean normal;
 
                 public TopicBean getTopic() {
                     return topic;
@@ -400,6 +406,13 @@ public class DynamicListEntity {
                     this.article = article;
                 }
 
+                public NormalBean getNormal() {
+                    return normal;
+                }
+
+                public void setNormal(NormalBean normal) {
+                    this.normal = normal;
+                }
 
                 public static class TopicBean {
                     private String doc;
@@ -439,6 +452,27 @@ public class DynamicListEntity {
                     }
 
                     public void setImg(String img) {
+                        this.img = img;
+                    }
+                }
+
+                public static class NormalBean {
+                    private String doc;
+                    private List<String> img;
+
+                    public String getDoc() {
+                        return doc;
+                    }
+
+                    public void setDoc(String doc) {
+                        this.doc = doc;
+                    }
+
+                    public List<String> getImg() {
+                        return img;
+                    }
+
+                    public void setImg(List<String> img) {
                         this.img = img;
                     }
                 }

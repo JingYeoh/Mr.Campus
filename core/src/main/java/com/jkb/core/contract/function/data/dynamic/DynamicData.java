@@ -23,6 +23,7 @@ public class DynamicData extends DynamicBaseData {
 
     private Topic topic;//话题信息
     private Article article;//文章信息
+    private Normal normal;//普通信息
 
     /**
      * 动态原创作者信息（仅当is_original=0时，才会有原创作者信息）.
@@ -54,6 +55,26 @@ public class DynamicData extends DynamicBaseData {
 
         public void setOriginator_avatar(String originator_avatar) {
             this.originator_avatar = originator_avatar;
+        }
+    }
+
+    public static class Normal{
+        private String doc;
+        private List<String> img;
+        public String getDoc() {
+            return doc;
+        }
+
+        public void setDoc(String doc) {
+            this.doc = doc;
+        }
+
+        public List<String> getImg() {
+            return img;
+        }
+
+        public void setImg(List<String> img) {
+            this.img = img;
         }
     }
 
@@ -243,5 +264,13 @@ public class DynamicData extends DynamicBaseData {
 
     public void setArticle(Article article) {
         this.article = article;
+    }
+
+    public Normal getNormal() {
+        return normal;
+    }
+
+    public void setNormal(Normal normal) {
+        this.normal = normal;
     }
 }

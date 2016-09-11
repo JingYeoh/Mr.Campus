@@ -127,5 +127,9 @@ public class Config {
 
     public static final String D_TYPE_TOPIC = "topic";
     public static final String D_TYPE_ARTICLE = "article";
+    public static final String D_TYPE_NORMAL = "normal";
 
+    public static final String ACTION_TYPE_POST = "post";
+    public static final String ACTION_TYPE_FAVORITE = "favorite";
+    public static final String ACTION_TYPE_SUBSCRIBE = "subscribe";
 }

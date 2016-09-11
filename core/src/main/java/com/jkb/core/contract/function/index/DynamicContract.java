@@ -94,5 +94,10 @@ public interface DynamicContract {
          * 绑定数据到视图中
          */
         void bindDataToView();
+
+        /**
+         * 得到创建者id
+         */
+        int getCreator_id(int position);
     }
 }

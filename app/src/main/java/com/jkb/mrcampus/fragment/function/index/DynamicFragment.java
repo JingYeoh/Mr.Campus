@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.jkb.core.presenter.function.index.DynamicPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.adapter.recycler.dynamic.DynamicAdapter;
+import com.jkb.mrcampus.adapter.recycler.itemDecoration.DividerItemDecoration;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
@@ -88,6 +90,10 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
 
         //设置登录状态改变时候的监听器
         mainActivity.setDynamicLoginStatusChangedListener(dynamicLoginStatusChangedListener);
+
+        //设置动态条目相关监听器
+        dynamicAdapter.setOnUserClickListener(onUserClickListener);
+        dynamicAdapter.setOnLikeActionClickListener(onLikeActionClickListener);
     }
 
     @Override
@@ -112,7 +118,9 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(
-                new LineDecoration(mActivity, LineDecoration.VERTICAL_LIST));//添加分割线
+                new DividerItemDecoration(mActivity,
+                        LinearLayoutManager.VERTICAL,
+                        getResources().getColor(R.color.line), 1));//添加分割线
     }
 
     @Override
@@ -138,6 +146,27 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
             }
         }
     };
+    /**
+     * 用户的点击监听事件
+     */
+    private DynamicAdapter.OnUserClickListener onUserClickListener =
+            new DynamicAdapter.OnUserClickListener() {
+                @Override
+                public void onUserClick(int position) {
+                    Log.d(TAG, "position=" + position);
+                    mainActivity.startPersonalCenter(mPresenter.getCreator_id(position));
+                }
+            };
+    /**
+     * 喜欢操作的点击监听事件
+     */
+    private DynamicAdapter.OnLikeActionClickListener onLikeActionClickListener =
+            new DynamicAdapter.OnLikeActionClickListener() {
+                @Override
+                public void onLikeClick(int position) {
+                    Log.d(TAG, "position=" + position);
+                }
+            };
 
     /**
      * 初始化Presenter层

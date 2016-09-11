@@ -3,7 +3,8 @@
     android:id="@+id/dynamic_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="20dp">
 
     <include layout="@layout/item_unorginal_users" />
 
@@ -22,7 +23,7 @@
                 android:id="@+id/idsc_iv_picBg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:src="@color/default_picture" />
 
             <ImageView
@@ -32,7 +33,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="10dp"
                 android:padding="2dp"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:src="@color/default_picture" />
 
             <ImageView
@@ -41,7 +42,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/ic_essays_cover"
-                android:scaleType="fitXY" />
+                android:scaleType="centerCrop" />
 
 
             <LinearLayout
@@ -106,7 +107,7 @@
 
             <TextView
                 android:id="@+id/idsc_tv_name"
-                style="@style/titleNameStyle"
+                style="@style/Dynamic_Title_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"

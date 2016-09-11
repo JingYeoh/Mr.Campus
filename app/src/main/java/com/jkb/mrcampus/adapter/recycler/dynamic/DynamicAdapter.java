@@ -1,6 +1,8 @@
 package com.jkb.mrcampus.adapter.recycler.dynamic;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.utils.BitmapUtil;
+import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +40,18 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     public List<DynamicBaseData> dynamicBaseDatas;
 
+    //回调
+    private OnUserClickListener onUserClickListener;//用户点击的回调
+    private OnLikeActionClickListener onLikeActionClickListener;//点击喜欢的回调
+
     //用到的常量
     private static final int ORIGINAL_TYPE_NORMAL = 1001;
     private static final int ORIGINAL_TYPE_TOPIC = 1002;
     private static final int ORIGINAL_TYPE_ARTICLE = 1003;
     private static final int UNORIGINAL_TYPE_SUBSCRIBE_CIRCLE = 2001;
+    private static final int UNORIGINAL_TYPE_FAVORITE_NORMAL = 2010;//喜欢的动态
+    private static final int UNORIGINAL_TYPE_FAVORITE_TOPIC = 2011;//喜欢的话题动态
+    private static final int UNORIGINAL_TYPE_FAVORITE_ARTICLE = 2012;//喜欢的文章动态
 
 
     public DynamicAdapter(Context context, List<DynamicBaseData> dynamicBaseDatas) {
@@ -62,34 +72,94 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
         int itemType = 0;
         String target_type = dynamicBaseData.getTarget_type();
-        if (target_type.equals(Config.TARGET_TYPE_CIRCLE)) {
-            return UNORIGINAL_TYPE_SUBSCRIBE_CIRCLE;
-        } else if (target_type.equals(Config.TARGET_TYPE_DYNAMIC)) {
-            if (dynamicBaseData instanceof DynamicData) {
-                //设置动态数据
-                DynamicData dynamicData = (DynamicData) dynamicBaseData;
-                String dType = dynamicData.getDtype();
-                if (dType.equals(Config.D_TYPE_ARTICLE)) {
-                    itemType = ORIGINAL_TYPE_ARTICLE;
-                } else if (dType.equals(Config.D_TYPE_TOPIC)) {
-                    itemType = ORIGINAL_TYPE_TOPIC;
-                } else {
-                    itemType = ORIGINAL_TYPE_NORMAL;
-                }
-            } else {
-                dynamicBaseDatas.remove(position);
-            }
+        String action = dynamicBaseData.getAction();
+        switch (action) {//判断动作类型
+            case Config.ACTION_TYPE_POST://发表
+                //判断是否发表
+                itemType = judgePostAction(position, target_type, dynamicBaseData);
+                break;
+            case Config.ACTION_TYPE_SUBSCRIBE://订阅
+                itemType = judgeSubscribeAction(position, target_type, dynamicBaseData);
+                break;
+            case Config.ACTION_TYPE_FAVORITE://喜欢
+                itemType = judgeFavoriteAction(position, target_type, dynamicBaseData);
+                break;
         }
-//        int type = random.nextInt(4);
-//        if (type == 0) {
-//            return ORIGINAL_TYPE_TOPIC;
-//        } else if (type == 1) {
-//            return ORIGINAL_TYPE_ARTICLE;
-//        } else if (type == 2) {
-//            return ORIGINAL_TYPE_NORMAL;
-//        } else {
-//            return UNORIGINAL_TYPE_SUBSCRIBE_CIRCLE;
-//        }
+        if (itemType == -1) {
+            notifyDataSetChanged();
+        }
+        return itemType;
+    }
+
+    /**
+     * 判断喜欢类型
+     */
+    private int judgeFavoriteAction(
+            int position, String target_type, DynamicBaseData dynamicBaseData) {
+        int itemType = -1;
+        switch (target_type) {
+            case Config.TARGET_TYPE_DYNAMIC://动态
+                if (dynamicBaseData instanceof DynamicData) {//是否是动态类
+                    //设置动态数据
+                    DynamicData dynamicData = (DynamicData) dynamicBaseData;
+                    String dType = dynamicData.getDtype();
+                    if (dType.equals(Config.D_TYPE_NORMAL)) {
+                        itemType = UNORIGINAL_TYPE_FAVORITE_NORMAL;
+                    }
+                } else {
+                    dynamicBaseDatas.remove(position);
+                }
+                break;
+        }
+        return itemType;
+    }
+
+    /**
+     * 判断订阅类型
+     */
+    private int judgeSubscribeAction(
+            int position, String target_type, DynamicBaseData dynamicBaseData) {
+        int itemType = -1;
+        switch (target_type) {
+            case Config.TARGET_TYPE_CIRCLE://圈子
+                if (dynamicBaseData instanceof CircleData) {//判断是否是圈子类型
+                    itemType = UNORIGINAL_TYPE_SUBSCRIBE_CIRCLE;
+                } else {
+                    dynamicBaseDatas.remove(position);
+                }
+                break;
+        }
+        return itemType;
+    }
+
+
+    /**
+     * 判断发表类型
+     */
+    private int judgePostAction(
+            int position, String target_type, DynamicBaseData dynamicBaseData) {
+        int itemType = -1;
+        switch (target_type) {
+            case Config.TARGET_TYPE_DYNAMIC://动态
+                if (dynamicBaseData instanceof DynamicData) {//是否是动态类
+                    //设置动态数据
+                    DynamicData dynamicData = (DynamicData) dynamicBaseData;
+                    String dType = dynamicData.getDtype();
+                    if (dType.equals(Config.D_TYPE_ARTICLE)) {
+                        itemType = ORIGINAL_TYPE_ARTICLE;
+                    } else if (dType.equals(Config.D_TYPE_TOPIC)) {
+                        itemType = ORIGINAL_TYPE_TOPIC;
+                    } else {
+                        itemType = ORIGINAL_TYPE_NORMAL;
+                    }
+                } else {
+                    dynamicBaseDatas.remove(position);
+                }
+                break;
+            case Config.TARGET_TYPE_CIRCLE://圈子
+                itemType = UNORIGINAL_TYPE_SUBSCRIBE_CIRCLE;
+                break;
+        }
         return itemType;
     }
 
@@ -130,6 +200,24 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 holder = new DynamicAdapter.ViewHolder(view);
                 initUnOriginalSubscribeCircle(view, holder);//初始化非原创——订阅圈子的相关组件
                 break;
+            case UNORIGINAL_TYPE_FAVORITE_NORMAL://喜欢的普通动态
+                view = inflater.inflate(R.layout.item_dynamic_favorite_normal,
+                        parent, false);
+                holder = new DynamicAdapter.ViewHolder(view);
+                initUnOriginalFavoriteNormal(view, holder);//初始化非原创——普通组件
+                break;
+            case UNORIGINAL_TYPE_FAVORITE_TOPIC://喜欢的话题动态
+                view = inflater.inflate(R.layout.item_dynamic_favorite_topic,
+                        parent, false);
+                holder = new DynamicAdapter.ViewHolder(view);
+                initUnOriginalFavoriteTopic(view, holder);//初始化非原创——话题组件
+                break;
+            case UNORIGINAL_TYPE_FAVORITE_ARTICLE://喜欢的文章动态
+                view = inflater.inflate(R.layout.item_dynamic_favorite_article,
+                        parent, false);
+                holder = new DynamicAdapter.ViewHolder(view);
+                initUnOriginalFavoriteArticle(view, holder);//初始化非原创——文章组件
+                break;
         }
         //初始化id
         holder.contentView = view.findViewById(R.id.dynamic_content);
@@ -138,7 +226,101 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     }
 
     /**
+     * 初始化非原创——喜欢-文章动态相关组件
+     */
+    private void initUnOriginalFavoriteArticle(View view, ViewHolder holder) {
+        if (holder.unOriginalFavoriteArticle == null) {
+            holder.unOriginalFavoriteArticle = new UnOriginalFavoriteArticle();
+        }
+        holder.viewType = UNORIGINAL_TYPE_FAVORITE_ARTICLE;
+        //初始化作者信息
+        holder.unOriginalFavoriteArticle.iv_headImg = (ImageView) view.findViewById(R.id.iidu_iv_headImg);
+        holder.unOriginalFavoriteArticle.tvName = (TextView) view.findViewById(R.id.iidu_tv_name);
+        holder.unOriginalFavoriteArticle.tvTime = (TextView) view.findViewById(R.id.iidu_tv_time);
+        holder.unOriginalFavoriteArticle.tvAction = (TextView) view.findViewById(R.id.iidu_tv_action);
+        //原创作者信息
+        holder.unOriginalFavoriteArticle.tvOriginalNickName =
+                (TextView) view.findViewById(R.id.idfa_tv_originator_nickname);
+        //作品信息
+        holder.unOriginalFavoriteArticle.tvArticleTitle =
+                (TextView) view.findViewById(R.id.idfa_tv_articleName);//话题名称
+        holder.unOriginalFavoriteArticle.ivPic =
+                (ImageView) view.findViewById(R.id.idfa_iv_contentPic);
+        holder.unOriginalFavoriteArticle.tvContent =
+                (TextView) view.findViewById(R.id.idfa_tv_contentText);
+        holder.unOriginalFavoriteArticle.tvLikeNum =
+                (TextView) view.findViewById(R.id.idfa_tv_likeNum);
+        holder.unOriginalFavoriteArticle.tvCommentNum =
+                (TextView) view.findViewById(R.id.idfa_tv_commentNum);
+    }
+
+    /**
+     * 初始化非原创——喜欢-话题动态相关组件
+     */
+    private void initUnOriginalFavoriteTopic(View view, ViewHolder holder) {
+        if (holder.unOriginalFavoriteTopic == null) {
+            holder.unOriginalFavoriteTopic = new UnOriginalFavoriteTopic();
+        }
+        holder.viewType = UNORIGINAL_TYPE_FAVORITE_TOPIC;
+        //初始化作者信息
+        holder.unOriginalFavoriteTopic.iv_headImg = (ImageView) view.findViewById(R.id.iidu_iv_headImg);
+        holder.unOriginalFavoriteTopic.tvName = (TextView) view.findViewById(R.id.iidu_tv_name);
+        holder.unOriginalFavoriteTopic.tvTime = (TextView) view.findViewById(R.id.iidu_tv_time);
+        holder.unOriginalFavoriteTopic.tvAction = (TextView) view.findViewById(R.id.iidu_tv_action);
+        //原创作者信息
+        holder.unOriginalFavoriteTopic.tvOriginalNickName =
+                (TextView) view.findViewById(R.id.idft_tv_originator_nickname);
+        //作品信息
+        holder.unOriginalFavoriteTopic.tvTopicTitle =
+                (TextView) view.findViewById(R.id.idft_tv_topicName);//话题名称
+        holder.unOriginalFavoriteTopic.tvPartNum =
+                (TextView) view.findViewById(R.id.idft_tv_partInNum);//参与人数
+        holder.unOriginalFavoriteTopic.ivPic =
+                (ImageView) view.findViewById(R.id.idft_iv_contentPic);
+        holder.unOriginalFavoriteTopic.tvContent =
+                (TextView) view.findViewById(R.id.idft_tv_contentText);
+        holder.unOriginalFavoriteTopic.tvLikeNum =
+                (TextView) view.findViewById(R.id.idft_tv_likeNum);
+        holder.unOriginalFavoriteTopic.tvCommentNum =
+                (TextView) view.findViewById(R.id.idft_tv_commentNum);
+    }
+
+    /**
+     * 初始化非原创——喜欢-普通动态相关组件
+     * 已设置监听事件：头像、喜欢
+     */
+    private void initUnOriginalFavoriteNormal(View view, ViewHolder holder) {
+        if (holder.unOriginalFavoriteNormal == null) {
+            holder.unOriginalFavoriteNormal = new UnOriginalFavoriteNormal();
+        }
+        holder.viewType = UNORIGINAL_TYPE_FAVORITE_NORMAL;
+        //初始化作者信息
+        holder.unOriginalFavoriteNormal.iv_headImg = (ImageView) view.findViewById(R.id.iidu_iv_headImg);
+        holder.unOriginalFavoriteNormal.tvName = (TextView) view.findViewById(R.id.iidu_tv_name);
+        holder.unOriginalFavoriteNormal.tvTime = (TextView) view.findViewById(R.id.iidu_tv_time);
+        holder.unOriginalFavoriteNormal.tvAction = (TextView) view.findViewById(R.id.iidu_tv_action);
+        //原创作者信息
+        holder.unOriginalFavoriteNormal.tvOriginalNickName =
+                (TextView) view.findViewById(R.id.idfn_tv_originator_nickname);
+        //作品信息
+        holder.unOriginalFavoriteNormal.ivPic =
+                (ImageView) view.findViewById(R.id.idfn_iv_contentPic);
+        holder.unOriginalFavoriteNormal.tvContent =
+                (TextView) view.findViewById(R.id.idfn_tv_contentText);
+        holder.unOriginalFavoriteNormal.tvLikeNum =
+                (TextView) view.findViewById(R.id.idfn_tv_likeNum);
+        holder.unOriginalFavoriteNormal.tvCommentNum =
+                (TextView) view.findViewById(R.id.idfn_tv_commentNum);
+        holder.unOriginalFavoriteNormal.ivHeart =
+                (ImageView) view.findViewById(R.id.idfn_iv_heart);
+        //设置监听事件
+        holder.unOriginalFavoriteNormal.iv_headImg.setOnClickListener(clickUserListener);
+        holder.unOriginalFavoriteNormal.ivHeart.setOnClickListener(clickLikeListener);
+    }
+
+    /**
      * 初始化非原创——订阅圈子的相关组件
+     * 已设置监听事件：头像
      */
     private void initUnOriginalSubscribeCircle(View view, ViewHolder holder) {
         if (holder.unOriginalSubscribeCircle == null) {
@@ -165,10 +347,14 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.unOriginalSubscribeCircle.tvName = (TextView) view.findViewById(R.id.ius_tv_name);
         holder.unOriginalSubscribeCircle.tvTime = (TextView) view.findViewById(R.id.ius_tv_time);
         holder.unOriginalSubscribeCircle.tvAction = (TextView) view.findViewById(R.id.ius_tv_action);
+
+        //设置监听事件
+        holder.unOriginalSubscribeCircle.ivHeadImg.setOnClickListener(clickUserListener);
     }
 
     /**
      * 初始化原创——文章的相关组件
+     * 已设置监听事件：头像,喜欢
      */
     private void initOriginalArticle(View view, ViewHolder holder) {
         if (holder.originalArticle == null) {
@@ -183,10 +369,18 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.originalArticle.tvContent = (TextView) view.findViewById(R.id.idoa_tv_content);
         holder.originalArticle.tvLikeNum = (TextView) view.findViewById(R.id.idoa_tv_likeNum);
         holder.originalArticle.tvCommentNum = (TextView) view.findViewById(R.id.idoa_tv_commentNum);
+        holder.originalArticle.tvAction = (TextView) view.findViewById(R.id.idoa_tv_action);
+        holder.originalArticle.ivHeart =
+                (ImageView) view.findViewById(R.id.idoa_iv_heart);
+
+        //设置监听事件
+        holder.originalArticle.iv_headImg.setOnClickListener(clickUserListener);
+        holder.originalArticle.ivHeart.setOnClickListener(clickLikeListener);
     }
 
     /**
      * 初始化原创——话题的相关组件
+     * 已设置监听事件：头像,喜欢
      */
     private void initOriginalTopic(View view, ViewHolder holder) {
         if (holder.originalTopic == null) {
@@ -201,6 +395,13 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.originalTopic.tvContent = (TextView) view.findViewById(R.id.idot_tv_content);
         holder.originalTopic.tvPartNum = (TextView) view.findViewById(R.id.idot_tv_partInNum);
         holder.originalTopic.tvLikeNum = (TextView) view.findViewById(R.id.idot_tv_likeNum);
+        holder.originalTopic.tvAction = (TextView) view.findViewById(R.id.idot_tv_action);
+        holder.originalTopic.ivHeart =
+                (ImageView) view.findViewById(R.id.idot_iv_heart);
+
+        //设置监听事件
+        holder.originalTopic.iv_headImg.setOnClickListener(clickUserListener);
+        holder.originalTopic.ivHeart.setOnClickListener(clickLikeListener);
     }
 
     /**
@@ -229,9 +430,11 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.originalNormal.tvContent = (TextView) view.findViewById(R.id.idon_tv_content);
         holder.originalNormal.tvCommentNum = (TextView) view.findViewById(R.id.idon_tv_commentNum);
         holder.originalNormal.tvLikeNum = (TextView) view.findViewById(R.id.idon_tv_likeNum);
+        holder.originalNormal.tvAction = (TextView) view.findViewById(R.id.idon_tv_action);
+        holder.originalNormal.ivHeart =
+                (ImageView) view.findViewById(R.id.idon_iv_heart);
 
         //设置监听事件
-
     }
 
 
@@ -239,7 +442,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         //绑定数据
         if (position % 2 == 0) {//偶数
-            holder.contentView.setBackgroundColor(colorGravy);
+            holder.contentView.setBackgroundColor(colorWhite);
         } else {//奇数
             holder.contentView.setBackgroundColor(colorWhite);
         }
@@ -259,6 +462,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         //设置作者信息
         switch (holder.viewType) {
             case ORIGINAL_TYPE_NORMAL:
+                handleDynamicNormalData(holder, position);//绑定普通数据
                 break;
             case ORIGINAL_TYPE_ARTICLE:
                 handleDynamicArticleData(holder, position);//绑定文章数据
@@ -269,11 +473,153 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             case UNORIGINAL_TYPE_SUBSCRIBE_CIRCLE:
                 handleCircleSubscribe(holder, position);//绑定圈子数据
                 break;
+            case UNORIGINAL_TYPE_FAVORITE_NORMAL:
+                handleFavoriteNormal(holder, position);//绑定喜欢普通动态数据
+                break;
+        }
+    }
+
+    /**
+     * 解析喜欢——普通动态数据
+     * 绑定Tag对象：头像、喜欢
+     */
+    private void handleFavoriteNormal(ViewHolder holder, int position) {
+        Log.d(TAG, "handleFavoriteNormal");
+        DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
+        if (!(dynamicBaseData instanceof DynamicData)) {
+            dynamicBaseDatas.remove(position);
+            return;
+        }
+
+        //绑定Tag对象
+        ClassUtils.bindViewsTag(position, holder.unOriginalFavoriteNormal.iv_headImg,
+                holder.unOriginalFavoriteNormal.ivHeart);
+
+        //设置用户数据
+        holder.unOriginalFavoriteNormal.tvName.setText(dynamicBaseData.getCreator_nickname());
+        holder.unOriginalFavoriteNormal.tvTime.setText(dynamicBaseData.getCreated_at());
+        holder.unOriginalFavoriteNormal.tvAction.setText(dynamicBaseData.getActionTitle());
+        //设置头像
+        String headImgUrl = dynamicBaseData.getCreator_avatar();
+        if (!StringUtils.isEmpty(headImgUrl)) {
+            bindImageViewAndUrl(holder.unOriginalFavoriteNormal.iv_headImg, headImgUrl);
+        }
+        //设置原创作者信息
+//        if (!((DynamicData) dynamicBaseData).is_orginal()) {
+        DynamicData.Originator originator = ((DynamicData) dynamicBaseData).getOriginator();
+        if (originator != null) {
+            holder.unOriginalFavoriteNormal.tvOriginalNickName.setVisibility(View.VISIBLE);
+            holder.unOriginalFavoriteNormal.tvOriginalNickName.
+                    setText(originator.getOriginator_nickname());
+        } else {
+            holder.unOriginalFavoriteNormal.tvOriginalNickName.setVisibility(View.GONE);
+        }
+//        } else {
+//            holder.unOriginalFavoriteNormal.tvOriginalNickName.setVisibility(View.GONE);
+//        }
+        //设置作品信息
+        DynamicData.Normal normal = ((DynamicData) dynamicBaseData).getNormal();
+        if (normal == null) {
+            dynamicBaseDatas.remove(position);
+            notifyDataSetChanged();
+        } else {
+            List<String> image = normal.getImg();
+            if (image != null && image.size() > 0) {
+                //绑定图片
+                bindImageViewAndUrl(holder.unOriginalFavoriteNormal.ivPic, image.get(0));
+            } else {
+                holder.unOriginalFavoriteNormal.ivPic.setVisibility(View.GONE);
+            }
+            holder.unOriginalFavoriteNormal.tvContent.setText(normal.getDoc());
+        }
+        holder.unOriginalFavoriteNormal.tvCommentNum.setText(
+                ((DynamicData) dynamicBaseData).getComments_count() + "");
+        holder.unOriginalFavoriteNormal.tvLikeNum.setText(
+                ((DynamicData) dynamicBaseData).getOperation_count() + "");
+
+        //动态是否被关注
+        if (((DynamicData) dynamicBaseData).isHasFavorite()) {
+            holder.unOriginalFavoriteNormal.ivHeart.setImageResource(R.drawable.ic_heart_red);
+        } else {
+            holder.unOriginalFavoriteNormal.ivHeart.setImageResource(R.drawable.ic_heart_list_white);
+        }
+    }
+
+    /**
+     * 解析普通數據
+     * 绑定Tag对象：头像、喜欢
+     */
+    private void handleDynamicNormalData(ViewHolder holder, int position) {
+        Log.d(TAG, "handleDynamicNormalData");
+        DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
+        if (!(dynamicBaseData instanceof DynamicData)) {
+            dynamicBaseDatas.remove(position);
+            return;
+        }
+        //绑定Tag对象
+        ClassUtils.bindViewsTag(position, holder.originalNormal.ivHeadImg,
+                holder.originalNormal.ivHeart);
+
+        //设置用户数据
+        holder.originalNormal.tvName.setText(dynamicBaseData.getCreator_nickname());
+        holder.originalNormal.tvTime.setText(dynamicBaseData.getCreated_at());
+        holder.originalNormal.tvAction.setText(dynamicBaseData.getActionTitle());
+        //设置头像
+        String headImgUrl = dynamicBaseData.getCreator_avatar();
+        if (!StringUtils.isEmpty(headImgUrl)) {
+            bindImageViewAndUrl(holder.originalNormal.ivHeadImg, headImgUrl);
+        }
+        DynamicData.Normal normal = ((DynamicData) dynamicBaseData).getNormal();
+        int imageNum = 0;
+        if (normal == null) {
+            //設置圖片
+            initOriginalPicturesView(imageNum, holder);
+        } else {
+            List<String> image = normal.getImg();
+            if (image == null || image.size() == 0) {
+                imageNum = 0;
+            } else {
+                imageNum = image.size();
+                bindNormalImage(holder, image);
+            }
+            //设置内容和图片
+            holder.originalNormal.tvContent.setText(normal.getDoc());
+            //設置圖片
+            initOriginalPicturesView(imageNum, holder);
+        }
+        //设置其他
+        holder.originalNormal.tvCommentNum.setText(
+                ((DynamicData) dynamicBaseData).getComments_count() + "");
+        holder.originalNormal.tvLikeNum.setText(
+                ((DynamicData) dynamicBaseData).getOperation_count() + "");
+
+        //动态是否被关注
+        if (((DynamicData) dynamicBaseData).isHasFavorite()) {
+            holder.originalNormal.ivHeart.setImageResource(R.drawable.ic_heart_red);
+        } else {
+            holder.originalNormal.ivHeart.setImageResource(R.drawable.ic_heart_list_white);
+        }
+    }
+
+    /**
+     * 绑定普通动态的图片
+     */
+    private void bindNormalImage(ViewHolder holder, List<String> image) {
+        ImageView imageView[] = new ImageView[6];
+        imageView[0] = holder.originalNormal.ivPic1;
+        imageView[1] = holder.originalNormal.ivPic2;
+        imageView[2] = holder.originalNormal.ivPic3;
+        imageView[3] = holder.originalNormal.ivPic4;
+        imageView[4] = holder.originalNormal.ivPic5;
+        imageView[5] = holder.originalNormal.ivPic6;
+        for (int i = 0; i < image.size(); i++) {
+            bindImageViewAndUrl(imageView[i], image.get(i));
         }
     }
 
     /**
      * 解析话题数据
+     * 绑定Tag对象：头像、喜欢
      */
     private void handleDynamicTopicData(ViewHolder holder, int position) {
         Log.d(TAG, "handleDynamicTopicData");
@@ -282,9 +628,15 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             dynamicBaseDatas.remove(position);
             return;
         }
+
+        //绑定Tag对象
+        ClassUtils.bindViewsTag(position, holder.originalTopic.iv_headImg,
+                holder.originalTopic.ivHeart);
+
         //设置用户数据
         holder.originalTopic.tvName.setText(dynamicBaseData.getCreator_nickname());
         holder.originalTopic.tvTime.setText(dynamicBaseData.getCreated_at());
+        holder.originalTopic.tvAction.setText(dynamicBaseData.getActionTitle());
         //设置头像
         String headImgUrl = dynamicBaseData.getCreator_avatar();
         if (!StringUtils.isEmpty(headImgUrl)) {
@@ -302,10 +654,18 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 bindImageViewAndUrl(holder.originalTopic.iv_picture, bean.getImg());
             }
         }
+
+        //动态是否被关注
+        if (((DynamicData) dynamicBaseData).isHasFavorite()) {
+            holder.originalTopic.ivHeart.setImageResource(R.drawable.ic_heart_red);
+        } else {
+            holder.originalTopic.ivHeart.setImageResource(R.drawable.ic_heart_list_white);
+        }
     }
 
     /**
      * 解析订阅圈子操作的数据
+     * 绑定Tag对象：头像
      */
     private void handleCircleSubscribe(ViewHolder holder, int position) {
         Log.d(TAG, "handleCircleSubscribe");
@@ -314,6 +674,10 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             dynamicBaseDatas.remove(position);
             return;
         }
+
+        //绑定Tag对象
+        ClassUtils.bindViewsTag(position, holder.unOriginalSubscribeCircle.ivHeadImg);
+
         //设置用户数据
         holder.unOriginalSubscribeCircle.tvName.setText(dynamicBaseData.getCreator_nickname());
         holder.unOriginalSubscribeCircle.tvTime.setText(dynamicBaseData.getCreated_at());
@@ -339,6 +703,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     /**
      * 解析文章数据
+     * 绑定Tag对象：头像、喜欢
      */
     private void handleDynamicArticleData(ViewHolder holder, int position) {
         DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
@@ -346,9 +711,15 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             dynamicBaseDatas.remove(position);
             return;
         }
+
+        //绑定Tag对象
+        ClassUtils.bindViewsTag(position, holder.originalArticle.iv_headImg,
+                holder.originalArticle.ivHeart);
+
         //设置用户数据
         holder.originalArticle.tvName.setText(dynamicBaseData.getCreator_nickname());
         holder.originalArticle.tvTime.setText(dynamicBaseData.getCreated_at());
+        holder.originalArticle.tvAction.setText(dynamicBaseData.getActionTitle());
         //设置头像
         String headImgUrl = dynamicBaseData.getCreator_avatar();
         if (!StringUtils.isEmpty(headImgUrl)) {
@@ -371,6 +742,13 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 ((DynamicData) dynamicBaseData).getComments_count() + "");
         holder.originalArticle.tvLikeNum.setText(
                 ((DynamicData) dynamicBaseData).getOperation_count() + "");
+
+        //动态是否被关注
+        if (((DynamicData) dynamicBaseData).isHasFavorite()) {
+            holder.originalArticle.ivHeart.setImageResource(R.drawable.ic_heart_red);
+        } else {
+            holder.originalArticle.ivHeart.setImageResource(R.drawable.ic_heart_list_white);
+        }
     }
 
 
@@ -454,10 +832,13 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         OriginalArticle originalArticle;//原创：文章
         //转载
         UnOriginalSubscribeCircle unOriginalSubscribeCircle;//订阅圈子
+        UnOriginalFavoriteNormal unOriginalFavoriteNormal;//喜欢普通动态
+        UnOriginalFavoriteTopic unOriginalFavoriteTopic;//喜欢话题动态
+        UnOriginalFavoriteArticle unOriginalFavoriteArticle;//喜欢的文章动态
     }
 
     /**
-     * 原创——话题
+     * 原创——普通
      */
     class OriginalNormal {
         //关于图片
@@ -473,6 +854,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvContent;//内容
         TextView tvCommentNum;//评论人数
         TextView tvLikeNum;//喜欢的人数
+        TextView tvAction;//动作
+
+        ImageView ivHeart;//是否被关注的心型图标
     }
 
     /**
@@ -487,6 +871,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvTitle;//标题
         TextView tvContent;//内容
         TextView tvLikeNum;//喜欢的人数
+        TextView tvAction;//动作
+
+        ImageView ivHeart;//是否被关注的心型图标
     }
 
     /**
@@ -501,6 +888,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvContent;//内容
         TextView tvCommentNum;//评论人数
         TextView tvLikeNum;//喜欢的人数
+        TextView tvAction;//动作
+        ImageView ivHeart;//是否被关注的心型图标
     }
 
     /**
@@ -518,5 +907,210 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvName;
         TextView tvTime;
         TextView tvAction;
+    }
+
+    /**
+     * 非原创——喜欢：普通动态
+     */
+    class UnOriginalFavoriteNormal {
+        //作者信息
+        ImageView iv_headImg;
+        TextView tvName;
+        TextView tvTime;
+        TextView tvAction;//动作
+        //原创作者信息
+        TextView tvOriginalNickName;//原创作者名称
+        //相关作品信息
+        ImageView ivPic;
+        TextView tvContent;//内容
+        TextView tvCommentNum;//评论人数
+        TextView tvLikeNum;//喜欢的人数
+
+        ImageView ivHeart;//是否被关注的心型图标
+    }
+
+    /**
+     * 非原创——喜欢：话题动态
+     */
+    class UnOriginalFavoriteTopic {
+        //作者信息
+        ImageView iv_headImg;
+        TextView tvName;
+        TextView tvTime;
+        TextView tvAction;//动作
+        //原创作者信息
+        TextView tvOriginalNickName;//原创作者名称
+        //相关作品信息
+        ImageView ivPic;
+        TextView tvTopicTitle;
+        TextView tvPartNum;//参与人数
+        TextView tvContent;//内容
+        TextView tvCommentNum;//评论人数
+        TextView tvLikeNum;//喜欢的人数
+    }
+
+    /**
+     * 非原创——喜欢：文章动态
+     */
+    class UnOriginalFavoriteArticle {
+        //作者信息
+        ImageView iv_headImg;
+        TextView tvName;
+        TextView tvTime;
+        TextView tvAction;//动作
+        //原创作者信息
+        TextView tvOriginalNickName;//原创作者名称
+        //相关作品信息
+        ImageView ivPic;
+        TextView tvArticleTitle;
+        TextView tvContent;//内容
+        TextView tvCommentNum;//评论人数
+        TextView tvLikeNum;//喜欢的人数
+    }
+
+
+    /**
+     * 图片点击回调类
+     */
+    public interface OnPictureClickLisnener {
+        /**
+         * 图片点击的回调方法
+         *
+         * @param picUrl 图片地址
+         */
+        void onPicClick(String picUrl);
+    }
+
+    /**
+     * 喜欢的点击回调类
+     */
+    public interface OnLikeActionClickListener {
+        /**
+         * 点击喜欢的回调方法
+         *
+         * @param position 条目数
+         */
+        void onLikeClick(int position);
+    }
+
+    /**
+     * 头像的点击回调接口
+     */
+    public interface OnUserClickListener {
+        /**
+         * 点击用户的回调类
+         *
+         * @param position 条目数
+         */
+        void onUserClick(int position);
+    }
+
+    /**
+     * 分享的点击回调类
+     */
+    public interface OnShareClickListener {
+
+        /**
+         * 点击分享的回调类
+         *
+         * @param position 条目数
+         */
+        void onShareClick(int position);
+    }
+
+    /**
+     * 分享的评论回调类
+     */
+    public interface OnCommentClickListener {
+
+        /**
+         * 点击分享的回调类
+         *
+         * @param position 条目数
+         */
+        void onCommentClick(int position);
+    }
+
+    /**
+     * 用户头像点击的监听事件
+     */
+    private View.OnClickListener clickUserListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            //判断各种控件id
+            Bundle bundle = (Bundle) view.getTag();
+            if (bundle == null) {
+                return;
+            }
+            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
+            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
+            //判断id
+            switch (viewId) {
+                case R.id.idon_iv_headImg:
+                case R.id.idoa_iv_headImg:
+                case R.id.idot_iv_headImg:
+                case R.id.iidu_iv_headImg:
+                case R.id.ius_iv_headImg:
+                    onUserClick(position);
+                    break;
+            }
+        }
+    };
+    /**
+     * 用户头像点击的监听事件
+     */
+    private View.OnClickListener clickLikeListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            //判断各种控件id
+            Bundle bundle = (Bundle) view.getTag();
+            if (bundle == null) {
+                return;
+            }
+            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
+            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
+            //判断id
+            switch (viewId) {
+                case R.id.idon_iv_heart:
+                case R.id.idoa_iv_heart:
+                case R.id.idot_iv_heart:
+                case R.id.idfn_iv_heart:
+                    OnLikeClick(position);
+                    break;
+            }
+        }
+    };
+
+    /**
+     * 用户点击回调
+     *
+     * @param position 条目数
+     */
+    private void onUserClick(int position) {
+        if (onUserClickListener != null) {
+            onUserClickListener.onUserClick(position);
+        }
+    }
+
+    /**
+     * 喜欢的点击回调
+     *
+     * @param position 条目数
+     */
+    private void OnLikeClick(int position) {
+        if (onLikeActionClickListener != null) {
+            onLikeActionClickListener.onLikeClick(position);
+        }
+    }
+
+    /**
+     * 设置用户头像的点击回调
+     */
+    public void setOnUserClickListener(@NonNull OnUserClickListener onUserClickListener) {
+        this.onUserClickListener = onUserClickListener;
+    }
+
+    public void setOnLikeActionClickListener(OnLikeActionClickListener onLikeActionClickListener) {
+        this.onLikeActionClickListener = onLikeActionClickListener;
     }
 }

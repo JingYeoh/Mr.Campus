@@ -17,6 +17,7 @@ import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.adapter.recycler.personCenter.PersonCenterCircleAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.usersList.AttentionFragment;
 import com.jkb.mrcampus.fragment.usersList.FansFragment;
 import com.jkb.mrcampus.fragment.usersList.VisitorFragment;
@@ -256,14 +257,14 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void setHeadImg(String headImg) {
-        ImageLoaderFactory.getInstance().displayImage(ivHeadImg,headImg);
+        ImageLoaderFactory.getInstance().displayImage(ivHeadImg, headImg);
 //        ivHeadImg.setImageBitmap(headImg);
     }
 
     @Override
     public void setBackGround(String bitmap) {
-        ImageView ivBg=((ImageView) rootView.findViewById(R.id.fpc_iv_backGround));
-        ImageLoaderFactory.getInstance().displayBlurImage(ivBg,bitmap,15,2);
+        ImageView ivBg = ((ImageView) rootView.findViewById(R.id.fpc_iv_backGround));
+        ImageLoaderFactory.getInstance().displayBlurImage(ivBg, bitmap, 15, 2);
 //        bitmap = BitmapUtil.fastBlur(bitmap, 15, 2);//设置高斯模糊效果
     }
 
@@ -438,7 +439,7 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void showWriteDynamicView() {
-        showReqResult("写动态");
+        personCenterActivity.showWriteDynamicView(onWriteDynamicClickListener);
     }
 
     @Override
@@ -486,4 +487,25 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     public void onRefresh() {
         mPresenter.onRefresh();
     }
+
+    /**
+     * 写动态页面的页面视图监听器
+     */
+    private WriteDynamicDialogFragment.OnWriteDynamicClickListener onWriteDynamicClickListener =
+            new WriteDynamicDialogFragment.OnWriteDynamicClickListener() {
+                @Override
+                public void onTopicClick() {
+
+                }
+
+                @Override
+                public void onArticleClick() {
+
+                }
+
+                @Override
+                public void onNormalClick() {
+
+                }
+            };
 }
