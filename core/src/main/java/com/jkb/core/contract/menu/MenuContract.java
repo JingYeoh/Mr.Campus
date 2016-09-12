@@ -84,6 +84,11 @@ public interface MenuContract {
         void startPersonalCenter(int user_id);
 
         /**
+         * 打开圈子首页
+         */
+        void startCircleView(int circle_id);
+
+        /**
          * 打开消息页面
          */
         void startMessage();

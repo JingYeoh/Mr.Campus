@@ -5,52 +5,36 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include layout="@layout/item_item_dynamic_user" />
+    <include layout="@layout/item_item_dynamic_circle" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/gravy_70"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:paddingBottom="20dp"
         android:paddingLeft="10dp"
         android:paddingRight="20dp"
-        android:paddingTop="10dp">
+        android:paddingTop="20dp">
+
+        <ImageView
+            android:id="@+id/idcn_iv_contentPic"
+            style="@style/Dynamic_Favorite_Image_Style"
+            android:layout_marginLeft="10dp"
+            android:background="@color/white"
+            android:src="@color/default_picture"
+            android:visibility="visible" />
 
         <TextView
-            android:id="@+id/idfa_tv_articleName"
-            style="@style/Dynamic_Title_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:paddingLeft="10dp"
-            android:text="文章名称" />
-
-        <LinearLayout
+            android:id="@+id/idcn_tv_contentText"
+            style="@style/Dynamic_ContentText_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/idfa_iv_contentPic"
-                style="@style/Dynamic_Favorite_Image_Style"
-                android:layout_marginLeft="10dp"
-                android:background="@color/white"
-                android:src="@color/default_picture"
-                android:visibility="visible" />
-
-            <TextView
-                android:id="@+id/idfa_tv_contentText"
-                style="@style/Dynamic_ContentText_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:maxLines="6"
-                android:padding="0dp"
-                android:text="@string/large_text" />
-        </LinearLayout>
-
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:maxLines="6"
+            android:padding="0dp"
+            android:text="@string/large_text" />
     </LinearLayout>
 
     <LinearLayout
@@ -71,7 +55,7 @@
             android:textColor="@color/line_deep" />
 
         <TextView
-            android:id="@+id/idfa_tv_originator_nickname"
+            android:id="@+id/idcn_tv_originator_nickname"
             style="@style/Dynamic_TitleName_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,26 +79,24 @@
                 android:src="@drawable/ic_comment_gray" />
 
             <TextView
-                android:id="@+id/idfa_tv_commentNum"
+                android:id="@+id/idcn_tv_commentNum"
                 style="@style/Dynamic_IconText_style"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="0" />
 
             <ImageView
-                android:id="@+id/idfa_iv_heart"
+                android:id="@+id/idcn_iv_heart"
                 style="@style/Dynamic_Icon_style"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/ic_heart_list_white" />
 
             <TextView
-                android:id="@+id/idfa_tv_likeNum"
+                android:id="@+id/idcn_tv_likeNum"
                 style="@style/Dynamic_IconText_style"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="0" />
-
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

@@ -124,6 +124,7 @@ public class Config {
 
     public static final String TARGET_TYPE_CIRCLE = "circle";
     public static final String TARGET_TYPE_DYNAMIC = "dynamic";
+    public static final String TARGET_TYPE_CIRCLEINCOMMONUSE = "circleInCommonUse";
 
     public static final String D_TYPE_TOPIC = "topic";
     public static final String D_TYPE_ARTICLE = "article";
@@ -132,4 +133,5 @@ public class Config {
     public static final String ACTION_TYPE_POST = "post";
     public static final String ACTION_TYPE_FAVORITE = "favorite";
     public static final String ACTION_TYPE_SUBSCRIBE = "subscribe";
+    public static final String ACTION_TYPE_POSTINCIRCLE = "postInCircle";
 }

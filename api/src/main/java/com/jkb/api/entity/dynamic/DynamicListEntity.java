@@ -11,15 +11,15 @@ public class DynamicListEntity {
 
 
     /**
-     * total : 4
+     * total : 77
      * per_page : 10
-     * current_page : 1
-     * last_page : 1
-     * next_page_url :
-     * prev_page_url :
-     * from : 1
-     * to : 4
-     * data : [{"target_type":"dynamic","action":"favorite","title":"喜欢了一个动态","target_id":1,"created_at":"2016-08-29 16:18:07","creator_id":1,"creator_nickname":"lyf1","creator_avatar":"http://image.lyfsmile.cn/avatar/image2841_1471333502.jpg","dynamic":{"id":1,"dtype":"topic","title":"Nesciunt quam non.","content":{"topic":{"doc":"Vitae ipsam alias nihil esse fugiat a corporis. Officiis sint assumenda commodi porro qui nostrum placeat quo. Quod distinctio ut sit placeat ipsa.","img":"http://lorempixel.com/640/480/?50028"}},"tag":"sunt","is_original":0,"created_at":"2016-09-07 18:13:04","comments_count":37,"operation_count":26,"participation":34,"hasFavorite":false,"originator":{"originator_id":1,"originator_nickname":"lyf1","originator_avatar":"http://image.lyfsmile.cn/avatar/image2841_1471333502.jpg"}}},{"target_type":"dynamic","action":"post","title":"发表了一个主题贴","target_id":339,"created_at":"2016-08-29 17:06:36","creator_id":1,"creator_nickname":"lyf1","creator_avatar":"http://image.lyfsmile.cn/avatar/image2841_1471333502.jpg","dynamic":{"id":339,"dtype":"article","title":"Enim voluptatibus vitae.","content":{"article":[{"doc":"Non ipsam ratione molestiae quod provident non voluptates. Non rerum consectetur est eveniet cupiditate quaerat tenetur velit. Exercitationem laudantium est alias excepturi.","img":"http://lorempixel.com/640/480/?15627"},{"doc":"Omnis itaque pariatur veritatis modi. Mollitia molestiae sed exercitationem facere. Molestiae dolorem quidem tempora veniam non.","img":"http://lorempixel.com/640/480/?38216"},{"doc":"Repellat rem error impedit dolore assumenda in eveniet. Eos est rerum illum praesentium porro reprehenderit omnis consequatur. Rerum nihil est fuga incidunt magni enim suscipit.","img":"http://lorempixel.com/640/480/?84263"},{"doc":"Similique molestiae ut dolor quasi omnis. Delectus est dolorum aliquid quia. Sed ut ad reprehenderit ipsa voluptas. Et corrupti tenetur quia non consectetur itaque et.","img":"http://lorempixel.com/640/480/?77530"}]},"tag":"velit","is_original":0,"created_at":"2016-09-07 18:13:11","comments_count":0,"operation_count":0,"hasFavorite":false,"originator":{"originator_id":87,"originator_nickname":"ldenesik","originator_avatar":"http://lorempixel.com/640/480/?40113"}}},{"target_type":"circle","action":"subscribe","title":"订阅了一个圈子","target_id":121,"created_at":"2016-08-31 08:16:10","creator_id":1,"creator_nickname":"lyf1","creator_avatar":"http://image.lyfsmile.cn/avatar/image2841_1471333502.jpg","circle":{"id":121,"name":"Josie Smith MD","type":"日志","picture":"http://lorempixel.com/640/480/?39666","introduction":"Sed illum placeat nesciunt in dolorum perspiciatis voluptatem. Qui sed architecto dolor suscipit. Excepturi necessitatibus ad cupiditate ducimus corporis asperiores aut. Fugiat possimus eos id aut.","longitude":133.047382,"latitude":87.551246,"created_at":"2016-08-03 16:24:11","dynamics_count":0,"operation_count":42,"hasSubscribe":false,"user":{"id":240,"circle_owner_nickname":"zspinka","circle_owner_avatar":"http://lorempixel.com/640/480/?72488"},"school":{"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg"}}},{"target_type":"dynamic","action":"post","title":"发表了一篇文章","target_id":351,"created_at":"2016-09-04 17:06:57","creator_id":1,"creator_nickname":"lyf1","creator_avatar":"http://image.lyfsmile.cn/avatar/image2841_1471333502.jpg","dynamic":{"id":351,"dtype":"topic","title":"Tempora consequatur delectus et.","content":{"topic":{"doc":"Laudantium est tempora ipsum maiores vel vel. Error ut aut corrupti et aliquam consequuntur debitis eos. Ducimus doloribus sed consequatur illo cumque voluptas consequuntur non.","img":"http://lorempixel.com/640/480/?16851"}},"tag":"eos","is_original":1,"created_at":"2016-09-07 18:13:12","comments_count":0,"operation_count":0,"participation":0,"hasFavorite":false}}]
+     * current_page : 2
+     * last_page : 8
+     * next_page_url : http://www.campus.org/api/v1/dynamic/getAllDynamic?page=3
+     * prev_page_url : http://www.campus.org/api/v1/dynamic/getAllDynamic?page=1
+     * from : 11
+     * to : 20
+     * data : [{"target_type":"circle","action":"subscribe","title":"订阅了一个圈子","target_id":291,"created_at":"2016-09-12 10:31:55","creator_id":1,"creator_nickname":"lyf1","creator_avatar":"http://image.lyfsmile.cn/avatar/image2841_1471333502.jpg","circle":{"id":291,"name":"Leif Abbott","type":"交友","picture":"http://lorempixel.com/640/480/?81197","introduction":"Mollitia suscipit occaecati qui quia...","longitude":8.237792,"latitude":28.382551,"created_at":"2016-08-03 16:24:15","dynamics_count":2,"operation_count":25,"hasSubscribe":false,"user":{"id":25,"circle_owner_nickname":"logan.von","circle_owner_avatar":"http://lorempixel.com/640/480/?46772"},"school":{"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg"}}},{"target_type":"dynamic","action":"favorite","title":"喜欢了一个动态","target_id":227,"created_at":"2016-09-12 10:31:55","creator_id":136,"creator_nickname":"joy91","creator_avatar":"http://lorempixel.com/640/480/?15460","dynamic":{"id":227,"dtype":"normal","title":"Quod praesentium vitae ad.","content":{"normal":{"doc":"Ut et eaque ratione nihil...","img":[]}},"tag":null,"created_at":"2016-09-07 18:13:09","comments_count":25,"operation_count":19,"hasFavorite":false,"user":{"id":195,"nickname":"maverick.langworth","avatar":"http://lorempixel.com/640/480/?56911"}}},{"target_type":"dynamic","action":"post","title":"发表了一个动态.","target_id":260,"created_at":"2016-09-12 10:31:55","creator_id":121,"creator_nickname":"fmiller","creator_avatar":"http://lorempixel.com/640/480/?57889","dynamic":{"id":260,"dtype":"normal","title":"Corporis doloremque nisi soluta.","content":{"normal":{"doc":"Aut qui est eveniet ea...","img":["http://lorempixel.com/640/480/?78664"]}},"tag":null,"created_at":"2016-09-07 18:13:10","comments_count":50,"operation_count":24,"hasFavorite":false,"user":{"id":121,"nickname":"fmiller","avatar":"http://lorempixel.com/640/480/?57889"}}},{"target_type":"circleInCommonUse","action":"postInCircle","title":"有一个新话题.","target_id":84,"created_at":"2016-09-12 10:31:56","creator_id":183,"creator_nickname":"rogahn.pascale","creator_avatar":"http://lorempixel.com/640/480/?26042","dynamic":{"id":84,"dtype":"topic","title":"Nesciunt corporis error vel.","content":{"topic":{"doc":"Est hic perspiciatis aut...","img":"http://lorempixel.com/640/480/?50885"}},"tag":"omnis","created_at":"2016-09-07 18:13:05","comments_count":35,"operation_count":25,"participation":32,"hasFavorite":false,"circle":{"id":264,"name":"Miss Catharine Glover","type":"交友","picture":"http://lorempixel.com/640/480/?13576","introduction":"Eveniet quia ratione animi...","longitude":141.165887,"latitude":34.147448,"created_at":"2016-08-03 16:24:14","user":{"id":4,"circle_owner_nickname":"simone40","circle_owner_avatar":"http://lorempixel.com/640/480/?12085"},"school":{"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg"}},"user":{"id":183,"nickname":"rogahn.pascale","avatar":"http://lorempixel.com/640/480/?26042"}}},{"target_type":"circleInCommonUse","action":"postInCircle","title":"有一篇新文章.","target_id":213,"created_at":"2016-09-12 10:32:06","creator_id":70,"creator_nickname":"creola.schultz","creator_avatar":"http://lorempixel.com/640/480/?25139","dynamic":{"id":213,"dtype":"article","title":"Dolorem rem ad qui.","content":{"article":[{"doc":"Rerum beatae dolorum nemo alias...","img":"http://lorempixel.com/640/480/?70699"},{"doc":"Sint quis eius illum dolorem...","img":"http://lorempixel.com/640/480/?76481"},{"doc":"Voluptatem molestiae voluptas...","img":"http://lorempixel.com/640/480/?77799"}]},"tag":"alias","created_at":"2016-09-07 18:13:08","comments_count":29,"operation_count":24,"hasFavorite":false,"circle":{"id":219,"name":"Mrs. Magnolia Zieme MD","type":"娱乐","picture":"http://lorempixel.com/640/480/?51998","introduction":"Culpa excepturi quod recusandae...","longitude":168.716978,"latitude":38.989943,"created_at":"2016-08-03 16:24:13","user":{"id":21,"circle_owner_nickname":"darian24","circle_owner_avatar":"http://lorempixel.com/640/480/?54676"},"school":{"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg"}},"user":{"id":70,"nickname":"creola.schultz","avatar":"http://lorempixel.com/640/480/?25139"}}}]
      * error : ["该用户不存在."]
      */
 
@@ -32,15 +32,15 @@ public class DynamicListEntity {
     private int from;
     private int to;
     /**
-     * target_type : dynamic
-     * action : favorite
-     * title : 喜欢了一个动态
-     * target_id : 1
-     * created_at : 2016-08-29 16:18:07
+     * target_type : circle
+     * action : subscribe
+     * title : 订阅了一个圈子
+     * target_id : 291
+     * created_at : 2016-09-12 10:31:55
      * creator_id : 1
      * creator_nickname : lyf1
      * creator_avatar : http://image.lyfsmile.cn/avatar/image2841_1471333502.jpg
-     * dynamic : {"id":1,"dtype":"topic","title":"Nesciunt quam non.","content":{"topic":{"doc":"Vitae ipsam alias nihil esse fugiat a corporis. Officiis sint assumenda commodi porro qui nostrum placeat quo. Quod distinctio ut sit placeat ipsa.","img":"http://lorempixel.com/640/480/?50028"}},"tag":"sunt","is_original":0,"created_at":"2016-09-07 18:13:04","comments_count":37,"operation_count":26,"participation":34,"hasFavorite":false,"originator":{"originator_id":1,"originator_nickname":"lyf1","originator_avatar":"http://image.lyfsmile.cn/avatar/image2841_1471333502.jpg"}}
+     * circle : {"id":291,"name":"Leif Abbott","type":"交友","picture":"http://lorempixel.com/640/480/?81197","introduction":"Mollitia suscipit occaecati qui quia...","longitude":8.237792,"latitude":28.382551,"created_at":"2016-08-03 16:24:15","dynamics_count":2,"operation_count":25,"hasSubscribe":false,"user":{"id":25,"circle_owner_nickname":"logan.von","circle_owner_avatar":"http://lorempixel.com/640/480/?46772"},"school":{"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg"}}
      */
 
     private List<DataBean> data;
@@ -135,39 +135,40 @@ public class DynamicListEntity {
         private int creator_id;
         private String creator_nickname;
         private String creator_avatar;
+
+
         /**
-         * id : 1
-         * dtype : topic
-         * title : Nesciunt quam non.
-         * content : {"topic":{"doc":"Vitae ipsam alias nihil esse fugiat a corporis. Officiis sint assumenda commodi porro qui nostrum placeat quo. Quod distinctio ut sit placeat ipsa.","img":"http://lorempixel.com/640/480/?50028"}}
-         * tag : sunt
-         * is_original : 0
-         * created_at : 2016-09-07 18:13:04
-         * comments_count : 37
-         * operation_count : 26
-         * participation : 34
+         * id : 227
+         * dtype : normal
+         * title : Quod praesentium vitae ad.
+         * content : {"normal":{"doc":"Ut et eaque ratione nihil...","img":[]}}
+         * tag : null
+         * created_at : 2016-09-07 18:13:09
+         * comments_count : 25
+         * operation_count : 19
          * hasFavorite : false
-         * originator : {"originator_id":1,"originator_nickname":"lyf1","originator_avatar":"http://image.lyfsmile.cn/avatar/image2841_1471333502.jpg"}
+         * user : {"id":195,"nickname":"maverick.langworth","avatar":"http://lorempixel.com/640/480/?56911"}
          */
 
         private DynamicBean dynamic;
         /**
-         * id : 121
-         * name : Josie Smith MD
+         * id : 174
+         * name : Enrico Cole
          * type : 日志
-         * picture : http://lorempixel.com/640/480/?39666
-         * introduction : Sed illum placeat nesciunt in dolorum perspiciatis voluptatem. Qui sed architecto dolor suscipit. Excepturi necessitatibus ad cupiditate ducimus corporis asperiores aut. Fugiat possimus eos id aut.
-         * longitude : 133.047382
-         * latitude : 87.551246
-         * created_at : 2016-08-03 16:24:11
+         * picture : http://lorempixel.com/640/480/?75034
+         * introduction : Adipisci dolore et itaque voluptas at reprehenderit non. Cumque quae saepe et voluptatem dolor sed officia ad.
+         * longitude : -85.057115
+         * latitude : 15.205842
+         * created_at : 2016-08-03 16:24:12
          * dynamics_count : 0
-         * operation_count : 42
+         * operation_count : 30
          * hasSubscribe : false
-         * user : {"id":240,"circle_owner_nickname":"zspinka","circle_owner_avatar":"http://lorempixel.com/640/480/?72488"}
+         * user : {"id":165,"circle_owner_nickname":"oreichert","circle_owner_avatar":"http://lorempixel.com/640/480/?17079"}
          * school : {"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg"}
          */
 
         private CircleBean circle;
+
 
         public String getTarget_type() {
             return target_type;
@@ -233,7 +234,6 @@ public class DynamicListEntity {
             this.creator_avatar = creator_avatar;
         }
 
-
         public DynamicBean getDynamic() {
             return dynamic;
         }
@@ -250,29 +250,50 @@ public class DynamicListEntity {
             this.circle = circle;
         }
 
+
         public static class DynamicBean {
             private int id;
             private String dtype;
             private String title;
             /**
-             * topic : {"doc":"Vitae ipsam alias nihil esse fugiat a corporis. Officiis sint assumenda commodi porro qui nostrum placeat quo. Quod distinctio ut sit placeat ipsa.","img":"http://lorempixel.com/640/480/?50028"}
+             * normal : {"doc":"Ut et eaque ratione nihil...","img":[]}
              */
 
             private ContentBean content;
             private String tag;
-            private int is_original;
             private String created_at;
             private int comments_count;
             private int operation_count;
-            private int participation;
             private boolean hasFavorite;
+
+
             /**
-             * originator_id : 1
-             * originator_nickname : lyf1
-             * originator_avatar : http://image.lyfsmile.cn/avatar/image2841_1471333502.jpg
+             * id : 195
+             * nickname : maverick.langworth
+             * avatar : http://lorempixel.com/640/480/?56911
              */
 
-            private OriginatorBean originator;
+            private UserBean user;
+            /**
+             * participation : 32
+             */
+
+            private int participation;
+            /**
+             * id : 217
+             * name : Adam Zboncak
+             * type : 娱乐
+             * picture : http://lorempixel.com/640/480/?76432
+             * introduction : Est quia ea sunt quidem ex et ex. Alias adipisci hic cupiditate qui.
+             * Optio et quia corporis similique. Ducimus esse iusto est et suscipit at. Quo cum et aperiam est error minus.
+             * longitude : -166.49387
+             * latitude : 78.510009
+             * created_at : 2016-08-03 16:24:13
+             * user : {"id":118,"circle_owner_nickname":"cartwright.trey","circle_owner_avatar":"http://lorempixel.com/640/480/?81509"}
+             * school : {"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg"}
+             */
+
+            private CircleBean circle;
 
             public int getId() {
                 return id;
@@ -314,14 +335,6 @@ public class DynamicListEntity {
                 this.tag = tag;
             }
 
-            public int getIs_original() {
-                return is_original;
-            }
-
-            public void setIs_original(int is_original) {
-                this.is_original = is_original;
-            }
-
             public String getCreated_at() {
                 return created_at;
             }
@@ -346,14 +359,6 @@ public class DynamicListEntity {
                 this.operation_count = operation_count;
             }
 
-            public int getParticipation() {
-                return participation;
-            }
-
-            public void setParticipation(int participation) {
-                this.participation = participation;
-            }
-
             public boolean isHasFavorite() {
                 return hasFavorite;
             }
@@ -362,33 +367,58 @@ public class DynamicListEntity {
                 this.hasFavorite = hasFavorite;
             }
 
-            public OriginatorBean getOriginator() {
-                return originator;
+            public UserBean getUser() {
+                return user;
             }
 
-            public void setOriginator(OriginatorBean originator) {
-                this.originator = originator;
+            public void setUser(UserBean user) {
+                this.user = user;
+            }
+
+            public int getParticipation() {
+                return participation;
+            }
+
+            public void setParticipation(int participation) {
+                this.participation = participation;
+            }
+
+            public CircleBean getCircle() {
+                return circle;
+            }
+
+            public void setCircle(CircleBean circle) {
+                this.circle = circle;
             }
 
             public static class ContentBean {
                 /**
-                 * doc : Vitae ipsam alias nihil esse fugiat a corporis. Officiis sint assumenda commodi porro qui nostrum placeat quo. Quod distinctio ut sit placeat ipsa.
-                 * img : http://lorempixel.com/640/480/?50028
+                 * doc : Ut et eaque ratione nihil...
+                 * img : []
+                 */
+
+                private NormalBean normal;
+                /**
+                 * doc : Est hic perspiciatis aut...
+                 * img : http://lorempixel.com/640/480/?50885
                  */
 
                 private TopicBean topic;
                 /**
-                 * doc : Non ipsam ratione molestiae quod provident non voluptates. Non rerum consectetur est eveniet cupiditate quaerat tenetur velit. Exercitationem laudantium est alias excepturi.
-                 * img : http://lorempixel.com/640/480/?15627
+                 * doc : Rerum beatae dolorum nemo alias...
+                 * img : http://lorempixel.com/640/480/?70699
                  */
 
                 private List<ArticleBean> article;
-                /**
-                 * doc : Sint omnis earum tempora dolore minus vel. Dolor unde esse quidem est quae cumque quidem. Dolor molestiae animi in reiciendis. Similique sapiente ullam est ad et. Odio enim culpa culpa quia.
-                 * img : ["http://lorempixel.com/640/480/?55242"]
-                 */
 
-                private NormalBean normal;
+
+                public NormalBean getNormal() {
+                    return normal;
+                }
+
+                public void setNormal(NormalBean normal) {
+                    this.normal = normal;
+                }
 
                 public TopicBean getTopic() {
                     return topic;
@@ -406,12 +436,25 @@ public class DynamicListEntity {
                     this.article = article;
                 }
 
-                public NormalBean getNormal() {
-                    return normal;
-                }
+                public static class NormalBean {
+                    private String doc;
+                    private List<String> img;
 
-                public void setNormal(NormalBean normal) {
-                    this.normal = normal;
+                    public String getDoc() {
+                        return doc;
+                    }
+
+                    public void setDoc(String doc) {
+                        this.doc = doc;
+                    }
+
+                    public List<String> getImg() {
+                        return img;
+                    }
+
+                    public void setImg(List<String> img) {
+                        this.img = img;
+                    }
                 }
 
                 public static class TopicBean {
@@ -455,56 +498,200 @@ public class DynamicListEntity {
                         this.img = img;
                     }
                 }
+            }
 
-                public static class NormalBean {
-                    private String doc;
-                    private List<String> img;
+            public static class UserBean {
+                private int id;
+                private String nickname;
+                private String avatar;
 
-                    public String getDoc() {
-                        return doc;
-                    }
+                public int getId() {
+                    return id;
+                }
 
-                    public void setDoc(String doc) {
-                        this.doc = doc;
-                    }
+                public void setId(int id) {
+                    this.id = id;
+                }
 
-                    public List<String> getImg() {
-                        return img;
-                    }
+                public String getNickname() {
+                    return nickname;
+                }
 
-                    public void setImg(List<String> img) {
-                        this.img = img;
-                    }
+                public void setNickname(String nickname) {
+                    this.nickname = nickname;
+                }
+
+                public String getAvatar() {
+                    return avatar;
+                }
+
+                public void setAvatar(String avatar) {
+                    this.avatar = avatar;
                 }
             }
 
-            public static class OriginatorBean {
-                private int originator_id;
-                private String originator_nickname;
-                private String originator_avatar;
+            public static class CircleBean {
+                private int id;
+                private String name;
+                private String type;
+                private String picture;
+                private String introduction;
+                private double longitude;
+                private double latitude;
+                private String created_at;
+                /**
+                 * id : 118
+                 * circle_owner_nickname : cartwright.trey
+                 * circle_owner_avatar : http://lorempixel.com/640/480/?81509
+                 */
 
-                public int getOriginator_id() {
-                    return originator_id;
+                private UserBean user;
+                /**
+                 * id : 1
+                 * sname : 金陵科技学院
+                 * badge : /home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg
+                 */
+
+                private SchoolBean school;
+
+                public int getId() {
+                    return id;
                 }
 
-                public void setOriginator_id(int originator_id) {
-                    this.originator_id = originator_id;
+                public void setId(int id) {
+                    this.id = id;
                 }
 
-                public String getOriginator_nickname() {
-                    return originator_nickname;
+                public String getName() {
+                    return name;
                 }
 
-                public void setOriginator_nickname(String originator_nickname) {
-                    this.originator_nickname = originator_nickname;
+                public void setName(String name) {
+                    this.name = name;
                 }
 
-                public String getOriginator_avatar() {
-                    return originator_avatar;
+                public String getType() {
+                    return type;
                 }
 
-                public void setOriginator_avatar(String originator_avatar) {
-                    this.originator_avatar = originator_avatar;
+                public void setType(String type) {
+                    this.type = type;
+                }
+
+                public String getPicture() {
+                    return picture;
+                }
+
+                public void setPicture(String picture) {
+                    this.picture = picture;
+                }
+
+                public String getIntroduction() {
+                    return introduction;
+                }
+
+                public void setIntroduction(String introduction) {
+                    this.introduction = introduction;
+                }
+
+                public double getLongitude() {
+                    return longitude;
+                }
+
+                public void setLongitude(double longitude) {
+                    this.longitude = longitude;
+                }
+
+                public double getLatitude() {
+                    return latitude;
+                }
+
+                public void setLatitude(double latitude) {
+                    this.latitude = latitude;
+                }
+
+                public String getCreated_at() {
+                    return created_at;
+                }
+
+                public void setCreated_at(String created_at) {
+                    this.created_at = created_at;
+                }
+
+                public UserBean getUser() {
+                    return user;
+                }
+
+                public void setUser(UserBean user) {
+                    this.user = user;
+                }
+
+                public SchoolBean getSchool() {
+                    return school;
+                }
+
+                public void setSchool(SchoolBean school) {
+                    this.school = school;
+                }
+
+                public static class UserBean {
+                    private int id;
+                    private String circle_owner_nickname;
+                    private String circle_owner_avatar;
+
+                    public int getId() {
+                        return id;
+                    }
+
+                    public void setId(int id) {
+                        this.id = id;
+                    }
+
+                    public String getCircle_owner_nickname() {
+                        return circle_owner_nickname;
+                    }
+
+                    public void setCircle_owner_nickname(String circle_owner_nickname) {
+                        this.circle_owner_nickname = circle_owner_nickname;
+                    }
+
+                    public String getCircle_owner_avatar() {
+                        return circle_owner_avatar;
+                    }
+
+                    public void setCircle_owner_avatar(String circle_owner_avatar) {
+                        this.circle_owner_avatar = circle_owner_avatar;
+                    }
+                }
+
+                public static class SchoolBean {
+                    private int id;
+                    private String sname;
+                    private String badge;
+
+                    public int getId() {
+                        return id;
+                    }
+
+                    public void setId(int id) {
+                        this.id = id;
+                    }
+
+                    public String getSname() {
+                        return sname;
+                    }
+
+                    public void setSname(String sname) {
+                        this.sname = sname;
+                    }
+
+                    public String getBadge() {
+                        return badge;
+                    }
+
+                    public void setBadge(String badge) {
+                        this.badge = badge;
+                    }
                 }
             }
         }
@@ -522,9 +709,9 @@ public class DynamicListEntity {
             private int operation_count;
             private boolean hasSubscribe;
             /**
-             * id : 240
-             * circle_owner_nickname : zspinka
-             * circle_owner_avatar : http://lorempixel.com/640/480/?72488
+             * id : 165
+             * circle_owner_nickname : oreichert
+             * circle_owner_avatar : http://lorempixel.com/640/480/?17079
              */
 
             private UserBean user;

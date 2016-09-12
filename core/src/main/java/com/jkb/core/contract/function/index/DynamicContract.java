@@ -99,5 +99,15 @@ public interface DynamicContract {
          * 得到创建者id
          */
         int getCreator_id(int position);
+
+        /**
+         * 得到原创用户的Id
+         */
+        int getOriginator_user_id(int position);
+
+        /**
+         * 得到圈子的id
+         */
+        int getCircleId(int position);
     }
 }

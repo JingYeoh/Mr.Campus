@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.jkb.api.config.Config;
 import com.jkb.core.contract.function.data.dynamic.CircleData;
+import com.jkb.core.contract.function.data.dynamic.CircleInCommonUseData;
 import com.jkb.core.contract.function.data.dynamic.DynamicBaseData;
 import com.jkb.core.contract.function.data.dynamic.DynamicData;
 import com.jkb.model.net.ImageLoaderFactory;
@@ -43,6 +44,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     //回调
     private OnUserClickListener onUserClickListener;//用户点击的回调
     private OnLikeActionClickListener onLikeActionClickListener;//点击喜欢的回调
+    private OnOriginatorUserClickListener onOriginatorUserClickListener;//原创作者的点击回调
+    private OnCircleClickListener onCircleClickListener;//圈子的点击回调接口
 
     //用到的常量
     private static final int ORIGINAL_TYPE_NORMAL = 1001;
@@ -52,6 +55,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     private static final int UNORIGINAL_TYPE_FAVORITE_NORMAL = 2010;//喜欢的动态
     private static final int UNORIGINAL_TYPE_FAVORITE_TOPIC = 2011;//喜欢的话题动态
     private static final int UNORIGINAL_TYPE_FAVORITE_ARTICLE = 2012;//喜欢的文章动态
+    private static final int UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_TOPIC = 2020;//设为常用圈子：话题
+    private static final int UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_NORMAL = 2021;//设为常用圈子：普通
+    private static final int UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_ARTICLE = 2022;//设为常用圈子：文章
 
 
     public DynamicAdapter(Context context, List<DynamicBaseData> dynamicBaseDatas) {
@@ -70,7 +76,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     @Override
     public int getItemViewType(int position) {
         DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
-        int itemType = 0;
+        int itemType = -1;
         String target_type = dynamicBaseData.getTarget_type();
         String action = dynamicBaseData.getAction();
         switch (action) {//判断动作类型
@@ -84,9 +90,43 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             case Config.ACTION_TYPE_FAVORITE://喜欢
                 itemType = judgeFavoriteAction(position, target_type, dynamicBaseData);
                 break;
+            case Config.ACTION_TYPE_POSTINCIRCLE://圈子内发表的动态
+                itemType = judgePostInCircleAction(position, target_type, dynamicBaseData);
+                break;
         }
         if (itemType == -1) {
-            notifyDataSetChanged();
+//            notifyDataSetChanged();
+        }
+        return itemType;
+    }
+
+    /**
+     * 判断圈子内发布的动态类型
+     */
+    private int judgePostInCircleAction(int position, String target_type, DynamicBaseData dynamicBaseData) {
+        int itemType = -1;
+        switch (target_type) {
+            case Config.TARGET_TYPE_CIRCLEINCOMMONUSE:
+                if (dynamicBaseData instanceof CircleInCommonUseData) {//是否是圈子内发布
+                    CircleInCommonUseData circleInCommonUseData =
+                            (CircleInCommonUseData) dynamicBaseData;
+                    CircleInCommonUseData.DynamicBean dynamicBean = circleInCommonUseData.getDynamic();
+                    if (dynamicBean != null) {
+                        String dType = dynamicBean.getDtype();
+                        if (dType.equals(Config.D_TYPE_NORMAL)) {
+                            itemType = UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_NORMAL;
+                        } else if (dType.equals(Config.D_TYPE_ARTICLE)) {
+                            itemType = UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_ARTICLE;
+                        } else if (dType.equals(Config.D_TYPE_TOPIC)) {
+                            itemType = UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_TOPIC;
+                        }
+                    } else {
+                        dynamicBaseDatas.remove(position);
+                    }
+                } else {
+                    dynamicBaseDatas.remove(position);
+                }
+                break;
         }
         return itemType;
     }
@@ -105,6 +145,10 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                     String dType = dynamicData.getDtype();
                     if (dType.equals(Config.D_TYPE_NORMAL)) {
                         itemType = UNORIGINAL_TYPE_FAVORITE_NORMAL;
+                    } else if (dType.equals(Config.D_TYPE_TOPIC)) {
+                        itemType = UNORIGINAL_TYPE_FAVORITE_TOPIC;
+                    } else if (dType.equals(Config.D_TYPE_ARTICLE)) {
+                        itemType = UNORIGINAL_TYPE_FAVORITE_ARTICLE;
                     }
                 } else {
                     dynamicBaseDatas.remove(position);
@@ -185,7 +229,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 view = inflater.inflate(R.layout.item_dynamic_original_topic,
                         parent, false);
                 holder = new DynamicAdapter.ViewHolder(view);
-                initOriginalTopic(view, holder);//初始化原创——文章组件
+                initOriginalTopic(view, holder);//初始化原创——话题组件
                 break;
             case UNORIGINAL_TYPE_SUBSCRIBE_CIRCLE:
                 //随机方向
@@ -218,6 +262,29 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 holder = new DynamicAdapter.ViewHolder(view);
                 initUnOriginalFavoriteArticle(view, holder);//初始化非原创——文章组件
                 break;
+            case UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_NORMAL://圈子内发布：普通
+                view = inflater.inflate(R.layout.item_dynamic_circleincommonuse_normal,
+                        parent, false);
+                holder = new DynamicAdapter.ViewHolder(view);
+                initUnOriginalCircleInCommonUseNormal(view, holder);
+                break;
+            case UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_ARTICLE://圈子内发布：文章
+                view = inflater.inflate(R.layout.item_dynamic_circleincommonuse_article,
+                        parent, false);
+                holder = new DynamicAdapter.ViewHolder(view);
+                initUnOriginalCircleInCommonUseArticle(view, holder);
+                break;
+            case UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_TOPIC://圈子内发布：话题
+                view = inflater.inflate(R.layout.item_dynamic_circleincommonuse_topic,
+                        parent, false);
+                holder = new DynamicAdapter.ViewHolder(view);
+                initUnOriginalCircleInCommonUseTopic(view, holder);
+                break;
+            default://默认....
+                view = inflater.inflate(R.layout.item_dynamic_blank,
+                        parent, false);
+                holder = new DynamicAdapter.ViewHolder(view);
+                break;
         }
         //初始化id
         holder.contentView = view.findViewById(R.id.dynamic_content);
@@ -226,7 +293,119 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     }
 
     /**
+     * 圈子动态——话题动态相关组件
+     * 已设置监听事件：原创作者、头像
+     */
+    private void initUnOriginalCircleInCommonUseTopic(View view, ViewHolder holder) {
+        if (holder.circleInCommonUseTopic == null) {
+            holder.circleInCommonUseTopic = new UnOriginalCircleInCommonUseTopic();
+        }
+        holder.viewType = UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_TOPIC;
+        //初始化作者信息
+        holder.circleInCommonUseTopic.iv_headImg = (ImageView) view.findViewById(R.id.iidc_iv_headImg);
+        holder.circleInCommonUseTopic.tvName = (TextView) view.findViewById(R.id.iidc_tv_name);
+        holder.circleInCommonUseTopic.tvTime = (TextView) view.findViewById(R.id.iidc_tv_time);
+        holder.circleInCommonUseTopic.tvAction = (TextView) view.findViewById(R.id.iidc_tv_action);
+        //原创作者信息
+        holder.circleInCommonUseTopic.tvOriginalNickName =
+                (TextView) view.findViewById(R.id.idct_tv_originator_nickname);
+        //作品信息
+        holder.circleInCommonUseTopic.tvTopicTitle =
+                (TextView) view.findViewById(R.id.idct_tv_topicName);//话题名称
+        holder.circleInCommonUseTopic.tvPartNum =
+                (TextView) view.findViewById(R.id.idct_tv_partInNum);//参与人数
+        holder.circleInCommonUseTopic.ivPic =
+                (ImageView) view.findViewById(R.id.idct_iv_contentPic);
+        holder.circleInCommonUseTopic.tvContent =
+                (TextView) view.findViewById(R.id.idct_tv_contentText);
+        holder.circleInCommonUseTopic.tvLikeNum =
+                (TextView) view.findViewById(R.id.idct_tv_likeNum);
+        holder.circleInCommonUseTopic.tvCommentNum =
+                (TextView) view.findViewById(R.id.idct_tv_commentNum);
+        holder.circleInCommonUseTopic.iv_headImg =
+                (ImageView) view.findViewById(R.id.idct_iv_heart);
+
+        //设置监听事件
+        holder.circleInCommonUseTopic.tvOriginalNickName.setOnClickListener(clickOriginatorUserListener);
+        holder.circleInCommonUseTopic.iv_headImg.setOnClickListener(clickCircleListener);
+    }
+
+    /**
+     * 圈子动态——普通动态相关组件
+     * 已设置监听事件：原创作者、头像
+     */
+    private void initUnOriginalCircleInCommonUseNormal(View view, ViewHolder holder) {
+        if (holder.circleInCommonUseNormal == null) {
+            holder.circleInCommonUseNormal = new UnOriginalCircleInCommonUseNormal();
+        }
+        holder.viewType = UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_NORMAL;
+        //初始化作者信息
+        holder.circleInCommonUseNormal.iv_headImg = (ImageView) view.findViewById(R.id.iidc_iv_headImg);
+        holder.circleInCommonUseNormal.tvName = (TextView) view.findViewById(R.id.iidc_tv_name);
+        holder.circleInCommonUseNormal.tvTime = (TextView) view.findViewById(R.id.iidc_tv_time);
+        holder.circleInCommonUseNormal.tvAction = (TextView) view.findViewById(R.id.iidc_tv_action);
+        //原创作者信息
+        holder.circleInCommonUseNormal.tvOriginalNickName =
+                (TextView) view.findViewById(R.id.idcn_tv_originator_nickname);
+        //作品信息
+        holder.circleInCommonUseNormal.ivPic =
+                (ImageView) view.findViewById(R.id.idcn_iv_contentPic);
+        holder.circleInCommonUseNormal.tvContent =
+                (TextView) view.findViewById(R.id.idcn_tv_contentText);
+        holder.circleInCommonUseNormal.tvLikeNum =
+                (TextView) view.findViewById(R.id.idcn_tv_likeNum);
+        holder.circleInCommonUseNormal.tvCommentNum =
+                (TextView) view.findViewById(R.id.idcn_tv_commentNum);
+        holder.circleInCommonUseNormal.ivHeart =
+                (ImageView) view.findViewById(R.id.idcn_iv_heart);
+        //设置监听事件
+        holder.circleInCommonUseNormal.iv_headImg.setOnClickListener(clickUserListener);
+        holder.circleInCommonUseNormal.ivHeart.setOnClickListener(clickLikeListener);
+
+        //设置监听事件
+        holder.circleInCommonUseNormal.tvOriginalNickName.
+                setOnClickListener(clickOriginatorUserListener);
+        holder.circleInCommonUseNormal.iv_headImg.setOnClickListener(clickCircleListener);
+    }
+
+    /**
+     * 圈子动态——文章动态相关组件
+     * 已设置监听事件：原创作者、头像
+     */
+    private void initUnOriginalCircleInCommonUseArticle(View view, ViewHolder holder) {
+        if (holder.circleInCommonUseArticle == null) {
+            holder.circleInCommonUseArticle = new UnOriginalCircleInCommonUseArticle();
+        }
+        holder.viewType = UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_ARTICLE;
+        //初始化作者信息
+        holder.circleInCommonUseArticle.iv_headImg = (ImageView) view.findViewById(R.id.iidc_iv_headImg);
+        holder.circleInCommonUseArticle.tvName = (TextView) view.findViewById(R.id.iidc_tv_name);
+        holder.circleInCommonUseArticle.tvTime = (TextView) view.findViewById(R.id.iidc_tv_time);
+        holder.circleInCommonUseArticle.tvAction = (TextView) view.findViewById(R.id.iidc_tv_action);
+        //原创作者信息
+        holder.circleInCommonUseArticle.tvOriginalNickName =
+                (TextView) view.findViewById(R.id.idca_tv_originator_nickname);
+        //作品信息
+        holder.circleInCommonUseArticle.tvArticleTitle =
+                (TextView) view.findViewById(R.id.idca_tv_articleName);//话题名称
+        holder.circleInCommonUseArticle.ivPic =
+                (ImageView) view.findViewById(R.id.idca_iv_contentPic);
+        holder.circleInCommonUseArticle.tvContent =
+                (TextView) view.findViewById(R.id.idca_tv_contentText);
+        holder.circleInCommonUseArticle.tvLikeNum =
+                (TextView) view.findViewById(R.id.idca_tv_likeNum);
+        holder.circleInCommonUseArticle.tvCommentNum =
+                (TextView) view.findViewById(R.id.idca_tv_commentNum);
+
+        //设置监听事件
+        holder.circleInCommonUseArticle.tvOriginalNickName.
+                setOnClickListener(clickOriginatorUserListener);
+        holder.circleInCommonUseArticle.iv_headImg.setOnClickListener(clickCircleListener);
+    }
+
+    /**
      * 初始化非原创——喜欢-文章动态相关组件
+     * 已设置监听事件：头像、喜欢、原创作者
      */
     private void initUnOriginalFavoriteArticle(View view, ViewHolder holder) {
         if (holder.unOriginalFavoriteArticle == null) {
@@ -252,10 +431,17 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 (TextView) view.findViewById(R.id.idfa_tv_likeNum);
         holder.unOriginalFavoriteArticle.tvCommentNum =
                 (TextView) view.findViewById(R.id.idfa_tv_commentNum);
+        holder.unOriginalFavoriteArticle.ivHeart = (ImageView) view.findViewById(R.id.idfa_iv_heart);
+
+        //设置点击事件
+        holder.unOriginalFavoriteArticle.ivHeart.setOnClickListener(clickLikeListener);
+        holder.unOriginalFavoriteArticle.iv_headImg.setOnClickListener(clickUserListener);
+        holder.unOriginalFavoriteArticle.tvOriginalNickName.setOnClickListener(clickOriginatorUserListener);
     }
 
     /**
      * 初始化非原创——喜欢-话题动态相关组件
+     * 已设置监听事件：头像、喜欢、原创作者
      */
     private void initUnOriginalFavoriteTopic(View view, ViewHolder holder) {
         if (holder.unOriginalFavoriteTopic == null) {
@@ -283,11 +469,17 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 (TextView) view.findViewById(R.id.idft_tv_likeNum);
         holder.unOriginalFavoriteTopic.tvCommentNum =
                 (TextView) view.findViewById(R.id.idft_tv_commentNum);
+        holder.unOriginalFavoriteTopic.ivHeart = (ImageView) view.findViewById(R.id.idft_iv_heart);
+
+        //设置点击事件
+        holder.unOriginalFavoriteTopic.ivHeart.setOnClickListener(clickLikeListener);
+        holder.unOriginalFavoriteTopic.iv_headImg.setOnClickListener(clickUserListener);
+        holder.unOriginalFavoriteTopic.tvOriginalNickName.setOnClickListener(clickOriginatorUserListener);
     }
 
     /**
      * 初始化非原创——喜欢-普通动态相关组件
-     * 已设置监听事件：头像、喜欢
+     * 已设置监听事件：头像、喜欢、原创作者
      */
     private void initUnOriginalFavoriteNormal(View view, ViewHolder holder) {
         if (holder.unOriginalFavoriteNormal == null) {
@@ -315,6 +507,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 (ImageView) view.findViewById(R.id.idfn_iv_heart);
         //设置监听事件
         holder.unOriginalFavoriteNormal.iv_headImg.setOnClickListener(clickUserListener);
+        holder.unOriginalFavoriteNormal.tvOriginalNickName.setOnClickListener(clickOriginatorUserListener);
         holder.unOriginalFavoriteNormal.ivHeart.setOnClickListener(clickLikeListener);
     }
 
@@ -476,12 +669,372 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             case UNORIGINAL_TYPE_FAVORITE_NORMAL:
                 handleFavoriteNormal(holder, position);//绑定喜欢普通动态数据
                 break;
+            case UNORIGINAL_TYPE_FAVORITE_ARTICLE://绑定喜欢文章动态数据
+                handleFavoriteArticle(holder, position);//绑定喜欢普通动态数据
+                break;
+            case UNORIGINAL_TYPE_FAVORITE_TOPIC://绑定喜欢话题动态数据
+                handleFavoriteTopic(holder, position);//绑定喜欢普通动态数据
+                break;
+            case UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_ARTICLE:
+                handleCircleInCommonUseArticle(holder, position);//绑定圈子内文章动态
+                break;
+            case UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_NORMAL:
+                handleCircleInCommonUseNormal(holder, position);//绑定圈子内普通动态
+                break;
+            case UNORIGINAL_TYPE_CIRCLEINCOMMONUSE_TOPIC:
+                handleCircleInCommonUseTopic(holder, position);//绑定圈子内话题动态
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 解析圈子内动态：话题
+     * 已绑定Tag：原创作者、头像
+     */
+    private void handleCircleInCommonUseTopic(ViewHolder holder, int position) {
+        Log.d(TAG, "handleCircleInCommonUseTopic");
+        DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
+        if (!(dynamicBaseData instanceof CircleInCommonUseData)) {
+            dynamicBaseDatas.remove(position);
+            return;
+        }
+
+        //绑定Tag对象
+        ClassUtils.bindViewsTag(position,
+                holder.circleInCommonUseTopic.iv_headImg,
+                holder.circleInCommonUseTopic.tvOriginalNickName);
+
+        CircleInCommonUseData circleInCommonUseData = (CircleInCommonUseData) dynamicBaseData;
+
+        //设置圈子信息
+        holder.circleInCommonUseTopic.tvAction.setText(circleInCommonUseData.getActionTitle());
+        holder.circleInCommonUseTopic.tvTime.setText(circleInCommonUseData.getCreated_at());
+
+        CircleInCommonUseData.DynamicBean.CircleBean circleBean =
+                circleInCommonUseData.getDynamic().getCircle();
+        holder.circleInCommonUseTopic.tvName.setText(circleBean.getName());
+        //设置头像
+        String headImgUrl = circleBean.getPicture();
+        if (!StringUtils.isEmpty(headImgUrl)) {
+            bindImageViewAndUrl(holder.circleInCommonUseTopic.iv_headImg, headImgUrl);
+        }
+        //设置原创作者信息
+        holder.circleInCommonUseTopic.tvOriginalNickName.setVisibility(View.VISIBLE);
+        holder.circleInCommonUseTopic.tvOriginalNickName.
+                setText(circleInCommonUseData.getCreator_nickname());
+        //设置作品信息
+        CircleInCommonUseData.DynamicBean.ContentBean contentBean =
+                circleInCommonUseData.getDynamic().getContent();
+        CircleInCommonUseData.DynamicBean.ContentBean.TopicBean
+                topic = contentBean.getTopic();
+        if (topic == null) {
+            dynamicBaseDatas.remove(position);
+            notifyDataSetChanged();
+        } else {
+            String image = topic.getImg();
+            if (StringUtils.isEmpty(image)) {
+                holder.circleInCommonUseTopic.ivPic.setVisibility(View.GONE);
+            } else {
+                holder.circleInCommonUseTopic.ivPic.setVisibility(View.VISIBLE);
+                bindImageViewAndUrl(holder.circleInCommonUseTopic.ivPic, image);
+            }
+            holder.circleInCommonUseTopic.tvContent.setText(topic.getDoc());
+        }
+        holder.circleInCommonUseTopic.tvTopicTitle.setText(
+                circleInCommonUseData.getDynamic().getTitle());
+        holder.circleInCommonUseTopic.tvCommentNum.setText(
+                circleInCommonUseData.getDynamic().getComments_count() + "");
+        holder.circleInCommonUseTopic.tvLikeNum.setText(
+                circleInCommonUseData.getDynamic().getOperation_count() + "");
+        holder.circleInCommonUseTopic.tvPartNum.setText(
+                circleInCommonUseData.getDynamic().getParticipation() + "");
+    }
+
+    /**
+     * 解析圈子内动态：普通
+     * 已绑定Tag：原创作者、头像
+     */
+    private void handleCircleInCommonUseNormal(ViewHolder holder, int position) {
+        Log.d(TAG, "handleCircleInCommonUseNormal");
+        DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
+        if (!(dynamicBaseData instanceof CircleInCommonUseData)) {
+            dynamicBaseDatas.remove(position);
+            return;
+        }
+
+        //绑定Tag对象
+        ClassUtils.bindViewsTag(position,
+                holder.circleInCommonUseNormal.iv_headImg,
+                holder.circleInCommonUseNormal.tvOriginalNickName);
+
+        CircleInCommonUseData circleInCommonUseData = (CircleInCommonUseData) dynamicBaseData;
+
+        //设置圈子信息
+        holder.circleInCommonUseNormal.tvAction.setText(circleInCommonUseData.getActionTitle());
+        holder.circleInCommonUseNormal.tvTime.setText(circleInCommonUseData.getCreated_at());
+
+        CircleInCommonUseData.DynamicBean.CircleBean circleBean =
+                circleInCommonUseData.getDynamic().getCircle();
+        holder.circleInCommonUseNormal.tvName.setText(circleBean.getName());
+        //设置头像
+        String headImgUrl = circleBean.getPicture();
+        if (!StringUtils.isEmpty(headImgUrl)) {
+            bindImageViewAndUrl(holder.circleInCommonUseNormal.iv_headImg, headImgUrl);
+        }
+        //设置原创作者信息
+        holder.circleInCommonUseNormal.tvOriginalNickName.setVisibility(View.VISIBLE);
+        holder.circleInCommonUseNormal.tvOriginalNickName.
+                setText(circleInCommonUseData.getCreator_nickname());
+        //设置作品信息
+        CircleInCommonUseData.DynamicBean.ContentBean contentBean =
+                circleInCommonUseData.getDynamic().getContent();
+        CircleInCommonUseData.DynamicBean.ContentBean.NormalBean
+                normal = contentBean.getNormal();
+        if (normal == null) {
+            dynamicBaseDatas.remove(position);
+            notifyDataSetChanged();
+        } else {
+            List<String> image = normal.getImg();
+            if (image != null && image.size() > 0) {
+                //绑定图片
+                bindImageViewAndUrl(holder.circleInCommonUseNormal.ivPic, image.get(0));
+            } else {
+                holder.circleInCommonUseNormal.ivPic.setVisibility(View.GONE);
+            }
+            holder.circleInCommonUseNormal.tvContent.setText(normal.getDoc());
+        }
+        holder.circleInCommonUseNormal.tvCommentNum.setText(
+                circleInCommonUseData.getDynamic().getComments_count() + "");
+        holder.circleInCommonUseNormal.tvLikeNum.setText(
+                circleInCommonUseData.getDynamic().getOperation_count() + "");
+
+        //动态是否被关注
+        if (circleInCommonUseData.getDynamic().isHasFavorite()) {
+            holder.circleInCommonUseNormal.ivHeart.setImageResource(R.drawable.ic_heart_red);
+        } else {
+            holder.circleInCommonUseNormal.ivHeart.setImageResource(R.drawable.ic_heart_list_white);
+        }
+    }
+
+    /**
+     * 解析圈子内动态：文章
+     * 已绑定Tag：原创作者、头像
+     */
+    private void handleCircleInCommonUseArticle(ViewHolder holder, int position) {
+        Log.d(TAG, "handleCircleInCommonUseArticle");
+        DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
+        if (!(dynamicBaseData instanceof CircleInCommonUseData)) {
+            dynamicBaseDatas.remove(position);
+            return;
+        }
+
+        //绑定Tag对象
+        ClassUtils.bindViewsTag(position,
+                holder.circleInCommonUseArticle.iv_headImg,
+                holder.circleInCommonUseArticle.tvOriginalNickName);
+
+        CircleInCommonUseData circleInCommonUseData = (CircleInCommonUseData) dynamicBaseData;
+
+        //设置圈子信息
+        holder.circleInCommonUseArticle.tvAction.setText(circleInCommonUseData.getActionTitle());
+        holder.circleInCommonUseArticle.tvTime.setText(circleInCommonUseData.getCreated_at());
+
+        CircleInCommonUseData.DynamicBean.CircleBean circleBean =
+                circleInCommonUseData.getDynamic().getCircle();
+        if (circleBean == null) {
+            return;
+        }
+        holder.circleInCommonUseArticle.tvName.setText(circleBean.getName());
+        //设置头像
+        String headImgUrl = circleBean.getPicture();
+        if (!StringUtils.isEmpty(headImgUrl)) {
+            bindImageViewAndUrl(holder.circleInCommonUseArticle.iv_headImg, headImgUrl);
+        }
+        //设置原创作者信息
+        holder.circleInCommonUseArticle.tvOriginalNickName.setVisibility(View.VISIBLE);
+        holder.circleInCommonUseArticle.tvOriginalNickName.
+                setText(circleInCommonUseData.getCreator_nickname());
+        //设置作品信息
+        CircleInCommonUseData.DynamicBean.ContentBean contentBean =
+                circleInCommonUseData.getDynamic().getContent();
+        List<CircleInCommonUseData.DynamicBean.ContentBean.ArticleBean>
+                articleBeans = contentBean.getArticle();
+        if (articleBeans == null || articleBeans.size() == 0) {
+            dynamicBaseDatas.remove(position);
+            notifyDataSetChanged();
+        } else {
+            CircleInCommonUseData.DynamicBean.ContentBean.ArticleBean articleBean =
+                    articleBeans.get(0);
+            String image = articleBean.getImg();
+            if (StringUtils.isEmpty(image)) {
+                holder.circleInCommonUseArticle.ivPic.setVisibility(View.GONE);
+            } else {
+                holder.circleInCommonUseArticle.ivPic.setVisibility(View.VISIBLE);
+                bindImageViewAndUrl(holder.circleInCommonUseArticle.ivPic, image);
+            }
+            holder.circleInCommonUseArticle.tvContent.setText(articleBean.getDoc());
+        }
+        holder.circleInCommonUseArticle.tvArticleTitle.setText(
+                circleInCommonUseData.getDynamic().getTitle());//设置文章名称
+        holder.circleInCommonUseArticle.tvCommentNum.setText(
+                circleInCommonUseData.getDynamic().getComments_count() + "");
+        holder.circleInCommonUseArticle.tvLikeNum.setText(
+                circleInCommonUseData.getDynamic().getOperation_count() + "");
+    }
+
+    /**
+     * 解析喜欢——话题动态数据
+     * 绑定Tag对象：头像、喜欢、原创作者
+     */
+    private void handleFavoriteTopic(ViewHolder holder, int position) {
+        Log.d(TAG, "handleFavoriteTopic");
+        DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
+        if (!(dynamicBaseData instanceof DynamicData)) {
+            dynamicBaseDatas.remove(position);
+            return;
+        }
+
+        //绑定Tag对象
+        ClassUtils.bindViewsTag(position, holder.unOriginalFavoriteTopic.iv_headImg,
+                holder.unOriginalFavoriteTopic.tvOriginalNickName,
+                holder.unOriginalFavoriteTopic.ivHeart);
+
+        //设置用户数据
+        holder.unOriginalFavoriteTopic.tvName.setText(dynamicBaseData.getCreator_nickname());
+        holder.unOriginalFavoriteTopic.tvTime.setText(dynamicBaseData.getCreated_at());
+        holder.unOriginalFavoriteTopic.tvAction.setText(dynamicBaseData.getActionTitle());
+        //设置头像
+        String headImgUrl = dynamicBaseData.getCreator_avatar();
+        if (!StringUtils.isEmpty(headImgUrl)) {
+            bindImageViewAndUrl(holder.unOriginalFavoriteTopic.iv_headImg, headImgUrl);
+        }
+        //设置原创作者信息
+//        if (!((DynamicData) dynamicBaseData).is_orginal()) {
+        DynamicData.Originator originator = ((DynamicData) dynamicBaseData).getOriginator();
+        if (originator != null) {
+            holder.unOriginalFavoriteTopic.tvOriginalNickName.setVisibility(View.VISIBLE);
+            holder.unOriginalFavoriteTopic.tvOriginalNickName.
+                    setText(originator.getOriginator_nickname());
+        } else {
+            holder.unOriginalFavoriteTopic.tvOriginalNickName.setVisibility(View.GONE);
+        }
+        //设置作品信息
+        DynamicData.Topic topic = ((DynamicData) dynamicBaseData).getTopic();
+        if (topic == null) {
+            dynamicBaseDatas.remove(position);
+            notifyDataSetChanged();
+        } else {
+            DynamicData.Topic.TopicBean topicBean = topic.getTopic();
+            if (topicBean == null) {
+                dynamicBaseDatas.remove(position);
+                notifyDataSetChanged();
+                return;
+            }
+            String image = topicBean.getImg();
+            if (!StringUtils.isEmpty(image)) {
+                //绑定图片
+                bindImageViewAndUrl(holder.unOriginalFavoriteTopic.ivPic, image);
+            } else {
+                holder.unOriginalFavoriteTopic.ivPic.setVisibility(View.GONE);
+            }
+            holder.unOriginalFavoriteTopic.tvContent.setText(topicBean.getDoc());
+        }
+        holder.unOriginalFavoriteTopic.tvCommentNum.setText(
+                ((DynamicData) dynamicBaseData).getComments_count() + "");
+        holder.unOriginalFavoriteTopic.tvLikeNum.setText(
+                ((DynamicData) dynamicBaseData).getOperation_count() + "");
+        holder.unOriginalFavoriteTopic.tvPartNum.setText(
+                ((DynamicData) dynamicBaseData).getParticipation() + "");
+
+        holder.unOriginalFavoriteTopic.tvTopicTitle.setText(
+                ((DynamicData) dynamicBaseData).getTitle());
+
+        //动态是否被关注
+        if (((DynamicData) dynamicBaseData).isHasFavorite()) {
+            holder.unOriginalFavoriteTopic.ivHeart.setImageResource(R.drawable.ic_heart_red);
+        } else {
+            holder.unOriginalFavoriteTopic.ivHeart.setImageResource(R.drawable.ic_heart_list_white);
+        }
+    }
+
+    /**
+     * 解析喜欢——文章动态数据
+     * 绑定Tag对象：头像、喜欢、原创作者
+     */
+    private void handleFavoriteArticle(ViewHolder holder, int position) {
+        Log.d(TAG, "handleFavoriteArticle");
+        DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
+        if (!(dynamicBaseData instanceof DynamicData)) {
+            dynamicBaseDatas.remove(position);
+            return;
+        }
+
+        //绑定Tag对象
+        ClassUtils.bindViewsTag(position, holder.unOriginalFavoriteArticle.iv_headImg,
+                holder.unOriginalFavoriteArticle.tvOriginalNickName,
+                holder.unOriginalFavoriteArticle.ivHeart);
+
+        //设置用户数据
+        holder.unOriginalFavoriteArticle.tvName.setText(dynamicBaseData.getCreator_nickname());
+        holder.unOriginalFavoriteArticle.tvTime.setText(dynamicBaseData.getCreated_at());
+        holder.unOriginalFavoriteArticle.tvAction.setText(dynamicBaseData.getActionTitle());
+        //设置头像
+        String headImgUrl = dynamicBaseData.getCreator_avatar();
+        if (!StringUtils.isEmpty(headImgUrl)) {
+            bindImageViewAndUrl(holder.unOriginalFavoriteArticle.iv_headImg, headImgUrl);
+        }
+        //设置原创作者信息
+//        if (!((DynamicData) dynamicBaseData).is_orginal()) {
+        DynamicData.Originator originator = ((DynamicData) dynamicBaseData).getOriginator();
+        if (originator != null) {
+            holder.unOriginalFavoriteArticle.tvOriginalNickName.setVisibility(View.VISIBLE);
+            holder.unOriginalFavoriteArticle.tvOriginalNickName.
+                    setText(originator.getOriginator_nickname());
+        } else {
+            holder.unOriginalFavoriteArticle.tvOriginalNickName.setVisibility(View.GONE);
+        }
+        //设置作品信息
+        DynamicData.Article articles = ((DynamicData) dynamicBaseData).getArticle();
+        if (articles == null) {
+            dynamicBaseDatas.remove(position);
+            notifyDataSetChanged();
+        } else {
+            List<DynamicData.Article.ArticleBean> articleBeen = articles.getArticle();
+            if (articleBeen == null || articleBeen.size() == 0) {
+                dynamicBaseDatas.remove(position);
+                return;
+            }
+            DynamicData.Article.ArticleBean article = articleBeen.get(0);
+            String image = article.getImg();
+            if (!StringUtils.isEmpty(image)) {
+                //绑定图片
+                bindImageViewAndUrl(holder.unOriginalFavoriteArticle.ivPic, image);
+            } else {
+                holder.unOriginalFavoriteArticle.ivPic.setVisibility(View.GONE);
+            }
+            holder.unOriginalFavoriteArticle.tvContent.setText(article.getDoc());
+        }
+        holder.unOriginalFavoriteArticle.tvCommentNum.setText(
+                ((DynamicData) dynamicBaseData).getComments_count() + "");
+        holder.unOriginalFavoriteArticle.tvLikeNum.setText(
+                ((DynamicData) dynamicBaseData).getOperation_count() + "");
+
+        holder.unOriginalFavoriteArticle.tvArticleTitle.setText(
+                ((DynamicData) dynamicBaseData).getTitle());
+
+        //动态是否被关注
+        if (((DynamicData) dynamicBaseData).isHasFavorite()) {
+            holder.unOriginalFavoriteArticle.ivHeart.setImageResource(R.drawable.ic_heart_red);
+        } else {
+            holder.unOriginalFavoriteArticle.ivHeart.setImageResource(R.drawable.ic_heart_list_white);
         }
     }
 
     /**
      * 解析喜欢——普通动态数据
-     * 绑定Tag对象：头像、喜欢
+     * 绑定Tag对象：头像、喜欢、原创作者
      */
     private void handleFavoriteNormal(ViewHolder holder, int position) {
         Log.d(TAG, "handleFavoriteNormal");
@@ -493,6 +1046,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
         //绑定Tag对象
         ClassUtils.bindViewsTag(position, holder.unOriginalFavoriteNormal.iv_headImg,
+                holder.unOriginalFavoriteNormal.tvOriginalNickName,
                 holder.unOriginalFavoriteNormal.ivHeart);
 
         //设置用户数据
@@ -835,6 +1389,10 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         UnOriginalFavoriteNormal unOriginalFavoriteNormal;//喜欢普通动态
         UnOriginalFavoriteTopic unOriginalFavoriteTopic;//喜欢话题动态
         UnOriginalFavoriteArticle unOriginalFavoriteArticle;//喜欢的文章动态
+        //圈子内动态
+        UnOriginalCircleInCommonUseNormal circleInCommonUseNormal;//圈子内普通
+        UnOriginalCircleInCommonUseArticle circleInCommonUseArticle;//圈子内文章
+        UnOriginalCircleInCommonUseTopic circleInCommonUseTopic;//圈子内话题
     }
 
     /**
@@ -947,6 +1505,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvContent;//内容
         TextView tvCommentNum;//评论人数
         TextView tvLikeNum;//喜欢的人数
+
+        ImageView ivHeart;//是否被关注的心型图标
     }
 
     /**
@@ -963,6 +1523,67 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         //相关作品信息
         ImageView ivPic;
         TextView tvArticleTitle;
+        TextView tvContent;//内容
+        TextView tvCommentNum;//评论人数
+        TextView tvLikeNum;//喜欢的人数
+
+        ImageView ivHeart;//是否被关注的心型图标
+    }
+
+    /**
+     * 圈子内动态：普通动态
+     */
+    class UnOriginalCircleInCommonUseNormal {
+        //作者信息
+        ImageView iv_headImg;
+        TextView tvName;
+        TextView tvTime;
+        TextView tvAction;//动作
+        //原创作者信息
+        TextView tvOriginalNickName;//原创作者名称
+        //相关作品信息
+        ImageView ivPic;
+        TextView tvContent;//内容
+        TextView tvCommentNum;//评论人数
+        TextView tvLikeNum;//喜欢的人数
+
+        ImageView ivHeart;//是否被关注的心型图标
+    }
+
+    /**
+     * 圈子内动态：文章动态
+     */
+    class UnOriginalCircleInCommonUseArticle {
+        //作者信息
+        ImageView iv_headImg;
+        TextView tvName;
+        TextView tvTime;
+        TextView tvAction;//动作
+        //原创作者信息
+        TextView tvOriginalNickName;//原创作者名称
+        //相关作品信息
+        ImageView ivPic;
+        TextView tvArticleTitle;
+        TextView tvContent;//内容
+        TextView tvCommentNum;//评论人数
+        TextView tvLikeNum;//喜欢的人数
+    }
+
+    /**
+     * 圈子内动态：话题动态
+     */
+    class UnOriginalCircleInCommonUseTopic {
+        //作者信息
+        ImageView iv_headImg;
+        TextView tvName;
+        TextView tvTime;
+        TextView tvAction;//动作
+        //原创作者信息
+        TextView tvOriginalNickName;//原创作者名称
+        //相关作品信息
+        ImageView ivPic;
+        TextView tvTopicTitle;
+        TextView tvPartNum;//参与人数
         TextView tvContent;//内容
         TextView tvCommentNum;//评论人数
         TextView tvLikeNum;//喜欢的人数
@@ -1006,6 +1627,18 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     }
 
     /**
+     * 原创作者的点击回调接口
+     */
+    public interface OnOriginatorUserClickListener {
+        /**
+         * 点击用户的回调类
+         *
+         * @param position 条目数
+         */
+        void onOriginatorUserClick(int position);
+    }
+
+    /**
      * 分享的点击回调类
      */
     public interface OnShareClickListener {
@@ -1029,6 +1662,18 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
          * @param position 条目数
          */
         void onCommentClick(int position);
+    }
+
+    /**
+     * 圈子的点击回调接口i
+     */
+    public interface OnCircleClickListener {
+        /**
+         * 点击圈子的时候的回调方法
+         *
+         * @param position 条目数
+         */
+        void onCircleClick(int position);
     }
 
     /**
@@ -1057,6 +1702,32 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         }
     };
     /**
+     * 用户原创作者的监听事件
+     */
+    private View.OnClickListener clickOriginatorUserListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            //判断各种控件id
+            Bundle bundle = (Bundle) view.getTag();
+            if (bundle == null) {
+                return;
+            }
+            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
+            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
+            //判断id
+            switch (viewId) {
+                case R.id.idca_tv_originator_nickname:
+                case R.id.idcn_tv_originator_nickname:
+                case R.id.idct_tv_originator_nickname:
+                case R.id.idfa_tv_originator_nickname:
+                case R.id.idfn_tv_originator_nickname:
+                case R.id.idft_tv_originator_nickname:
+                    onOriginatorUserClick(position);
+                    break;
+            }
+        }
+    };
+    /**
      * 用户头像点击的监听事件
      */
     private View.OnClickListener clickLikeListener = new View.OnClickListener() {
@@ -1080,6 +1751,38 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             }
         }
     };
+    /**
+     * 圈子点击的监听事件
+     */
+    private View.OnClickListener clickCircleListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            //判断各种控件id
+            Bundle bundle = (Bundle) view.getTag();
+            if (bundle == null) {
+                return;
+            }
+            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
+            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
+            //判断id
+            switch (viewId) {
+                case R.id.iidc_iv_headImg:
+                    OnCircleClick(position);
+                    break;
+            }
+        }
+    };
+
+    /**
+     * 用户点击回调
+     *
+     * @param position 条目数
+     */
+    private void OnCircleClick(int position) {
+        if (onCircleClickListener != null) {
+            onCircleClickListener.onCircleClick(position);
+        }
+    }
 
     /**
      * 用户点击回调
@@ -1089,6 +1792,17 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     private void onUserClick(int position) {
         if (onUserClickListener != null) {
             onUserClickListener.onUserClick(position);
+        }
+    }
+
+    /**
+     * 用户点击回调
+     *
+     * @param position 条目数
+     */
+    private void onOriginatorUserClick(int position) {
+        if (onOriginatorUserClickListener != null) {
+            onOriginatorUserClickListener.onOriginatorUserClick(position);
         }
     }
 
@@ -1110,7 +1824,25 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         this.onUserClickListener = onUserClickListener;
     }
 
+    /**
+     * 设置喜欢按钮的点击回调
+     */
     public void setOnLikeActionClickListener(OnLikeActionClickListener onLikeActionClickListener) {
         this.onLikeActionClickListener = onLikeActionClickListener;
+    }
+
+    /**
+     * 设置原创用户头像的点击回调
+     */
+    public void setOnOriginatorUserClickListener(
+            OnOriginatorUserClickListener onOriginatorUserClickListener) {
+        this.onOriginatorUserClickListener = onOriginatorUserClickListener;
+    }
+
+    /**
+     * 设置圈子的点击事件的回调
+     */
+    public void setOnCircleClickListener(OnCircleClickListener onCircleClickListener) {
+        this.onCircleClickListener = onCircleClickListener;
     }
 }

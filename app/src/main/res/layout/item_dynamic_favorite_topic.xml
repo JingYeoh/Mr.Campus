@@ -133,6 +133,7 @@
                 android:text="0" />
 
             <ImageView
+                android:id="@+id/idft_iv_heart"
                 style="@style/Dynamic_Icon_style"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/ic_heart_list_white" />

@@ -94,6 +94,8 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         //设置动态条目相关监听器
         dynamicAdapter.setOnUserClickListener(onUserClickListener);
         dynamicAdapter.setOnLikeActionClickListener(onLikeActionClickListener);
+        dynamicAdapter.setOnOriginatorUserClickListener(onOriginatorUserClickListener);
+        dynamicAdapter.setOnCircleClickListener(onCircleClickListener);
     }
 
     @Override
@@ -147,6 +149,17 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         }
     };
     /**
+     * 圈子的点击监听事件
+     */
+    private DynamicAdapter.OnCircleClickListener onCircleClickListener =
+            new DynamicAdapter.OnCircleClickListener() {
+                @Override
+                public void onCircleClick(int position) {
+                    Log.d(TAG, "position=" + position);
+                    mainActivity.startCircleView(mPresenter.getCircleId(position));
+                }
+            };
+    /**
      * 用户的点击监听事件
      */
     private DynamicAdapter.OnUserClickListener onUserClickListener =
@@ -155,6 +168,17 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
                 public void onUserClick(int position) {
                     Log.d(TAG, "position=" + position);
                     mainActivity.startPersonalCenter(mPresenter.getCreator_id(position));
+                }
+            };
+    /**
+     * 原创用户的点击监听事件
+     */
+    private DynamicAdapter.OnOriginatorUserClickListener onOriginatorUserClickListener =
+            new DynamicAdapter.OnOriginatorUserClickListener() {
+                @Override
+                public void onOriginatorUserClick(int position) {
+                    Log.d(TAG, "position=" + position);
+                    mainActivity.startPersonalCenter(mPresenter.getOriginator_user_id(position));
                 }
             };
     /**

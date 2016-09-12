@@ -8,6 +8,7 @@ import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.dynamic.DynamicListEntity;
 import com.jkb.core.contract.function.data.dynamic.CircleData;
+import com.jkb.core.contract.function.data.dynamic.CircleInCommonUseData;
 import com.jkb.core.contract.function.data.dynamic.DynamicBaseData;
 import com.jkb.core.contract.function.data.dynamic.DynamicData;
 import com.jkb.core.contract.function.index.DynamicContract;
@@ -112,12 +113,46 @@ public class DynamicPresenter implements DynamicContract.Presenter {
         if (!view.isActive()) {
             return;
         }
+        filterDynamicData();
         view.setDynamicDataToView(dynamicDatas);
     }
 
     @Override
     public int getCreator_id(int position) {
         return dynamicDatas.get(position).getCreator_id();
+    }
+
+    @Override
+    public int getOriginator_user_id(int position) {
+        int id;
+        DynamicBaseData dynamicBaseData = dynamicDatas.get(position);
+        switch (dynamicBaseData.getTarget_type()) {
+            case Config.TARGET_TYPE_DYNAMIC:
+                id = ((DynamicData) dynamicBaseData).getOriginator().getOriginator_id();
+                break;
+            case Config.TARGET_TYPE_CIRCLEINCOMMONUSE:
+                id = ((CircleInCommonUseData) dynamicBaseData).getDynamic().getUser().getId();
+                break;
+            default:
+                id = -1;
+                break;
+        }
+        return id;
+    }
+
+    @Override
+    public int getCircleId(int position) {
+        int id = -1;
+        DynamicBaseData dynamicBaseData = dynamicDatas.get(position);
+        switch (dynamicBaseData.getTarget_type()) {
+            case Config.TARGET_TYPE_CIRCLEINCOMMONUSE:
+                id = ((CircleInCommonUseData) dynamicBaseData).getDynamic().getCircle().getId();
+                break;
+            case Config.TARGET_TYPE_CIRCLE:
+                id = dynamicBaseData.getTarget_id();
+                break;
+        }
+        return id;
     }
 
     /**
@@ -211,8 +246,177 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                             case Config.TARGET_TYPE_DYNAMIC:
                                 dynamicDatas.add(changeToDynamicData(data));
                                 break;
+                            case Config.TARGET_TYPE_CIRCLEINCOMMONUSE:
+                                dynamicDatas.add(changeToCircleInCommonUseData(data));
+                                break;
                         }
                     }
+                }
+
+                /**
+                 * 转化为设置为常用圈子的动态数据
+                 */
+                private DynamicBaseData changeToCircleInCommonUseData(DynamicListEntity.DataBean data) {
+
+                    CircleInCommonUseData circleInCommonUseData = new CircleInCommonUseData();
+                    handleCommonData(circleInCommonUseData, data);
+
+                    //设置动态数据
+                    CircleInCommonUseData.DynamicBean dynamicBean =
+                            new CircleInCommonUseData.DynamicBean();
+                    DynamicListEntity.DataBean.DynamicBean bean = data.getDynamic();
+                    dynamicBean.setId(bean.getId());
+                    dynamicBean.setDtype(bean.getDtype());
+                    dynamicBean.setTitle(bean.getTitle());
+                    dynamicBean.setTag(bean.getTag());
+                    dynamicBean.setCreated_at(bean.getCreated_at());
+                    dynamicBean.setComments_count(bean.getComments_count());
+                    dynamicBean.setOperation_count(bean.getOperation_count());
+                    dynamicBean.setParticipation(bean.getParticipation());
+                    dynamicBean.setHasFavorite(bean.isHasFavorite());
+
+                    //设置圈子信息
+                    DynamicListEntity.DataBean.DynamicBean.CircleBean circle =
+                            bean.getCircle();
+                    if (circle != null) {
+                        CircleInCommonUseData.DynamicBean.CircleBean circleBean =
+                                new CircleInCommonUseData.DynamicBean.CircleBean();
+                        circleBean.setId(circle.getId());
+                        circleBean.setName(circle.getName());
+                        circleBean.setType(circle.getType());
+                        circleBean.setPicture(circle.getPicture());
+                        circleBean.setIntroduction(circle.getIntroduction());
+                        circleBean.setLongitude(circle.getLongitude());
+                        circleBean.setLatitude(circle.getLatitude());
+                        circleBean.setCreated_at(circle.getCreated_at());
+                        //设置圈子原创作者信息
+                        DynamicListEntity.DataBean.DynamicBean.CircleBean.UserBean user = circle.getUser();
+                        if (user != null) {
+                            CircleInCommonUseData.DynamicBean.CircleBean.UserBean userBean =
+                                    new CircleInCommonUseData.DynamicBean.CircleBean.UserBean();
+                            userBean.setCircle_owner_avatar(user.getCircle_owner_avatar());
+                            userBean.setCircle_owner_nickname(user.getCircle_owner_nickname());
+                            userBean.setId(user.getId());
+
+                            circleBean.setUser(userBean);
+                        }
+                        //设置圈子原创学校信息
+                        DynamicListEntity.DataBean.DynamicBean.CircleBean.SchoolBean school =
+                                circle.getSchool();
+                        if (school != null) {
+                            CircleInCommonUseData.DynamicBean.CircleBean.SchoolBean schoolBean =
+                                    new CircleInCommonUseData.DynamicBean.CircleBean.SchoolBean();
+                            schoolBean.setId(school.getId());
+                            schoolBean.setBadge(school.getBadge());
+                            schoolBean.setSname(school.getSname());
+
+                            circleBean.setSchool(schoolBean);
+                        }
+                        dynamicBean.setCircle(circleBean);
+                    } else {
+                        //去掉这条数据
+                    }
+                    //设置为不是原创的
+                    DynamicListEntity.DataBean.DynamicBean.ContentBean content = bean.getContent();
+                    CircleInCommonUseData.DynamicBean.ContentBean contentBean
+                            = new CircleInCommonUseData.DynamicBean.ContentBean();
+                    //设置动态类型
+                    switch (dynamicBean.getDtype()) {
+                        case Config.D_TYPE_NORMAL:
+                            handleCircleInCommonUseNormalContent(contentBean, content);
+                            break;
+                        case Config.D_TYPE_ARTICLE:
+                            handleCircleInCommonUseArticleContent(contentBean, content);
+                            break;
+                        case Config.D_TYPE_TOPIC:
+                            handleCircleInCommonUseTopicContent(contentBean, content);
+                            break;
+                    }
+                    dynamicBean.setContent(contentBean);
+                    //设置用户信息
+                    DynamicListEntity.DataBean.DynamicBean.UserBean user = bean.getUser();
+                    if (user != null) {
+                        CircleInCommonUseData.DynamicBean.UserBean userBean =
+                                new CircleInCommonUseData.DynamicBean.UserBean();
+                        userBean.setAvatar(user.getAvatar());
+                        userBean.setId(user.getId());
+                        userBean.setNickname(user.getNickname());
+
+                        dynamicBean.setUser(userBean);
+                    }
+                    circleInCommonUseData.setDynamic(dynamicBean);
+                    return circleInCommonUseData;
+                }
+
+                /**
+                 * 解析设为常用圈子数据：话题
+                 */
+                private void handleCircleInCommonUseTopicContent(
+                        CircleInCommonUseData.DynamicBean.ContentBean contentBean,
+                        DynamicListEntity.DataBean.DynamicBean.ContentBean content) {
+                    if (content == null) {
+                        return;
+                    }
+                    DynamicListEntity.DataBean.DynamicBean.ContentBean.TopicBean topicBean =
+                            content.getTopic();
+                    if (topicBean == null) {
+                        return;
+                    }
+                    CircleInCommonUseData.DynamicBean.ContentBean.TopicBean topic =
+                            new CircleInCommonUseData.DynamicBean.ContentBean.TopicBean();
+                    topic.setImg(topicBean.getImg());
+                    topic.setDoc(topicBean.getDoc());
+
+                    contentBean.setTopic(topic);
+                }
+
+                /**
+                 * 解析设为常用圈子数据：文章
+                 */
+                private void handleCircleInCommonUseArticleContent(
+                        CircleInCommonUseData.DynamicBean.ContentBean contentBean,
+                        DynamicListEntity.DataBean.DynamicBean.ContentBean content) {
+                    if (content == null) {
+                        return;
+                    }
+                    List<DynamicListEntity.DataBean.DynamicBean.ContentBean.ArticleBean> articleBeans =
+                            content.getArticle();
+                    if (articleBeans == null || articleBeans.size() == 0) {
+                        return;
+                    }
+                    List<CircleInCommonUseData.DynamicBean.ContentBean.ArticleBean> articles
+                            = new ArrayList<>();
+                    for (int i = 0; i < articleBeans.size(); i++) {
+                        CircleInCommonUseData.DynamicBean.ContentBean.ArticleBean article =
+                                new CircleInCommonUseData.DynamicBean.ContentBean.ArticleBean();
+                        article.setImg(articleBeans.get(i).getImg());
+                        article.setDoc(articleBeans.get(i).getDoc());
+
+                        articles.add(article);
+                    }
+                    contentBean.setArticle(articles);
+                }
+
+                /**
+                 * 解析设为常用圈子数据：普通
+                 */
+                private void handleCircleInCommonUseNormalContent(
+                        CircleInCommonUseData.DynamicBean.ContentBean contentBean,
+                        DynamicListEntity.DataBean.DynamicBean.ContentBean content) {
+                    if (content == null) {
+                        return;
+                    }
+                    DynamicListEntity.DataBean.DynamicBean.ContentBean.NormalBean normalBean =
+                            content.getNormal();
+                    if (normalBean == null) {
+                        return;
+                    }
+                    CircleInCommonUseData.DynamicBean.ContentBean.NormalBean normal =
+                            new CircleInCommonUseData.DynamicBean.ContentBean.NormalBean();
+                    normal.setImg(normalBean.getImg());
+                    normal.setDoc(normalBean.getDoc());
+
+                    contentBean.setNormal(normal);
                 }
 
                 /**
@@ -229,11 +433,11 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                     dynamicData.setTag(bean.getTag());
                     dynamicData.setCreated_at(bean.getCreated_at());
                     //设置是否原创的状态
-                    int is_original = bean.getIs_original();
-                    if (is_original == 0) {
-                        dynamicData.setIs_orginal(false);
-                    } else {
+                    String action = dynamicData.getAction();
+                    if (Config.ACTION_TYPE_POST.equals(action)) {
                         dynamicData.setIs_orginal(true);
+                    } else {
+                        dynamicData.setIs_orginal(false);
                     }
                     dynamicData.setComments_count(bean.getComments_count());
                     dynamicData.setOperation_count(bean.getOperation_count());
@@ -242,12 +446,12 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                     //判断是否原创
                     if (!dynamicData.is_orginal()) {
                         DynamicData.Originator originator = new DynamicData.Originator();
-                        DynamicListEntity.DataBean.DynamicBean.OriginatorBean originatorBean =
-                                bean.getOriginator();
-                        if (originatorBean != null) {
-                            originator.setOriginator_avatar(originatorBean.getOriginator_avatar());
-                            originator.setOriginator_id(originatorBean.getOriginator_id());
-                            originator.setOriginator_nickname(originatorBean.getOriginator_nickname());
+                        DynamicListEntity.DataBean.DynamicBean.UserBean userBean =
+                                bean.getUser();
+                        if (userBean != null) {
+                            originator.setOriginator_avatar(userBean.getAvatar());
+                            originator.setOriginator_id(userBean.getId());
+                            originator.setOriginator_nickname(userBean.getNickname());
 
                             dynamicData.setOriginator(originator);
                         }
@@ -407,6 +611,127 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                     }
                 }
             };
+
+    /**
+     * 筛选无用的数据
+     */
+    private void filterDynamicData() {
+        if (dynamicDatas == null || dynamicDatas.size() == 0) {
+            return;
+        }
+        for (int i = 0; i < dynamicDatas.size(); i++) {
+            DynamicBaseData dynamicBaseData = dynamicDatas.get(i);
+            if (dynamicBaseData == null) {
+                dynamicDatas.remove(dynamicDatas);
+                continue;
+            }
+            //筛选其他数据
+            String target_type = dynamicBaseData.getTarget_type();
+            switch (target_type) {
+                case Config.TARGET_TYPE_CIRCLE:
+                    filterDynamic_Circle(dynamicBaseData);
+                    break;
+                case Config.TARGET_TYPE_CIRCLEINCOMMONUSE:
+                    filterDynamic_CircleInCommonUse(dynamicBaseData);
+                    break;
+                case Config.TARGET_TYPE_DYNAMIC:
+                    filterDynamic_Dynamic(dynamicBaseData);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 筛选正常动态数据
+     */
+    private void filterDynamic_Dynamic(DynamicBaseData dynamicBaseData) {
+        if (!(dynamicBaseData instanceof DynamicData)) {
+            dynamicDatas.remove(dynamicBaseData);
+            return;
+        }
+        DynamicData dynamicData = (DynamicData) dynamicBaseData;
+        if (dynamicData == null) {
+            dynamicDatas.remove(dynamicBaseData);
+            return;
+        }
+        String dtype = dynamicData.getDtype();
+        switch (dtype) {
+            case Config.D_TYPE_ARTICLE:
+                DynamicData.Article article = dynamicData.getArticle();
+                if (article == null) {
+                    dynamicDatas.remove(dynamicBaseData);
+                    return;
+                } else {
+                    if (article.getArticle() == null) {
+                        dynamicDatas.remove(dynamicBaseData);
+                        return;
+                    }
+                }
+                break;
+            case Config.D_TYPE_NORMAL:
+                DynamicData.Normal normal = dynamicData.getNormal();
+                if (normal == null) {
+                    dynamicDatas.remove(dynamicBaseData);
+                    return;
+                } else {
+
+                }
+                break;
+            case Config.D_TYPE_TOPIC:
+                DynamicData.Topic topic = dynamicData.getTopic();
+                if (topic == null) {
+                    dynamicDatas.remove(dynamicBaseData);
+                    return;
+                } else {
+                    if (topic.getTopic() == null) {
+                        dynamicDatas.remove(dynamicBaseData);
+                        return;
+                    }
+                }
+                break;
+        }
+    }
+
+    /**
+     * 筛选设置为常用圈子数据
+     */
+    private void filterDynamic_CircleInCommonUse(DynamicBaseData dynamicBaseData) {
+        if (!(dynamicBaseData instanceof CircleInCommonUseData)) {
+            dynamicDatas.remove(dynamicBaseData);
+            return;
+        }
+        CircleInCommonUseData circleInCommonUseData = (CircleInCommonUseData) dynamicBaseData;
+        CircleInCommonUseData.DynamicBean dynamic = circleInCommonUseData.getDynamic();
+        if (dynamic == null) {
+            dynamicDatas.remove(dynamicBaseData);
+            return;
+        }
+        CircleInCommonUseData.DynamicBean.CircleBean circle = dynamic.getCircle();
+        if (circle == null) {
+            dynamicDatas.remove(dynamicBaseData);
+            return;
+        }
+        CircleInCommonUseData.DynamicBean.ContentBean content = dynamic.getContent();
+        if (content == null) {
+            dynamicDatas.remove(dynamicBaseData);
+            return;
+        }
+    }
+
+    /**
+     * 筛选动态：订阅圈子动态
+     */
+    private void filterDynamic_Circle(DynamicBaseData dynamicBaseData) {
+        if (!(dynamicBaseData instanceof CircleData)) {
+            dynamicDatas.remove(dynamicBaseData);
+            return;
+        }
+        CircleData circleData = (CircleData) dynamicBaseData;
+        if (circleData == null) {
+            dynamicDatas.remove(dynamicBaseData);
+            return;
+        }
+    }
 
     /**
      * 得到用户数据

@@ -2,6 +2,7 @@ package com.jkb.mrcampus.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -316,6 +317,16 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         Intent intent = new Intent(this, PersonCenterActivity.class);
         intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
 
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    /**
+     * 显示圈子页面
+     */
+    @Override
+    public void startCircleView(@NonNull int circle_id) {
+        Intent intent = new Intent(this, CircleActivity.class);
+        intent.putExtra(Config.INTENT_KEY_CIRCLE_ID, circle_id);
         startActivityWithPushLeftAnim(intent);
     }
 
