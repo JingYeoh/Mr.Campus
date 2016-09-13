@@ -3,20 +3,22 @@
     android:id="@+id/dynamic_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/selector_white_general"
     android:orientation="vertical"
     android:paddingBottom="20dp">
 
     <include layout="@layout/item_unorginal_users" />
 
     <LinearLayout
+        android:id="@+id/idsc_circleContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:layout_weight="2">
+            android:layout_width="150dp"
+            android:layout_height="150dp">
 
 
             <ImageView
@@ -31,7 +33,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_centerInParent="true"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:padding="2dp"
                 android:scaleType="centerCrop"
                 android:src="@color/default_picture" />
@@ -40,7 +42,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_centerInParent="true"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/ic_essays_cover"
                 android:scaleType="centerCrop" />
 
@@ -100,9 +102,9 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -110,8 +112,9 @@
                 style="@style/Dynamic_Title_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:singleLine="true"
                 android:text="圈子名称"
                 android:textColor="@color/black" />

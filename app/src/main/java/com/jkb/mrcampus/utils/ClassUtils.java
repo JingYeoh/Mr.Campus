@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.jkb.mrcampus.Config;
 
@@ -94,5 +95,46 @@ public class ClassUtils {
         bundle.putInt(Config.BUNDLE_KEY_VIEW_ID, tagId);
         bundle.putInt(Config.BUNDLE_KEY_VIEW_POSITION, position);
         return bundle;
+    }
+
+    /**
+     * 得到View的Url的TAG
+     *
+     * @param view     ImageView控件
+     * @param imageUrl Url
+     * @param position 条目数
+     * @return TAG bundle对象
+     */
+    public static Bundle getImageViewTag(View view, String imageUrl, int position) {
+        Bundle bundle = new Bundle();
+        int tagId = view.getId();
+        bundle.putInt(Config.BUNDLE_KEY_VIEW_ID, tagId);
+        bundle.putInt(Config.BUNDLE_KEY_VIEW_POSITION, position);
+        bundle.putString(Config.BUNDLE_KEY_IMAGE_URL, imageUrl);
+        return bundle;
+    }
+
+    /**
+     * 得到ImageView的TAG
+     *
+     * @param urls     View控件
+     * @param position 所在的条目item数
+     * @return TAG bundle对象
+     */
+    public static void bindImages$Urls(String[] urls, ImageView[] imageViews, int position) {
+        for (int i = 0; i < imageViews.length; i++) {
+            imageViews[i].setTag(getImageViewTag(imageViews[i], urls[i], position));
+        }
+    }
+
+    /**
+     * 得到ImageView的TAG
+     *
+     * @param urls     View控件
+     * @param position 所在的条目item数
+     * @return TAG bundle对象
+     */
+    public static void bindImage$Url(String urls, ImageView imageViews, int position) {
+        imageViews.setTag(getImageViewTag(imageViews, urls, position));
     }
 }

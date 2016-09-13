@@ -3,7 +3,6 @@ package com.jkb.core;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.jkb.core.presenter.usersList.VisitorPresenter;
 import com.jkb.model.dataSource.baidu.map.webService.BaiduMapWebServiceResponsitory;
 import com.jkb.model.dataSource.baidu.map.webService.local.BaiduMapWebServiceLocalDataSource;
 import com.jkb.model.dataSource.baidu.map.webService.remote.BaiduMapWebServiceRemoteDataSource;
@@ -34,7 +33,7 @@ import com.jkb.model.dataSource.first.firstlogic.remote.FirstRemoteDataSource;
 import com.jkb.model.dataSource.first.welcome.WelcomeDataResponsitory;
 import com.jkb.model.dataSource.first.welcome.local.WelcomeLocalDataSource;
 import com.jkb.model.dataSource.first.welcome.remote.WelcomeRemoteDataSource;
-import com.jkb.model.dataSource.function.index.dynamic.DynamicDataResponsitory;
+import com.jkb.model.dataSource.function.index.dynamic.DynamicDataRepository;
 import com.jkb.model.dataSource.function.index.dynamic.local.DynamicLocalDataSource;
 import com.jkb.model.dataSource.function.index.dynamic.remote.DynamicRemoteDataSource;
 import com.jkb.model.dataSource.menuRight.friends.FriendsRepertory;
@@ -277,9 +276,9 @@ public class Injection {
     /**
      * 得到DynamicDataResponsitory对象
      */
-    public static DynamicDataResponsitory provideDynamicDataResponsitory(
+    public static DynamicDataRepository provideDynamicDataResponsitory(
             @NonNull Context applicationContext) {
-        DynamicDataResponsitory responsitory = DynamicDataResponsitory.getInstance(
+        DynamicDataRepository responsitory = DynamicDataRepository.getInstance(
                 DynamicLocalDataSource.getInstance(applicationContext),
                 DynamicRemoteDataSource.getInstance());
         return responsitory;

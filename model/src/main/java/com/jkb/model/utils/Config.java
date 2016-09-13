@@ -17,4 +17,8 @@ public class Config {
     public static final String SINGLETON_KEY_CAMPUSDB = "singleton_key_campusDb";
     public static final String SINGLETON_KEY_APIFACTORY = "singleton_key_apiFactory";
 
+    public static final String BUNDLE_KEY_VIEW_POSITION = "bundle.key.view.position";
+    public static final String BUNDLE_KEY_VIEW_ID = "bundle.key.view.id";
+    public static final String BUNDLE_KEY_IMAGE_URL = "bundle.key.image.url";
+
 }

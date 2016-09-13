@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.dynamic.DynamicListEntity;
+import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.model.dataSource.function.index.dynamic.DynamicDataSource;
 
 /**
@@ -34,6 +35,13 @@ public class DynamicLocalDataSource implements DynamicDataSource {
     public void getAllDynamic(
             @NonNull String Authorization, @NonNull int page,
             @NonNull ApiCallback<ApiResponse<DynamicListEntity>> apiCallback) {
+
+    }
+
+    @Override
+    public void favorite(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
 
     }
 }

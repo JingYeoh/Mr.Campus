@@ -257,7 +257,7 @@ public class CircleIndexFragment extends BaseFragment
     @Override
     public void setCirclePicture(String picture) {
         ImageLoaderFactory.getInstance().displayImage(ivHeadImg, picture);
-        ImageLoaderFactory.getInstance().displayBlurImage(ivBg, picture, 8, 4);
+        ImageLoaderFactory.getInstance().displayBlurImage(ivBg, picture, 5, 2);
 //        ivHeadImg.setImageBitmap(picture);
 //        //设置高斯模糊效果
 //        ivBg.setImageBitmap(BitmapUtil.fastBlur(picture, 8, 2));

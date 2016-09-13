@@ -17,6 +17,7 @@ import com.jkb.core.contract.menu.MenuContract;
 import com.jkb.core.presenter.function.index.DynamicPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
+import com.jkb.mrcampus.adapter.recycler.NoAlphaItemAnimator;
 import com.jkb.mrcampus.adapter.recycler.dynamic.DynamicAdapter;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.DividerItemDecoration;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
@@ -119,6 +120,8 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fhd_rv);
         linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setItemAnimator(new NoAlphaItemAnimator());
+        recyclerView.getItemAnimator().setChangeDuration(0);
         recyclerView.addItemDecoration(
                 new DividerItemDecoration(mActivity,
                         LinearLayoutManager.VERTICAL,
@@ -189,6 +192,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
                 @Override
                 public void onLikeClick(int position) {
                     Log.d(TAG, "position=" + position);
+                    mPresenter.likeDynamic(position);
                 }
             };
 

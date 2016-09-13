@@ -7,6 +7,7 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.dynamic.DynamicListEntity;
+import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.core.contract.function.data.dynamic.CircleData;
 import com.jkb.core.contract.function.data.dynamic.CircleInCommonUseData;
 import com.jkb.core.contract.function.data.dynamic.DynamicBaseData;
@@ -15,7 +16,7 @@ import com.jkb.core.contract.function.index.DynamicContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.model.data.PageControlEntity;
-import com.jkb.model.dataSource.function.index.dynamic.DynamicDataResponsitory;
+import com.jkb.model.dataSource.function.index.dynamic.DynamicDataRepository;
 import com.jkb.model.info.UserInfoSingleton;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class DynamicPresenter implements DynamicContract.Presenter {
 
     private static final String TAG = "DynamicPresenter";
     private DynamicContract.View view;
-    private DynamicDataResponsitory responsitory;
+    private DynamicDataRepository resRepository;
 
     //data
     private List<DynamicBaseData> dynamicDatas;
@@ -46,9 +47,9 @@ public class DynamicPresenter implements DynamicContract.Presenter {
     private boolean isLoading = false;//正在加载
 
     public DynamicPresenter(
-            @NonNull DynamicContract.View view, @NonNull DynamicDataResponsitory responsitory) {
+            @NonNull DynamicContract.View view, @NonNull DynamicDataRepository responsitory) {
         this.view = view;
-        this.responsitory = responsitory;
+        this.resRepository = responsitory;
 
         this.view.setPresenter(this);
 
@@ -104,8 +105,69 @@ public class DynamicPresenter implements DynamicContract.Presenter {
     }
 
     @Override
-    public void likeDynamic(int position) {
+    public void likeDynamic(final int position) {
+        //请求喜欢的接口
+        UserAuths userAuths = getUserAuths();
+        if (userAuths == null) {
+            return;
+        }
+        String Authorization = Config.HEADER_BEARER + userAuths.getToken();
+        //得到用户id
+        int user_id = userAuths.getUser_id();
+        //得到目标id
+        DynamicBaseData dynamicBaseData = dynamicDatas.get(position);
+        int target_id = dynamicBaseData.getTarget_id();
+        resRepository.favorite(Authorization, user_id, target_id,
+                new ApiCallback<ApiResponse<OperationActionEntity>>() {
+                    @Override
+                    public void onSuccess(Response<ApiResponse<OperationActionEntity>> response) {
+                        if (view.isActive()) {
+                            DynamicBaseData dynamic = dynamicDatas.get(position);
+                            if (dynamic instanceof DynamicData) {
+                                DynamicData dynamicData = (DynamicData) dynamic;
+                                dynamicData.setHasFavorite(!dynamicData.isHasFavorite());
+                                //设置数目刷新
+                                if (dynamicData.isHasFavorite()) {
+                                    dynamicData.setOperation_count(dynamicData.getOperation_count() + 1);
+                                } else {
+                                    dynamicData.setOperation_count(dynamicData.getOperation_count() - 1);
+                                }
+                            } else {
+                                CircleInCommonUseData circleInCommonUseData
+                                        = (CircleInCommonUseData) dynamic;
+                                circleInCommonUseData.getDynamic().setHasFavorite(
+                                        !circleInCommonUseData.getDynamic().isHasFavorite());
+                                //设置数目刷新
+                                if (circleInCommonUseData.getDynamic().isHasFavorite()) {
+                                    circleInCommonUseData.getDynamic().setOperation_count(
+                                            circleInCommonUseData.getDynamic().getOperation_count() + 1
+                                    );
+                                } else {
+                                    circleInCommonUseData.getDynamic().setOperation_count(
+                                            circleInCommonUseData.getDynamic().getOperation_count() - 1
+                                    );
+                                }
+                            }
+                            bindDataToView();
+                        }
+                    }
 
+                    @Override
+                    public void onError(
+                            Response<ApiResponse<OperationActionEntity>> response,
+                            String error, ApiResponse<OperationActionEntity> apiResponse) {
+                        if (view.isActive()) {
+                            view.showReqResult("操作失败");
+                        }
+                    }
+
+                    @Override
+                    public void onFail() {
+                        if (view.isActive()) {
+                            view.showReqResult("操作失败");
+                        }
+                    }
+                });
     }
 
     @Override
@@ -168,7 +230,7 @@ public class DynamicPresenter implements DynamicContract.Presenter {
             return;
         }
         String Authorization = Config.HEADER_BEARER + auths.getToken();
-        responsitory.getAllDynamic(Authorization, pageControl.getCurrent_page(), dynamicApiCallback);
+        resRepository.getAllDynamic(Authorization, pageControl.getCurrent_page(), dynamicApiCallback);
     }
 
     /**

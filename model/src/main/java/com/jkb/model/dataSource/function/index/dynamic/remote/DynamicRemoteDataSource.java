@@ -7,9 +7,11 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiEngine;
 import com.jkb.api.ApiFactoryImpl;
 import com.jkb.api.ApiResponse;
+import com.jkb.api.config.Config;
 import com.jkb.api.entity.dynamic.DynamicListEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.net.dynamic.DynamicApi;
+import com.jkb.api.net.operation.OperationApi;
 import com.jkb.model.dataSource.function.index.dynamic.DynamicDataSource;
 
 import java.lang.reflect.Type;
@@ -49,5 +51,20 @@ public class DynamicRemoteDataSource implements DynamicDataSource {
         Type type = new TypeToken<ApiResponse<DynamicListEntity>>() {
         }.getType();
         new ApiEngine<ApiResponse<DynamicListEntity>>(apiCallback, call, type);
+    }
+
+    @Override
+    public void favorite(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
+        ApiFactoryImpl factory = ApiFactoryImpl.newInstance();
+        factory.setHttpClient(factory.genericClient());
+        factory.initRetrofit();
+        OperationApi operationApi = factory.createApi(OperationApi.class);
+        Call<ApiResponse<OperationActionEntity>> call;
+        call = operationApi.like(Authorization, Config.ACTION_FAVORITE, user_id, target_id);
+        Type type = new TypeToken<ApiResponse<OperationActionEntity>>() {
+        }.getType();
+        new ApiEngine<ApiResponse<OperationActionEntity>>(apiCallback, call, type);
     }
 }

@@ -2,20 +2,18 @@ package com.jkb.model.net;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.load.engine.cache.LruResourceCache;
-import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
 import com.jkb.api.config.Config;
 import com.jkb.model.R;
 import com.jkb.model.utils.BitmapUtils;
+import com.jkb.model.utils.StringUtils;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.MemoryCache;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -23,8 +21,6 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -105,7 +101,15 @@ public class ImageLoaderFactory {
      * @param imageUrl  Url
      */
     public void displayImage(ImageView imageView, String imageUrl) {
+        Bundle bundle = (Bundle) imageView.getTag();
+        if (bundle != null) {
+            String url = bundle.getString(com.jkb.model.utils.Config.BUNDLE_KEY_IMAGE_URL);
+            if (!StringUtils.isEmpty(url, imageUrl) && imageUrl.equals(url)) {
+                return;
+            }
+        }
         ImageLoader.getInstance().displayImage(imageUrl, imageView);
+        ImageLoaderUtils.bindImage$Url(imageUrl, imageView);
     }
 
     /**
@@ -113,6 +117,13 @@ public class ImageLoaderFactory {
      */
     public void displayBlurImage(final ImageView imageView,
                                  final String imageUrl, final int radius, final int downSampling) {
+        Bundle bundle = (Bundle) imageView.getTag();
+        if (bundle != null) {
+            String url = bundle.getString(com.jkb.model.utils.Config.BUNDLE_KEY_IMAGE_URL);
+            if (!StringUtils.isEmpty(url, imageUrl) && imageUrl.equals(url)) {
+                return;
+            }
+        }
         ImageLoader.getInstance().displayImage(imageUrl, imageView, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
@@ -129,6 +140,7 @@ public class ImageLoaderFactory {
                 if (view.getId() == imageView.getId()) {
                     ((ImageView) view).
                             setImageBitmap(BitmapUtils.fastBlur(bitmap, radius, downSampling));
+                    ImageLoaderUtils.bindImage$Url(imageUrl, imageView);
                 }
             }
 
@@ -193,7 +205,7 @@ public class ImageLoaderFactory {
                 .defaultDisplayImageOptions(getDisplayOptions())
                 .imageDownloader(
                         new BaseImageDownloader(context, 5 * 1000, 30 * 1000))
-                .writeDebugLogs() // Remove for release app
+//                .writeDebugLogs() // Remove for release app
                 .build();// 开始构建
         return config;
     }

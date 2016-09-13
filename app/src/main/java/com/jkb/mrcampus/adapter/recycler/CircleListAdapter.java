@@ -79,10 +79,7 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
         String picUrl = data.getPictureUrl();
         if (!StringUtils.isEmpty(picUrl)) {
             //判断图片是否一致，放置闪屏操作
-            String url = (String) holder.ivPicture.getTag();
-            if (StringUtils.isEmpty(url) || !picUrl.equals(url)) {
-                loadImage(holder.ivPicBg, holder.ivPicture, picUrl);
-            }
+            loadImage(holder.ivPicBg, holder.ivPicture, picUrl);
 //            setImageLoad(holder.ivPicture, holder.ivPicBg, picUrl);
         } else {
             holder.ivPicture.setImageResource(R.color.default_picture);
@@ -94,7 +91,7 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
      * 加载图片
      */
     private void loadImage(ImageView ivPicBg, ImageView ivPicture, String picUrl) {
-        ivPicture.setTag(picUrl);
+//        ivPicture.setTag(picUrl);
         ImageLoaderFactory.getInstance().displayImage(ivPicture, picUrl);
 //        ImageLoaderFactory.getInstance().displayImage(ivPicBg, picUrl);
         ImageLoaderFactory.getInstance().displayBlurImage(ivPicBg, picUrl, 25, 5);

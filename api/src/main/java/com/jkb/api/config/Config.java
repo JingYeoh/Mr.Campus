@@ -116,6 +116,7 @@ public class Config {
     public static final String ACTION_INCOMMONUSE = "inCommonUse";
     public static final String ACTION_VISITOR = "visitor";
     public static final String ACTION_VISIT = "visit";
+    public static final String ACTION_LIKE = "like";
 
     public static final String COLUMN_NICKNAME = "nickname";
     public static final String COLUMN_SEX = "sex";

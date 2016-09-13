@@ -3,14 +3,16 @@
     android:id="@+id/dynamic_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/selector_white_general"
     android:orientation="vertical">
 
     <include layout="@layout/item_item_dynamic_user" />
 
     <LinearLayout
+        android:id="@+id/idfn_ll_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gravy_70"
+        android:background="@drawable/selector_bg_gravy"
         android:orientation="horizontal"
         android:paddingBottom="20dp"
         android:paddingLeft="10dp"
