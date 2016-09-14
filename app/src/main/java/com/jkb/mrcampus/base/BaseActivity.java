@@ -20,6 +20,7 @@ import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
 import com.jkb.mrcampus.fragment.dialog.InputTextFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.SexFilterFloatFragment;
+import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.TextFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
@@ -52,6 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     private InputTextFloatFragment inputTextFloatFragment;
     private SexFilterFloatFragment sexFilterFloatFragment;
     private WriteDynamicDialogFragment writeDynamicDialogFragment;
+    private ShareDynamicDialogFragment shareDynamicDialogFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -295,6 +297,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         if (writeDynamicDialogFragment != null && writeDynamicDialogFragment.isAdded()) {
             writeDynamicDialogFragment.dismiss();
         }
+        //取消分享动态视图的加载
+        if (shareDynamicDialogFragment != null && shareDynamicDialogFragment.isAdded()) {
+            shareDynamicDialogFragment.dismiss();
+        }
         dismissLoading();
     }
 
@@ -358,6 +364,18 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         if (!writeDynamicDialogFragment.isAdded()) {
             writeDynamicDialogFragment.show(getFragmentManager(),
                     ClassUtils.getClassName(WriteDynamicDialogFragment.class));
+        }
+    }
+
+    @Override
+    public void showShareDynamicView(ShareDynamicDialogFragment.OnShareItemClickListener listener) {
+        if (shareDynamicDialogFragment == null) {
+            shareDynamicDialogFragment = new ShareDynamicDialogFragment();
+            shareDynamicDialogFragment.setOnShareItemClickListener(listener);
+        }
+        if (!shareDynamicDialogFragment.isAdded()) {
+            shareDynamicDialogFragment.show(getFragmentManager(),
+                    ClassUtils.getClassName(ShareDynamicDialogFragment.class));
         }
     }
 }

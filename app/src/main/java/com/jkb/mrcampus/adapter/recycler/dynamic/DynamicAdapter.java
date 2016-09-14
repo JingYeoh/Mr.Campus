@@ -46,6 +46,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     private OnLikeActionClickListener onLikeActionClickListener;//点击喜欢的回调
     private OnOriginatorUserClickListener onOriginatorUserClickListener;//原创作者的点击回调
     private OnCircleClickListener onCircleClickListener;//圈子的点击回调接口
+    private OnShareClickListener onShareClickListener;//分享的点击回调接口
+    private OnCommentClickListener onCommentClickListener;//评论的点击回调接口
 
     //用到的常量
     private static final int ORIGINAL_TYPE_NORMAL = 1001;
@@ -296,7 +298,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     /**
      * 圈子动态——话题动态相关组件
-     * 已设置监听事件：原创作者、头像、内容（待）、喜欢
+     * 已设置监听事件：原创作者、头像、内容（待）、喜欢、分享
      */
     private void initUnOriginalCircleInCommonUseTopic(View view, ViewHolder holder) {
         if (holder.circleInCommonUseTopic == null) {
@@ -326,17 +328,19 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 (TextView) view.findViewById(R.id.idct_tv_commentNum);
         holder.circleInCommonUseTopic.content = view.findViewById(R.id.idct_ll_content);
         holder.circleInCommonUseTopic.ivHeart = (ImageView) view.findViewById(R.id.idct_iv_heart);
+        holder.circleInCommonUseTopic.ivShare = (ImageView) view.findViewById(R.id.idct_iv_share);
 
         //设置监听事件
         holder.circleInCommonUseTopic.tvOriginalNickName.setOnClickListener(clickOriginatorUserListener);
         holder.circleInCommonUseTopic.iv_headImg.setOnClickListener(clickCircleListener);
         holder.circleInCommonUseTopic.ivHeart.setOnClickListener(clickLikeListener);
+        holder.circleInCommonUseTopic.ivShare.setOnClickListener(clickShareListener);
         holder.circleInCommonUseTopic.content.setOnClickListener(this);
     }
 
     /**
      * 圈子动态——普通动态相关组件
-     * 已设置监听事件：原创作者、头像、内容（待）、喜欢
+     * 已设置监听事件：原创作者、头像、内容（待）、喜欢、分享、评论
      */
     private void initUnOriginalCircleInCommonUseNormal(View view, ViewHolder holder) {
         if (holder.circleInCommonUseNormal == null) {
@@ -362,6 +366,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 (TextView) view.findViewById(R.id.idcn_tv_commentNum);
         holder.circleInCommonUseNormal.ivHeart =
                 (ImageView) view.findViewById(R.id.idcn_iv_heart);
+        holder.circleInCommonUseNormal.ivShare = (ImageView) view.findViewById(R.id.idcc_iv_share);
+        holder.circleInCommonUseNormal.ivComment = (ImageView) view.findViewById(R.id.idcc_iv_comment);
         holder.circleInCommonUseNormal.content = view.findViewById(R.id.idcn_ll_content);
 
         //设置监听事件
@@ -369,12 +375,14 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.circleInCommonUseNormal.tvOriginalNickName.
                 setOnClickListener(clickOriginatorUserListener);
         holder.circleInCommonUseNormal.iv_headImg.setOnClickListener(clickCircleListener);
+        holder.circleInCommonUseNormal.ivShare.setOnClickListener(clickShareListener);
+        holder.circleInCommonUseNormal.ivComment.setOnClickListener(clickCommentListener);
         holder.circleInCommonUseNormal.content.setOnClickListener(this);
     }
 
     /**
      * 圈子动态——文章动态相关组件
-     * 已设置监听事件：原创作者、头像、内容（待）、喜欢
+     * 已设置监听事件：原创作者、头像、内容（待）、喜欢、分享、评论
      */
     private void initUnOriginalCircleInCommonUseArticle(View view, ViewHolder holder) {
         if (holder.circleInCommonUseArticle == null) {
@@ -402,6 +410,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 (TextView) view.findViewById(R.id.idca_tv_commentNum);
         holder.circleInCommonUseArticle.content = view.findViewById(R.id.idca_ll_content);
         holder.circleInCommonUseArticle.ivHeart = (ImageView) view.findViewById(R.id.idca_iv_heart);
+        holder.circleInCommonUseArticle.ivShare = (ImageView) view.findViewById(R.id.idca_iv_share);
+        holder.circleInCommonUseArticle.ivComment = (ImageView) view.findViewById(R.id.idca_iv_comment);
 
         //设置监听事件
         holder.circleInCommonUseArticle.tvOriginalNickName.
@@ -409,11 +419,13 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.circleInCommonUseArticle.iv_headImg.setOnClickListener(clickCircleListener);
         holder.circleInCommonUseArticle.content.setOnClickListener(this);
         holder.circleInCommonUseArticle.ivHeart.setOnClickListener(clickLikeListener);
+        holder.circleInCommonUseArticle.ivComment.setOnClickListener(clickCommentListener);
+        holder.circleInCommonUseArticle.ivShare.setOnClickListener(clickShareListener);
     }
 
     /**
      * 初始化非原创——喜欢-文章动态相关组件
-     * 已设置监听事件：头像、喜欢、原创作者、内容（待）
+     * 已设置监听事件：头像、喜欢、原创作者、内容（待）、分享、评论
      */
     private void initUnOriginalFavoriteArticle(View view, ViewHolder holder) {
         if (holder.unOriginalFavoriteArticle == null) {
@@ -440,20 +452,25 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.unOriginalFavoriteArticle.tvCommentNum =
                 (TextView) view.findViewById(R.id.idfa_tv_commentNum);
         holder.unOriginalFavoriteArticle.ivHeart = (ImageView) view.findViewById(R.id.idfa_iv_heart);
+        holder.unOriginalFavoriteArticle.ivShare = (ImageView) view.findViewById(R.id.idfa_iv_share);
+        holder.unOriginalFavoriteArticle.ivComment = (ImageView) view.findViewById(R.id.idfa_iv_comment);
         holder.unOriginalFavoriteArticle.content = view.findViewById(R.id.idfa_ll_content);
+
 
         //设置点击事件
         holder.unOriginalFavoriteArticle.ivHeart.setOnClickListener(clickLikeListener);
         holder.unOriginalFavoriteArticle.iv_headImg.setOnClickListener(clickUserListener);
         holder.unOriginalFavoriteArticle.tvOriginalNickName.setOnClickListener(
                 clickOriginatorUserListener);
+        holder.unOriginalFavoriteArticle.ivShare.setOnClickListener(clickShareListener);
+        holder.unOriginalFavoriteArticle.ivComment.setOnClickListener(clickCommentListener);
 
         holder.unOriginalFavoriteArticle.content.setOnClickListener(this);//设置内容点击事件
     }
 
     /**
      * 初始化非原创——喜欢-话题动态相关组件
-     * 已设置监听事件：头像、喜欢、原创作者、内容（待）
+     * 已设置监听事件：头像、喜欢、原创作者、内容（待）、分享、评论
      */
     private void initUnOriginalFavoriteTopic(View view, ViewHolder holder) {
         if (holder.unOriginalFavoriteTopic == null) {
@@ -482,18 +499,22 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.unOriginalFavoriteTopic.tvCommentNum =
                 (TextView) view.findViewById(R.id.idft_tv_commentNum);
         holder.unOriginalFavoriteTopic.ivHeart = (ImageView) view.findViewById(R.id.idft_iv_heart);
+        holder.unOriginalFavoriteTopic.ivShare = (ImageView) view.findViewById(R.id.idft_iv_share);
         holder.unOriginalFavoriteTopic.content = view.findViewById(R.id.idft_ll_content);
+        holder.unOriginalFavoriteNormal.ivComment = (ImageView) view.findViewById(R.id.idft_iv_comment);
 
         //设置点击事件
         holder.unOriginalFavoriteTopic.ivHeart.setOnClickListener(clickLikeListener);
         holder.unOriginalFavoriteTopic.iv_headImg.setOnClickListener(clickUserListener);
         holder.unOriginalFavoriteTopic.tvOriginalNickName.setOnClickListener(clickOriginatorUserListener);
+        holder.unOriginalFavoriteTopic.ivShare.setOnClickListener(clickShareListener);
+        holder.unOriginalFavoriteTopic.ivComment.setOnClickListener(clickCommentListener);
         holder.unOriginalFavoriteTopic.content.setOnClickListener(this);
     }
 
     /**
      * 初始化非原创——喜欢-普通动态相关组件
-     * 已设置监听事件：头像、喜欢、原创作者、内容（待）
+     * 已设置监听事件：头像、喜欢、原创作者、内容（待）、分享、评论
      */
     private void initUnOriginalFavoriteNormal(View view, ViewHolder holder) {
         if (holder.unOriginalFavoriteNormal == null) {
@@ -520,11 +541,16 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 (TextView) view.findViewById(R.id.idfn_tv_commentNum);
         holder.unOriginalFavoriteNormal.ivHeart =
                 (ImageView) view.findViewById(R.id.idfn_iv_heart);
+        holder.unOriginalFavoriteNormal.ivShare =
+                (ImageView) view.findViewById(R.id.idfn_iv_share);
         holder.unOriginalFavoriteNormal.content = view.findViewById(R.id.idfn_ll_content);
+        holder.unOriginalFavoriteNormal.ivComment = (ImageView) view.findViewById(R.id.idfn_iv_comment);
         //设置监听事件
         holder.unOriginalFavoriteNormal.iv_headImg.setOnClickListener(clickUserListener);
         holder.unOriginalFavoriteNormal.tvOriginalNickName.setOnClickListener(clickOriginatorUserListener);
         holder.unOriginalFavoriteNormal.ivHeart.setOnClickListener(clickLikeListener);
+        holder.unOriginalFavoriteNormal.ivShare.setOnClickListener(clickShareListener);
+        holder.unOriginalFavoriteNormal.ivComment.setOnClickListener(clickCommentListener);
         holder.unOriginalFavoriteNormal.content.setOnClickListener(this);
     }
 
@@ -569,7 +595,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     /**
      * 初始化原创——文章的相关组件
-     * 已设置监听事件：头像,喜欢
+     * 已设置监听事件：头像,喜欢、分享、评论
      */
     private void initOriginalArticle(View view, ViewHolder holder) {
         if (holder.originalArticle == null) {
@@ -587,15 +613,19 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.originalArticle.tvAction = (TextView) view.findViewById(R.id.idoa_tv_action);
         holder.originalArticle.ivHeart =
                 (ImageView) view.findViewById(R.id.idoa_iv_heart);
+        holder.originalArticle.ivShare = (ImageView) view.findViewById(R.id.idoa_iv_share);
+        holder.originalArticle.ivComment = (ImageView) view.findViewById(R.id.idoa_iv_comment);
 
         //设置监听事件
         holder.originalArticle.iv_headImg.setOnClickListener(clickUserListener);
         holder.originalArticle.ivHeart.setOnClickListener(clickLikeListener);
+        holder.originalArticle.ivShare.setOnClickListener(clickShareListener);
+        holder.originalArticle.ivComment.setOnClickListener(clickCommentListener);
     }
 
     /**
      * 初始化原创——话题的相关组件
-     * 已设置监听事件：头像,喜欢
+     * 已设置监听事件：头像,喜欢、分享
      */
     private void initOriginalTopic(View view, ViewHolder holder) {
         if (holder.originalTopic == null) {
@@ -613,15 +643,17 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.originalTopic.tvAction = (TextView) view.findViewById(R.id.idot_tv_action);
         holder.originalTopic.ivHeart =
                 (ImageView) view.findViewById(R.id.idot_iv_heart);
+        holder.originalTopic.ivShare = (ImageView) view.findViewById(R.id.idot_iv_share);
 
         //设置监听事件
         holder.originalTopic.iv_headImg.setOnClickListener(clickUserListener);
         holder.originalTopic.ivHeart.setOnClickListener(clickLikeListener);
+        holder.originalTopic.ivShare.setOnClickListener(clickShareListener);
     }
 
     /**
      * 初始化原创——普通的相关组件
-     * 已设置监听事件：头像,喜欢
+     * 已设置监听事件：头像,喜欢、分享、评论
      */
     private void initOriginalNormal(View view, ViewHolder holder) {
         if (holder.originalNormal == null) {
@@ -649,10 +681,14 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.originalNormal.tvAction = (TextView) view.findViewById(R.id.idon_tv_action);
         holder.originalNormal.ivHeart =
                 (ImageView) view.findViewById(R.id.idon_iv_heart);
+        holder.originalNormal.ivShare = (ImageView) view.findViewById(R.id.idon_iv_share);
+        holder.originalNormal.ivComment = (ImageView) view.findViewById(R.id.idon_iv_comment);
 
         //设置监听事件
         holder.originalNormal.ivHeart.setOnClickListener(clickLikeListener);
         holder.originalNormal.ivHeadImg.setOnClickListener(clickUserListener);
+        holder.originalNormal.ivShare.setOnClickListener(clickShareListener);
+        holder.originalNormal.ivComment.setOnClickListener(clickCommentListener);
     }
 
 
@@ -716,7 +752,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     /**
      * 解析圈子内动态：话题
-     * 已绑定Tag：原创作者、头像、图片
+     * 已绑定Tag：原创作者、头像、图片、分享
      */
     private void handleCircleInCommonUseTopic(ViewHolder holder, int position) {
         Log.d(TAG, "handleCircleInCommonUseTopic");
@@ -729,7 +765,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         //绑定Tag对象
         ClassUtils.bindViewsTag(position,
                 holder.circleInCommonUseTopic.iv_headImg,
-                holder.circleInCommonUseTopic.tvOriginalNickName);
+                holder.circleInCommonUseTopic.tvOriginalNickName,
+                holder.circleInCommonUseTopic.ivShare);
 
         CircleInCommonUseData circleInCommonUseData = (CircleInCommonUseData) dynamicBaseData;
 
@@ -783,7 +820,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     /**
      * 解析圈子内动态：普通
-     * 已绑定Tag：原创作者、头像、图片
+     * 已绑定Tag：原创作者、头像、图片、分享、评论
      */
     private void handleCircleInCommonUseNormal(ViewHolder holder, int position) {
         Log.d(TAG, "handleCircleInCommonUseNormal");
@@ -797,7 +834,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         ClassUtils.bindViewsTag(position,
                 holder.circleInCommonUseNormal.iv_headImg,
                 holder.circleInCommonUseNormal.ivHeart,
-                holder.circleInCommonUseNormal.tvOriginalNickName);
+                holder.circleInCommonUseNormal.tvOriginalNickName,
+                holder.circleInCommonUseNormal.ivShare,
+                holder.circleInCommonUseNormal.ivComment);
 
         CircleInCommonUseData circleInCommonUseData = (CircleInCommonUseData) dynamicBaseData;
 
@@ -854,7 +893,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     /**
      * 解析圈子内动态：文章
-     * 已绑定Tag：原创作者、头像、图片
+     * 已绑定Tag：原创作者、头像、图片、分享、评论
      */
     private void handleCircleInCommonUseArticle(ViewHolder holder, int position) {
         Log.d(TAG, "handleCircleInCommonUseArticle");
@@ -867,7 +906,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         //绑定Tag对象
         ClassUtils.bindViewsTag(position,
                 holder.circleInCommonUseArticle.iv_headImg,
-                holder.circleInCommonUseArticle.tvOriginalNickName);
+                holder.circleInCommonUseArticle.tvOriginalNickName,
+                holder.circleInCommonUseArticle.ivShare,
+                holder.circleInCommonUseArticle.ivComment);
 
         CircleInCommonUseData circleInCommonUseData = (CircleInCommonUseData) dynamicBaseData;
 
@@ -924,7 +965,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     /**
      * 解析喜欢——话题动态数据
-     * 绑定Tag对象：头像、喜欢、原创作者、图片
+     * 绑定Tag对象：头像、喜欢、原创作者、图片、分享、评论
      */
     private void handleFavoriteTopic(ViewHolder holder, int position) {
         Log.d(TAG, "handleFavoriteTopic");
@@ -937,7 +978,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         //绑定Tag对象
         ClassUtils.bindViewsTag(position, holder.unOriginalFavoriteTopic.iv_headImg,
                 holder.unOriginalFavoriteTopic.tvOriginalNickName,
-                holder.unOriginalFavoriteTopic.ivHeart);
+                holder.unOriginalFavoriteTopic.ivHeart,
+                holder.unOriginalFavoriteTopic.ivShare,
+                holder.unOriginalFavoriteTopic.ivComment);
 
         //设置用户数据
         holder.unOriginalFavoriteTopic.tvName.setText(dynamicBaseData.getCreator_nickname());
@@ -1003,7 +1046,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     /**
      * 解析喜欢——文章动态数据
-     * 绑定Tag对象：头像、喜欢、原创作者、图片
+     * 绑定Tag对象：头像、喜欢、原创作者、图片、分享、评论
      */
     private void handleFavoriteArticle(ViewHolder holder, int position) {
         Log.d(TAG, "handleFavoriteArticle");
@@ -1016,7 +1059,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         //绑定Tag对象
         ClassUtils.bindViewsTag(position, holder.unOriginalFavoriteArticle.iv_headImg,
                 holder.unOriginalFavoriteArticle.tvOriginalNickName,
-                holder.unOriginalFavoriteArticle.ivHeart);
+                holder.unOriginalFavoriteArticle.ivHeart,
+                holder.unOriginalFavoriteArticle.ivShare,
+                holder.unOriginalFavoriteArticle.ivComment);
 
         //设置用户数据
         holder.unOriginalFavoriteArticle.tvName.setText(dynamicBaseData.getCreator_nickname());
@@ -1080,7 +1125,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     /**
      * 解析喜欢——普通动态数据
-     * 绑定Tag对象：头像、喜欢、原创作者、图片
+     * 绑定Tag对象：头像、喜欢、原创作者、图片、分享、评论
      */
     private void handleFavoriteNormal(ViewHolder holder, int position) {
         Log.d(TAG, "handleFavoriteNormal");
@@ -1093,7 +1138,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         //绑定Tag对象
         ClassUtils.bindViewsTag(position, holder.unOriginalFavoriteNormal.iv_headImg,
                 holder.unOriginalFavoriteNormal.tvOriginalNickName,
-                holder.unOriginalFavoriteNormal.ivHeart);
+                holder.unOriginalFavoriteNormal.ivHeart,
+                holder.unOriginalFavoriteNormal.ivShare,
+                holder.unOriginalFavoriteNormal.ivComment);
 
         //设置用户数据
         holder.unOriginalFavoriteNormal.tvName.setText(dynamicBaseData.getCreator_nickname());
@@ -1150,7 +1197,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     /**
      * 解析普通數據
-     * 绑定Tag对象：头像、喜欢、图片
+     * 绑定Tag对象：头像、喜欢、图片、分享、评论
      */
     private void handleDynamicNormalData(ViewHolder holder, int position) {
         Log.d(TAG, "handleDynamicNormalData");
@@ -1161,7 +1208,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         }
         //绑定Tag对象
         ClassUtils.bindViewsTag(position, holder.originalNormal.ivHeadImg,
-                holder.originalNormal.ivHeart);
+                holder.originalNormal.ivHeart,
+                holder.originalNormal.ivShare,
+                holder.originalNormal.ivComment);
 
         //设置用户数据
         holder.originalNormal.tvName.setText(dynamicBaseData.getCreator_nickname());
@@ -1224,7 +1273,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     /**
      * 解析话题数据
-     * 绑定Tag对象：头像、喜欢、图片
+     * 绑定Tag对象：头像、喜欢、图片、分享
      */
     private void handleDynamicTopicData(ViewHolder holder, int position) {
         Log.d(TAG, "handleDynamicTopicData");
@@ -1236,7 +1285,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
         //绑定Tag对象
         ClassUtils.bindViewsTag(position, holder.originalTopic.iv_headImg,
-                holder.originalTopic.ivHeart);
+                holder.originalTopic.ivHeart,
+                holder.originalTopic.ivShare);
 
         //设置用户数据
         holder.originalTopic.tvName.setText(dynamicBaseData.getCreator_nickname());
@@ -1318,7 +1368,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
     /**
      * 解析文章数据
-     * 绑定Tag对象：头像、喜欢、图片
+     * 绑定Tag对象：头像、喜欢、图片、分享、评论
      */
     private void handleDynamicArticleData(ViewHolder holder, int position) {
         DynamicBaseData dynamicBaseData = dynamicBaseDatas.get(position);
@@ -1329,7 +1379,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
         //绑定Tag对象
         ClassUtils.bindViewsTag(position, holder.originalArticle.iv_headImg,
-                holder.originalArticle.ivHeart);
+                holder.originalArticle.ivHeart,
+                holder.originalArticle.ivShare,
+                holder.originalArticle.ivComment);
 
         //设置用户数据
         holder.originalArticle.tvName.setText(dynamicBaseData.getCreator_nickname());
@@ -1500,6 +1552,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvAction;//动作
 
         ImageView ivHeart;//是否被关注的心型图标
+        ImageView ivShare;//分享
+        ImageView ivComment;//评论
     }
 
     /**
@@ -1517,6 +1571,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvAction;//动作
 
         ImageView ivHeart;//是否被关注的心型图标
+        ImageView ivShare;//分享
+        ImageView ivComment;//评论
     }
 
     /**
@@ -1533,6 +1589,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvLikeNum;//喜欢的人数
         TextView tvAction;//动作
         ImageView ivHeart;//是否被关注的心型图标
+        ImageView ivShare;//分享
+        ImageView ivComment;//评论
     }
 
     /**
@@ -1572,7 +1630,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvLikeNum;//喜欢的人数
 
         ImageView ivHeart;//是否被关注的心型图标
+        ImageView ivShare;//分享的图标
         View content;//动态内容
+        ImageView ivComment;//评论
     }
 
     /**
@@ -1595,7 +1655,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvLikeNum;//喜欢的人数
 
         ImageView ivHeart;//是否被关注的心型图标
+        ImageView ivShare;//分享的图标
         View content;//动态内容
+        ImageView ivComment;//评论
     }
 
     /**
@@ -1617,7 +1679,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvLikeNum;//喜欢的人数
 
         ImageView ivHeart;//是否被关注的心型图标
+        ImageView ivShare;//分享的图标
         View content;//动态内容
+        ImageView ivComment;//评论
     }
 
     /**
@@ -1639,6 +1703,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
         View content;//动态内容
         ImageView ivHeart;//喜欢的内容
+        ImageView ivShare;//分享
+        ImageView ivComment;//评论
     }
 
     /**
@@ -1660,6 +1726,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvLikeNum;//喜欢的人数
         View content;//动态内容
         ImageView ivHeart;//喜欢的内容
+        ImageView ivShare;//分享
+        ImageView ivComment;//评论
     }
 
     /**
@@ -1682,6 +1750,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvLikeNum;//喜欢的人数
         View content;//动态内容
         ImageView ivHeart;//喜欢的内容
+        ImageView ivShare;//分享
     }
 
 
@@ -1874,6 +1943,65 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             }
         }
     };
+    /**
+     * 分享点击的监听事件
+     */
+    private View.OnClickListener clickShareListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Log.d(TAG, "clickShareListener");
+            //判断各种控件id
+            Bundle bundle = (Bundle) view.getTag();
+            if (bundle == null) {
+                return;
+            }
+            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
+            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
+            //判断id
+            switch (viewId) {
+                case R.id.idfa_iv_share:
+                case R.id.idfn_iv_share:
+                case R.id.idft_iv_share:
+                case R.id.idca_iv_share:
+                case R.id.idcc_iv_share:
+                case R.id.idct_iv_share:
+                case R.id.idoa_iv_share:
+                case R.id.idon_iv_share:
+                case R.id.idot_iv_share:
+                    OnShareClick(position);
+                    break;
+            }
+        }
+    };
+    /**
+     * 评论点击的监听事件
+     */
+    private View.OnClickListener clickCommentListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Log.d(TAG, "clickShareListener");
+            //判断各种控件id
+            Bundle bundle = (Bundle) view.getTag();
+            if (bundle == null) {
+                return;
+            }
+            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
+            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
+            //判断id
+            switch (viewId) {
+                case R.id.idfa_iv_comment:
+                case R.id.idfn_iv_comment:
+                case R.id.idft_iv_comment:
+                case R.id.idca_iv_comment:
+                case R.id.idcc_iv_comment:
+                case R.id.idct_iv_comment:
+                case R.id.idoa_iv_comment:
+                case R.id.idon_iv_comment:
+                    OnCommentClick(position);
+                    break;
+            }
+        }
+    };
 
     /**
      * 用户点击回调
@@ -1920,6 +2048,29 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     }
 
     /**
+     * 分享的点击回调
+     *
+     * @param position 条目数
+     */
+    private void OnShareClick(int position) {
+        Log.d(TAG, "OnShareClick");
+        if (onShareClickListener != null) {
+            onShareClickListener.onShareClick(position);
+        }
+    }
+
+    /**
+     * 评论的点击回调
+     *
+     * @param position 条目数
+     */
+    private void OnCommentClick(int position) {
+        if (onCommentClickListener != null) {
+            onCommentClickListener.onCommentClick(position);
+        }
+    }
+
+    /**
      * 设置用户头像的点击回调
      */
     public void setOnUserClickListener(@NonNull OnUserClickListener onUserClickListener) {
@@ -1946,5 +2097,19 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
      */
     public void setOnCircleClickListener(OnCircleClickListener onCircleClickListener) {
         this.onCircleClickListener = onCircleClickListener;
+    }
+
+    /**
+     * 设置分享的点击事件回调接口
+     */
+    public void setOnShareClickListener(OnShareClickListener onShareClickListener) {
+        this.onShareClickListener = onShareClickListener;
+    }
+
+    /**
+     * 评论的点击事件回调接口
+     */
+    public void setOnCommentClickListener(OnCommentClickListener onCommentClickListener) {
+        this.onCommentClickListener = onCommentClickListener;
     }
 }

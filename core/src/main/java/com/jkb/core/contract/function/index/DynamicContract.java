@@ -16,6 +16,11 @@ public interface DynamicContract {
     interface View extends BaseView<Presenter> {
 
         /**
+         * 滚动到顶部
+         */
+        void scrollToTop();
+
+        /**
          * 显示登录了的视图
          */
         void showLoginedView();

@@ -34,6 +34,16 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/fhd_iv_floatBt_top"
+        style="@style/FunctionSetIcStyle"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="100dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/ic_top"
+        android:visibility="gone" />
+
+    <ImageView
         android:id="@+id/fhd_iv_floatBt"
         style="@style/FunctionSetIcStyle"
         android:layout_alignParentBottom="true"

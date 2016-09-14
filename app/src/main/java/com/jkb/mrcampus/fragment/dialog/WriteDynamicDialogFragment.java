@@ -73,6 +73,7 @@ public class WriteDynamicDialogFragment extends DialogFragment implements View.O
      * 初始化配置
      */
     private void initConfig() {
+        mDialog.setCanceledOnTouchOutside(false);
         //设置动画
         Window window = mDialog.getWindow();
         window.setGravity(Gravity.CENTER);
@@ -94,7 +95,7 @@ public class WriteDynamicDialogFragment extends DialogFragment implements View.O
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fdwd_content:
-                dismiss();
+//                dismiss();
                 break;
             case R.id.fdwd_ll_normal:
                 onNormalClick();

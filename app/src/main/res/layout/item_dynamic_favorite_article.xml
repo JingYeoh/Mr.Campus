@@ -88,10 +88,12 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/idfa_iv_share"
                 style="@style/Dynamic_Icon_style"
                 android:src="@drawable/ic_share_list" />
 
             <ImageView
+                android:id="@+id/idfa_iv_comment"
                 style="@style/Dynamic_Icon_style"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/ic_comment_gray" />

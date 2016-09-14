@@ -22,6 +22,7 @@ import com.jkb.mrcampus.adapter.recycler.dynamic.DynamicAdapter;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.DividerItemDecoration;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
 
 import java.util.List;
@@ -85,6 +86,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
 
         //设置添加动态按钮监听器
         rootView.findViewById(R.id.fhd_iv_floatBt).setOnClickListener(this);
+        rootView.findViewById(R.id.fhd_iv_floatBt_top).setOnClickListener(this);
 
         //设置下拉加载
         recyclerView.addOnScrollListener(onScrollListener);//设置滑动监听，设置是否下拉刷新
@@ -97,6 +99,8 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         dynamicAdapter.setOnLikeActionClickListener(onLikeActionClickListener);
         dynamicAdapter.setOnOriginatorUserClickListener(onOriginatorUserClickListener);
         dynamicAdapter.setOnCircleClickListener(onCircleClickListener);
+        dynamicAdapter.setOnShareClickListener(onShareClickListener);
+        dynamicAdapter.setOnCommentClickListener(onCommentClickListener);
     }
 
     @Override
@@ -134,6 +138,9 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
             case R.id.fhd_iv_floatBt:
                 showWriteDynamicView();
                 break;
+            case R.id.fhd_iv_floatBt_top://滚动到顶部
+                scrollToTop();
+                break;
         }
     }
 
@@ -146,6 +153,11 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
             super.onScrolled(recyclerView, dx, dy);
             int lastVisibleItem = (linearLayoutManager).findLastVisibleItemPosition();
             int totalItemCount = linearLayoutManager.getItemCount();
+            if (lastVisibleItem > 5) {
+                rootView.findViewById(R.id.fhd_iv_floatBt_top).setVisibility(View.VISIBLE);
+            } else {
+                rootView.findViewById(R.id.fhd_iv_floatBt_top).setVisibility(View.GONE);
+            }
             if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
                 mPresenter.onLoadMore();//设置下拉加载
             }
@@ -195,6 +207,67 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
                     mPresenter.likeDynamic(position);
                 }
             };
+    /**
+     * 评论操作的点击监听事件
+     */
+    private DynamicAdapter.OnCommentClickListener onCommentClickListener =
+            new DynamicAdapter.OnCommentClickListener() {
+                @Override
+                public void onCommentClick(int position) {
+                    Log.d(TAG, "position=" + position);
+                }
+            };
+    /**
+     * 分享的点击监听事件
+     */
+    private DynamicAdapter.OnShareClickListener onShareClickListener =
+            new DynamicAdapter.OnShareClickListener() {
+                @Override
+                public void onShareClick(int position) {
+                    Log.d(TAG, "position=" + position);
+                    showShareItemView(position);
+                }
+            };
+
+    /**
+     * 显示分享数据
+     *
+     * @param position 条目
+     */
+    private void showShareItemView(int position) {
+        mainActivity.showShareDynamicView(new ShareDynamicDialogFragment
+                .OnShareItemClickListener() {
+            @Override
+            public void onWechatClick() {
+
+            }
+
+            @Override
+            public void onWechatCircleClick() {
+
+            }
+
+            @Override
+            public void onQQClick() {
+
+            }
+
+            @Override
+            public void onQQZoneClick() {
+
+            }
+
+            @Override
+            public void onSinaClick() {
+
+            }
+
+            @Override
+            public void onCircleClick() {
+
+            }
+        });
+    }
 
     /**
      * 初始化Presenter层
@@ -209,6 +282,14 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
     @Override
     public void onRefresh() {
         mPresenter.onRefresh();
+    }
+
+    @Override
+    public void scrollToTop() {
+        int totalItemCount = linearLayoutManager.getItemCount();
+        if (totalItemCount > 0) {
+            recyclerView.scrollToPosition(0);
+        }
     }
 
     @Override
