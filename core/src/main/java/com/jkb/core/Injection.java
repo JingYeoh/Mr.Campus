@@ -12,9 +12,18 @@ import com.jkb.model.dataSource.circle.circleIndex.remote.CircleIndexRemoteDataS
 import com.jkb.model.dataSource.circleList.CircleListDataResponsitory;
 import com.jkb.model.dataSource.circleList.local.CircleListLocalDatasource;
 import com.jkb.model.dataSource.circleList.remote.CircleListRemoteDatasource;
+import com.jkb.model.dataSource.comment.list.CommentListRepository;
+import com.jkb.model.dataSource.comment.list.local.CommentListLocalDataSource;
+import com.jkb.model.dataSource.comment.list.remote.CommentListRemoteDataSource;
+import com.jkb.model.dataSource.comment.singleAll.CommentSingleAllRepository;
+import com.jkb.model.dataSource.comment.singleAll.local.CommentSingleAllLocalDataSource;
+import com.jkb.model.dataSource.comment.singleAll.remote.CommentSingleAllRemoteDataSource;
 import com.jkb.model.dataSource.create$circle.CircleCreateDataResponsitory;
 import com.jkb.model.dataSource.create$circle.local.CircleCreateLocalDataSource;
 import com.jkb.model.dataSource.create$circle.remote.CircleCreateRemoteDataSource;
+import com.jkb.model.dataSource.dynamicDetail.normal.DynamicDetailNormalRepository;
+import com.jkb.model.dataSource.dynamicDetail.normal.local.DynamicDetailNormalLocalDataSource;
+import com.jkb.model.dataSource.dynamicDetail.normal.remote.DynamicDetailNormalRemoteDataSource;
 import com.jkb.model.dataSource.entering.login.LoginResponsitory;
 import com.jkb.model.dataSource.entering.login.local.LoginLocalDataSource;
 import com.jkb.model.dataSource.entering.login.remote.LoginRemoteDataSource;
@@ -304,5 +313,38 @@ public class Injection {
                 FriendsRemoteDataSource.getInstance()
         );
         return repertory;
+    }
+
+    /**
+     * 得到DynamicDetailNormalRepository对象
+     */
+    public static DynamicDetailNormalRepository provideDynamicDetailNormalRepository(
+            @NonNull Context applicationContext) {
+        DynamicDetailNormalRepository repository = DynamicDetailNormalRepository.getInstance(
+                DynamicDetailNormalLocalDataSource.getInstance(applicationContext),
+                DynamicDetailNormalRemoteDataSource.getInstance());
+        return repository;
+    }
+
+    /**
+     * 得到CommentListRepository对象
+     */
+    public static CommentListRepository provideCommentListRepository(
+            @NonNull Context applicationContext) {
+        CommentListRepository repository = CommentListRepository.getInstance(
+                CommentListLocalDataSource.genInstance(applicationContext),
+                CommentListRemoteDataSource.genInstance());
+        return repository;
+    }
+
+    /**
+     * 得到CommentSingleAllRepository对象
+     */
+    public static CommentSingleAllRepository provideCommentSingleAllRepository(
+            @NonNull Context applicationContext) {
+        CommentSingleAllRepository repository = CommentSingleAllRepository.getInstance(
+                CommentSingleAllLocalDataSource.genInstance(applicationContext),
+                CommentSingleAllRemoteDataSource.genInstance());
+        return repository;
     }
 }

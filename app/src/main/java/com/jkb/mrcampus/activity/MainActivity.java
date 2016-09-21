@@ -312,25 +312,6 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     }
 
     @Override
-    public void startPersonalCenter(int user_id) {
-        Log.d(TAG, "startPersonalCenter");
-        Intent intent = new Intent(this, PersonCenterActivity.class);
-        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
-
-        startActivityWithPushLeftAnim(intent);
-    }
-
-    /**
-     * 显示圈子页面
-     */
-    @Override
-    public void startCircleView(@NonNull int circle_id) {
-        Intent intent = new Intent(this, CircleActivity.class);
-        intent.putExtra(Config.INTENT_KEY_CIRCLE_ID, circle_id);
-        startActivityWithPushLeftAnim(intent);
-    }
-
-    @Override
     public void startMessage() {
         Log.d(TAG, "startMessage");
         //显示创建圈子视图
@@ -383,15 +364,6 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     public void hideAllView() {
         ActivityUtils.hideFragments(fm,
                 SwitchFunctionFragment.class.getName(), RightMenuFragment.class.getName());
-    }
-
-    @Override
-    public void startUsersListActivity(int user_id, String action) {
-        Log.d(TAG, "startUsersListActivity");
-        Intent intent = new Intent(this, UsersListActivity.class);
-        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
-        intent.putExtra(Config.INTENT_KEY_SHOW_USERSLIST, action);
-        startActivityWithPushLeftAnim(intent);
     }
 
     @Override

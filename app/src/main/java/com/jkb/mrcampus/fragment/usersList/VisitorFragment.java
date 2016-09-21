@@ -112,7 +112,7 @@ public class VisitorFragment extends BaseFragment implements VisitorContract.Vie
 
     @Override
     public void showPersonCenter(int user_id) {
-        usersListActivity.startPersonalCenter(user_id);
+        usersListActivity.startPersonalCenterActivity(user_id);
     }
 
     @Override

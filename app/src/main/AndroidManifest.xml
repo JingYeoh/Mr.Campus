@@ -85,7 +85,14 @@
         <activity android:name=".activity.CircleListActivity" />
 
         //动态详情的页面控制器
-        <activity android:name=".activity.DynamicDetailActivity" />
+        <activity
+            android:name=".activity.DynamicDetailActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        //评论的页面控制器
+        <activity
+            android:name=".activity.CommentActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         //用于定位的服务
         <service android:name=".service.LocationService" />

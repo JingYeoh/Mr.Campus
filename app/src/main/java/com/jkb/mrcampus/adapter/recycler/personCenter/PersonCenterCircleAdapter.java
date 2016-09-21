@@ -55,13 +55,14 @@ public class PersonCenterCircleAdapter extends RecyclerView.Adapter<PersonCenter
         View view = LayoutInflater.from(context).inflate(R.layout.item_person_center_circle, parent, false);
         PersonCenterCircleAdapter.ViewHolder holder = new ViewHolder(view);
         //初始化控件
+        holder.contentView = view.findViewById(R.id.ipcc_content);
         holder.ivPicture = (ImageView) view.findViewById(R.id.ipcc_iv_picture);
         holder.tvCircleName = (TextView) view.findViewById(R.id.ipcc_tv_circleName);
         holder.tvCircleTpe = (TextView) view.findViewById(R.id.ipcc_tv_circleType);
         holder.tvDynamicsCount = (TextView) view.findViewById(R.id.ipcc_tv_dynamicsCount);
         holder.tvOperationCOunt = (TextView) view.findViewById(R.id.ipcc_tv_operationCount);
 
-        holder.ivPicture.setOnClickListener(this);
+        holder.contentView.setOnClickListener(this);
 
         return holder;
     }
@@ -69,7 +70,7 @@ public class PersonCenterCircleAdapter extends RecyclerView.Adapter<PersonCenter
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         //绑定控件的TAG
-        ClassUtils.bindViewsTag(position, holder.ivPicture);
+        ClassUtils.bindViewsTag(position, holder.contentView);
 
         //绑定数据
         CircleData data = circleDatas.get(position);
@@ -138,7 +139,7 @@ public class PersonCenterCircleAdapter extends RecyclerView.Adapter<PersonCenter
             int viewId = bundle.getInt(Config.BUNDLE_KEY_VIEW_ID);
             int position = bundle.getInt(Config.BUNDLE_KEY_VIEW_POSITION);
             switch (viewId) {
-                case R.id.ipcc_iv_picture:
+                case R.id.ipcc_content:
                     onCircleItemClickListener.onItemClick(position);
                     break;
             }
@@ -159,6 +160,7 @@ public class PersonCenterCircleAdapter extends RecyclerView.Adapter<PersonCenter
         TextView tvDynamicsCount;//动态总数
         TextView tvOperationCOunt;//订阅总数
         ImageView ivPicture;
+        View contentView;//内容
     }
 
     /**

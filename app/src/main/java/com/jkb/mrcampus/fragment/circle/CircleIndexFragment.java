@@ -1,6 +1,5 @@
 package com.jkb.mrcampus.fragment.circle;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -23,7 +22,6 @@ import com.jkb.mrcampus.activity.CircleActivity;
 import com.jkb.mrcampus.adapter.recycler.DynamicCircleAdapter;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
-import com.jkb.mrcampus.utils.BitmapUtil;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -47,7 +45,7 @@ public class CircleIndexFragment extends BaseFragment
     }
 
     public static CircleIndexFragment newInstance(int circleId) {
-        if (INSTANCE == null || circleId != 0) {
+        if (INSTANCE == null || circleId >= 0) {
             INSTANCE = new CircleIndexFragment(circleId);
         }
         return INSTANCE;
@@ -132,6 +130,11 @@ public class CircleIndexFragment extends BaseFragment
 
         } else {
             circleId = savedInstanceState.getInt(SAVED_CIRCLE_ID);
+        }
+        if (circleId <= 0) {
+            circleActivity.showShortToast("圈子不存在");
+            circleActivity.onBackPressed();
+            return;
         }
         dynamicCircleAdapter = new DynamicCircleAdapter(mActivity, null);
         recyclerView.setAdapter(dynamicCircleAdapter);

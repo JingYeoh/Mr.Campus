@@ -135,30 +135,33 @@ public class MenuPresenter implements MenuContract.Presenter {
         }
     }
 
-    private ApiCallback<ApiResponse<LoginEntity>> loginApiCallback = new ApiCallback<ApiResponse<LoginEntity>>() {
-        @Override
-        public void onSuccess(Response<ApiResponse<LoginEntity>> response) {
-            //存储到数据库中
-            saveDataToUserInfo(response.body());
-        }
+    private ApiCallback<ApiResponse<LoginEntity>> loginApiCallback = new
+            ApiCallback<ApiResponse<LoginEntity>>() {
+                @Override
+                public void onSuccess(Response<ApiResponse<LoginEntity>> response) {
+                    //存储到数据库中
+                    saveDataToUserInfo(response.body());
+                }
 
-        @Override
-        public void onError(Response<ApiResponse<LoginEntity>> response, String error, ApiResponse<LoginEntity> apiResponse) {
-            //设置为登录失败，切换身份
-            if (menuView.isActive()) {
-                menuView.showReqResult("登录过期，请重新登录");
-            }
-            changeStatusToLogout();
-        }
+                @Override
+                public void onError(
+                        Response<ApiResponse<LoginEntity>> response, String error,
+                        ApiResponse<LoginEntity> apiResponse) {
+                    //设置为登录失败，切换身份
+                    if (menuView.isActive()) {
+                        menuView.showReqResult("登录过期，请重新登录");
+                    }
+                    changeStatusToLogout();
+                }
 
-        @Override
-        public void onFail() {
-            //
-            if (menuView.isActive()) {
-                menuView.showReqResult("请求失败，请检查您的网络");
-            }
-        }
-    };
+                @Override
+                public void onFail() {
+                    //
+                    if (menuView.isActive()) {
+                        menuView.showReqResult("请求失败，请检查您的网络");
+                    }
+                }
+            };
 
     /**
      * 保存到用户状态类中
@@ -197,41 +200,44 @@ public class MenuPresenter implements MenuContract.Presenter {
     /**
      * 得到网络加载的bitmap对象回调
      */
-    private LoginDataSource.BitmapDataCallback bitmapDataCallback = new LoginDataSource.BitmapDataCallback() {
-        @Override
-        public void onBitmapDataLoaded(Bitmap bitmap) {
-            Log.d(TAG, "bitmapDataCallback-------->获取头像成功！");
+    private LoginDataSource.BitmapDataCallback bitmapDataCallback = new
+            LoginDataSource.BitmapDataCallback() {
+                @Override
+                public void onBitmapDataLoaded(Bitmap bitmap) {
+                    Log.d(TAG, "bitmapDataCallback-------->获取头像成功！");
 //            UserInfoSingleton.getInstance().setUserAvatar(bitmap);
-            String UID = UserInfoSingleton.getInstance().getUsers().getUID();
+                    String UID = UserInfoSingleton.getInstance().getUsers().getUID();
 
-            LoginContext.getInstance().setUserState(new LoginState());//更新回调接口数据
-            //缓存并且设置到本地
-            loginResponsitory.cacheBitmapToFile(Config.PATH_ROOT_IMAGE, UID, bitmap, bitmapToFileDataCallback);
-        }
+                    LoginContext.getInstance().setUserState(new LoginState());//更新回调接口数据
+                    //缓存并且设置到本地
+                    loginResponsitory.cacheBitmapToFile(Config.PATH_ROOT_IMAGE, UID, bitmap,
+                            bitmapToFileDataCallback);
+                }
 
-        @Override
-        public void onDataNotAvailable() {
-            Log.d(TAG, "bitmapDataCallback-------->获取头像失败！");
-        }
-    };
+                @Override
+                public void onDataNotAvailable() {
+                    Log.d(TAG, "bitmapDataCallback-------->获取头像失败！");
+                }
+            };
     /**
      * 转换bitmap为file并得到path的回调
      */
-    private LoginDataSource.BitmapToFileDataCallback bitmapToFileDataCallback = new LoginDataSource.BitmapToFileDataCallback() {
-        @Override
-        public void onBitmapDataLoaded(String path) {
-            Log.d(TAG, "bitmapToFileDataCallback-------->存储头像成功！");
-            Users users = UserInfoSingleton.getInstance().getUsers();
-            users.setAvatarLocalPath(path);
-            loginResponsitory.saveUserToDb(users);
-            UserInfoSingleton.getInstance().setUsers(users);
-        }
+    private LoginDataSource.BitmapToFileDataCallback bitmapToFileDataCallback = new
+            LoginDataSource.BitmapToFileDataCallback() {
+                @Override
+                public void onBitmapDataLoaded(String path) {
+                    Log.d(TAG, "bitmapToFileDataCallback-------->存储头像成功！");
+                    Users users = UserInfoSingleton.getInstance().getUsers();
+                    users.setAvatarLocalPath(path);
+                    loginResponsitory.saveUserToDb(users);
+                    UserInfoSingleton.getInstance().setUsers(users);
+                }
 
-        @Override
-        public void onDataNotAvailable(Bitmap bitmap) {
-            Log.d(TAG, "bitmapToFileDataCallback-------->存储头像失败！");
-        }
-    };
+                @Override
+                public void onDataNotAvailable(Bitmap bitmap) {
+                    Log.d(TAG, "bitmapToFileDataCallback-------->存储头像失败！");
+                }
+            };
 
 
     /**

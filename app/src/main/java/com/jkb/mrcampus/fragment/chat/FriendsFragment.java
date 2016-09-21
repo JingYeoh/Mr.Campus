@@ -140,7 +140,7 @@ public class FriendsFragment extends BaseFragment implements
         @Override
         public void onClick(int position) {
             //跳转到个人中心
-            mainActivity.startPersonalCenter(friendsPresenter.getUserId(position));
+            mainActivity.startPersonalCenterActivity(friendsPresenter.getUserId(position));
         }
     };
 

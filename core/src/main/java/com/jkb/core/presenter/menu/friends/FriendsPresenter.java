@@ -93,6 +93,9 @@ public class FriendsPresenter implements FriendsContract.Presenter {
 
     @Override
     public void initFriendsData() {
+        if (!LoginContext.getInstance().isLogined()) {
+            return;
+        }
         if (isCached) {
             bindData();
         } else {

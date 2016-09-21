@@ -112,7 +112,7 @@ public class FansFragment extends BaseFragment implements FansContract.View,
 
     @Override
     public void showPersonCenter(int user_id) {
-        usersListActivity.startPersonalCenter(user_id);
+        usersListActivity.startPersonalCenterActivity(user_id);
     }
 
     @Override

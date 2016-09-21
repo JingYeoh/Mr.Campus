@@ -112,7 +112,7 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
 
     @Override
     public void showPersonCenter(int user_id) {
-        usersListActivity.startPersonalCenter(user_id);
+        usersListActivity.startPersonalCenterActivity(user_id);
     }
 
     @Override

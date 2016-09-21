@@ -1,5 +1,6 @@
 package com.jkb.mrcampus.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +14,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
+import com.jkb.mrcampus.activity.CircleActivity;
+import com.jkb.mrcampus.activity.CommentActivity;
+import com.jkb.mrcampus.activity.DynamicDetailActivity;
+import com.jkb.mrcampus.activity.PersonCenterActivity;
+import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
 import com.jkb.mrcampus.fragment.dialog.InputTextFloatFragment;
@@ -225,10 +234,117 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         ActivityUtils.removeAllFragment(fm);
     }
 
+    @Override
+    public void startDynamicActivity(@NonNull int dynamic_id, @NonNull String dynamicType) {
+        if (dynamic_id <= 0) {
+            showShortToast("动态不存在");
+            return;
+        }
+        Intent intent = new Intent(this, DynamicDetailActivity.class);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE, dynamicType);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    /**
+     * 显示圈子页面
+     */
+    @Override
+    public void startCircleActivity(@NonNull int circle_id) {
+        if (circle_id <= 0) {
+            showShortToast("圈子不存在");
+            return;
+        }
+        Intent intent = new Intent(this, CircleActivity.class);
+        intent.putExtra(Config.INTENT_KEY_CIRCLE_ID, circle_id);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startPersonalCenterActivity(int user_id) {
+        if (user_id <= 0) {
+            showShortToast("用户不存在");
+            return;
+        }
+        Log.d(TAG, "startPersonalCenterActivity");
+        Intent intent = new Intent(this, PersonCenterActivity.class);
+        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startUsersListActivity(int user_id, String action) {
+        if (user_id <= 0) {
+            showShortToast("用户不存在");
+            return;
+        }
+        Log.d(TAG, "startUsersListActivity");
+        Intent intent = new Intent(this, UsersListActivity.class);
+        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
+        intent.putExtra(Config.INTENT_KEY_SHOW_USERSLIST, action);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startCommentActivity(@NonNull int target_id, String action) {
+        if (target_id <= 0) {
+            showShortToast("动态不存在");
+            return;
+        }
+        Log.d(TAG, "startCommentActivity");
+        Intent intent = new Intent(this, CommentActivity.class);
+        intent.putExtra(Config.INTENT_KEY_TARGET_ID, target_id);
+        intent.putExtra(Config.INTENT_KEY_SHOW_COMMENT, action);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void showSoftInputView() {
+        InputMethodManager manager = ((InputMethodManager) this
+                .getSystemService(Activity.INPUT_METHOD_SERVICE));
+        if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (getCurrentFocus() != null)
+                manager.showSoftInput(getCurrentFocus(),
+                        InputMethodManager.SHOW_FORCED);
+        }
+    }
+
+    @Override
+    public void hideSoftInputView() {
+        InputMethodManager manager = ((InputMethodManager) this
+                .getSystemService(Activity.INPUT_METHOD_SERVICE));
+        if (getWindow().getAttributes().softInputMode !=
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (getCurrentFocus() != null)
+                manager.hideSoftInputFromWindow(getCurrentFocus()
+                        .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        }
+    }
+
+    @Override
+    public void showSoftKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+        if (isOpen) {
+            return;
+        }
+        imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
+    }
+
+    @Override
+    public void hideSoftKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+        if (!isOpen) {
+            return;
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
+    }
+
     /**
      * 显示Loading加载效果
-     *
-     * @param value
      */
     public void showLoading(String value) {
         if (gifLoadingView == null) {

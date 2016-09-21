@@ -144,7 +144,9 @@ public class LoginLocalDataSource implements LoginDataSource {
     }
 
     @Override
-    public void cacheBitmapToFile(String path, String name, final Bitmap bitmap, final BitmapToFileDataCallback callback) {
+    public void cacheBitmapToFile(
+            String path, String name, final Bitmap bitmap,
+            final BitmapToFileDataCallback callback) {
         if (bitmap == null) {
             callback.onDataNotAvailable(bitmap);
             return;

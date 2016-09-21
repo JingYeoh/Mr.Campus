@@ -1,6 +1,7 @@
 package com.jkb.mrcampus.fragment.function.index;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,17 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jkb.api.config.Config;
 import com.jkb.core.Injection;
 import com.jkb.core.contract.function.data.dynamic.DynamicBaseData;
 import com.jkb.core.contract.function.index.DynamicContract;
 import com.jkb.core.contract.menu.MenuContract;
 import com.jkb.core.presenter.function.index.DynamicPresenter;
 import com.jkb.mrcampus.R;
+import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.adapter.recycler.NoAlphaItemAnimator;
 import com.jkb.mrcampus.adapter.recycler.dynamic.DynamicAdapter;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.DividerItemDecoration;
-import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
@@ -101,6 +103,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         dynamicAdapter.setOnCircleClickListener(onCircleClickListener);
         dynamicAdapter.setOnShareClickListener(onShareClickListener);
         dynamicAdapter.setOnCommentClickListener(onCommentClickListener);
+        dynamicAdapter.setOnDynamicClickListener(onDynamicClickListener);
     }
 
     @Override
@@ -171,7 +174,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
                 @Override
                 public void onCircleClick(int position) {
                     Log.d(TAG, "position=" + position);
-                    mainActivity.startCircleView(mPresenter.getCircleId(position));
+                    mainActivity.startCircleActivity(mPresenter.getCircleId(position));
                 }
             };
     /**
@@ -182,7 +185,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
                 @Override
                 public void onUserClick(int position) {
                     Log.d(TAG, "position=" + position);
-                    mainActivity.startPersonalCenter(mPresenter.getCreator_id(position));
+                    mainActivity.startPersonalCenterActivity(mPresenter.getCreator_id(position));
                 }
             };
     /**
@@ -193,7 +196,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
                 @Override
                 public void onOriginatorUserClick(int position) {
                     Log.d(TAG, "position=" + position);
-                    mainActivity.startPersonalCenter(mPresenter.getOriginator_user_id(position));
+                    mainActivity.startPersonalCenterActivity(mPresenter.getOriginator_user_id(position));
                 }
             };
     /**
@@ -226,6 +229,17 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
                 public void onShareClick(int position) {
                     Log.d(TAG, "position=" + position);
                     showShareItemView(position);
+                }
+            };
+    /**
+     * 动态的点击监听事件
+     */
+    private DynamicAdapter.OnDynamicClickListener onDynamicClickListener =
+            new DynamicAdapter.OnDynamicClickListener() {
+                @Override
+                public void OnDynamicClick(int position) {
+                    //打开动态页面
+                    mPresenter.startDynamicDetailView(position);
                 }
             };
 
@@ -343,6 +357,22 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
     public void setDynamicDataToView(List<DynamicBaseData> dynamicBaseDatas) {
         dynamicAdapter.dynamicBaseDatas = dynamicBaseDatas;
         dynamicAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void startDynamicActivity(@NonNull int dynamic_id, @NonNull String dynamicType) {
+        switch (dynamicType) {
+            case Config.D_TYPE_ARTICLE:
+                dynamicType = DynamicDetailActivity.SHOW_DYNAMIC_TYPE_ARTICLE;
+                break;
+            case Config.D_TYPE_NORMAL:
+                dynamicType = DynamicDetailActivity.SHOW_DYNAMIC_TYPE_NORMAL;
+                break;
+            case Config.D_TYPE_TOPIC:
+                dynamicType = DynamicDetailActivity.SHOW_DYNAMIC_TYPE_TOPIC;
+                break;
+        }
+        mainActivity.startDynamicActivity(dynamic_id, dynamicType);
     }
 
     @Override

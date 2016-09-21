@@ -236,7 +236,7 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
 
                 @Override
                 public void onClickLoginPersonView() {
-                    mainActivity.startPersonalCenter(mPresenter.getUser_id());
+                    mainActivity.startPersonalCenterActivity(mPresenter.getUser_id());
                 }
 
                 @Override

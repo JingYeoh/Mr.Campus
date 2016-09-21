@@ -141,4 +141,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="shareTo">分享到</string>
+    <string name="point_circle">●</string>
+    <string name="commentCount_jiantou">条评论➷</string>
+    <string name="view_all">查看全部</string>
 </resources>

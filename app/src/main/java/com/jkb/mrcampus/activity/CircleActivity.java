@@ -70,6 +70,7 @@ public class CircleActivity extends BaseActivity {
             fragmentStack.setFragmetStackNames(
                     savedInstanceState.getStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK));
         }
+        Log.d(TAG, "circleId=" + circleId);
         //判断是否有数据
         if (circleId == 0) {
             //返回

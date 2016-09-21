@@ -41,8 +41,13 @@ public class Config {
     public static final String URL_OPERATION_VISITOTHER = "getVisitOther";//我访问的人
     //dynamic接口地址
     public static final String URL_DYNAMIC_GET_ALL = "dynamic/getAllDynamic";
+    public static final String URL_DYNAMIC_GET_SINGLE = "dynamic/{userId}/{id}";
     //Contacts接口
     public static final String URL_CONTACTS_FRIENDS = "contacts";//相互关注的好友
+    //Comment的接口u
+    public static final String URL_COMMENT_LIST = "comment/{dynamicId}";
+    public static final String URL_COMMENT_SINGLE = "getReply/{commentId}";
+    public static final String URL_COMMENT_SEND = "comment";
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
 
@@ -88,6 +93,10 @@ public class Config {
     public static final String KEY_VISITOR_ID = "visitor_id";
     public static final String KEY_COLUMN = "column";
     public static final String KEY_VALUE = "value";
+    public static final String KEY_DYNAMICID = "dynamicId";
+    public static final String KEY_DYNAMIC_ID = "dynamic_id";
+    public static final String KEY_COMMENT = "comment";
+    public static final String KEY_COMMENTID = "commentId";
 
 
     public static final String GENDER_M = "m";

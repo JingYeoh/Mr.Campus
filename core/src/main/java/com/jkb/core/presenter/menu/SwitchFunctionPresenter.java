@@ -27,7 +27,8 @@ public class SwitchFunctionPresenter implements SwitchFunctionContract.Presenter
      *
      * @param functionView
      */
-    public SwitchFunctionPresenter(@NonNull MenuContract.View menuView, @NonNull SwitchFunctionContract.View functionView) {
+    public SwitchFunctionPresenter(@NonNull MenuContract.View menuView,
+                                   @NonNull SwitchFunctionContract.View functionView) {
         this.functionView = functionView;
         this.menuView = menuView;
         //向View层中注入Presenter层对象

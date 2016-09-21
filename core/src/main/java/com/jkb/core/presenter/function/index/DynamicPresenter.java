@@ -18,6 +18,7 @@ import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.model.data.PageControlEntity;
 import com.jkb.model.dataSource.function.index.dynamic.DynamicDataRepository;
 import com.jkb.model.info.UserInfoSingleton;
+import com.jkb.model.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -204,17 +205,62 @@ public class DynamicPresenter implements DynamicContract.Presenter {
 
     @Override
     public int getCircleId(int position) {
-        int id = -1;
+        int id;
         DynamicBaseData dynamicBaseData = dynamicDatas.get(position);
         switch (dynamicBaseData.getTarget_type()) {
-            case Config.TARGET_TYPE_CIRCLEINCOMMONUSE:
-                id = ((CircleInCommonUseData) dynamicBaseData).getDynamic().getCircle().getId();
-                break;
             case Config.TARGET_TYPE_CIRCLE:
                 id = dynamicBaseData.getTarget_id();
                 break;
+            case Config.TARGET_TYPE_CIRCLEINCOMMONUSE:
+                id = ((CircleInCommonUseData) dynamicBaseData).getDynamic().getCircle().getId();
+                break;
+            default:
+                id = -1;
+                break;
         }
         return id;
+    }
+
+    @Override
+    public void startDynamicDetailView(int position) {
+        if (!view.isActive()) {
+            return;
+        }
+        int dynamic_id;
+        String dynamic_type;
+        DynamicBaseData dynamicBaseData = dynamicDatas.get(position);
+        switch (dynamicBaseData.getTarget_type()) {//判断是否动态
+            case Config.TARGET_TYPE_DYNAMIC:
+                dynamic_id = dynamicBaseData.getTarget_id();
+                break;
+            default:
+                dynamic_id = -1;
+                break;
+        }
+        if (dynamic_id == -1) {
+            view.showReqResult("该动态不存在");
+            return;
+        }
+        String dType = ((DynamicData) dynamicBaseData).getDtype();
+        switch (dType) {
+            case Config.D_TYPE_ARTICLE:
+                dynamic_type = Config.D_TYPE_ARTICLE;
+                break;
+            case Config.D_TYPE_NORMAL:
+                dynamic_type = Config.D_TYPE_NORMAL;
+                break;
+            case Config.D_TYPE_TOPIC:
+                dynamic_type = Config.D_TYPE_TOPIC;
+                break;
+            default:
+                dynamic_type = null;
+                break;
+        }
+        if (StringUtils.isEmpty(dynamic_type)) {
+            view.showReqResult("该动态不存在");
+            return;
+        }
+        view.startDynamicActivity(dynamic_id, dynamic_type);
     }
 
     /**
@@ -660,6 +706,7 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                 public void onError(Response<ApiResponse<DynamicListEntity>> response,
                                     String error, ApiResponse<DynamicListEntity> apiResponse) {
                     if (view.isActive()) {
+                        isLoading = false;
                         view.hideRefreshingView();
                         bindDataToView();
                     }
@@ -668,6 +715,7 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                 @Override
                 public void onFail() {
                     if (view.isActive()) {
+                        isLoading = false;
                         view.hideRefreshingView();
                         bindDataToView();
                     }

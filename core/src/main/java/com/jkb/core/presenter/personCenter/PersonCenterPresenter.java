@@ -401,7 +401,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
         //从网上获取圈子数据
         //只获取第一页的数据
         Users users = getUsers();
-        if(users==null){
+        if (users == null) {
             return;
         }
         int visitor_id = users.getUser_id();

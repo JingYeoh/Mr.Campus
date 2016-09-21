@@ -34,7 +34,7 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
     private TextView tvCount;
 
     //用到的逻辑数据
-    private int count = 3;
+    private int count = 1;
     private static final String SAVED_COUNT = "savedCount";
     private static final int WHAT_COUNT = 1;//what参数
     private static final int TIME_SLOT = 1000;//倒计时的时间间隙
@@ -88,6 +88,8 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
         imageView = (ImageView) rootView.findViewById(R.id.ffw_iv);
 
         tvCount = (TextView) rootView.findViewById(R.id.tv_count);
+
+        tvCount.setVisibility(View.GONE);
     }
 
     private Handler handler = new Handler() {
@@ -129,10 +131,10 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
     @Override
     public void completedCount() {
 //        imageView.stopDraw();
-        startMainActivity();
         handler = null;
+        startMainActivity();
         //頁面銷毀
-        firstActivity.close$Finish();
+//        firstActivity.close$Finish();
     }
 
     /**
@@ -152,6 +154,7 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
         }
         imageView.setImageBitmap(bitmap);
         startCount();
+//        completedCount();
     }
 
     @Override

@@ -265,8 +265,8 @@ public class PersonCenterActivity extends BaseActivity {
      *
      * @param user_id 用户id
      */
-    public void startPersonalCenter(int user_id) {
-        Log.d(TAG, "startPersonalCenter");
+    public void startPersonalCenterActivity(int user_id) {
+        Log.d(TAG, "startPersonalCenterActivity");
         Intent intent = new Intent(this, PersonCenterActivity.class);
         intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
         startActivityWithPushLeftAnim(intent);

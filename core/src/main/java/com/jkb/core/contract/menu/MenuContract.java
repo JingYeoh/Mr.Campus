@@ -79,16 +79,6 @@ public interface MenuContract {
         void showTools();
 
         /**
-         * 打开个人中心页面
-         */
-        void startPersonalCenter(int user_id);
-
-        /**
-         * 打开圈子首页
-         */
-        void startCircleView(int circle_id);
-
-        /**
          * 打开消息页面
          */
         void startMessage();
@@ -127,14 +117,6 @@ public interface MenuContract {
          * 隐藏所有的View视图
          */
         void hideAllView();
-
-        /**
-         * 打开用户列表页面
-         *
-         * @param user_id 用户id
-         * @param action  要显示的视图
-         */
-        void startUsersListActivity(int user_id, String action);
 
 
         /**

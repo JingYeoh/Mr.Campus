@@ -1,5 +1,7 @@
 package com.jkb.core.contract.function.index;
 
+import android.support.annotation.NonNull;
+
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
 import com.jkb.core.contract.function.data.dynamic.DynamicBaseData;
@@ -69,6 +71,14 @@ public interface DynamicContract {
          * 设置动态数据到视图中
          */
         void setDynamicDataToView(List<DynamicBaseData> dynamicBaseDatas);
+
+        /**
+         * 打开动态详情页面
+         *
+         * @param dynamic_id  动态id
+         * @param dynamicType 动态类型
+         */
+        void startDynamicActivity(@NonNull int dynamic_id, @NonNull String dynamicType);
     }
 
     interface Presenter extends BasePresenter {
@@ -114,5 +124,10 @@ public interface DynamicContract {
          * 得到圈子的id
          */
         int getCircleId(int position);
+
+        /**
+         * 打开动态详情页面
+         */
+        void startDynamicDetailView(int position);
     }
 }
