@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.comment.CommentListEntity;
+import com.jkb.api.entity.comment.CommentReplyEntity;
 import com.jkb.api.entity.comment.CommentSendEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
 
@@ -56,5 +57,14 @@ public class CommentListRepository implements CommentListDataSource {
             @NonNull String comment,
             @NonNull ApiCallback<ApiResponse<CommentSendEntity>> apiCallback) {
         remoteDataSource.sendComment(Authorization, user_id, dynamic_id, comment, apiCallback);
+    }
+
+    @Override
+    public void sendReply(
+            @NonNull String Authorization, @NonNull int target_user_id, @NonNull int comment_id,
+            @NonNull int dynamic_id, @NonNull String comment,
+            @NonNull ApiCallback<ApiResponse<CommentReplyEntity>> apiCallback) {
+        remoteDataSource.sendReply(Authorization, target_user_id,
+                comment_id, dynamic_id, comment, apiCallback);
     }
 }

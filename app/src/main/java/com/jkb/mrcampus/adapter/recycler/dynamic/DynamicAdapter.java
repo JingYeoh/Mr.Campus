@@ -330,10 +330,11 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.circleInCommonUseTopic.content = view.findViewById(R.id.idct_ll_content);
         holder.circleInCommonUseTopic.ivHeart = (ImageView) view.findViewById(R.id.idct_iv_heart);
         holder.circleInCommonUseTopic.ivShare = (ImageView) view.findViewById(R.id.idct_iv_share);
+        holder.circleInCommonUseTopic.contentHeadImg = view.findViewById(R.id.iidc_contentHeadImg);
 
         //设置监听事件
         holder.circleInCommonUseTopic.tvOriginalNickName.setOnClickListener(clickOriginatorUserListener);
-        holder.circleInCommonUseTopic.iv_headImg.setOnClickListener(clickCircleListener);
+        holder.circleInCommonUseTopic.contentHeadImg.setOnClickListener(clickCircleListener);
         holder.circleInCommonUseTopic.ivHeart.setOnClickListener(clickLikeListener);
         holder.circleInCommonUseTopic.ivShare.setOnClickListener(clickShareListener);
         holder.circleInCommonUseTopic.content.setOnClickListener(this);
@@ -370,12 +371,13 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.circleInCommonUseNormal.ivShare = (ImageView) view.findViewById(R.id.idcc_iv_share);
         holder.circleInCommonUseNormal.ivComment = (ImageView) view.findViewById(R.id.idcc_iv_comment);
         holder.circleInCommonUseNormal.content = view.findViewById(R.id.idcn_ll_content);
+        holder.circleInCommonUseNormal.contentHeadImg = view.findViewById(R.id.iidc_contentHeadImg);
 
         //设置监听事件
         holder.circleInCommonUseNormal.ivHeart.setOnClickListener(clickLikeListener);
         holder.circleInCommonUseNormal.tvOriginalNickName.
                 setOnClickListener(clickOriginatorUserListener);
-        holder.circleInCommonUseNormal.iv_headImg.setOnClickListener(clickCircleListener);
+        holder.circleInCommonUseNormal.contentHeadImg.setOnClickListener(clickCircleListener);
         holder.circleInCommonUseNormal.ivShare.setOnClickListener(clickShareListener);
         holder.circleInCommonUseNormal.ivComment.setOnClickListener(clickCommentListener);
         holder.circleInCommonUseNormal.content.setOnClickListener(this);
@@ -413,11 +415,12 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.circleInCommonUseArticle.ivHeart = (ImageView) view.findViewById(R.id.idca_iv_heart);
         holder.circleInCommonUseArticle.ivShare = (ImageView) view.findViewById(R.id.idca_iv_share);
         holder.circleInCommonUseArticle.ivComment = (ImageView) view.findViewById(R.id.idca_iv_comment);
+        holder.circleInCommonUseArticle.contentHeadImg = view.findViewById(R.id.iidc_contentHeadImg);
 
         //设置监听事件
         holder.circleInCommonUseArticle.tvOriginalNickName.
                 setOnClickListener(clickOriginatorUserListener);
-        holder.circleInCommonUseArticle.iv_headImg.setOnClickListener(clickCircleListener);
+        holder.circleInCommonUseArticle.contentHeadImg.setOnClickListener(clickCircleListener);
         holder.circleInCommonUseArticle.content.setOnClickListener(this);
         holder.circleInCommonUseArticle.ivHeart.setOnClickListener(clickLikeListener);
         holder.circleInCommonUseArticle.ivComment.setOnClickListener(clickCommentListener);
@@ -456,11 +459,12 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.unOriginalFavoriteArticle.ivShare = (ImageView) view.findViewById(R.id.idfa_iv_share);
         holder.unOriginalFavoriteArticle.ivComment = (ImageView) view.findViewById(R.id.idfa_iv_comment);
         holder.unOriginalFavoriteArticle.content = view.findViewById(R.id.idfa_ll_content);
+        holder.unOriginalFavoriteArticle.contentHeadImg = view.findViewById(R.id.iidu_contentHeadImg);
 
 
         //设置点击事件
         holder.unOriginalFavoriteArticle.ivHeart.setOnClickListener(clickLikeListener);
-        holder.unOriginalFavoriteArticle.iv_headImg.setOnClickListener(clickUserListener);
+        holder.unOriginalFavoriteArticle.contentHeadImg.setOnClickListener(clickUserListener);
         holder.unOriginalFavoriteArticle.tvOriginalNickName.setOnClickListener(
                 clickOriginatorUserListener);
         holder.unOriginalFavoriteArticle.ivShare.setOnClickListener(clickShareListener);
@@ -503,10 +507,11 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.unOriginalFavoriteTopic.ivShare = (ImageView) view.findViewById(R.id.idft_iv_share);
         holder.unOriginalFavoriteTopic.content = view.findViewById(R.id.idft_ll_content);
         holder.unOriginalFavoriteTopic.ivComment = (ImageView) view.findViewById(R.id.idft_iv_comment);
+        holder.unOriginalFavoriteTopic.contentHeadImg = view.findViewById(R.id.iidu_contentHeadImg);
 
         //设置点击事件
         holder.unOriginalFavoriteTopic.ivHeart.setOnClickListener(clickLikeListener);
-        holder.unOriginalFavoriteTopic.iv_headImg.setOnClickListener(clickUserListener);
+        holder.unOriginalFavoriteTopic.contentHeadImg.setOnClickListener(clickUserListener);
         holder.unOriginalFavoriteTopic.tvOriginalNickName.setOnClickListener(clickOriginatorUserListener);
         holder.unOriginalFavoriteTopic.ivShare.setOnClickListener(clickShareListener);
         holder.unOriginalFavoriteTopic.ivComment.setOnClickListener(clickCommentListener);
@@ -546,8 +551,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 (ImageView) view.findViewById(R.id.idfn_iv_share);
         holder.unOriginalFavoriteNormal.content = view.findViewById(R.id.idfn_ll_content);
         holder.unOriginalFavoriteNormal.ivComment = (ImageView) view.findViewById(R.id.idfn_iv_comment);
+        holder.unOriginalFavoriteNormal.contentHeadImg = view.findViewById(R.id.iidu_contentHeadImg);
         //设置监听事件
-        holder.unOriginalFavoriteNormal.iv_headImg.setOnClickListener(clickUserListener);
+        holder.unOriginalFavoriteNormal.contentHeadImg.setOnClickListener(clickUserListener);
         holder.unOriginalFavoriteNormal.tvOriginalNickName.setOnClickListener(clickOriginatorUserListener);
         holder.unOriginalFavoriteNormal.ivHeart.setOnClickListener(clickLikeListener);
         holder.unOriginalFavoriteNormal.ivShare.setOnClickListener(clickShareListener);
@@ -584,12 +590,13 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.unOriginalSubscribeCircle.tvName = (TextView) view.findViewById(R.id.ius_tv_name);
         holder.unOriginalSubscribeCircle.tvTime = (TextView) view.findViewById(R.id.ius_tv_time);
         holder.unOriginalSubscribeCircle.tvAction = (TextView) view.findViewById(R.id.ius_tv_action);
+        holder.unOriginalSubscribeCircle.contentHeadImg = view.findViewById(R.id.ius_contentHeadImg);
 
         holder.unOriginalSubscribeCircle.circleContent = view.findViewById(R.id.idsc_circleContent);
         holder.contentView = view.findViewById(R.id.dynamic_content);
 
         //设置监听事件
-        holder.unOriginalSubscribeCircle.ivHeadImg.setOnClickListener(clickUserListener);
+        holder.unOriginalSubscribeCircle.contentHeadImg.setOnClickListener(clickUserListener);
 //        holder.unOriginalSubscribeCircle.circleContent.setOnClickListener(clickCircleListener);
         holder.contentView.setOnClickListener(clickCircleListener);
     }
@@ -617,9 +624,10 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 (ImageView) view.findViewById(R.id.idoa_iv_heart);
         holder.originalArticle.ivShare = (ImageView) view.findViewById(R.id.idoa_iv_share);
         holder.originalArticle.ivComment = (ImageView) view.findViewById(R.id.idoa_iv_comment);
+        holder.originalArticle.contentHeadImg = view.findViewById(R.id.idoa_contentHeadImg);
 
         //设置监听事件
-        holder.originalArticle.iv_headImg.setOnClickListener(clickUserListener);
+        holder.originalArticle.contentHeadImg.setOnClickListener(clickUserListener);
         holder.originalArticle.ivHeart.setOnClickListener(clickLikeListener);
         holder.originalArticle.ivShare.setOnClickListener(clickShareListener);
         holder.originalArticle.ivComment.setOnClickListener(clickCommentListener);
@@ -648,9 +656,10 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         holder.originalTopic.ivHeart =
                 (ImageView) view.findViewById(R.id.idot_iv_heart);
         holder.originalTopic.ivShare = (ImageView) view.findViewById(R.id.idot_iv_share);
+        holder.originalTopic.contentHeadImg = view.findViewById(R.id.idot_contentHeadImg);
 
         //设置监听事件
-        holder.originalTopic.iv_headImg.setOnClickListener(clickUserListener);
+        holder.originalTopic.contentHeadImg.setOnClickListener(clickUserListener);
         holder.originalTopic.ivHeart.setOnClickListener(clickLikeListener);
         holder.originalTopic.ivShare.setOnClickListener(clickShareListener);
         holder.contentView.setOnClickListener(clickDynamicListener);
@@ -689,10 +698,11 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 (ImageView) view.findViewById(R.id.idon_iv_heart);
         holder.originalNormal.ivShare = (ImageView) view.findViewById(R.id.idon_iv_share);
         holder.originalNormal.ivComment = (ImageView) view.findViewById(R.id.idon_iv_comment);
+        holder.originalNormal.contentHeadImg = view.findViewById(R.id.idon_contentHeadImg);
 
         //设置监听事件
         holder.originalNormal.ivHeart.setOnClickListener(clickLikeListener);
-        holder.originalNormal.ivHeadImg.setOnClickListener(clickUserListener);
+        holder.originalNormal.contentHeadImg.setOnClickListener(clickUserListener);
         holder.originalNormal.ivShare.setOnClickListener(clickShareListener);
         holder.originalNormal.ivComment.setOnClickListener(clickCommentListener);
         holder.contentView.setOnClickListener(clickDynamicListener);
@@ -771,9 +781,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
         //绑定Tag对象
         ClassUtils.bindViewsTag(position,
-                holder.circleInCommonUseTopic.iv_headImg,
                 holder.circleInCommonUseTopic.tvOriginalNickName,
-                holder.circleInCommonUseTopic.ivShare);
+                holder.circleInCommonUseTopic.ivShare,
+                holder.circleInCommonUseTopic.contentHeadImg);
 
         CircleInCommonUseData circleInCommonUseData = (CircleInCommonUseData) dynamicBaseData;
 
@@ -788,8 +798,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         String headImgUrl = circleBean.getPicture();
         if (!StringUtils.isEmpty(headImgUrl)) {
             bindImageViewAndUrl(holder.circleInCommonUseTopic.iv_headImg, headImgUrl);
-            ClassUtils.bindImage$Url(headImgUrl,
-                    holder.circleInCommonUseTopic.iv_headImg, position);
         }
         //设置原创作者信息
         holder.circleInCommonUseTopic.tvOriginalNickName.setVisibility(View.VISIBLE);
@@ -810,8 +818,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             } else {
                 holder.circleInCommonUseTopic.ivPic.setVisibility(View.VISIBLE);
                 bindImageViewAndUrl(holder.circleInCommonUseTopic.ivPic, image);
-                ClassUtils.bindImage$Url(image,
-                        holder.circleInCommonUseTopic.ivPic, position);
             }
             holder.circleInCommonUseTopic.tvContent.setText(topic.getDoc());
         }
@@ -839,11 +845,11 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
         //绑定Tag对象
         ClassUtils.bindViewsTag(position,
-                holder.circleInCommonUseNormal.iv_headImg,
                 holder.circleInCommonUseNormal.ivHeart,
                 holder.circleInCommonUseNormal.tvOriginalNickName,
                 holder.circleInCommonUseNormal.ivShare,
-                holder.circleInCommonUseNormal.ivComment);
+                holder.circleInCommonUseNormal.ivComment,
+                holder.circleInCommonUseNormal.contentHeadImg);
 
         CircleInCommonUseData circleInCommonUseData = (CircleInCommonUseData) dynamicBaseData;
 
@@ -858,8 +864,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         String headImgUrl = circleBean.getPicture();
         if (!StringUtils.isEmpty(headImgUrl)) {
             bindImageViewAndUrl(holder.circleInCommonUseNormal.iv_headImg, headImgUrl);
-            ClassUtils.bindImage$Url(headImgUrl,
-                    holder.circleInCommonUseNormal.iv_headImg, position);
         }
         //设置原创作者信息
         holder.circleInCommonUseNormal.tvOriginalNickName.setVisibility(View.VISIBLE);
@@ -878,8 +882,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             if (image != null && image.size() > 0) {
                 //绑定图片
                 bindImageViewAndUrl(holder.circleInCommonUseNormal.ivPic, image.get(0));
-                ClassUtils.bindImage$Url(image.get(0),
-                        holder.circleInCommonUseNormal.ivPic, position);
             } else {
                 holder.circleInCommonUseNormal.ivPic.setVisibility(View.GONE);
             }
@@ -912,10 +914,10 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
 
         //绑定Tag对象
         ClassUtils.bindViewsTag(position,
-                holder.circleInCommonUseArticle.iv_headImg,
                 holder.circleInCommonUseArticle.tvOriginalNickName,
                 holder.circleInCommonUseArticle.ivShare,
-                holder.circleInCommonUseArticle.ivComment);
+                holder.circleInCommonUseArticle.ivComment,
+                holder.circleInCommonUseArticle.contentHeadImg);
 
         CircleInCommonUseData circleInCommonUseData = (CircleInCommonUseData) dynamicBaseData;
 
@@ -933,8 +935,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         String headImgUrl = circleBean.getPicture();
         if (!StringUtils.isEmpty(headImgUrl)) {
             bindImageViewAndUrl(holder.circleInCommonUseArticle.iv_headImg, headImgUrl);
-            ClassUtils.bindImage$Url(headImgUrl,
-                    holder.circleInCommonUseArticle.iv_headImg, position);
         }
         //设置原创作者信息
         holder.circleInCommonUseArticle.tvOriginalNickName.setVisibility(View.VISIBLE);
@@ -957,8 +957,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             } else {
                 holder.circleInCommonUseArticle.ivPic.setVisibility(View.VISIBLE);
                 bindImageViewAndUrl(holder.circleInCommonUseArticle.ivPic, image);
-                ClassUtils.bindImage$Url(image,
-                        holder.circleInCommonUseArticle.ivPic, position);
             }
             holder.circleInCommonUseArticle.tvContent.setText(articleBean.getDoc());
         }
@@ -983,12 +981,13 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         }
 
         //绑定Tag对象
-        ClassUtils.bindViewsTag(position, holder.unOriginalFavoriteTopic.iv_headImg,
+        ClassUtils.bindViewsTag(position,
                 holder.unOriginalFavoriteTopic.tvOriginalNickName,
                 holder.unOriginalFavoriteTopic.ivHeart,
                 holder.unOriginalFavoriteTopic.ivShare,
                 holder.unOriginalFavoriteTopic.ivComment,
-                holder.unOriginalFavoriteTopic.content);
+                holder.unOriginalFavoriteTopic.content,
+                holder.unOriginalFavoriteTopic.contentHeadImg);
 
         //设置用户数据
         holder.unOriginalFavoriteTopic.tvName.setText(dynamicBaseData.getCreator_nickname());
@@ -998,8 +997,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         String headImgUrl = dynamicBaseData.getCreator_avatar();
         if (!StringUtils.isEmpty(headImgUrl)) {
             bindImageViewAndUrl(holder.unOriginalFavoriteTopic.iv_headImg, headImgUrl);
-            ClassUtils.bindImage$Url(headImgUrl,
-                    holder.unOriginalFavoriteTopic.iv_headImg, position);
         }
         //设置原创作者信息
 //        if (!((DynamicData) dynamicBaseData).is_orginal()) {
@@ -1027,8 +1024,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             if (!StringUtils.isEmpty(image)) {
                 //绑定图片
                 bindImageViewAndUrl(holder.unOriginalFavoriteTopic.ivPic, image);
-                ClassUtils.bindImage$Url(image,
-                        holder.unOriginalFavoriteTopic.ivPic, position);
             } else {
                 holder.unOriginalFavoriteTopic.ivPic.setVisibility(View.GONE);
             }
@@ -1065,12 +1060,13 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         }
 
         //绑定Tag对象
-        ClassUtils.bindViewsTag(position, holder.unOriginalFavoriteArticle.iv_headImg,
+        ClassUtils.bindViewsTag(position,
                 holder.unOriginalFavoriteArticle.tvOriginalNickName,
                 holder.unOriginalFavoriteArticle.ivHeart,
                 holder.unOriginalFavoriteArticle.ivShare,
                 holder.unOriginalFavoriteArticle.ivComment,
-                holder.unOriginalFavoriteArticle.content);
+                holder.unOriginalFavoriteArticle.content,
+                holder.unOriginalFavoriteArticle.contentHeadImg);
 
         //设置用户数据
         holder.unOriginalFavoriteArticle.tvName.setText(dynamicBaseData.getCreator_nickname());
@@ -1080,8 +1076,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         String headImgUrl = dynamicBaseData.getCreator_avatar();
         if (!StringUtils.isEmpty(headImgUrl)) {
             bindImageViewAndUrl(holder.unOriginalFavoriteArticle.iv_headImg, headImgUrl);
-            ClassUtils.bindImage$Url(headImgUrl,
-                    holder.unOriginalFavoriteArticle.iv_headImg, position);
         }
         //设置原创作者信息
 //        if (!((DynamicData) dynamicBaseData).is_orginal()) {
@@ -1109,8 +1103,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             if (!StringUtils.isEmpty(image)) {
                 //绑定图片
                 bindImageViewAndUrl(holder.unOriginalFavoriteArticle.ivPic, image);
-                ClassUtils.bindImage$Url(image,
-                        holder.unOriginalFavoriteArticle.ivPic, position);
             } else {
                 holder.unOriginalFavoriteArticle.ivPic.setVisibility(View.GONE);
             }
@@ -1145,12 +1137,13 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         }
 
         //绑定Tag对象
-        ClassUtils.bindViewsTag(position, holder.unOriginalFavoriteNormal.iv_headImg,
+        ClassUtils.bindViewsTag(position,
                 holder.unOriginalFavoriteNormal.tvOriginalNickName,
                 holder.unOriginalFavoriteNormal.ivHeart,
                 holder.unOriginalFavoriteNormal.ivShare,
                 holder.unOriginalFavoriteNormal.ivComment,
-                holder.unOriginalFavoriteNormal.content);
+                holder.unOriginalFavoriteNormal.content,
+                holder.unOriginalFavoriteNormal.contentHeadImg);
 
         //设置用户数据
         holder.unOriginalFavoriteNormal.tvName.setText(dynamicBaseData.getCreator_nickname());
@@ -1160,7 +1153,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         String headImgUrl = dynamicBaseData.getCreator_avatar();
         if (!StringUtils.isEmpty(headImgUrl)) {
             bindImageViewAndUrl(holder.unOriginalFavoriteNormal.iv_headImg, headImgUrl);
-            ClassUtils.bindImage$Url(headImgUrl, holder.unOriginalFavoriteNormal.iv_headImg, position);
         }
         //设置原创作者信息
 //        if (!((DynamicData) dynamicBaseData).is_orginal()) {
@@ -1185,8 +1177,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             if (image != null && image.size() > 0) {
                 //绑定图片
                 bindImageViewAndUrl(holder.unOriginalFavoriteNormal.ivPic, image.get(0));
-                ClassUtils.bindImage$Url(image.get(0),
-                        holder.unOriginalFavoriteNormal.ivPic, position);
             } else {
                 holder.unOriginalFavoriteNormal.ivPic.setVisibility(View.GONE);
             }
@@ -1217,11 +1207,12 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             return;
         }
         //绑定Tag对象
-        ClassUtils.bindViewsTag(position, holder.originalNormal.ivHeadImg,
+        ClassUtils.bindViewsTag(position,
                 holder.originalNormal.ivHeart,
                 holder.originalNormal.ivShare,
                 holder.originalNormal.ivComment,
-                holder.contentView);
+                holder.contentView,
+                holder.originalNormal.contentHeadImg);
 
         //设置用户数据
         holder.originalNormal.tvName.setText(dynamicBaseData.getCreator_nickname());
@@ -1231,7 +1222,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         String headImgUrl = dynamicBaseData.getCreator_avatar();
         if (!StringUtils.isEmpty(headImgUrl)) {
             bindImageViewAndUrl(holder.originalNormal.ivHeadImg, headImgUrl);
-            ClassUtils.bindImage$Url(headImgUrl, holder.originalNormal.ivHeadImg, position);
         }
         DynamicData.Normal normal = ((DynamicData) dynamicBaseData).getNormal();
         int imageNum = 0;
@@ -1278,7 +1268,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         imageView[5] = holder.originalNormal.ivPic6;
         for (int i = 0; i < image.size(); i++) {
             bindImageViewAndUrl(imageView[i], image.get(i));
-            ClassUtils.bindImage$Url(image.get(i), imageView[i], 0);
         }
     }
 
@@ -1295,10 +1284,11 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         }
 
         //绑定Tag对象
-        ClassUtils.bindViewsTag(position, holder.originalTopic.iv_headImg,
+        ClassUtils.bindViewsTag(position,
                 holder.originalTopic.ivHeart,
                 holder.originalTopic.ivShare,
-                holder.contentView);
+                holder.contentView,
+                holder.originalTopic.contentHeadImg);
 
         //设置用户数据
         holder.originalTopic.tvName.setText(dynamicBaseData.getCreator_nickname());
@@ -1308,7 +1298,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         String headImgUrl = dynamicBaseData.getCreator_avatar();
         if (!StringUtils.isEmpty(headImgUrl)) {
             bindImageViewAndUrl(holder.originalTopic.iv_headImg, headImgUrl);
-            ClassUtils.bindImage$Url(headImgUrl, holder.originalTopic.iv_headImg, position);
         }
         //解析话题的数据
         holder.originalTopic.tvTitle.setText(((DynamicData) dynamicBaseData).getTitle());
@@ -1320,7 +1309,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             if (bean != null) {
                 holder.originalTopic.tvContent.setText(bean.getDoc());
                 bindImageViewAndUrl(holder.originalTopic.iv_picture, bean.getImg());
-                ClassUtils.bindImage$Url(bean.getImg(), holder.originalTopic.iv_picture, position);
             }
         }
 
@@ -1345,9 +1333,10 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         }
 
         //绑定Tag对象
-        ClassUtils.bindViewsTag(position, holder.unOriginalSubscribeCircle.ivHeadImg,
+        ClassUtils.bindViewsTag(position,
                 holder.unOriginalSubscribeCircle.circleContent,
-                holder.contentView);
+                holder.contentView,
+                holder.unOriginalSubscribeCircle.contentHeadImg);
 
         //设置用户数据
         holder.unOriginalSubscribeCircle.tvName.setText(dynamicBaseData.getCreator_nickname());
@@ -1358,7 +1347,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         if (!StringUtils.isEmpty(headImgUrl)) {
             //设置TAG
             bindImageViewAndUrl(holder.unOriginalSubscribeCircle.ivHeadImg, headImgUrl);
-            ClassUtils.bindImage$Url(headImgUrl, holder.unOriginalSubscribeCircle.ivHeadImg, position);
         }
         //设置圈子数据
         CircleData circleData = (CircleData) dynamicBaseData;
@@ -1370,12 +1358,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         //设置图片
         bindImageViewAndUrl(holder.unOriginalSubscribeCircle.ivCirclePicture,
                 circleData.getPicture());
-        ClassUtils.bindImage$Url(circleData.getPicture(),
-                holder.unOriginalSubscribeCircle.ivCirclePicture, position);
         bindBlurImageViewAndUrl(holder.unOriginalSubscribeCircle.ivCirclePicBg,
                 circleData.getPicture(), 25, 5);
-        ClassUtils.bindImage$Url(circleData.getPicture(),
-                holder.unOriginalSubscribeCircle.ivCirclePicBg, position);
     }
 
     /**
@@ -1390,11 +1374,12 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         }
 
         //绑定Tag对象
-        ClassUtils.bindViewsTag(position, holder.originalArticle.iv_headImg,
+        ClassUtils.bindViewsTag(position,
                 holder.originalArticle.ivHeart,
                 holder.originalArticle.ivShare,
                 holder.originalArticle.ivComment,
-                holder.contentView);
+                holder.contentView,
+                holder.originalArticle.contentHeadImg);
 
         //设置用户数据
         holder.originalArticle.tvName.setText(dynamicBaseData.getCreator_nickname());
@@ -1404,7 +1389,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         String headImgUrl = dynamicBaseData.getCreator_avatar();
         if (!StringUtils.isEmpty(headImgUrl)) {
             bindImageViewAndUrl(holder.originalArticle.iv_headImg, headImgUrl);
-            ClassUtils.bindImage$Url(headImgUrl, holder.originalArticle.iv_headImg, position);
         }
         //设置文章数据
         DynamicData.Article article = ((DynamicData) dynamicBaseData).getArticle();
@@ -1415,7 +1399,6 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 holder.originalArticle.tvContent.setText(bean.getDoc());
                 String picUrl = bean.getImg();
                 bindImageViewAndUrl(holder.originalArticle.iv_picture, picUrl);
-                ClassUtils.bindImage$Url(picUrl, holder.originalArticle.iv_picture, position);
             }
         }
         //设置文章标题
@@ -1438,15 +1421,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
      * 绑定图片到网址上
      */
     private void bindImageViewAndUrl(ImageView iv_headImg, String headImgUrl) {
-        Bundle bundle = (Bundle) iv_headImg.getTag();
-        if (bundle != null) {
-            String url = bundle.getString(com.jkb.mrcampus.Config.BUNDLE_KEY_IMAGE_URL);
-            if (!StringUtils.isEmpty(url, headImgUrl) && headImgUrl.equals(url)) {
-                return;
-            }
-        }
         ImageLoaderFactory.getInstance().displayImage(iv_headImg, headImgUrl);
-        ClassUtils.bindImage$Url(headImgUrl, iv_headImg, 0);//为了处理图片闪烁问题
     }
 
     /**
@@ -1454,16 +1429,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
      */
     private void bindBlurImageViewAndUrl(
             ImageView iv_headImg, String headImgUrl, int radius, int downSampling) {
-        Bundle bundle = (Bundle) iv_headImg.getTag();
-        if (bundle != null) {
-            String url = bundle.getString(com.jkb.mrcampus.Config.BUNDLE_KEY_IMAGE_URL);
-            if (!StringUtils.isEmpty(url, headImgUrl) && headImgUrl.equals(url)) {
-                return;
-            }
-        }
         ImageLoaderFactory.getInstance().displayBlurImage(iv_headImg, headImgUrl, radius,
                 downSampling);
-        ClassUtils.bindImage$Url(headImgUrl, iv_headImg, 0);//为了处理图片闪烁问题
     }
 
     /**
@@ -1563,6 +1530,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvCommentNum;//评论人数
         TextView tvLikeNum;//喜欢的人数
         TextView tvAction;//动作
+        View contentHeadImg;//包裹头像的View
 
         ImageView ivHeart;//是否被关注的心型图标
         ImageView ivShare;//分享
@@ -1582,6 +1550,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvContent;//内容
         TextView tvLikeNum;//喜欢的人数
         TextView tvAction;//动作
+        View contentHeadImg;//包裹头像的View
 
         ImageView ivHeart;//是否被关注的心型图标
         ImageView ivShare;//分享
@@ -1604,6 +1573,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         ImageView ivHeart;//是否被关注的心型图标
         ImageView ivShare;//分享
         ImageView ivComment;//评论
+        View contentHeadImg;//包裹头像的View
     }
 
     /**
@@ -1621,6 +1591,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvName;
         TextView tvTime;
         TextView tvAction;
+        View contentHeadImg;//包裹头像的View
 
         View circleContent;//圈子包含内容
     }
@@ -1634,6 +1605,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvName;
         TextView tvTime;
         TextView tvAction;//动作
+        View contentHeadImg;//包裹头像的View
         //原创作者信息
         TextView tvOriginalNickName;//原创作者名称
         //相关作品信息
@@ -1657,6 +1629,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvName;
         TextView tvTime;
         TextView tvAction;//动作
+        View contentHeadImg;//包裹头像的View
         //原创作者信息
         TextView tvOriginalNickName;//原创作者名称
         //相关作品信息
@@ -1682,6 +1655,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvName;
         TextView tvTime;
         TextView tvAction;//动作
+        View contentHeadImg;//包裹头像的View
         //原创作者信息
         TextView tvOriginalNickName;//原创作者名称
         //相关作品信息
@@ -1706,6 +1680,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvName;
         TextView tvTime;
         TextView tvAction;//动作
+        View contentHeadImg;//包裹头像的View
         //原创作者信息
         TextView tvOriginalNickName;//原创作者名称
         //相关作品信息
@@ -1729,6 +1704,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvName;
         TextView tvTime;
         TextView tvAction;//动作
+        View contentHeadImg;//包裹头像的View
         //原创作者信息
         TextView tvOriginalNickName;//原创作者名称
         //相关作品信息
@@ -1752,6 +1728,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         TextView tvName;
         TextView tvTime;
         TextView tvAction;//动作
+        View contentHeadImg;//包裹头像的View
         //原创作者信息
         TextView tvOriginalNickName;//原创作者名称
         //相关作品信息
@@ -1880,11 +1857,12 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
             //判断id
             switch (viewId) {
-                case R.id.idon_iv_headImg:
-                case R.id.idoa_iv_headImg:
-                case R.id.idot_iv_headImg:
-                case R.id.iidu_iv_headImg:
-                case R.id.ius_iv_headImg:
+                case R.id.idon_contentHeadImg:
+                case R.id.idoa_contentHeadImg:
+                case R.id.idot_contentHeadImg:
+                case R.id.iidc_contentHeadImg:
+                case R.id.iidu_contentHeadImg:
+                case R.id.ius_contentHeadImg:
                     onUserClick(position);
                     break;
             }
@@ -1960,7 +1938,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
             //判断id
             switch (viewId) {
-                case R.id.iidc_iv_headImg:
+                case R.id.iidc_contentHeadImg:
                 case R.id.idsc_circleContent:
                 case R.id.dynamic_content:
                     OnCircleClick(position);

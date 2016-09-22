@@ -263,6 +263,21 @@ public class DynamicPresenter implements DynamicContract.Presenter {
         view.startDynamicActivity(dynamic_id, dynamic_type);
     }
 
+    @Override
+    public void onCommentClick(int position) {
+        DynamicBaseData dynamicBaseData = dynamicDatas.get(position);
+        int dynamic_id;
+        switch (dynamicBaseData.getTarget_type()) {//判断是否动态
+            case Config.TARGET_TYPE_DYNAMIC:
+                dynamic_id = dynamicBaseData.getTarget_id();
+                break;
+            default:
+                dynamic_id = -1;
+                break;
+        }
+        view.startCommentActivity(dynamic_id);
+    }
+
     /**
      * 得到动态数据
      */

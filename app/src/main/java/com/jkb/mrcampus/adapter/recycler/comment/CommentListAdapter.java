@@ -35,7 +35,9 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     private OnHeadImgClickListener onHeadImgClickListener;
     private CommentReplyAdapter.OnReplyUserClickListener onReplyUserClickListener;
     private CommentReplyAdapter.OnTargetReplyUserClickListener onTargetReplyUserClickListener;
+    private CommentReplyAdapter.OnReplyReplyCommentClickListener onReplyReplyCommentClickListener;
     private OnViewAllCommentClickListener onViewAllCommentClickListener;
+    private OnCommentValueClickListener onCommentValueClickListener;
 
     public CommentListAdapter(Context context, List<DynamicDetailCommentData> commentDataList) {
         this.context = context;
@@ -72,6 +74,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         holder.tvContent = (TextView) view.findViewById(R.id.icoml_tv_commentContent);
         holder.ivHeadImg = (ImageView) view.findViewById(R.id.icoml_iv_headImg);
         holder.ivFavorite = (ImageView) view.findViewById(R.id.icoml_iv_praise);
+        holder.contentHeadImg = view.findViewById(R.id.icoml_contentHeadImg);
 
 
         if (holder.commentReplyAdapter == null) {
@@ -81,11 +84,14 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
 
         //设置监听事件
         holder.ivFavorite.setOnClickListener(clickLikeListener);
-        holder.ivHeadImg.setOnClickListener(clickHeadImgListener);
+        holder.contentHeadImg.setOnClickListener(clickHeadImgListener);
         holder.viewAllComment.setOnClickListener(clickViewAllCommentListener);
+        holder.tvContent.setOnClickListener(clickCommentValueListener);
         //设置回复的监听事件
         holder.commentReplyAdapter.setOnReplyUserClickListener(onReplyUserClickListener);
         holder.commentReplyAdapter.setOnTargetReplyUserClickListener(onTargetReplyUserClickListener);
+        holder.commentReplyAdapter.
+                setOnReplyReplyCommentClickListener(onReplyReplyCommentClickListener);
     }
 
     @Override
@@ -96,8 +102,11 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
             return;
         }
         //设置Tag
-        ClassUtils.bindViewsTag(position, holder.ivFavorite, holder.ivHeadImg,
-                holder.viewAllComment);
+        ClassUtils.bindViewsTag(position,
+                holder.ivFavorite,
+                holder.contentHeadImg,
+                holder.viewAllComment,
+                holder.tvContent);
 
         holder.tvContent.setText(commentData.getComment());
         holder.tvTime.setText(commentData.getComment_time());
@@ -166,6 +175,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         TextView tvContent;
         ImageView ivHeadImg;
         ImageView ivFavorite;
+        View contentHeadImg;
     }
 
     /**
@@ -206,6 +216,18 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     }
 
     /**
+     * 评论内容的点击监听器
+     */
+    public interface OnCommentValueClickListener {
+        /**
+         * 评论内容点击的回调方法
+         *
+         * @param position 条目
+         */
+        void onCommentValueClick(int position);
+    }
+
+    /**
      * 设置喜欢的点击事件接口
      */
     public void setOnLikeClickListener(OnLikeClickListener onLikeClickListener) {
@@ -236,11 +258,27 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     }
 
     /**
+     * 设置回复回复的内容点击接口
+     */
+    public void setOnReplyReplyCommentClickListener(
+            CommentReplyAdapter.OnReplyReplyCommentClickListener onReplyReplyCommentClickListener) {
+        this.onReplyReplyCommentClickListener = onReplyReplyCommentClickListener;
+    }
+
+    /**
      * 设置查看所有的评论的点击回调接口
      */
     public void setOnViewAllCommentClickListener(
             OnViewAllCommentClickListener onViewAllCommentClickListener) {
         this.onViewAllCommentClickListener = onViewAllCommentClickListener;
+    }
+
+    /**
+     * 设置评论内容的点击回调方法
+     */
+    public void setOnCommentValueClickListener(
+            OnCommentValueClickListener onCommentValueClickListener) {
+        this.onCommentValueClickListener = onCommentValueClickListener;
     }
 
     /**
@@ -280,7 +318,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
                 int viewId = bundle.getInt(Config.BUNDLE_KEY_VIEW_ID);
                 int position = bundle.getInt(Config.BUNDLE_KEY_VIEW_POSITION);
                 switch (viewId) {
-                    case R.id.icoml_iv_headImg:
+                    case R.id.icoml_contentHeadImg:
                         onHeadImgClickListener.onHeadImgClick(position);
                         break;
                 }
@@ -305,6 +343,28 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
                 switch (viewId) {
                     case R.id.icoml_ll_showAllComment:
                         onViewAllCommentClickListener.OnViewAllCommentClick(position);
+                        break;
+                }
+            }
+        }
+    };
+    /**
+     * 评论的内容的点击事件监听
+     */
+    private View.OnClickListener clickCommentValueListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (onCommentValueClickListener != null) {
+                //判断是哪个控件
+                Bundle bundle = (Bundle) view.getTag();
+                if (bundle == null) {
+                    return;
+                }
+                int viewId = bundle.getInt(Config.BUNDLE_KEY_VIEW_ID);
+                int position = bundle.getInt(Config.BUNDLE_KEY_VIEW_POSITION);
+                switch (viewId) {
+                    case R.id.icoml_tv_commentContent:
+                        onCommentValueClickListener.onCommentValueClick(position);
                         break;
                 }
             }

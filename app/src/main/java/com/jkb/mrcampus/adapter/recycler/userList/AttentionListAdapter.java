@@ -57,7 +57,7 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
             int viewId = bundle.getInt(Config.BUNDLE_KEY_VIEW_ID);
             int position = bundle.getInt(Config.BUNDLE_KEY_VIEW_POSITION);
             switch (viewId) {
-                case R.id.iul_iv_headImg:
+                case R.id.iul_contentHeadImg:
                     onUserListItemsClickListener.onHeadImgClick(position);
                     break;
                 case R.id.iul_tv_attentionStatus:
@@ -104,9 +104,10 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
         holder.tvSign = (TextView) view.findViewById(R.id.iul_tv_sign);
         holder.tvTime = (TextView) view.findViewById(R.id.iul_tv_time);
         holder.contentView = view.findViewById(R.id.iul_ll_content);
+        holder.contentHeadImg = view.findViewById(R.id.iul_contentHeadImg);
 
         //初始化监听器
-        holder.ivHeadImg.setOnClickListener(this);
+        holder.contentHeadImg.setOnClickListener(this);
         holder.tvAttention.setOnClickListener(this);
 
         return holder;
@@ -115,7 +116,7 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
     @Override
     public void onBindViewHolder(AttentionListAdapter.ViewHolder holder, int position) {
         //绑定控件的TAG
-        ClassUtils.bindViewsTag(position, holder.ivHeadImg, holder.tvAttention);
+        ClassUtils.bindViewsTag(position, holder.contentHeadImg, holder.tvAttention);
 
         //绑定数据
         if (position % 2 == 0) {//偶数
@@ -201,6 +202,7 @@ public class AttentionListAdapter extends RecyclerView.Adapter<AttentionListAdap
         private TextView tvSign;//签名
         private TextView tvAttention;//是否关注
         private CircleImageView ivHeadImg;//头像
+        private View contentHeadImg;
         private View contentView;//包裹的背景
     }
 }

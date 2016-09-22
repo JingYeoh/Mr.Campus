@@ -286,15 +286,31 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     }
 
     @Override
-    public void startCommentActivity(@NonNull int target_id, String action) {
-        if (target_id <= 0) {
+    public void startCommentListActivity(@NonNull int dynamicId) {
+        if (dynamicId <= 0) {
             showShortToast("动态不存在");
             return;
         }
         Log.d(TAG, "startCommentActivity");
         Intent intent = new Intent(this, CommentActivity.class);
-        intent.putExtra(Config.INTENT_KEY_TARGET_ID, target_id);
-        intent.putExtra(Config.INTENT_KEY_SHOW_COMMENT, action);
+        intent.putExtra(Config.INTENT_KEY_TARGET_ID, dynamicId);
+        intent.putExtra(Config.INTENT_KEY_SHOW_COMMENT,
+                CommentActivity.ACTION_SHOW_VIEW_COMMENT_LIST);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startCommentSingleAllActivity(@NonNull int commentId, @NonNull int dynamicId) {
+        if (dynamicId <= 0) {
+            showShortToast("动态不存在");
+            return;
+        }
+        Log.d(TAG, "startCommentActivity");
+        Intent intent = new Intent(this, CommentActivity.class);
+        intent.putExtra(Config.INTENT_KEY_TARGET_ID, commentId);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
+        intent.putExtra(Config.INTENT_KEY_SHOW_COMMENT,
+                CommentActivity.ACTION_SHOW_VIEW_COMMENT_SINGLE_ALL);
         startActivityWithPushLeftAnim(intent);
     }
 
@@ -326,21 +342,28 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     @Override
     public void showSoftKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
-        if (isOpen) {
-            return;
-        }
+//        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+//        if (isOpen) {
+//            return;
+//        }
         imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
     }
 
     @Override
     public void hideSoftKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
-        if (!isOpen) {
-            return;
-        }
+//        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+//        if (!isOpen) {
+//            return;
+//        }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
+    }
+
+    @Override
+    public boolean isKeyboardShown(View view) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+        return isOpen;
     }
 
     /**

@@ -31,6 +31,7 @@ public class CommentActivity extends BaseActivity {
     public static final String ACTION_SHOW_VIEW_COMMENT_LIST = "action.show.view.comment.list";
     public static final String ACTION_SHOW_VIEW_COMMENT_SINGLE_ALL = "action.show.view.comment.single.all";
     public static final String SAVED_DYNAMIC_ID = "saved_dynamic_id";
+    public static final String SAVED_COMMENT_ID = "saved_comment_id";
     public static final String SAVED_COMMENT_SHOW_TYPE = "saved_comment_showType";
 
     //data
@@ -73,12 +74,14 @@ public class CommentActivity extends BaseActivity {
                     break;
                 case ACTION_SHOW_VIEW_COMMENT_SINGLE_ALL:
                     comment_id = target_id;
+                    dynamic_id = intent.getIntExtra(Config.INTENT_KEY_DYNAMIC_ID, -1);
                     comment_showType = ClassUtils.getClassName(CommentSingleAllFragment.class);
                     break;
             }
         } else {
             restoreFragments();
-            target_id = savedInstanceState.getInt(SAVED_DYNAMIC_ID, -1);
+            dynamic_id = savedInstanceState.getInt(SAVED_DYNAMIC_ID, -1);
+            comment_id = savedInstanceState.getInt(SAVED_COMMENT_ID, -1);
             comment_showType = savedInstanceState.getString(SAVED_COMMENT_SHOW_TYPE);
             //恢复保存的栈数据
             fragmentStack.setFragmetStackNames(
@@ -151,7 +154,7 @@ public class CommentActivity extends BaseActivity {
      */
     private void initCommentSingleAll() {
         if (commentSingleAllFragment == null) {
-            commentSingleAllFragment = CommentSingleAllFragment.newInstance(comment_id);
+            commentSingleAllFragment = CommentSingleAllFragment.newInstance(dynamic_id, comment_id);
             ActivityUtils.addFragmentToActivity(fm, commentSingleAllFragment, contentViewId);
         }
         if (commentSingleAllPresenter == null) {
@@ -196,6 +199,7 @@ public class CommentActivity extends BaseActivity {
         outState.putStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK,
                 fragmentStack.getFragmetStackNames());
         outState.putInt(SAVED_DYNAMIC_ID, target_id);
+        outState.putInt(SAVED_COMMENT_ID, comment_id);
         outState.putString(SAVED_COMMENT_SHOW_TYPE, comment_showType);
     }
 }

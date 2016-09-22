@@ -12,12 +12,18 @@
         android:layout_margin="10dp"
         android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/idon_iv_headImg"
-            style="@style/Dynamic_HeadImg_style"
-            android:layout_gravity="center"
-            android:padding="5dp"
-            android:src="@color/default_picture" />
+        <RelativeLayout
+            android:id="@+id/idon_contentHeadImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/idon_iv_headImg"
+                style="@style/Dynamic_HeadImg_style"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:src="@color/default_picture" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -1,11 +1,13 @@
 package com.jkb.core.presenter.comment.list;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.comment.CommentListEntity;
+import com.jkb.api.entity.comment.CommentReplyEntity;
 import com.jkb.api.entity.comment.CommentSendEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.core.contract.comment.list.CommentListContract;
@@ -32,6 +34,7 @@ import retrofit2.Response;
 
 public class CommentListPresenter implements CommentListContract.Presenter {
 
+    private static final String TAG = "CommentListPresenter";
     private CommentListContract.View view;
     private CommentListRepository repository;
 
@@ -194,7 +197,7 @@ public class CommentListPresenter implements CommentListContract.Presenter {
     }
 
     @Override
-    public void sendComment(String comment) {
+    public void commentComment(String comment) {
         if (!LoginContext.getInstance().isLogined()) {
             view.showReqResult("请先登录再进行操作");
             return;
@@ -217,6 +220,67 @@ public class CommentListPresenter implements CommentListContract.Presenter {
     }
 
     @Override
+    public void commentReply(int commentPosition, String comment) {
+        if (!LoginContext.getInstance().isLogined()) {
+            view.showReqResult("请先登录再进行操作");
+            return;
+        }
+        if (StringUtils.isEmpty(comment)) {
+            view.showReqResult("内容不能为空");
+            return;
+        }
+        //请求发送评论接口
+        //调用喜欢评论的方法
+        UserAuths userAuths = getUserAuths();
+        if (userAuths == null) {
+            view.showReqResult("登录过期，请重新登录");
+            return;
+        }
+        String Authorization = Config.HEADER_BEARER + userAuths.getToken();
+        int user_id = commentData.get(commentPosition).getComment_user().getId();
+        int comment_id = commentData.get(commentPosition).getComment_id();
+        view.showLoading("");
+        reqSubmitReply(Authorization, user_id, comment_id, comment);
+    }
+
+    @Override
+    public void commentReply(int commentPosition, int replyPosition, String comment) {
+        if (!LoginContext.getInstance().isLogined()) {
+            view.showReqResult("请先登录再进行操作");
+            return;
+        }
+        if (StringUtils.isEmpty(comment)) {
+            view.showReqResult("内容不能为空");
+            return;
+        }
+        //请求发送评论接口
+        //调用喜欢评论的方法
+        UserAuths userAuths = getUserAuths();
+        if (userAuths == null) {
+            view.showReqResult("登录过期，请重新登录");
+            return;
+        }
+        String Authorization = Config.HEADER_BEARER + userAuths.getToken();
+        int comment_id = commentData.get(commentPosition). getComment_id();
+        int user_id = commentData.get(commentPosition).getReplyDatas().get(replyPosition)
+                .getReply_user().getId();
+        view.showLoading("");
+        reqSubmitReply(Authorization, user_id, comment_id, comment);
+    }
+
+    /**
+     * 提交回复的数据
+     *
+     * @param authorization 头
+     * @param user_id       用户id
+     * @param comment_id    评论id
+     * @param comment       评论
+     */
+    private void reqSubmitReply(String authorization, int user_id, int comment_id, String comment) {
+        repository.sendReply(authorization, user_id, comment_id, dynamic_id, comment, replyApiCallback);
+    }
+
+    @Override
     public int getUser_id(int position) {
         int user_id;
         DynamicDetailCommentData commentData = this.commentData.get(position);
@@ -227,6 +291,7 @@ public class CommentListPresenter implements CommentListContract.Presenter {
 
     @Override
     public void onCommentUserClick(int commentPosition) {
+        Log.d(TAG, "commentPosition=" + commentPosition);
         int user_id = getUser_id(commentPosition);
         view.startPersonCenterView(user_id);
     }
@@ -252,6 +317,21 @@ public class CommentListPresenter implements CommentListContract.Presenter {
         DynamicDetailCommentData commentData = this.commentData.get(commentPosition);
         int comment_id = commentData.getComment_id();
         view.showViewAllComment$ReplyView(comment_id);
+    }
+
+    @Override
+    public void onReplyContentClick(int commentPosition) {
+        DynamicDetailCommentData commentData = this.commentData.get(commentPosition);
+        DynamicDetailUserData comment_user = commentData.getComment_user();
+        view.setReplyTargetNickName(comment_user.getNickName());
+    }
+
+    @Override
+    public void onReplyReplyContentClick(int commentPosition, int replyPosition) {
+        DynamicDetailCommentData commentData = this.commentData.get(commentPosition);
+        DynamicDetailCommentReplyData reply = commentData.getReplyDatas().get(replyPosition);
+        DynamicDetailUserData reply_user = reply.getReply_user();
+        view.setReplyTargetNickName(reply_user.getNickName());
     }
 
     @Override
@@ -447,6 +527,38 @@ public class CommentListPresenter implements CommentListContract.Presenter {
                     if (view.isActive()) {
                         view.dismissLoading();
                         view.showReqResult("发送失败");
+                    }
+                }
+            };
+    /**
+     * 回复评论的回调接口
+     */
+    private ApiCallback<ApiResponse<CommentReplyEntity>> replyApiCallback =
+            new ApiCallback<ApiResponse<CommentReplyEntity>>() {
+                @Override
+                public void onSuccess(Response<ApiResponse<CommentReplyEntity>> response) {
+                    if (view.isActive()) {
+                        view.dismissLoading();
+                        view.clearComment$HideSoftInputView();
+                        view.showReqResult("回复成功");
+                        onRefresh();
+                    }
+                }
+
+                @Override
+                public void onError(Response<ApiResponse<CommentReplyEntity>> response, String error,
+                                    ApiResponse<CommentReplyEntity> apiResponse) {
+                    if (view.isActive()) {
+                        view.dismissLoading();
+                        view.showReqResult("回复错误");
+                    }
+                }
+
+                @Override
+                public void onFail() {
+                    if (view.isActive()) {
+                        view.dismissLoading();
+                        view.showReqResult("回复失败");
                     }
                 }
             };

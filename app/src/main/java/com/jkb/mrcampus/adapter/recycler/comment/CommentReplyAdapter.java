@@ -31,6 +31,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
     //回调
     private OnReplyUserClickListener onReplyUserClickListener;
     private OnTargetReplyUserClickListener onTargetReplyUserClickListener;
+    private OnReplyReplyCommentClickListener onReplyReplyCommentClickListener;
 
     public CommentReplyAdapter(Context context, List<DynamicDetailCommentReplyData> replyDataList) {
         this.context = context;
@@ -59,6 +60,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
 
         //设置点击事件
         holder.tvApplyName.setOnClickListener(clickReplyUserListener);
+        holder.tvContent.setOnClickListener(clickReplyReplyCommentListener);
         holder.tvTargetApplyName.setOnClickListener(clickTargetReplyUserListener);
     }
 
@@ -67,7 +69,10 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         DynamicDetailCommentReplyData reply = replyDataList.get(position);
 
         //设置TAG
-        ClassUtils.bindViewsTag(position, holder.tvApplyName, holder.tvTargetApplyName);
+        ClassUtils.bindViewsTag(position,
+                holder.tvApplyName,
+                holder.tvTargetApplyName,
+                holder.tvContent);
 
         //内容
         holder.tvContent.setText(reply.getComment());
@@ -136,10 +141,31 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
     }
 
     /**
+     * 回复复内容的点击接口
+     */
+    public interface OnReplyReplyCommentClickListener {
+        /**
+         * 回复回复内容的点击回调方法
+         *
+         * @param parentPosition 父布局的条目F
+         * @param position       条目
+         */
+        void onReplyReplyCommentClick(int parentPosition, int position);
+    }
+
+    /**
      * 设置回复的用户点击接口
      */
     public void setOnReplyUserClickListener(OnReplyUserClickListener onReplyUserClickListener) {
         this.onReplyUserClickListener = onReplyUserClickListener;
+    }
+
+    /**
+     * 设置回复的回复评论点击接口
+     */
+    public void setOnReplyReplyCommentClickListener(
+            OnReplyReplyCommentClickListener onReplyReplyCommentClickListener) {
+        this.onReplyReplyCommentClickListener = onReplyReplyCommentClickListener;
     }
 
     /**
@@ -184,6 +210,27 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
                 switch (viewId) {
                     case R.id.ica_tv_targetApplyName:
                         onTargetReplyUserClickListener.onTargetReplyUserClick(parentPosition, position);
+                        break;
+                }
+            }
+        }
+    };
+
+    private View.OnClickListener clickReplyReplyCommentListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (onReplyReplyCommentClickListener != null) {
+                //判断是哪个控件
+                Bundle bundle = (Bundle) view.getTag();
+                if (bundle == null) {
+                    return;
+                }
+                int viewId = bundle.getInt(Config.BUNDLE_KEY_VIEW_ID);
+                int position = bundle.getInt(Config.BUNDLE_KEY_VIEW_POSITION);
+                switch (viewId) {
+                    case R.id.ica_tv_content:
+                        onReplyReplyCommentClickListener.onReplyReplyCommentClick(
+                                parentPosition, position);
                         break;
                 }
             }

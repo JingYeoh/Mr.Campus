@@ -1,193 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.jkb.mrcampus.view.KeyboardLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icsa_kl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/title_style_4_bgdeep" />
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/icsa_srl"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <android.support.v4.widget.NestedScrollView
+        <include layout="@layout/title_style_4_bgdeep" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/icsa_srl"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-            <LinearLayout
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/icsa_iv_headImg"
-                        style="@style/Dynamic_HeadImg_style"
-                        android:layout_gravity="center"
-                        android:padding="5dp"
-                        android:src="@color/default_picture" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/icsa_tv_name"
-                            style="@style/Dynamic_TitleName_style"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="作者名称" />
-
-
-                        <TextView
-                            android:id="@+id/icsa_tv_time"
-                            style="@style/Dynamic_Time_style"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="top"
-                            android:text="8 minutes age" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_marginLeft="5dp"
-                        android:gravity="center_vertical"
+                        android:layout_margin="10dp"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:id="@+id/icsa_iv_praise"
-                            style="@style/Dynamic_Icon_style"
-                            android:src="@drawable/ic_praise_gray" />
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/icsa_iv_headImg"
+                            style="@style/Dynamic_HeadImg_style"
+                            android:layout_gravity="center"
+                            android:padding="5dp"
+                            android:src="@color/default_picture" />
 
-                        <TextView
-                            android:id="@+id/icsa_tv_praiseCount"
-                            style="@style/Dynamic_IconText_style"
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/icsa_tv_name"
+                                style="@style/Dynamic_TitleName_style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="作者名称" />
+
+
+                            <TextView
+                                android:id="@+id/icsa_tv_time"
+                                style="@style/Dynamic_Time_style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="top"
+                                android:text="8 minutes age" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="0" />
+                            android:layout_gravity="top"
+                            android:layout_marginLeft="5dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/icsa_iv_praise"
+                                style="@style/Dynamic_Icon_style"
+                                android:src="@drawable/ic_praise_gray" />
+
+                            <TextView
+                                android:id="@+id/icsa_tv_praiseCount"
+                                style="@style/Dynamic_IconText_style"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0" />
+                        </LinearLayout>
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/icsa_tv_commentContent"
+                        style="@style/Dynamic_ContentText_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/selecter_clearity_gravy"
+                        android:padding="0dp"
+                        android:text="沙发沙发" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/icsa_rv_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/ic_comment_box"
+                        android:visibility="visible" />
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/icsa_tv_commentContent"
-                    style="@style/Dynamic_ContentText_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:padding="10dp"
-                    android:text="沙发沙发" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/icsa_rv_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/ic_comment_box"
-                    android:visibility="visible" />
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-    <LinearLayout
-        android:id="@+id/icsa_ll_titleContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:background="@color/line" />
+            </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <LinearLayout
-            android:id="@+id/icsa_ll_sendComment"
+            android:id="@+id/icsa_ll_titleContent"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/layout_selector"
-            android:orientation="horizontal"
-            android:visibility="visible">
-
-            <EditText
-                android:id="@+id/icsa_et_commentInput"
-                style="@style/inputEditTextStyle"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:hint="您的评论会让作者更有动力"
-                android:textSize="10sp" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <View
-                android:layout_width="0.1dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
                 android:background="@color/line" />
 
             <LinearLayout
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:id="@+id/icsa_ll_sendComment"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/layout_selector"
+                android:orientation="horizontal"
+                android:visibility="visible">
 
-                <ImageView
-                    android:id="@+id/icsa_iv_sendComment"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_comment_send_gray" />
+                <EditText
+                    android:id="@+id/icsa_et_commentInput"
+                    style="@style/inputEditTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:hint="@string/Your_comment_will_be_more_motivated_author"
+                    android:textSize="10sp" />
+
+                <View
+                    android:layout_width="0.1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/line" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/general_item_selector"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/icsa_tv_inputCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textColor="@color/line"
-                        android:textSize="8sp" />
+                    <ImageView
+                        android:id="@+id/icsa_iv_sendComment"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_comment_send_gray" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="/"
-                        android:textColor="@color/line"
-                        android:textSize="8sp" />
+                        android:background="@drawable/general_item_selector"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/icsa_tv_inputRemainderCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="360"
-                        android:textColor="@color/line"
-                        android:textSize="8sp" />
+                        <TextView
+                            android:id="@+id/icsa_tv_inputCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/line"
+                            android:textSize="8sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="/"
+                            android:textColor="@color/line"
+                            android:textSize="8sp" />
+
+                        <TextView
+                            android:id="@+id/icsa_tv_inputRemainderCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="360"
+                            android:textColor="@color/line"
+                            android:textSize="8sp" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</com.jkb.mrcampus.view.KeyboardLayout>

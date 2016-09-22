@@ -53,10 +53,17 @@ public interface BaseActivityAction {
     /**
      * 打开评论的页面
      *
-     * @param target_id 目标id
-     * @param action    要显示的视图
+     * @param dynamicId 目标id
      */
-    void startCommentActivity(@NonNull int target_id, String action);
+    void startCommentListActivity(@NonNull int dynamicId);
+
+    /**
+     * 打开评论详情页面
+     *
+     * @param commentId 评论id
+     * @param dynamicId 动态id
+     */
+    void startCommentSingleAllActivity(@NonNull int commentId, @NonNull int dynamicId);
 
     /**
      * 顯示輸入
@@ -77,6 +84,11 @@ public interface BaseActivityAction {
      * 隐藏软键盘
      */
     void hideSoftKeyboard(View view);
+
+    /**
+     * 判断软键盘是否开启
+     */
+    boolean isKeyboardShown(View view);
 
     /**
      * 取消显示所有视图

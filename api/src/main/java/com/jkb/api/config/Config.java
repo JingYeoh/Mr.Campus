@@ -48,6 +48,7 @@ public class Config {
     public static final String URL_COMMENT_LIST = "comment/{dynamicId}";
     public static final String URL_COMMENT_SINGLE = "getReply/{commentId}";
     public static final String URL_COMMENT_SEND = "comment";
+    public static final String URL_COMMENT_REPLY_SEND = "reply";
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
 
@@ -79,6 +80,7 @@ public class Config {
     public static final String KEY_AK = "ak";
     public static final String KEY_MCODE = "mcode";
     public static final String KEY_USER_ID = "user_id";
+    public static final String KEY_TARGET_USER_ID = "target_user_id";
     public static final String KEY_SCHOOL_ID = "school_id";
     public static final String KEY_INTRODUCTION = "introduction";
     public static final String KEY_LONGITUDE = "longitude";
@@ -97,6 +99,7 @@ public class Config {
     public static final String KEY_DYNAMIC_ID = "dynamic_id";
     public static final String KEY_COMMENT = "comment";
     public static final String KEY_COMMENTID = "commentId";
+    public static final String KEY_COMMENT_ID = "comment_id";
 
 
     public static final String GENDER_M = "m";

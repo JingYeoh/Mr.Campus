@@ -388,8 +388,7 @@ public class NormalDynamicFragment extends BaseFragment
     @Override
     public void startCommentListView() {
         Log.d(TAG, "startCommentListView");
-        dynamicDetailActivity.startCommentActivity(dynamic_id,
-                CommentActivity.ACTION_SHOW_VIEW_COMMENT_LIST);
+        dynamicDetailActivity.startCommentListActivity(dynamic_id);
     }
 
     @Override

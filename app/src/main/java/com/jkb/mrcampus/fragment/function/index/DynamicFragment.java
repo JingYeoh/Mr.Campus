@@ -218,6 +218,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
                 @Override
                 public void onCommentClick(int position) {
                     Log.d(TAG, "position=" + position);
+                    mPresenter.onCommentClick(position);
                 }
             };
     /**
@@ -373,6 +374,11 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
                 break;
         }
         mainActivity.startDynamicActivity(dynamic_id, dynamicType);
+    }
+
+    @Override
+    public void startCommentActivity(@NonNull int dynamic_id) {
+        mainActivity.startCommentListActivity(dynamic_id);
     }
 
     @Override

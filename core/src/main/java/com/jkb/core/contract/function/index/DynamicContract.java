@@ -79,6 +79,13 @@ public interface DynamicContract {
          * @param dynamicType 动态类型
          */
         void startDynamicActivity(@NonNull int dynamic_id, @NonNull String dynamicType);
+
+        /**
+         * 打开评论页面
+         *
+         * @param dynamic_id 动态id
+         */
+        void startCommentActivity(@NonNull int dynamic_id);
     }
 
     interface Presenter extends BasePresenter {
@@ -129,5 +136,10 @@ public interface DynamicContract {
          * 打开动态详情页面
          */
         void startDynamicDetailView(int position);
+
+        /**
+         * 点击评论的时候
+         */
+        void onCommentClick(int position);
     }
 }

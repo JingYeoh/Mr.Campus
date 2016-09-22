@@ -17,12 +17,15 @@ import android.widget.TextView;
 
 import com.jkb.core.contract.comment.list.CommentListContract;
 import com.jkb.core.contract.dynamicDetail.data.comment.DynamicDetailCommentData;
+import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CommentActivity;
 import com.jkb.mrcampus.adapter.recycler.comment.CommentListAdapter;
 import com.jkb.mrcampus.adapter.recycler.comment.CommentReplyAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.helper.comment.Comment$ReplyStatusController;
+import com.jkb.mrcampus.view.KeyboardLayout;
 
 import java.util.List;
 
@@ -57,6 +60,7 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
     private LinearLayoutManager linearLayoutManager;
     private SwipeRefreshLayout refreshLayout;
     //评论
+    private KeyboardLayout keyboardLayout;
     private EditText etCommentInput;
     private TextView tvCommentCount;
     private TextView tvCommentRemainderCount;
@@ -67,6 +71,9 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
     private CommentListContract.Presenter mPresenter;
     private CommentListAdapter commentListAdapter;
     private static final int MAX_COMMENT_COUNT = 360;
+
+    //评论和回复的状态
+    private Comment$ReplyStatusController comment$ReplyStatusController;
 
     @Nullable
     @Override
@@ -103,6 +110,8 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
         commentListAdapter.setOnReplyUserClickListener(onReplyUserClickListener);
         commentListAdapter.setOnTargetReplyUserClickListener(onTargetReplyUserClickListener);
         commentListAdapter.setOnViewAllCommentClickListener(onViewAllCommentClickListener);
+        commentListAdapter.setOnCommentValueClickListener(onCommentValueClickListener);
+        commentListAdapter.setOnReplyReplyCommentClickListener(onReplyReplyCommentClickListener);
 
         rootView.findViewById(R.id.fcl_ll_sendComment).setOnClickListener(this);
         rootView.findViewById(R.id.ts4_ib_left).setOnClickListener(this);
@@ -141,10 +150,14 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
                 }
             }
         });
+        //设置软键盘弹起/隐藏状态的监听
+        keyboardLayout.setOnkbdStateListener(onKybdsChangeListener);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        //初始化回复/评论的控制器
+        comment$ReplyStatusController = new Comment$ReplyStatusController();
         if (savedInstanceState == null) {
 
         } else {
@@ -166,6 +179,7 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
 
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fcl_srl);
 
+        keyboardLayout = (KeyboardLayout) rootView.findViewById(R.id.fcl_contentKeyBoard);
         //初始化输入
         etCommentInput = (EditText) rootView.findViewById(R.id.fcl_et_commentInput);
         //初始化其他
@@ -199,15 +213,72 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
     }
 
     @Override
-    public void commitComment() {
+    public void commitComment$Reply() {
         String comment = etCommentInput.getText().toString();
-        mPresenter.sendComment(comment);
+        //判断是发布评论还是回复
+        int submitType = comment$ReplyStatusController.getSubmitType();
+        switch (submitType) {
+            case Comment$ReplyStatusController.SUBMIT_TYPE_COMMENT://评论
+                mPresenter.commentComment(comment);
+                break;
+            case Comment$ReplyStatusController.SUBMIT_TYPE_REPLY: {//回复
+                int commentPosition = comment$ReplyStatusController.getCommentPosition();
+                mPresenter.onReplyContentClick(commentPosition);
+                mPresenter.commentReply(commentPosition, comment);
+                break;
+            }
+            case Comment$ReplyStatusController.SUBMIC_TYPE_REPLY_REPLY://回复回复{
+                int commentPosition = comment$ReplyStatusController.getCommentPosition();
+                int replyPosition = comment$ReplyStatusController.getReplyPosition();
+                mPresenter.onReplyReplyContentClick(commentPosition, replyPosition);
+                mPresenter.commentReply(commentPosition, replyPosition, comment);
+                break;
+        }
     }
 
     @Override
     public void clearComment$HideSoftInputView() {
         etCommentInput.setText("");//清楚文本框信息
+//        etCommentInput.clearFocus();
+//        commentActivity.hideSoftInputView();
         commentActivity.hideSoftKeyboard(etCommentInput);//设置软键盘不可见
+    }
+
+    @Override
+    public void clearReplyStatus() {
+        String comment = etCommentInput.getText().toString();
+        if (!StringUtils.isEmpty(comment)) {
+            return;
+        }
+        etCommentInput.setHint(R.string.Your_comment_will_be_more_motivated_author);
+        comment$ReplyStatusController.clearReplyStatus();
+    }
+
+    @Override
+    public void setReplyTargetNickName(String replyName) {
+        etCommentInput.setHint("回复：" + replyName);
+    }
+
+    @Override
+    public void setReplyTargetNickName(int commentPosition) {
+        comment$ReplyStatusController.changeStatusToReply(commentPosition);
+        //弹起软键盘
+        etCommentInput.requestFocus();
+//        commentActivity.showSoftInputView();
+        commentActivity.showSoftKeyboard(etCommentInput);
+        //设置内容
+        mPresenter.onReplyContentClick(commentPosition);
+    }
+
+    @Override
+    public void setReplyReplyStatus(int commentPosition, int replyPosition) {
+        comment$ReplyStatusController.changeStatusToReplyReply(commentPosition, replyPosition);
+        //弹起软键盘
+        etCommentInput.requestFocus();
+        commentActivity.showSoftInputView();
+        commentActivity.showSoftKeyboard(etCommentInput);
+        //设置内容
+        mPresenter.onReplyReplyContentClick(commentPosition, replyPosition);
     }
 
     @Override
@@ -218,8 +289,7 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
     @Override
     public void showViewAllComment$ReplyView(int comment_id) {
         //显示所有的评论和回复的页面
-        commentActivity.startCommentActivity(comment_id,
-                CommentActivity.ACTION_SHOW_VIEW_COMMENT_SINGLE_ALL);
+        commentActivity.startCommentSingleAllActivity(comment_id, dynamic_id);
     }
 
     @Override
@@ -269,7 +339,7 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
                 }
             };
     /**
-     * 设置点击喜欢的点击事件监听
+     * 设置点击头像的点击事件监听
      */
     private CommentListAdapter.OnHeadImgClickListener onHeadImgClickListener = new
             CommentListAdapter.OnHeadImgClickListener() {
@@ -283,7 +353,7 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fcl_ll_sendComment:
-                commitComment();
+                commitComment$Reply();
                 break;
             case R.id.ts4_ib_left:
                 commentActivity.onBackPressed();
@@ -337,6 +407,46 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
                 @Override
                 public void OnViewAllCommentClick(int position) {
                     mPresenter.onViewAllComment$ReplyClick(position);
+                }
+            };
+    /**
+     * 点击评论内容的点击回调
+     */
+    private CommentListAdapter.OnCommentValueClickListener onCommentValueClickListener =
+            new CommentListAdapter.OnCommentValueClickListener() {
+                @Override
+                public void onCommentValueClick(int position) {
+                    commentActivity.showSoftInputView();
+                    setReplyTargetNickName(position);
+                }
+            };
+    /**
+     * 设置评论的回复的内容的点击事件监听
+     */
+    private CommentReplyAdapter.OnReplyReplyCommentClickListener onReplyReplyCommentClickListener =
+            new CommentReplyAdapter.OnReplyReplyCommentClickListener() {
+                @Override
+                public void onReplyReplyCommentClick(int parentPosition, int position) {
+                    setReplyReplyStatus(parentPosition, position);
+                    commentActivity.showSoftInputView();
+                }
+            };
+    /**
+     * 软键盘的弹起/关闭状态
+     */
+    private KeyboardLayout.onKybdsChangeListener onKybdsChangeListener = new
+            KeyboardLayout.onKybdsChangeListener() {
+                @Override
+                public void onKeyBoardStateChange(int state) {
+                    switch (state) {
+                        case KeyboardLayout.KEYBOARD_STATE_HIDE:
+//                            showReqResult("软键盘隐藏");
+                            clearReplyStatus();
+                            break;
+                        case KeyboardLayout.KEYBOARD_STATE_SHOW:
+//                            showReqResult("软键盘弹起");
+                            break;
+                    }
                 }
             };
 }

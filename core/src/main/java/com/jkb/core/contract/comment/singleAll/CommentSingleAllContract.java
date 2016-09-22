@@ -23,6 +23,11 @@ public interface CommentSingleAllContract {
         int bindCommentId();
 
         /**
+         * 绑定动态id
+         */
+        int bindDynamicId();
+
+        /**
          * 显示刷新的视图
          */
         void showRefreshView();
@@ -31,6 +36,44 @@ public interface CommentSingleAllContract {
          * 隐藏刷新的视图
          */
         void hideRefreshView();
+
+        /**
+         * 清除输入数据并隐藏软键盘的显示
+         */
+        void clearComment$HideSoftInputView();
+
+        /**
+         * 清楚回复状态
+         * 当软键盘关闭的时候清除回复状态，设置为评论
+         */
+        void clearReplyStatus();
+
+        /**
+         * 设置回复的状态
+         *
+         * @param replyName 回复的名称
+         */
+        void setReplyTargetNickName(String replyName);
+
+        /**
+         * 展示回复的状态
+         *
+         * @param commentPosition 评论条目
+         */
+        void setReplyTargetNickName(int commentPosition);
+
+        /**
+         * 展示回复的状态
+         *
+         * @param commentPosition 评论条目
+         * @param replyPosition   回复条目
+         */
+        void setReplyReplyStatus(int commentPosition, int replyPosition);
+
+        /**
+         * 发布评论
+         */
+        void commitComment$Reply();
 
         /**
          * 设置评论的数据
@@ -61,11 +104,32 @@ public interface CommentSingleAllContract {
         void setCommentCreate_Time(String commentCreate_time);
 
         /**
+         * 设置喜欢数
+         *
+         * @param likeCount 喜欢数目
+         */
+        void setLikeCount(int likeCount);
+
+        /**
+         * 设置是否喜欢
+         *
+         * @param hasFavorite 是否喜欢
+         */
+        void setHasFavorite(boolean hasFavorite);
+
+        /**
          * 设置评论的回复内容
          *
          * @param replyDataList 回复内容
          */
         void setReplyData(List<DynamicDetailCommentReplyData> replyDataList);
+
+        /**
+         * 打开个人中心页面视图
+         *
+         * @param user_id 用户id
+         */
+        void startPersonCenterView(int user_id);
     }
 
     interface Presenter extends BasePresenter {
@@ -81,6 +145,11 @@ public interface CommentSingleAllContract {
         void initComment_id();
 
         /**
+         * 初始化动态id
+         */
+        void initDynamic_id();
+
+        /**
          * 绑定数据到视图中
          */
         void bindDataToView();
@@ -91,8 +160,55 @@ public interface CommentSingleAllContract {
         void onRefresh();
 
         /**
-         * 加载更多
+         * 提交评论
+         *
+         * @param comment 评论
          */
-        void onLoadMore();
+        void sendComment(String comment);
+
+        /**
+         * 提交回复
+         *
+         * @param comment 评论的内容
+         */
+        void commentReply(String comment);
+
+        /**
+         * 提交回复
+         *
+         * @param replyPosition 回复的条目数
+         * @param comment       评论的内容
+         */
+        void commentReply(int replyPosition, String comment);
+
+        /**
+         * 点击喜欢的动作
+         */
+        void onLikeClick();
+
+        /**
+         * 评论用户头像的点击事件
+         */
+        void onCommentUserClick();
+
+        /**
+         * 点击回复用户的方法
+         */
+        void onReplyUserClick(int position);
+
+        /**
+         * 点击目标回复用户的方法
+         */
+        void onTargetReplyUserClick(int position);
+
+        /**
+         * 回复的内容的点击监听方法
+         */
+        void onReplyContentClick();
+
+        /**
+         * 回复的内容的点击监听方法
+         */
+        void onReplyReplyContentClick(int replyPosition);
     }
 }

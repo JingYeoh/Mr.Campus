@@ -10,6 +10,7 @@ import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.comment.Comment$ReplyEntity;
 import com.jkb.api.entity.comment.CommentListEntity;
+import com.jkb.api.entity.comment.CommentReplyEntity;
 import com.jkb.api.entity.comment.CommentSendEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.net.comment.CommentApi;
@@ -41,14 +42,14 @@ public class CommentSingleAllRemoteDataSource implements CommentSingleAllDataSou
 
     @Override
     public void getSingleComment$Apply(
-            String Authorization, @NonNull int commentId, @NonNull int page,
+            String Authorization, @NonNull int commentId,
             ApiCallback<ApiResponse<Comment$ReplyEntity>> apiCallback) {
         ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
         apiFactory.setHttpClient(apiFactory.getHttpClient());
         apiFactory.initRetrofit();
         CommentApi commentApi = apiFactory.createApi(CommentApi.class);
         Call<ApiResponse<Comment$ReplyEntity>> call;
-        call = commentApi.getSingleComment$Reply(Authorization, commentId, page);
+        call = commentApi.getSingleComment$Reply(Authorization, commentId);
         Type type = new TypeToken<ApiResponse<Comment$ReplyEntity>>() {
         }.getType();
         new ApiEngine<ApiResponse<Comment$ReplyEntity>>(apiCallback, call, type);
@@ -83,5 +84,22 @@ public class CommentSingleAllRemoteDataSource implements CommentSingleAllDataSou
         Type type = new TypeToken<ApiResponse<CommentSendEntity>>() {
         }.getType();
         new ApiEngine<ApiResponse<CommentSendEntity>>(apiCallback, call, type);
+    }
+
+    @Override
+    public void sendReply(
+            @NonNull String Authorization, @NonNull int target_user_id, @NonNull int comment_id,
+            @NonNull int dynamic_id, @NonNull String comment,
+            @NonNull ApiCallback<ApiResponse<CommentReplyEntity>> apiCallback) {
+        ApiFactoryImpl factory = ApiFactoryImpl.newInstance();
+        factory.setHttpClient(factory.genericClient());
+        factory.initRetrofit();
+        CommentApi commentApi = factory.createApi(CommentApi.class);
+        Call<ApiResponse<CommentReplyEntity>> call;
+        call = commentApi.sendReplyComment(Authorization, target_user_id,
+                comment_id, dynamic_id, comment);
+        Type type = new TypeToken<ApiResponse<CommentReplyEntity>>() {
+        }.getType();
+        new ApiEngine<ApiResponse<CommentReplyEntity>>(apiCallback, call, type);
     }
 }

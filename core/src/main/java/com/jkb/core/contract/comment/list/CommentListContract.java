@@ -40,12 +40,40 @@ public interface CommentListContract {
         /**
          * 提交评论
          */
-        void commitComment();
+        void commitComment$Reply();
 
         /**
          * 清除输入的信息并且退出软键盘
          */
         void clearComment$HideSoftInputView();
+
+        /**
+         * 清楚回复状态
+         * 当软键盘关闭的时候清除回复状态，设置为评论
+         */
+        void clearReplyStatus();
+
+        /**
+         * 设置回复的状态
+         *
+         * @param replyName 回复的名称
+         */
+        void setReplyTargetNickName(String replyName);
+
+        /**
+         * 展示回复的状态
+         *
+         * @param commentPosition 评论条目
+         */
+        void setReplyTargetNickName(int commentPosition);
+
+        /**
+         * 展示回复的状态
+         *
+         * @param commentPosition 评论条目
+         * @param replyPosition   回复条目
+         */
+        void setReplyReplyStatus(int commentPosition, int replyPosition);
 
         /**
          * 打开个人中心页面视图
@@ -98,7 +126,24 @@ public interface CommentListContract {
          *
          * @param comment 评论
          */
-        void sendComment(String comment);
+        void commentComment(String comment);
+
+        /**
+         * 提交回复
+         *
+         * @param commentPosition 评论条目数
+         * @param comment         评论的内容
+         */
+        void commentReply(int commentPosition, String comment);
+
+        /**
+         * 提交回复
+         *
+         * @param commentPosition 评论条目数
+         * @param replyPosition   回复的条目数
+         * @param comment         评论的内容
+         */
+        void commentReply(int commentPosition, int replyPosition, String comment);
 
         /**
          * 得到用户id
@@ -127,5 +172,17 @@ public interface CommentListContract {
          * 查看所有的评论和回复的点击事件
          */
         void onViewAllComment$ReplyClick(int commentPosition);
+
+        /**
+         * 回复的内容的点击监听方法
+         *
+         * @param commentPosition 评论回复的条目数
+         */
+        void onReplyContentClick(int commentPosition);
+
+        /**
+         * 回复的内容的点击监听方法
+         */
+        void onReplyReplyContentClick(int commentPosition, int replyPosition);
     }
 }

@@ -59,10 +59,11 @@ public class DynamicCommentAdapter extends RecyclerView.Adapter<DynamicCommentAd
         holder.tvContent = (TextView) view.findViewById(R.id.idc_tv_commentContent);
         holder.ivHeadImg = (ImageView) view.findViewById(R.id.idc_iv_headImg);
         holder.ivFavorite = (ImageView) view.findViewById(R.id.idc_iv_praise);
+        holder.contentHeadImg = view.findViewById(R.id.idc_contentHeadImg);
 
         //设置监听事件
         holder.ivFavorite.setOnClickListener(clickLikeListener);
-        holder.ivHeadImg.setOnClickListener(clickHeadImgListener);
+        holder.contentHeadImg.setOnClickListener(clickHeadImgListener);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class DynamicCommentAdapter extends RecyclerView.Adapter<DynamicCommentAd
             return;
         }
         //设置Tag
-        ClassUtils.bindViewsTag(position, holder.ivFavorite, holder.ivHeadImg);
+        ClassUtils.bindViewsTag(position, holder.ivFavorite, holder.contentHeadImg);
 
         holder.tvContent.setText(commentData.getComment());
         holder.tvTime.setText(commentData.getComment_time());
@@ -121,6 +122,7 @@ public class DynamicCommentAdapter extends RecyclerView.Adapter<DynamicCommentAd
         TextView tvContent;
         ImageView ivHeadImg;
         ImageView ivFavorite;
+        View contentHeadImg;
     }
 
     /**
@@ -198,7 +200,7 @@ public class DynamicCommentAdapter extends RecyclerView.Adapter<DynamicCommentAd
                 int viewId = bundle.getInt(Config.BUNDLE_KEY_VIEW_ID);
                 int position = bundle.getInt(Config.BUNDLE_KEY_VIEW_POSITION);
                 switch (viewId) {
-                    case R.id.idc_iv_headImg:
+                    case R.id.idc_contentHeadImg:
                         onHeadImgClickListener.onHeadImgClick(position);
                         break;
                 }
