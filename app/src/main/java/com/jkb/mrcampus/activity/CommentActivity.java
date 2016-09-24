@@ -32,6 +32,7 @@ public class CommentActivity extends BaseActivity {
     public static final String ACTION_SHOW_VIEW_COMMENT_SINGLE_ALL = "action.show.view.comment.single.all";
     public static final String SAVED_DYNAMIC_ID = "saved_dynamic_id";
     public static final String SAVED_COMMENT_ID = "saved_comment_id";
+    public static final String SAVED_TARGET_ID = "saved_comment_id";
     public static final String SAVED_COMMENT_SHOW_TYPE = "saved_comment_showType";
 
     //data
@@ -66,20 +67,12 @@ public class CommentActivity extends BaseActivity {
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             target_id = intent.getIntExtra(Config.INTENT_KEY_TARGET_ID, -1);
+            dynamic_id = intent.getIntExtra(Config.INTENT_KEY_DYNAMIC_ID, -1);
             String showType = intent.getStringExtra(Config.INTENT_KEY_SHOW_COMMENT);
-            switch (showType) {
-                case ACTION_SHOW_VIEW_COMMENT_LIST:
-                    dynamic_id = target_id;
-                    comment_showType = ClassUtils.getClassName(CommentListFragment.class);
-                    break;
-                case ACTION_SHOW_VIEW_COMMENT_SINGLE_ALL:
-                    comment_id = target_id;
-                    dynamic_id = intent.getIntExtra(Config.INTENT_KEY_DYNAMIC_ID, -1);
-                    comment_showType = ClassUtils.getClassName(CommentSingleAllFragment.class);
-                    break;
-            }
+            comment_showType=showType;
         } else {
             restoreFragments();
+            target_id=savedInstanceState.getInt(SAVED_TARGET_ID,-1);
             dynamic_id = savedInstanceState.getInt(SAVED_DYNAMIC_ID, -1);
             comment_id = savedInstanceState.getInt(SAVED_COMMENT_ID, -1);
             comment_showType = savedInstanceState.getString(SAVED_COMMENT_SHOW_TYPE);
@@ -87,7 +80,18 @@ public class CommentActivity extends BaseActivity {
             fragmentStack.setFragmetStackNames(
                     savedInstanceState.getStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK));
         }
-        if (target_id <= 0) {
+        //设置判断页面数据
+        switch (comment_showType) {
+            case ACTION_SHOW_VIEW_COMMENT_LIST:
+                dynamic_id = target_id;
+                comment_showType = ClassUtils.getClassName(CommentListFragment.class);
+                break;
+            case ACTION_SHOW_VIEW_COMMENT_SINGLE_ALL:
+                comment_id = target_id;
+                comment_showType = ClassUtils.getClassName(CommentSingleAllFragment.class);
+                break;
+        }
+        if (dynamic_id <= 0) {
             showShortToast("该动态不存在");
             super.onBackPressed();
             return;
@@ -198,7 +202,8 @@ public class CommentActivity extends BaseActivity {
         super.onSaveInstanceState(outState);
         outState.putStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK,
                 fragmentStack.getFragmetStackNames());
-        outState.putInt(SAVED_DYNAMIC_ID, target_id);
+        outState.putInt(SAVED_DYNAMIC_ID, dynamic_id);
+        outState.putInt(SAVED_TARGET_ID,target_id);
         outState.putInt(SAVED_COMMENT_ID, comment_id);
         outState.putString(SAVED_COMMENT_SHOW_TYPE, comment_showType);
     }

@@ -69,6 +69,11 @@
         <item name="android:textColor">@color/text_gravy_light</item>
         <item name="android:textSize">9sp</item>
     </style>
+    <!--动态时间显示的样式-->
+    <style name="Dynamic_Tag_style">
+        <item name="android:textColor">@color/text_gravy_light</item>
+        <item name="android:textSize">12sp</item>
+    </style>
     <!--动态头像显示的样式-->
     <style name="Dynamic_HeadImg_style">
         <item name="android:layout_width">50dp</item>

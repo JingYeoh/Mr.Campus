@@ -37,6 +37,22 @@ public interface CommentApi {
             @Query(Config.KEY_PAGE) int page);
 
     /**
+     * 获取评论和回复的接口
+     *
+     * @param Authorization 头Token，可选
+     * @param dynamicId     动态id
+     * @param page          分页
+     * @param order         排序方式
+     * @return Call
+     */
+    @GET(Config.URL_COMMENT_LIST)
+    Call<ApiResponse<CommentListEntity>> getComment$Reply(
+            @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
+            @Path(Config.KEY_DYNAMICID) int dynamicId,
+            @Query(Config.KEY_PAGE) int page,
+            @Query(Config.KEY_ORDER) String order);
+
+    /**
      * 发表评论
      *
      * @param Authorization 头

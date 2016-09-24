@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.jkb.mrcampus.R;
 import com.roger.gifloadinglibrary.GifLoadingView;
 
 /**
@@ -27,10 +28,16 @@ public abstract class BaseFragment extends Fragment {
     protected Activity mActivity;
     protected View rootView;
 
+    //颜色
+    protected int COLOR_MAIN_THEME_GREEN;
+    protected int COLOR_MAIN_THEME;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         context = getActivity();
+
+        initColor();
 
         //处理页面是否隐藏的问题
         if (savedInstanceState != null) {
@@ -45,6 +52,11 @@ public abstract class BaseFragment extends Fragment {
             ft.commit();
         }
         return this.rootView;
+    }
+
+    private void initColor() {
+        COLOR_MAIN_THEME_GREEN = mActivity.getResources().getColor(R.color.main_theme_green);
+        COLOR_MAIN_THEME = mActivity.getResources().getColor(R.color.main_theme);
     }
 
     @Override

@@ -224,14 +224,14 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
             case Comment$ReplyStatusController.SUBMIT_TYPE_REPLY: {//回复
                 int commentPosition = comment$ReplyStatusController.getCommentPosition();
                 mPresenter.onReplyContentClick(commentPosition);
-                mPresenter.commentReply(commentPosition, comment);
+                mPresenter.commitReply(commentPosition, comment);
                 break;
             }
             case Comment$ReplyStatusController.SUBMIC_TYPE_REPLY_REPLY://回复回复{
                 int commentPosition = comment$ReplyStatusController.getCommentPosition();
                 int replyPosition = comment$ReplyStatusController.getReplyPosition();
                 mPresenter.onReplyReplyContentClick(commentPosition, replyPosition);
-                mPresenter.commentReply(commentPosition, replyPosition, comment);
+                mPresenter.commitReply(commentPosition, replyPosition, comment);
                 break;
         }
     }
@@ -328,26 +328,6 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
         outState.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
     }
 
-    /**
-     * 设置点击喜欢的点击事件监听
-     */
-    private CommentListAdapter.OnLikeClickListener onLikeClickListener = new
-            CommentListAdapter.OnLikeClickListener() {
-                @Override
-                public void onLikeClick(int position) {
-                    mPresenter.onLikeCommentClick(position);
-                }
-            };
-    /**
-     * 设置点击头像的点击事件监听
-     */
-    private CommentListAdapter.OnHeadImgClickListener onHeadImgClickListener = new
-            CommentListAdapter.OnHeadImgClickListener() {
-                @Override
-                public void onHeadImgClick(int position) {
-                    mPresenter.onCommentUserClick(position);
-                }
-            };
 
     @Override
     public void onClick(View v) {
@@ -375,6 +355,26 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
             }
         }
     };
+    /**
+     * 设置点击喜欢的点击事件监听
+     */
+    private CommentListAdapter.OnLikeClickListener onLikeClickListener = new
+            CommentListAdapter.OnLikeClickListener() {
+                @Override
+                public void onLikeClick(int position) {
+                    mPresenter.onLikeCommentClick(position);
+                }
+            };
+    /**
+     * 设置点击头像的点击事件监听
+     */
+    private CommentListAdapter.OnHeadImgClickListener onHeadImgClickListener = new
+            CommentListAdapter.OnHeadImgClickListener() {
+                @Override
+                public void onHeadImgClick(int position) {
+                    mPresenter.onCommentUserClick(position);
+                }
+            };
     /**
      * 回复的目标用户点击回调
      */

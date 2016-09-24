@@ -90,6 +90,7 @@ public class Config {
     public static final String KEY_USERID = "userId";
     public static final String KEY_ID = "id";
     public static final String KEY_PAGE = "page";
+    public static final String KEY_ORDER = "order";
     public static final String KEY_TARGET_ID = "target_id";
     public static final String KEY_TARGETID = "targetId";
     public static final String KEY_VISITOR_ID = "visitor_id";

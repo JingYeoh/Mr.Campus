@@ -8,7 +8,7 @@
     <ImageButton
         android:id="@+id/ts6_ib_left"
         style="@style/titleContentImage"
-        android:background="@drawable/general_item_selector2"
+        android:background="@drawable/selecter_clearity_gravy"
         android:src="@drawable/ic_back_black" />
 
 

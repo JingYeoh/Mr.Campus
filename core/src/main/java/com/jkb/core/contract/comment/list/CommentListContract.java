@@ -134,7 +134,7 @@ public interface CommentListContract {
          * @param commentPosition 评论条目数
          * @param comment         评论的内容
          */
-        void commentReply(int commentPosition, String comment);
+        void commitReply(int commentPosition, String comment);
 
         /**
          * 提交回复
@@ -143,7 +143,7 @@ public interface CommentListContract {
          * @param replyPosition   回复的条目数
          * @param comment         评论的内容
          */
-        void commentReply(int commentPosition, int replyPosition, String comment);
+        void commitReply(int commentPosition, int replyPosition, String comment);
 
         /**
          * 得到用户id

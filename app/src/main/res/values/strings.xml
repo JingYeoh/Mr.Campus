@@ -145,4 +145,7 @@
     <string name="commentCount_jiantou">条评论➷</string>
     <string name="view_all">查看全部</string>
     <string name="Your_comment_will_be_more_motivated_author">您的评论会让作者更有动力</string>
+    <string name="view_order_desc">倒序浏览</string>
+    <string name="view_order_asc">正序浏览</string>
+    <string name="hot_comment">热门评论</string>
 </resources>

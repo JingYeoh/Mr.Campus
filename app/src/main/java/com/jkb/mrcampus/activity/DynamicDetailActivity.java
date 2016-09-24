@@ -7,6 +7,7 @@ import android.view.WindowManager;
 
 import com.jkb.core.Injection;
 import com.jkb.core.presenter.dynamicDetail.normal.DynamicDetailNormalPresenter;
+import com.jkb.core.presenter.dynamicDetail.topic.DynamicDetailTopicPresenter;
 import com.jkb.core.presenter.entering.LoginPresenter;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
@@ -54,6 +55,7 @@ public class DynamicDetailActivity extends BaseActivity {
 
     //话题
     private TopicDynamicFragment topicDynamicFragment;
+    private DynamicDetailTopicPresenter dynamicDetailTopicPresenter;
 
     //文章
     private ArticleDynamicFragment articleDynamicFragment;
@@ -148,6 +150,8 @@ public class DynamicDetailActivity extends BaseActivity {
         } else if (ClassUtils.isNameEquals(fragmentTAG, TopicDynamicFragment.class)) {
             topicDynamicFragment = (TopicDynamicFragment) fm.findFragmentByTag(
                     ClassUtils.getClassName(TopicDynamicFragment.class));
+            dynamicDetailTopicPresenter = new DynamicDetailTopicPresenter(topicDynamicFragment,
+                    Injection.provideDynamicDetailTopicRepository(getApplicationContext()));
         } else if (ClassUtils.isNameEquals(fragmentTAG, ArticleDynamicFragment.class)) {
             articleDynamicFragment = (ArticleDynamicFragment) fm.findFragmentByTag(
                     ClassUtils.getClassName(ArticleDynamicFragment.class));
@@ -183,6 +187,10 @@ public class DynamicDetailActivity extends BaseActivity {
         if (topicDynamicFragment == null) {
             topicDynamicFragment = TopicDynamicFragment.newInstance(dynamic_id);
             ActivityUtils.addFragmentToActivity(fm, topicDynamicFragment, content_id);
+        }
+        if (dynamicDetailTopicPresenter == null) {
+            dynamicDetailTopicPresenter = new DynamicDetailTopicPresenter(topicDynamicFragment,
+                    Injection.provideDynamicDetailTopicRepository(getApplicationContext()));
         }
     }
 

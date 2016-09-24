@@ -56,14 +56,14 @@ public class KeyboardLayout extends RelativeLayout {
             if (mListener != null) {
                 mListener.onKeyBoardStateChange(KEYBOARD_STATE_SHOW);
             }
-            Log.w(TAG, "show keyboard.......");
+//            Log.w(TAG, "show keyboard.......");
         }
         if (mHasInit && mHasKeybord && mHeight == b) {
             mHasKeybord = false;
             if (mListener != null) {
                 mListener.onKeyBoardStateChange(KEYBOARD_STATE_HIDE);
             }
-            Log.w(TAG, "hide keyboard.......");
+//            Log.w(TAG, "hide keyboard.......");
         }
     }
 

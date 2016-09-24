@@ -4,6 +4,7 @@ import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.dynamic.DynamicListEntity;
 import com.jkb.api.entity.dynamic.DynamicNormalEntity;
+import com.jkb.api.entity.dynamic.DynamicTopicEntity;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -41,6 +42,18 @@ public interface DynamicApi {
      */
     @GET(Config.URL_DYNAMIC_GET_SINGLE)
     Call<ApiResponse<DynamicNormalEntity>> getNormalDynamic(
+            @Path(Config.KEY_USERID) int userId,
+            @Path(Config.KEY_ID) int id);
+
+    /**
+     * 获取特定动态信息：话题
+     *
+     * @param userId 用户id
+     * @param id     动态id
+     * @return Call
+     */
+    @GET(Config.URL_DYNAMIC_GET_SINGLE)
+    Call<ApiResponse<DynamicTopicEntity>> getTopicDynamic(
             @Path(Config.KEY_USERID) int userId,
             @Path(Config.KEY_ID) int id);
 }

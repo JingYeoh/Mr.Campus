@@ -112,7 +112,7 @@ public class DynamicDetailNormalPresenter implements DynamicDetailNormalContract
     }
 
     @Override
-    public void onLikeCommentClick(int position) {
+    public void onLikeCommentClick(final int position) {
         if (!LoginContext.getInstance().isLogined()) {
             view.showReqResult("请先登录再进行操作");
             return;
@@ -126,7 +126,42 @@ public class DynamicDetailNormalPresenter implements DynamicDetailNormalContract
         String Authorization = Config.HEADER_BEARER + userAuths.getToken();
         int user_id = userAuths.getUser_id();
         int target_id = commentData.get(position).getComment_id();
-        repository.likeComment(Authorization, user_id, target_id, likeCommentApiCallback);
+        repository.likeComment(Authorization, user_id, target_id, new
+                ApiCallback<ApiResponse<OperationActionEntity>>() {
+                    @Override
+                    public void onSuccess(Response<ApiResponse<OperationActionEntity>> response) {
+                        if (view.isActive()) {
+                            view.showReqResult("操作成功");
+                            //设置局部刷新
+                            DynamicDetailCommentData comment =
+                                    commentData.get(position);
+                            boolean isFavorite = !comment.isHas_like();
+                            comment.setHas_like(isFavorite);
+                            if (isFavorite) {
+                                comment.setLikeCount(comment.getLikeCount() + 1);
+                            } else {
+                                comment.setLikeCount(comment.getLikeCount() - 1);
+                            }
+                            commentData.set(position, comment);
+                            bindDataToView();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ApiResponse<OperationActionEntity>> response,
+                                        String error, ApiResponse<OperationActionEntity> apiResponse) {
+                        if (view.isActive()) {
+                            view.showReqResult("操作失败");
+                        }
+                    }
+
+                    @Override
+                    public void onFail() {
+                        if (view.isActive()) {
+                            view.showReqResult("操作错误");
+                        }
+                    }
+                });
     }
 
     @Override
@@ -382,35 +417,6 @@ public class DynamicDetailNormalPresenter implements DynamicDetailNormalContract
                 @Override
                 public void onFail() {
 
-                }
-            };
-    /**
-     * 喜欢评论的接口
-     */
-    private ApiCallback<ApiResponse<OperationActionEntity>> likeCommentApiCallback = new
-            ApiCallback<ApiResponse<OperationActionEntity>>() {
-                @Override
-                public void onSuccess(Response<ApiResponse<OperationActionEntity>> response) {
-                    if (view.isActive()) {
-//                        onRefresh();
-                        view.showReqResult("操作成功");
-                        reqCommentData();//请求评论的接口
-                    }
-                }
-
-                @Override
-                public void onError(Response<ApiResponse<OperationActionEntity>> response,
-                                    String error, ApiResponse<OperationActionEntity> apiResponse) {
-                    if (view.isActive()) {
-                        view.showReqResult("操作失败");
-                    }
-                }
-
-                @Override
-                public void onFail() {
-                    if (view.isActive()) {
-                        view.showReqResult("操作错误");
-                    }
                 }
             };
     /**

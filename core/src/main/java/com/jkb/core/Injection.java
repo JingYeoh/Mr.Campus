@@ -24,6 +24,9 @@ import com.jkb.model.dataSource.create$circle.remote.CircleCreateRemoteDataSourc
 import com.jkb.model.dataSource.dynamicDetail.normal.DynamicDetailNormalRepository;
 import com.jkb.model.dataSource.dynamicDetail.normal.local.DynamicDetailNormalLocalDataSource;
 import com.jkb.model.dataSource.dynamicDetail.normal.remote.DynamicDetailNormalRemoteDataSource;
+import com.jkb.model.dataSource.dynamicDetail.topic.DynamicDetailTopicRepository;
+import com.jkb.model.dataSource.dynamicDetail.topic.local.DynamicDetailTopicLocalDataSource;
+import com.jkb.model.dataSource.dynamicDetail.topic.remote.DynamicDetailTopicRemoteDataSource;
 import com.jkb.model.dataSource.entering.login.LoginResponsitory;
 import com.jkb.model.dataSource.entering.login.local.LoginLocalDataSource;
 import com.jkb.model.dataSource.entering.login.remote.LoginRemoteDataSource;
@@ -323,6 +326,17 @@ public class Injection {
         DynamicDetailNormalRepository repository = DynamicDetailNormalRepository.getInstance(
                 DynamicDetailNormalLocalDataSource.getInstance(applicationContext),
                 DynamicDetailNormalRemoteDataSource.getInstance());
+        return repository;
+    }
+
+    /**
+     * 得到DynamicDetailTopicRepository对象
+     */
+    public static DynamicDetailTopicRepository provideDynamicDetailTopicRepository(
+            @NonNull Context applicationContext) {
+        DynamicDetailTopicRepository repository = DynamicDetailTopicRepository.getInstance(
+                DynamicDetailTopicLocalDataSource.getInstance(applicationContext),
+                DynamicDetailTopicRemoteDataSource.getInstance());
         return repository;
     }
 
