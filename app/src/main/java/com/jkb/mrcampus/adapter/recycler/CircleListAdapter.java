@@ -28,7 +28,8 @@ import java.util.List;
  * Created by JustKiddingBaby on 2016/9/2.
  */
 
-public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.ViewHolder> implements View.OnClickListener {
+public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.ViewHolder>
+        implements View.OnClickListener {
 
     private Context context;
     public List<CircleData> circleDatas;
@@ -78,7 +79,6 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
         holder.tvType.setText(data.getCircleType());
         String picUrl = data.getPictureUrl();
         if (!StringUtils.isEmpty(picUrl)) {
-            //判断图片是否一致，放置闪屏操作
             loadImage(holder.ivPicBg, holder.ivPicture, picUrl);
 //            setImageLoad(holder.ivPicture, holder.ivPicBg, picUrl);
         } else {
@@ -95,38 +95,6 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
         ImageLoaderFactory.getInstance().displayImage(ivPicture, picUrl);
 //        ImageLoaderFactory.getInstance().displayImage(ivPicBg, picUrl);
         ImageLoaderFactory.getInstance().displayBlurImage(ivPicBg, picUrl, 25, 5);
-    }
-
-    /**
-     * 加载图片
-     */
-    private void setImageLoad(final ImageView tvHeadImg, final ImageView ivPicBg, String headImgUrl) {
-        ImageLoaderFactory.getInstance().loadImage(headImgUrl, null, new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String s, View view) {
-                tvHeadImg.setImageResource(R.color.default_picture);
-                ivPicBg.setImageResource(R.color.default_picture);
-            }
-
-            @Override
-            public void onLoadingFailed(String s, View view, FailReason failReason) {
-                tvHeadImg.setImageResource(R.color.default_picture);
-                ivPicBg.setImageResource(R.color.default_picture);
-            }
-
-            @Override
-            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
-                tvHeadImg.setImageBitmap(bitmap);
-                //设置模糊效果
-                ivPicBg.setImageBitmap(BitmapUtil.fastBlur(bitmap, 25, 5));
-            }
-
-            @Override
-            public void onLoadingCancelled(String s, View view) {
-                tvHeadImg.setImageResource(R.color.default_picture);
-                ivPicBg.setImageResource(R.color.default_picture);
-            }
-        });
     }
 
     @Override

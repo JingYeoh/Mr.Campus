@@ -61,7 +61,7 @@ public class CircleListPresenter implements CircleListContract.Presenter {
         view.showRefreshingView();//设置刷新动画
         action = ACTION_REFRESH;
         pageControl.setCurrent_page(1);
-        initCircleListData();
+        reqSubscribeCircles();
     }
 
     @Override
@@ -76,7 +76,7 @@ public class CircleListPresenter implements CircleListContract.Presenter {
         }
         //设置当前页数+1
         pageControl.setCurrent_page(pageControl.getCurrent_page() + 1);
-        initCircleListData();
+        reqSubscribeCircles();
     }
 
     @Override
@@ -86,7 +86,7 @@ public class CircleListPresenter implements CircleListContract.Presenter {
             bindData();
         } else {
             //请求网络数据
-            reqSubscribeCircles();
+            onRefresh();
         }
     }
 
@@ -98,6 +98,8 @@ public class CircleListPresenter implements CircleListContract.Presenter {
 
     @Override
     public void bindData() {
+        isCached = true;
+        isLoading = false;
         if (!view.isActive()) {
             return;
         }
@@ -138,8 +140,13 @@ public class CircleListPresenter implements CircleListContract.Presenter {
      * 请求订阅的圈子
      */
     private void reqSubscribeCircles() {
-        Users users = getUsers();
-        int visitor_id = users.getUser_id();
+        int visitor_id;
+        if (!LoginContext.getInstance().isLogined()) {
+            visitor_id = 0;
+        } else {
+            Users users = getUsers();
+            visitor_id = users.getUser_id();
+        }
         responsitory.subscribeCircle(user_id, visitor_id, pageControl.getCurrent_page(),
                 subscribeCircleApiCallback);
     }

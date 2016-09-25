@@ -21,6 +21,9 @@ import com.jkb.model.dataSource.comment.singleAll.remote.CommentSingleAllRemoteD
 import com.jkb.model.dataSource.create$circle.CircleCreateDataResponsitory;
 import com.jkb.model.dataSource.create$circle.local.CircleCreateLocalDataSource;
 import com.jkb.model.dataSource.create$circle.remote.CircleCreateRemoteDataSource;
+import com.jkb.model.dataSource.dynamicDetail.article.DynamicDetailArticleRepository;
+import com.jkb.model.dataSource.dynamicDetail.article.local.DynamicDetailArticleLocalDataSource;
+import com.jkb.model.dataSource.dynamicDetail.article.remote.DynamicDetailArticleRemoteDataSource;
 import com.jkb.model.dataSource.dynamicDetail.normal.DynamicDetailNormalRepository;
 import com.jkb.model.dataSource.dynamicDetail.normal.local.DynamicDetailNormalLocalDataSource;
 import com.jkb.model.dataSource.dynamicDetail.normal.remote.DynamicDetailNormalRemoteDataSource;
@@ -337,6 +340,17 @@ public class Injection {
         DynamicDetailTopicRepository repository = DynamicDetailTopicRepository.getInstance(
                 DynamicDetailTopicLocalDataSource.getInstance(applicationContext),
                 DynamicDetailTopicRemoteDataSource.getInstance());
+        return repository;
+    }
+
+    /**
+     * 得到DynamicDetailArticleRepository对象
+     */
+    public static DynamicDetailArticleRepository provideDynamicDetailArticleRepository(
+            @NonNull Context applicationContext) {
+        DynamicDetailArticleRepository repository = DynamicDetailArticleRepository.getInstance(
+                DynamicDetailArticleLocalDataSource.getInstance(applicationContext),
+                DynamicDetailArticleRemoteDataSource.getInstance());
         return repository;
     }
 

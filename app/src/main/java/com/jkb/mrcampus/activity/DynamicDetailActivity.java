@@ -6,9 +6,9 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.jkb.core.Injection;
+import com.jkb.core.presenter.dynamicDetail.article.DynamicDetailArticlePresenter;
 import com.jkb.core.presenter.dynamicDetail.normal.DynamicDetailNormalPresenter;
 import com.jkb.core.presenter.dynamicDetail.topic.DynamicDetailTopicPresenter;
-import com.jkb.core.presenter.entering.LoginPresenter;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
@@ -16,11 +16,6 @@ import com.jkb.mrcampus.base.BaseActivity;
 import com.jkb.mrcampus.fragment.dynamicDetail.ArticleDynamicFragment;
 import com.jkb.mrcampus.fragment.dynamicDetail.NormalDynamicFragment;
 import com.jkb.mrcampus.fragment.dynamicDetail.TopicDynamicFragment;
-import com.jkb.mrcampus.fragment.entering.EnteringPersonMessageFragment;
-import com.jkb.mrcampus.fragment.entering.IdentifyFragment;
-import com.jkb.mrcampus.fragment.entering.LoginFragment;
-import com.jkb.mrcampus.fragment.entering.MrCampusAgreementFragment;
-import com.jkb.mrcampus.fragment.entering.ResetPasswordFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.helper.FragmentStack;
 import com.jkb.mrcampus.utils.ClassUtils;
@@ -59,6 +54,7 @@ public class DynamicDetailActivity extends BaseActivity {
 
     //文章
     private ArticleDynamicFragment articleDynamicFragment;
+    private DynamicDetailArticlePresenter dynamicDetailArticlePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +151,8 @@ public class DynamicDetailActivity extends BaseActivity {
         } else if (ClassUtils.isNameEquals(fragmentTAG, ArticleDynamicFragment.class)) {
             articleDynamicFragment = (ArticleDynamicFragment) fm.findFragmentByTag(
                     ClassUtils.getClassName(ArticleDynamicFragment.class));
+            dynamicDetailArticlePresenter = new DynamicDetailArticlePresenter(articleDynamicFragment,
+                    Injection.provideDynamicDetailArticleRepository(getApplicationContext()));
         }
     }
 
@@ -177,6 +175,10 @@ public class DynamicDetailActivity extends BaseActivity {
         if (articleDynamicFragment == null) {
             articleDynamicFragment = ArticleDynamicFragment.newInstance(dynamic_id);
             ActivityUtils.addFragmentToActivity(fm, articleDynamicFragment, content_id);
+        }
+        if (dynamicDetailArticlePresenter == null) {
+            dynamicDetailArticlePresenter = new DynamicDetailArticlePresenter(articleDynamicFragment,
+                    Injection.provideDynamicDetailArticleRepository(getApplicationContext()));
         }
     }
 

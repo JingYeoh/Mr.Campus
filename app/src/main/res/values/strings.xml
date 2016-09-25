@@ -148,4 +148,6 @@
     <string name="view_order_desc">倒序浏览</string>
     <string name="view_order_asc">正序浏览</string>
     <string name="hot_comment">热门评论</string>
+    <string name="Author">作者：</string>
+    <string name="View_all">查看全部</string>
 </resources>
