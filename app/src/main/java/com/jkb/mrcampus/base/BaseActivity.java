@@ -18,10 +18,13 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.jkb.core.contract.dynamicCreate.data.CategoryTypeData;
+import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleActivity;
 import com.jkb.mrcampus.activity.CommentActivity;
+import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.activity.UsersListActivity;
@@ -30,6 +33,7 @@ import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
 import com.jkb.mrcampus.fragment.dialog.InputTextFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.SexFilterFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
+import com.jkb.mrcampus.fragment.dialog.TagFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.TextFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
@@ -63,6 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     private SexFilterFloatFragment sexFilterFloatFragment;
     private WriteDynamicDialogFragment writeDynamicDialogFragment;
     private ShareDynamicDialogFragment shareDynamicDialogFragment;
+    private TagFloatFragment tagFloatFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -232,6 +237,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         activityManager.removeActivity(this);
         //销毁所有的Fragment
         ActivityUtils.removeAllFragment(fm);
+        System.gc();
     }
 
     @Override
@@ -311,6 +317,18 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
         intent.putExtra(Config.INTENT_KEY_SHOW_COMMENT,
                 CommentActivity.ACTION_SHOW_VIEW_COMMENT_SINGLE_ALL);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startDynamicCreateActivity(@NonNull String dynamicCreateType) {
+        Log.d(TAG, "startCommentActivity");
+        if (!LoginContext.getInstance().isLogined()) {
+            showShortToast("请登录后再进行操作");
+            return;
+        }
+        Intent intent = new Intent(this, DynamicCreateActivity.class);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_CREATE_TYPE, dynamicCreateType);
         startActivityWithPushLeftAnim(intent);
     }
 
@@ -440,6 +458,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         if (shareDynamicDialogFragment != null && shareDynamicDialogFragment.isAdded()) {
             shareDynamicDialogFragment.dismiss();
         }
+        //取消展示TAG的显示
+        if (tagFloatFragment != null && tagFloatFragment.isAdded()) {
+            tagFloatFragment.dismiss();
+        }
         dismissLoading();
     }
 
@@ -515,6 +537,19 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         if (!shareDynamicDialogFragment.isAdded()) {
             shareDynamicDialogFragment.show(getFragmentManager(),
                     ClassUtils.getClassName(ShareDynamicDialogFragment.class));
+        }
+    }
+
+    @Override
+    public void showTagFloatView(
+            List<CategoryTypeData> categoryTypeDatas,
+            TagFloatFragment.OnTagItemClickListener listener) {
+        if (tagFloatFragment == null) {
+            tagFloatFragment = new TagFloatFragment(categoryTypeDatas, listener);
+        }
+        if (!tagFloatFragment.isAdded()) {
+            tagFloatFragment.show(getFragmentManager(),
+                    ClassUtils.getClassName(TagFloatFragment.class));
         }
     }
 }

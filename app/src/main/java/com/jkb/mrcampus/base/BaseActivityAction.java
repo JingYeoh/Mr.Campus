@@ -3,8 +3,12 @@ package com.jkb.mrcampus.base;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.jkb.core.contract.dynamicCreate.data.CategoryTypeData;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
+import com.jkb.mrcampus.fragment.dialog.TagFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
+
+import java.util.List;
 
 /**
  * Activity基类的动作接口
@@ -21,6 +25,15 @@ public interface BaseActivityAction {
      * 显示分享动态的视图
      */
     void showShareDynamicView(ShareDynamicDialogFragment.OnShareItemClickListener listener);
+
+    /**
+     * 显示展示TAG的视图
+     *
+     * @param categoryTypeDatas 數據
+     * @param listener          条目点击的监听器
+     */
+    void showTagFloatView(List<CategoryTypeData> categoryTypeDatas,
+                          TagFloatFragment.OnTagItemClickListener listener);
 
     /**
      * 打开动态详情页面
@@ -64,6 +77,13 @@ public interface BaseActivityAction {
      * @param dynamicId 动态id
      */
     void startCommentSingleAllActivity(@NonNull int commentId, @NonNull int dynamicId);
+
+    /**
+     * 打开创建动态的Activity
+     *
+     * @param dynamicCreateType 动态创建类型
+     */
+    void startDynamicCreateActivity(@NonNull String dynamicCreateType);
 
     /**
      * 顯示輸入

@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.jkb.mrcampus.R;
 import com.roger.gifloadinglibrary.GifLoadingView;
 
+import dalvik.annotation.TestTarget;
+
 /**
  * 所有Fragment类的基类
  * Fragment类：MVP架构中的V层

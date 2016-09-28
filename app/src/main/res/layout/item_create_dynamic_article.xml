@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/icda_et_doc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/clarity"
+        android:backgroundTint="@color/clarity"
+        android:hint="点此编辑文本"
+        android:padding="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textSize="13sp" />
+
+    <RelativeLayout
+        android:id="@+id/icda_contentImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/icda_iv_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:scaleType="centerCrop"
+            android:src="@color/default_picture" />
+    </RelativeLayout>
+</LinearLayout>

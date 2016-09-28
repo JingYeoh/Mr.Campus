@@ -1298,6 +1298,8 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         String headImgUrl = dynamicBaseData.getCreator_avatar();
         if (!StringUtils.isEmpty(headImgUrl)) {
             bindImageViewAndUrl(holder.originalTopic.iv_headImg, headImgUrl);
+        }else{
+            holder.originalTopic.iv_headImg.setImageResource(R.drawable.ic_user_head);
         }
         //解析话题的数据
         holder.originalTopic.tvTitle.setText(((DynamicData) dynamicBaseData).getTitle());
@@ -1308,7 +1310,12 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             DynamicData.Topic.TopicBean bean = topic.getTopic();
             if (bean != null) {
                 holder.originalTopic.tvContent.setText(bean.getDoc());
-                bindImageViewAndUrl(holder.originalTopic.iv_picture, bean.getImg());
+                String img = bean.getImg();
+                if(StringUtils.isEmpty(img)){
+                    holder.originalTopic.iv_picture.setVisibility(View.GONE);
+                }else{
+                    bindImageViewAndUrl(holder.originalTopic.iv_picture, bean.getImg());
+                }
             }
         }
 
@@ -1398,7 +1405,12 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 DynamicData.Article.ArticleBean bean = articleBeen.get(0);
                 holder.originalArticle.tvContent.setText(bean.getDoc());
                 String picUrl = bean.getImg();
-                bindImageViewAndUrl(holder.originalArticle.iv_picture, picUrl);
+                if(StringUtils.isEmpty(picUrl)){
+                    holder.originalArticle.iv_picture.setVisibility(View.GONE);
+                }else{
+                    holder.originalArticle.iv_picture.setVisibility(View.VISIBLE);
+                    bindImageViewAndUrl(holder.originalArticle.iv_picture, picUrl);
+                }
             }
         }
         //设置文章标题

@@ -21,6 +21,15 @@ import com.jkb.model.dataSource.comment.singleAll.remote.CommentSingleAllRemoteD
 import com.jkb.model.dataSource.create$circle.CircleCreateDataResponsitory;
 import com.jkb.model.dataSource.create$circle.local.CircleCreateLocalDataSource;
 import com.jkb.model.dataSource.create$circle.remote.CircleCreateRemoteDataSource;
+import com.jkb.model.dataSource.dynamicCreate.article.DynamicCreateArticleDataRepertory;
+import com.jkb.model.dataSource.dynamicCreate.article.local.DynamicCreateArticleLocalDataSource;
+import com.jkb.model.dataSource.dynamicCreate.article.remote.DynamicCreateArticleRemoteDataSource;
+import com.jkb.model.dataSource.dynamicCreate.normal.DynamicCreateNormalDataRepertory;
+import com.jkb.model.dataSource.dynamicCreate.normal.local.DynamicCreateNormalLocalDataSource;
+import com.jkb.model.dataSource.dynamicCreate.normal.remote.DynamicCreateNormalRemoteDataSource;
+import com.jkb.model.dataSource.dynamicCreate.topic.DynamicCreateTopicDataRepertory;
+import com.jkb.model.dataSource.dynamicCreate.topic.local.DynamicCreateTopicLocalDataSource;
+import com.jkb.model.dataSource.dynamicCreate.topic.remote.DynamicCreateTopicRemoteDataSource;
 import com.jkb.model.dataSource.dynamicDetail.article.DynamicDetailArticleRepository;
 import com.jkb.model.dataSource.dynamicDetail.article.local.DynamicDetailArticleLocalDataSource;
 import com.jkb.model.dataSource.dynamicDetail.article.remote.DynamicDetailArticleRemoteDataSource;
@@ -374,5 +383,38 @@ public class Injection {
                 CommentSingleAllLocalDataSource.genInstance(applicationContext),
                 CommentSingleAllRemoteDataSource.genInstance());
         return repository;
+    }
+
+    /**
+     * 得到DynamicCreateTopicDataRepertory对象
+     */
+    public static DynamicCreateTopicDataRepertory provideDynamicCreateTopicDataRepertory(
+            @NonNull Context applicationContext) {
+        DynamicCreateTopicDataRepertory repertory = DynamicCreateTopicDataRepertory.getInstance(
+                DynamicCreateTopicLocalDataSource.getInstance(applicationContext),
+                DynamicCreateTopicRemoteDataSource.getInstance());
+        return repertory;
+    }
+
+    /**
+     * 得到DynamicCreateNormalDataRepertory对象
+     */
+    public static DynamicCreateNormalDataRepertory provideDynamicCreateNormalDataRepertory(
+            @NonNull Context applicationContext) {
+        DynamicCreateNormalDataRepertory repertory = DynamicCreateNormalDataRepertory.getInstance(
+                DynamicCreateNormalLocalDataSource.getInstance(applicationContext),
+                DynamicCreateNormalRemoteDataSource.getInstance());
+        return repertory;
+    }
+
+    /**
+     * 得到DynamicCreateArticleDataRepertory对象
+     */
+    public static DynamicCreateArticleDataRepertory provideDynamicCreateArticleDataRepertory(
+            @NonNull Context applicationContext) {
+        DynamicCreateArticleDataRepertory repertory = DynamicCreateArticleDataRepertory.getInstance(
+                DynamicCreateArticleLocalDataSource.getInstance(applicationContext),
+                DynamicCreateArticleRemoteDataSource.getInstance());
+        return repertory;
     }
 }

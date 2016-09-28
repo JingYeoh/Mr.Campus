@@ -42,6 +42,7 @@ public class Config {
     //dynamic接口地址
     public static final String URL_DYNAMIC_GET_ALL = "dynamic/getAllDynamic";
     public static final String URL_DYNAMIC_GET_SINGLE = "dynamic/{userId}/{id}";
+    public static final String URL_DYNAMIC_POST = "dynamic";
     //Contacts接口
     public static final String URL_CONTACTS_FRIENDS = "contacts";//相互关注的好友
     //Comment的接口u
@@ -49,6 +50,10 @@ public class Config {
     public static final String URL_COMMENT_SINGLE = "getReply/{commentId}";
     public static final String URL_COMMENT_SEND = "comment";
     public static final String URL_COMMENT_REPLY_SEND = "reply";
+    //Category
+    public static final String URL_CATEGORY_TYPE = "category/{type}";
+    //Image
+    public static final String URL_IMAGE_UPLOAD = "image/dynamic";
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
 
@@ -67,9 +72,12 @@ public class Config {
     public static final String KEY_IDENTIFIER = "identifier";
     public static final String KEY_AVATAR = "avatar";
     public static final String KEY_IMAGE = "image";
+    public static final String KEY_IMG = "img";
     public static final String KEY_FLAG = "flag";
     public static final String KEY_SEX = "sex";
     public static final String KEY_BACKGROUND = "background";
+    public static final String KEY_TYPE = "type";
+    public static final String KEY_DOC = "doc";
 
     public static final String KEY_COORDTYPE = "coordtype";
     public static final String KEY_LOCATION = "location";
@@ -98,9 +106,15 @@ public class Config {
     public static final String KEY_VALUE = "value";
     public static final String KEY_DYNAMICID = "dynamicId";
     public static final String KEY_DYNAMIC_ID = "dynamic_id";
+    public static final String KEY_DYNAMIC = "dynamic";
+    public static final String KEY_DYNAMIC_TYPE = "dynamic_type";
     public static final String KEY_COMMENT = "comment";
     public static final String KEY_COMMENTID = "commentId";
     public static final String KEY_COMMENT_ID = "comment_id";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_DCONTENT = "dcontent";
+    public static final String KEY_TAG = "tag";
+    public static final String KEY_CIRCLE_ID = "circle_id";
 
 
     public static final String GENDER_M = "m";
@@ -148,4 +162,9 @@ public class Config {
     public static final String ACTION_TYPE_FAVORITE = "favorite";
     public static final String ACTION_TYPE_SUBSCRIBE = "subscribe";
     public static final String ACTION_TYPE_POSTINCIRCLE = "postInCircle";
+
+    public static final String DYNAMIC_TYPE_NORMAL = "normal";
+    public static final String DYNAMIC_TYPE_TOPIC = "topic";
+    public static final String DYNAMIC_TYPE_ARTICLE = "article";
+
 }

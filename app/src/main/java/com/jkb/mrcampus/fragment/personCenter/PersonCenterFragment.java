@@ -14,6 +14,7 @@ import com.jkb.core.contract.personCenter.PersonCenterContract;
 import com.jkb.core.presenter.personCenter.data.CircleData;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.mrcampus.R;
+import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.adapter.recycler.personCenter.PersonCenterCircleAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
@@ -495,17 +496,20 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
             new WriteDynamicDialogFragment.OnWriteDynamicClickListener() {
                 @Override
                 public void onTopicClick() {
-
+                    personCenterActivity.startDynamicCreateActivity
+                            (DynamicCreateActivity.DYNAMIC_CREATE_TYPE_TOPIC);
                 }
 
                 @Override
                 public void onArticleClick() {
-
+                    personCenterActivity.startDynamicCreateActivity
+                            (DynamicCreateActivity.DYNAMIC_CREATE_TYPE_ARTICLE);
                 }
 
                 @Override
                 public void onNormalClick() {
-
+                    personCenterActivity.startDynamicCreateActivity
+                            (DynamicCreateActivity.DYNAMIC_CREATE_TYPE_NORMAL);
                 }
             };
 }

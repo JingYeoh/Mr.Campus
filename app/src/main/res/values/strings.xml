@@ -150,4 +150,6 @@
     <string name="hot_comment">热门评论</string>
     <string name="Author">作者：</string>
     <string name="View_all">查看全部</string>
+    <string name="click_add_picture">点击添加图片</string>
+    <string name="post_topic">发布话题</string>
 </resources>

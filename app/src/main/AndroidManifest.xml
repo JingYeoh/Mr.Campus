@@ -94,6 +94,11 @@
             android:name=".activity.CommentActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
+        //创建动态的页面控制器
+        <activity
+            android:name=".activity.DynamicCreateActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
         //用于定位的服务
         <service android:name=".service.LocationService" />
 

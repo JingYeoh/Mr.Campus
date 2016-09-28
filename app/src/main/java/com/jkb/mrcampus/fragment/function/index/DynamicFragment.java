@@ -18,6 +18,7 @@ import com.jkb.core.contract.function.index.DynamicContract;
 import com.jkb.core.contract.menu.MenuContract;
 import com.jkb.core.presenter.function.index.DynamicPresenter;
 import com.jkb.mrcampus.R;
+import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.adapter.recycler.NoAlphaItemAnimator;
@@ -428,18 +429,17 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
             = new WriteDynamicDialogFragment.OnWriteDynamicClickListener() {
         @Override
         public void onTopicClick() {
-
+            mainActivity.startDynamicCreateActivity(DynamicCreateActivity.DYNAMIC_CREATE_TYPE_TOPIC);
         }
 
         @Override
         public void onArticleClick() {
-
+            mainActivity.startDynamicCreateActivity(DynamicCreateActivity.DYNAMIC_CREATE_TYPE_ARTICLE);
         }
 
         @Override
         public void onNormalClick() {
-
+            mainActivity.startDynamicCreateActivity(DynamicCreateActivity.DYNAMIC_CREATE_TYPE_NORMAL);
         }
     };
-
 }

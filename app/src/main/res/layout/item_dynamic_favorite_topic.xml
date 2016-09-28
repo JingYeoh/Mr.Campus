@@ -126,12 +126,14 @@
             <ImageView
                 android:id="@+id/idft_iv_comment"
                 style="@style/Dynamic_Icon_style"
+                android:visibility="gone"
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/ic_comment_gray" />
 
             <TextView
                 android:id="@+id/idft_tv_commentNum"
                 style="@style/Dynamic_IconText_style"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="0" />

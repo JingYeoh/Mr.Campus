@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
+import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Response;
 import rx.Observable;
