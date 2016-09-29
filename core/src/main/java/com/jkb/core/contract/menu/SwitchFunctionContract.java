@@ -19,25 +19,14 @@ public interface SwitchFunctionContract {
     interface View extends BaseView<Presenter> {
 
         /**
-         * 显示学校的视图信息
-         *
-         * @param schoolBadge
-         * @param schoolName
+         * 展示学校的视图
          */
-        void showSchoolView(Bitmap schoolBadge, String schoolName);
+        void showSchoolView(String schoolName, String schoolBadge, String summary);
 
         /**
-         * 显示个人信息栏：登录状态
-         *
-         * @param headImg
-         * @param nickName
+         * 隐藏学校的视图
          */
-        void showPersonalView(Bitmap headImg, String nickName);
-
-        /**
-         * 显示个人信息栏：未登录状态
-         */
-        void showPersonalView();
+        void hideSchoolView();
 
         /**
          * 个人中心视图的监听器

@@ -1,15 +1,16 @@
 package com.jkb.mrcampus.fragment.menu;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jkb.core.contract.menu.SwitchFunctionContract;
 import com.jkb.core.control.userstate.UserState;
+import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
@@ -17,6 +18,7 @@ import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.base.BaseFragment;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import jkb.mrcampus.db.entity.Schools;
 
 /**
  * 左滑菜单：切换功能的View
@@ -88,8 +90,12 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
 
         rootView.findViewById(R.id.fms_tv_menuMessage).setOnClickListener(startClickListener);
         rootView.findViewById(R.id.fms_ll_school).setOnClickListener(startClickListener);
+        rootView.findViewById(R.id.fms_ll_selectSchool).setOnClickListener(startClickListener);
         rootView.findViewById(R.id.fms_tv_menuMap).setOnClickListener(startClickListener);
 
+        //设置选择学校的监听器
+        SchoolInfoSingleton.getInstance().setOnSchoolSelectedChangedListener(
+                onSchoolSelectedChangedListener);
     }
 
     @Override
@@ -131,6 +137,7 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
                     mainActivity.startMessage();
                     break;
                 case R.id.fms_ll_school:
+                case R.id.fms_ll_selectSchool:
                     mainActivity.startChooseSchools();
                     break;
             }
@@ -185,18 +192,19 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
     }
 
     @Override
-    public void showSchoolView(Bitmap schoolBadge, String schoolName) {
-
+    public void showSchoolView(String schoolName, String schoolBadge, String summary) {
+        rootView.findViewById(R.id.fms_ll_school).setVisibility(View.VISIBLE);
+        rootView.findViewById(R.id.fms_ll_selectSchool).setVisibility(View.GONE);
+        ((TextView) rootView.findViewById(R.id.fms_tv_schoolName)).setText(schoolName);
+        ((TextView) rootView.findViewById(R.id.fms_tv_schoolArea)).setText(summary);
+        ImageView ivBadge = (ImageView) rootView.findViewById(R.id.fms_iv_schoolBadge);
+        ImageLoaderFactory.getInstance().displayImage(ivBadge, schoolBadge);
     }
 
     @Override
-    public void showPersonalView(Bitmap headImg, String nickName) {
-
-    }
-
-    @Override
-    public void showPersonalView() {
-
+    public void hideSchoolView() {
+        rootView.findViewById(R.id.fms_ll_school).setVisibility(View.GONE);
+        rootView.findViewById(R.id.fms_ll_selectSchool).setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -275,4 +283,23 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(SAVED_ITEMS_SELECTER, itemSelector);
     }
+
+    /**
+     * 选择的学校的状态改变的监听器
+     */
+    private SchoolInfoSingleton.OnSchoolSelectedChangedListener onSchoolSelectedChangedListener = new
+            SchoolInfoSingleton.OnSchoolSelectedChangedListener() {
+                @Override
+                public void onSchoolSelected(Schools schools) {
+                    String badge = schools.getBadge();
+                    String school_name = schools.getSchool_name();
+                    String summary = schools.getSummary();
+                    showSchoolView(school_name, badge, summary);
+                }
+
+                @Override
+                public void onSchoolNotSelected() {
+                    hideSchoolView();
+                }
+            };
 }

@@ -7,6 +7,7 @@ import com.jkb.model.base.BaseDataSource;
 
 import java.util.Date;
 
+import jkb.mrcampus.db.entity.Schools;
 import jkb.mrcampus.db.entity.Status;
 import jkb.mrcampus.db.entity.UserAuths;
 import jkb.mrcampus.db.entity.Users;
@@ -77,7 +78,8 @@ public interface FirstDataSource extends BaseDataSource {
     /**
      * 缓存系统状态
      */
-    void cacheStatus(String version, boolean isLogined, int userId, Date date);
+    void cacheStatus(String version, boolean isLogined, boolean isSelectedSchool, int schoolId,
+                     int userId, Date date);
 
     /**
      * 得到个人的数据
@@ -103,4 +105,11 @@ public interface FirstDataSource extends BaseDataSource {
      * 通过本地地址加载头像
      */
     void loadHeadImgByLocalPath(String path, BitmapDataCallback callback);
+
+    /**
+     * 从数据库中得到学校的对象
+     *
+     * @param schoolId 学校id
+     */
+    Schools getSchoolFromDb(int schoolId);
 }

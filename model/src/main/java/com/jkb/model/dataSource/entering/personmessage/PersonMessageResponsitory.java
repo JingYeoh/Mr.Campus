@@ -38,19 +38,26 @@ public class PersonMessageResponsitory implements PersonMessageDataSource {
      * @param localDataSource  本地数据来源
      * @param remoteDataSource 远程数据来源
      */
-    private PersonMessageResponsitory(PersonMessageDataSource localDataSource, PersonMessageDataSource remoteDataSource) {
+    private PersonMessageResponsitory(PersonMessageDataSource localDataSource,
+                                      PersonMessageDataSource remoteDataSource) {
         this.localDataSource = localDataSource;
         this.remoteDataSource = remoteDataSource;
     }
 
     @Override
-    public void registerWithEmail(String nickName, String code, String credential, String identity_type, String identifier, MultipartBody.Part image, ApiCallback<ApiResponse<RegisterEntity>> apiCallback) {
-        remoteDataSource.registerWithEmail(nickName, code, credential, identity_type, identifier, image, apiCallback);
+    public void registerWithEmail(String nickName, String code, String credential,
+                                  String identity_type, String identifier, MultipartBody.Part image,
+                                  ApiCallback<ApiResponse<RegisterEntity>> apiCallback) {
+        remoteDataSource.registerWithEmail(nickName, code, credential, identity_type,
+                identifier, image, apiCallback);
     }
 
     @Override
-    public void registerWithPhone(String nickName, String code, String credential, String identity_type, String identifier, MultipartBody.Part image, ApiCallback<ApiResponse<RegisterEntity>> apiCallback) {
-        remoteDataSource.registerWithPhone(nickName, code, credential, identity_type, identifier, image, apiCallback);
+    public void registerWithPhone(String nickName, String code, String credential,
+                                  String identity_type, String identifier, MultipartBody.Part image,
+                                  ApiCallback<ApiResponse<RegisterEntity>> apiCallback) {
+        remoteDataSource.registerWithPhone(nickName, code, credential, identity_type, identifier,
+                image, apiCallback);
     }
 
     @Override
@@ -65,8 +72,9 @@ public class PersonMessageResponsitory implements PersonMessageDataSource {
 
 
     @Override
-    public void saveStatusToDb(int userId, String version, boolean isLogin, Date date) {
-        localDataSource.saveStatusToDb(userId, version, isLogin, date);
+    public void saveStatusToDb(int userId, String version, boolean isLogin,
+                               boolean isSelectedSchool, int schoolId, Date date) {
+        localDataSource.saveStatusToDb(userId, version, isLogin, isSelectedSchool, schoolId, date);
     }
 
     @Override

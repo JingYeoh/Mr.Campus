@@ -193,7 +193,7 @@ public class EnterPersonMessagePresenter implements EnterPersonMessageContract.P
             personMessageResponsitory.saveStatusToDb(
                     userInfoBean.getId(),
                     personMessageResponsitory.getCurrentVersion(),
-                    true, StringUtils.getSystemCurrentTime()
+                    true, false, 0, StringUtils.getSystemCurrentTime()
             );
         }
     }

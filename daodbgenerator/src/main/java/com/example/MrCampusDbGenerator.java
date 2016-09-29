@@ -46,7 +46,10 @@ public class MrCampusDbGenerator {
         schools.addIdProperty();
         schools.addIntProperty(DBConfig.SCHOOL_ID).unique();
         schools.addStringProperty(DBConfig.BADGE);
+        schools.addStringProperty(DBConfig.SCHOOL_NAME);
         schools.addStringProperty(DBConfig.SUMMARY);
+        schools.addDoubleProperty(DBConfig.LATITUDE);
+        schools.addDoubleProperty(DBConfig.LONGITUDE);
         schools.addDateProperty(DBConfig.UPDATED_AT);
     }
 
@@ -62,6 +65,8 @@ public class MrCampusDbGenerator {
         status.addIdProperty();//建立自增的主键
         status.addStringProperty(DBConfig.VERSION).notNull();//缓存的版本号
         status.addBooleanProperty(DBConfig.FLAG_LOGIN).notNull();//是否登录
+        status.addBooleanProperty(DBConfig.FLAG_SELECT_SEHOOL).notNull();//是否选择学校
+        status.addIntProperty(DBConfig.SCHOOL_ID);//选择的学校的id
         status.addIntProperty(DBConfig.USER_ID);//用户的id
         status.addDateProperty(DBConfig.CREATED_AT);//创建时间
     }

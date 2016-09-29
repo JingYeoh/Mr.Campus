@@ -60,7 +60,9 @@ public class PersonMessageRemoteDataSource implements PersonMessageDataSource {
     }
 
     @Override
-    public void registerWithPhone(String nickName, String code, String credential, String identity_type, String identifier, MultipartBody.Part image, ApiCallback<ApiResponse<RegisterEntity>> apiCallback) {
+    public void registerWithPhone(String nickName, String code, String credential,
+                                  String identity_type, String identifier, MultipartBody.Part image,
+                                  ApiCallback<ApiResponse<RegisterEntity>> apiCallback) {
         //请求注册接口
         ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
         apiFactory.setHttpClient(apiFactory.filePostClient());
@@ -69,9 +71,11 @@ public class PersonMessageRemoteDataSource implements PersonMessageDataSource {
         Call<ApiResponse<RegisterEntity>> call = null;
         //判断是否有需要上传的头像
         if (image == null) {
-            call = registerApi.registerWithPhone(nickName, code, credential, identity_type, identifier, null, null);
+            call = registerApi.registerWithPhone(nickName, code, credential, identity_type,
+                    identifier, null, null);
         } else {
-            call = registerApi.registerWithPhone(nickName, code, credential, identity_type, identifier
+            call = registerApi.registerWithPhone(nickName, code, credential, identity_type,
+                    identifier
                     , image, Config.KEY_AVATAR);
         }
         Type type = new TypeToken<ApiResponse<RegisterEntity>>() {
@@ -91,7 +95,8 @@ public class PersonMessageRemoteDataSource implements PersonMessageDataSource {
 
 
     @Override
-    public void saveStatusToDb(int userId, String version, boolean isLogin, Date date) {
+    public void saveStatusToDb(int userId, String version, boolean isLogin, boolean isSelectedSchool,
+                               int schoolId, Date date) {
 
     }
 

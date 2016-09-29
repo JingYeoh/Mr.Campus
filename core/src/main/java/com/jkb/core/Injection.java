@@ -72,6 +72,9 @@ import com.jkb.model.dataSource.personCenter.remote.PersonCenterRemoteDataSource
 import com.jkb.model.dataSource.personSetting.PersonSettingDataResponsitory;
 import com.jkb.model.dataSource.personSetting.local.PersonSettingLocalDataSource;
 import com.jkb.model.dataSource.personSetting.remote.PersonSettingRemoteDataSource;
+import com.jkb.model.dataSource.school.SelectSchoolDataRepertory;
+import com.jkb.model.dataSource.school.local.SelectSchoolLocalDataSource;
+import com.jkb.model.dataSource.school.remote.SelectSchoolRemoteDataSource;
 import com.jkb.model.dataSource.usersList.attention.AttentionDataResponsitory;
 import com.jkb.model.dataSource.usersList.attention.local.AttentionLocalDataSource;
 import com.jkb.model.dataSource.usersList.attention.remote.AttentionRemoteDataSource;
@@ -415,6 +418,17 @@ public class Injection {
         DynamicCreateArticleDataRepertory repertory = DynamicCreateArticleDataRepertory.getInstance(
                 DynamicCreateArticleLocalDataSource.getInstance(applicationContext),
                 DynamicCreateArticleRemoteDataSource.getInstance());
+        return repertory;
+    }
+
+    /**
+     * 得到SelectSchoolDataRepertory对象
+     */
+    public static SelectSchoolDataRepertory provideSelectSchoolDataRepertory(
+            @NonNull Context applicationContext) {
+        SelectSchoolDataRepertory repertory = SelectSchoolDataRepertory.getInstance(
+                SelectSchoolLocalDataSource.getInstance(applicationContext),
+                SelectSchoolRemoteDataSource.getInstance());
         return repertory;
     }
 }

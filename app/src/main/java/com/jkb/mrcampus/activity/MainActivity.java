@@ -15,6 +15,7 @@ import com.jkb.core.presenter.function.index.HomePagePresenter;
 import com.jkb.core.presenter.menu.MenuPresenter;
 import com.jkb.core.presenter.menu.RightMenuPresenter;
 import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
+import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseSlideMenuActivity;
@@ -24,6 +25,8 @@ import com.jkb.mrcampus.fragment.menu.RightMenuFragment;
 import com.jkb.mrcampus.fragment.menu.SwitchFunctionFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.service.LocationService;
+
+import jkb.mrcampus.db.entity.Schools;
 
 /**
  * 核心的Activity类，负责显示主要功能模块
@@ -335,7 +338,8 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     @Override
     public void startChooseSchools() {
         Log.d(TAG, "startChooseSchools");
-        LoginContext.getInstance().setUserState(new LogoutState());
+//        LoginContext.getInstance().setUserState(new LogoutState());
+        showSelectSchoolView();
     }
 
     @Override

@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import java.util.Date;
 
+import jkb.mrcampus.db.entity.Schools;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -50,8 +52,9 @@ public class FirstDataResponsitory implements FirstDataSource {
     }
 
     @Override
-    public void cacheStatus(String version, boolean isLogined, int userId, Date date) {
-        firstLocalDataSource.cacheStatus(version, isLogined, userId, date);
+    public void cacheStatus(String version, boolean isLogined, boolean isSelectedSchool, int schoolId,
+                            int userId, Date date) {
+        firstLocalDataSource.cacheStatus(version, isLogined, isSelectedSchool, schoolId, userId, date);
     }
 
     @Override
@@ -78,5 +81,10 @@ public class FirstDataResponsitory implements FirstDataSource {
     @Override
     public void loadHeadImgByLocalPath(String path, BitmapDataCallback callback) {
         firstLocalDataSource.loadHeadImgByLocalPath(path, callback);
+    }
+
+    @Override
+    public Schools getSchoolFromDb(int schoolId) {
+        return remoteDataSource.getSchoolFromDb(schoolId);
     }
 }

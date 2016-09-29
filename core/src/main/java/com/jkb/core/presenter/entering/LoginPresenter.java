@@ -14,6 +14,7 @@ import com.jkb.core.control.userstate.LoginState;
 import com.jkb.model.dataSource.entering.login.LoginDataSource;
 import com.jkb.model.dataSource.entering.login.LoginResponsitory;
 import com.jkb.model.dataSource.entering.login.ThirdPlatformData;
+import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.model.utils.FormatUtils;
 import com.jkb.model.utils.StringUtils;
@@ -137,10 +138,7 @@ public class LoginPresenter implements LoginContract.Presenter {
             new ApiCallback<ApiResponse<LoginEntity>>() {
                 @Override
                 public void onSuccess(Response<ApiResponse<LoginEntity>> response) {
-//            loginView.dismissLoading();
-//            loginView.showReqResult("登录成功，宝宝好棒");
-//            loginSystem();//进入系统
-                    if(loginView.isActive()){
+                    if (loginView.isActive()) {
                         handleData(response.body());
                     }
                 }
@@ -149,7 +147,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                  * 处理用户数据
                  */
                 private void handleData(ApiResponse<LoginEntity> body) {
-                    if(body==null){
+                    if (body == null) {
                         return;
                     }
                     handleLoginData(body.getMsg());
@@ -159,7 +157,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                  * 处理登录数据
                  */
                 private void handleLoginData(LoginEntity msg) {
-                    if(msg==null){
+                    if (msg == null) {
                         loginView.showReqResult("登录失败");
                         return;
                     }
@@ -170,7 +168,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                 @Override
                 public void onError(Response<ApiResponse<LoginEntity>> response,
                                     String error, ApiResponse<LoginEntity> apiResponse) {
-                    if(loginView.isActive()){
+                    if (loginView.isActive()) {
                         loginView.dismissLoading();
                         loginView.showReqResult("帐号或密码错误");
                     }
@@ -237,9 +235,6 @@ public class LoginPresenter implements LoginContract.Presenter {
                 new ApiCallback<ApiResponse<LoginEntity>>() {
                     @Override
                     public void onSuccess(Response<ApiResponse<LoginEntity>> response) {
-//                        loginView.dismissLoading();
-//                        loginView.showReqResult("登录成功，宝宝真棒！");
-//                        loginSystem();//进入系统
                         //清空密码
 //                        userName = null;
                         passWord = null;
@@ -273,6 +268,8 @@ public class LoginPresenter implements LoginContract.Presenter {
         saveStatusDataToDb(body);//保存到状态表中
         //切换身份，设置为已经登录
         LoginContext.getInstance().setUserState(new LoginState());
+        //设置为未选择学校状态
+        SchoolInfoSingleton.getInstance().setSelectedSchool(false);
         //设置头像到系统中
         saveUserAvatarBitmap();
     }
@@ -348,6 +345,8 @@ public class LoginPresenter implements LoginContract.Presenter {
         Status status = new Status();
         status.setVersion(loginResponsitory.getCurrentVersion());
         status.setFlag_login(true);
+        status.setFlag_select_school(false);
+        status.setSchool_id(0);
         status.setUser_id(userId);
         status.setCreated_at(StringUtils.getSystemCurrentTime());
         loginResponsitory.saveStatusToDb(status);

@@ -36,6 +36,11 @@ public interface BaseActivityAction {
                           TagFloatFragment.OnTagItemClickListener listener);
 
     /**
+     * 显示选择学校的视图
+     */
+    void showSelectSchoolView();
+
+    /**
      * 打开动态详情页面
      *
      * @param dynamic_id  动态id

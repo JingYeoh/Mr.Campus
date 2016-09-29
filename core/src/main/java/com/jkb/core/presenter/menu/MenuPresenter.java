@@ -14,6 +14,7 @@ import com.jkb.core.control.userstate.LoginState;
 import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.model.dataSource.entering.login.LoginDataSource;
 import com.jkb.model.dataSource.entering.login.LoginResponsitory;
+import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.model.utils.StringUtils;
 
@@ -87,22 +88,30 @@ public class MenuPresenter implements MenuContract.Presenter {
 
     @Override
     public void ReqLogin() {
+        //判断是否选择了学校
+        boolean selectedSchool = SchoolInfoSingleton.getInstance().isSelectedSchool();
+        if (selectedSchool) {
+
+        } else {
+
+        }
         //判断是否登录
         if (!LoginContext.getInstance().isLogined()) {
-            return;
+
+        } else {
+            UserInfoSingleton info = UserInfoSingleton.getInstance();
+            UserAuths auths = info.getUserAuths();
+            if (auths == null) {
+                LoginContext.getInstance().setUserState(new LogoutState());
+                return;
+            }
+            String identity_type = auths.getIdentity_type();
+            String credential = auths.getCredential();
+            String identifier = auths.getIdentifier();
+            String nickName = info.getUsers().getNickname();
+            //请求登录接口
+            login(identity_type, identifier, credential, nickName);
         }
-        UserInfoSingleton info = UserInfoSingleton.getInstance();
-        UserAuths auths = info.getUserAuths();
-        if (auths == null) {
-            LoginContext.getInstance().setUserState(new LogoutState());
-            return;
-        }
-        String identity_type = auths.getIdentity_type();
-        String credential = auths.getCredential();
-        String identifier = auths.getIdentifier();
-        String nickName = info.getUsers().getNickname();
-        //请求登录接口
-        login(identity_type, identifier, credential, nickName);
     }
 
     /**
@@ -253,6 +262,14 @@ public class MenuPresenter implements MenuContract.Presenter {
         Status status = new Status();
         status.setVersion(loginResponsitory.getCurrentVersion());
         status.setFlag_login(true);
+        boolean selectedSchool = SchoolInfoSingleton.getInstance().isSelectedSchool();
+        if (!selectedSchool) {
+            status.setFlag_select_school(false);
+            status.setSchool_id(0);
+        } else {
+            status.setFlag_select_school(true);
+            status.setSchool_id(SchoolInfoSingleton.getInstance().getSchool().getSchool_id());
+        }
         status.setUser_id(userId);
         status.setCreated_at(StringUtils.getSystemCurrentTime());
         loginResponsitory.saveStatusToDb(status);

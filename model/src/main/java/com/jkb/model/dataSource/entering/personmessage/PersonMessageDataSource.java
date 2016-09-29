@@ -53,13 +53,11 @@ public interface PersonMessageDataSource {
 
     /**
      * 保存数据到数据库中
-     *
      */
     void saveUserToDb(Users users);
 
     /**
      * 保存用户Auth信息到数据库中
-     *
      */
     void saveUserAuthToDb(UserAuths userAuths);
 
@@ -72,7 +70,8 @@ public interface PersonMessageDataSource {
      * @param isLogin
      * @param date
      */
-    void saveStatusToDb(int userId, String version, boolean isLogin, Date date);
+    void saveStatusToDb(int userId, String version, boolean isLogin,
+                        boolean isSelectedSchool, int schoolId, Date date);
 
 
     /**

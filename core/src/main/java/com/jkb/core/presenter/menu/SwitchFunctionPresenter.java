@@ -1,6 +1,5 @@
 package com.jkb.core.presenter.menu;
 
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
 import com.jkb.core.contract.menu.MenuContract;
@@ -8,8 +7,10 @@ import com.jkb.core.contract.menu.SwitchFunctionContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.core.control.userstate.UserState;
+import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.model.info.UserInfoSingleton;
 
+import jkb.mrcampus.db.entity.Schools;
 import jkb.mrcampus.db.entity.Users;
 
 /**
@@ -41,10 +42,8 @@ public class SwitchFunctionPresenter implements SwitchFunctionContract.Presenter
         getPersonalData();
         //设置个人信息头像
         setOnPersonViewListener(functionView.onPersonViewListener());
-
-        //设置当前学校视图
-
     }
+
 
     @Override
     public boolean isLogined() {
@@ -53,7 +52,22 @@ public class SwitchFunctionPresenter implements SwitchFunctionContract.Presenter
 
     @Override
     public void getCurrentSchool() {
+        //设置当前学校视图
+        initSchoolView();
+    }
 
+    /**
+     * 初始化学校视图
+     */
+    private void initSchoolView() {
+        SchoolInfoSingleton schoolInfo = SchoolInfoSingleton.getInstance();
+        if (schoolInfo.isSelectedSchool()) {
+            Schools school = schoolInfo.getSchool();
+            functionView.showSchoolView(school.getSchool_name(),
+                    school.getBadge(), school.getSummary());
+        } else {
+            functionView.hideSchoolView();
+        }
     }
 
     @Override

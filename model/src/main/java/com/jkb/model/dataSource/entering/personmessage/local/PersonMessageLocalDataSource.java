@@ -55,12 +55,17 @@ public class PersonMessageLocalDataSource implements PersonMessageDataSource {
     }
 
     @Override
-    public void registerWithEmail(String nickName, String code, String credential, String identity_type, String identifier, MultipartBody.Part image, ApiCallback<ApiResponse<RegisterEntity>> apiCallback) {
+    public void registerWithEmail(String nickName, String code, String credential,
+                                  String identity_type, String identifier, MultipartBody.Part image,
+                                  ApiCallback<ApiResponse<RegisterEntity>> apiCallback) {
 
     }
 
     @Override
-    public void registerWithPhone(String nickName, String code, String credential, String identity_type, String identifier, MultipartBody.Part image, ApiCallback<ApiResponse<RegisterEntity>> apiCallback) {
+    public void registerWithPhone(
+            String nickName, String code, String credential,
+            String identity_type, String identifier, MultipartBody.Part image,
+            ApiCallback<ApiResponse<RegisterEntity>> apiCallback) {
     }
 
     @Override
@@ -74,11 +79,14 @@ public class PersonMessageLocalDataSource implements PersonMessageDataSource {
     }
 
     @Override
-    public void saveStatusToDb(int userId, String version, boolean isLogin, Date date) {
+    public void saveStatusToDb(int userId, String version, boolean isLogin,
+                               boolean isSelectedSchool, int schoolId, Date date) {
         Status status = new Status();
         status.setUser_id(userId);
         status.setVersion(version);
         status.setFlag_login(isLogin);
+        status.setFlag_select_school(isSelectedSchool);
+        status.setSchool_id(schoolId);
         status.setCreated_at(date);
         daoSession.insertOrReplace(status);
     }

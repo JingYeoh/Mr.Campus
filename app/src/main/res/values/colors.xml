@@ -67,6 +67,7 @@
     <color name="man_color">#51b7F9</color>
     <color name="woman_color">#F33D66</color>
     <color name="B_black_20">#2c000000</color>
+    <color name="B_black_55">#37000000</color>
     <color name="B_black_70">#b6000000</color>
     <color name="white_20">#c2c1c1</color>
     <color name="B_black_50">#404040</color>

@@ -13,6 +13,8 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.Date;
 
+import jkb.mrcampus.db.entity.Schools;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -48,7 +50,8 @@ public class FirstRemoteDataSource implements FirstDataSource {
     }
 
     @Override
-    public void cacheStatus(String version, boolean isLogined, int userId, Date date) {
+    public void cacheStatus(String version, boolean isLogined, boolean isSelectedSchool, int schoolId,
+                            int userId, Date date) {
 
     }
 
@@ -99,5 +102,10 @@ public class FirstRemoteDataSource implements FirstDataSource {
     @Override
     public void loadHeadImgByLocalPath(String path, BitmapDataCallback callback) {
 
+    }
+
+    @Override
+    public Schools getSchoolFromDb(int schoolId) {
+        return null;
     }
 }

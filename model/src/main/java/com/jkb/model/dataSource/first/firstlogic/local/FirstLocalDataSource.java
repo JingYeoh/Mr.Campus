@@ -17,9 +17,11 @@ import java.util.List;
 import de.greenrobot.dao.query.QueryBuilder;
 import jkb.mrcampus.db.MrCampusDB;
 import jkb.mrcampus.db.dao.DaoSession;
+import jkb.mrcampus.db.dao.SchoolsDao;
 import jkb.mrcampus.db.dao.StatusDao;
 import jkb.mrcampus.db.dao.UserAuthsDao;
 import jkb.mrcampus.db.dao.UsersDao;
+import jkb.mrcampus.db.entity.Schools;
 import jkb.mrcampus.db.entity.Status;
 import jkb.mrcampus.db.entity.UserAuths;
 import jkb.mrcampus.db.entity.Users;
@@ -49,8 +51,6 @@ public class FirstLocalDataSource implements FirstDataSource {
 
     /**
      * 获取WelcomeRemoteDataSource的单例类对象
-     *
-     * @return
      */
     public static FirstLocalDataSource getInstance(Context context) {
         if (INSTANCE == null) {
@@ -86,10 +86,13 @@ public class FirstLocalDataSource implements FirstDataSource {
     }
 
     @Override
-    public void cacheStatus(String version, boolean isLogined, int userId, Date date) {
+    public void cacheStatus(String version, boolean isLogined, boolean isSelectedSchool, int schoolId,
+                            int userId, Date date) {
         Status status = new Status();
         status.setVersion(version);
         status.setFlag_login(isLogined);
+        status.setFlag_select_school(isSelectedSchool);
+        status.setSchool_id(schoolId);
         status.setUser_id(userId);
         status.setCreated_at(date);
         daoSession.insertOrReplace(status);
@@ -167,5 +170,18 @@ public class FirstLocalDataSource implements FirstDataSource {
                 }
             }
         });
+    }
+
+    @Override
+    public Schools getSchoolFromDb(int schoolId) {
+        Schools schools = null;
+        SchoolsDao schoolsDao = daoSession.getSchoolsDao();
+        QueryBuilder qb = schoolsDao.queryBuilder();
+        qb.where(SchoolsDao.Properties.School_id.eq(schoolId));
+        List<Schools> schoolses = qb.list();
+        if (schoolses != null && schoolses.size() > 0) {
+            schools = schoolses.get(0);
+        }
+        return schools;
     }
 }

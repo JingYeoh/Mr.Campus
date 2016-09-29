@@ -42,12 +42,16 @@ public class DBConfig {
     public static final String BREF_INTRODUCTION = "bref_introduction";
     public static final String BACKGROUND = "background";
     public static final String SCHOOL_ID = "school_id";
+    public static final String SCHOOL_NAME = "school_name";
     public static final String VERSION = "version";//缓存的版本号
     public static final String FLAG_LOGIN = "flag_login";//是否登录系统
+    public static final String FLAG_SELECT_SEHOOL = "flag_select_school";//是否选择学校
     public static final String SNAME = "sname";
     public static final String BADGE = "badge";//校徽图片地址
     public static final String SUMMARY = "summary";
     public static final String AVATAR_LOCAL_PATH = "avatarLocalPath";
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
 
     public static final String ATTENTIONCOUNT = "attentionCount";//关注圈子总数
     public static final String ATTENTIONUSERCOUNT = "attentionUserCount";//关注用户总数

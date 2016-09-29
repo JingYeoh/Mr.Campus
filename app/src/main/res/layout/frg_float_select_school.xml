@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ffss_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:paddingTop="50dp">
+
+        <ListView
+            android:id="@+id/ffss_lv"
+            android:layout_width="match_parent"
+            android:layout_height="420dp"
+            android:background="@color/white"
+            android:divider="@color/main_theme"
+            android:scrollbars="none" />
+
+        <ImageView
+            android:id="@+id/ffss_iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_jing_close" />
+    </LinearLayout>
+
+</LinearLayout>

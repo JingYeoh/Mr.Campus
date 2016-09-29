@@ -31,6 +31,7 @@ import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
 import com.jkb.mrcampus.fragment.dialog.InputTextFloatFragment;
+import com.jkb.mrcampus.fragment.dialog.SelectSchoolFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.SexFilterFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.TagFloatFragment;
@@ -68,6 +69,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     private WriteDynamicDialogFragment writeDynamicDialogFragment;
     private ShareDynamicDialogFragment shareDynamicDialogFragment;
     private TagFloatFragment tagFloatFragment;
+    private SelectSchoolFloatFragment selectSchoolFloatFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -462,6 +464,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         if (tagFloatFragment != null && tagFloatFragment.isAdded()) {
             tagFloatFragment.dismiss();
         }
+        //取消选择学校的显示
+        if (selectSchoolFloatFragment != null && selectSchoolFloatFragment.isAdded()) {
+            selectSchoolFloatFragment.dismiss();
+        }
         dismissLoading();
     }
 
@@ -550,6 +556,17 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         if (!tagFloatFragment.isAdded()) {
             tagFloatFragment.show(getFragmentManager(),
                     ClassUtils.getClassName(TagFloatFragment.class));
+        }
+    }
+
+    @Override
+    public void showSelectSchoolView() {
+        if (selectSchoolFloatFragment == null) {
+            selectSchoolFloatFragment = new SelectSchoolFloatFragment();
+        }
+        if (!selectSchoolFloatFragment.isAdded()) {
+            selectSchoolFloatFragment.show(getFragmentManager(),
+                    ClassUtils.getClassName(SelectSchoolFloatFragment.class));
         }
     }
 }

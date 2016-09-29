@@ -54,6 +54,8 @@ public class Config {
     public static final String URL_CATEGORY_TYPE = "category/{type}";
     //Image
     public static final String URL_IMAGE_UPLOAD = "image/dynamic";
+    //School
+    public static final String URL_SCHOOL_ALL = "getAllSchool";
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
 
