@@ -82,7 +82,6 @@ public class MenuPresenter implements MenuContract.Presenter {
 
     @Override
     public boolean getIdentity() {
-
         return false;
     }
 
@@ -219,8 +218,8 @@ public class MenuPresenter implements MenuContract.Presenter {
 
                     LoginContext.getInstance().setUserState(new LoginState());//更新回调接口数据
                     //缓存并且设置到本地
-                    loginResponsitory.cacheBitmapToFile(Config.PATH_ROOT_IMAGE, UID, bitmap,
-                            bitmapToFileDataCallback);
+//                    loginResponsitory.cacheBitmapToFile(Config.PATH_ROOT_IMAGE, UID, bitmap,
+//                            bitmapToFileDataCallback);
                 }
 
                 @Override

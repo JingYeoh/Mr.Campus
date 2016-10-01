@@ -6,8 +6,8 @@ import android.util.Log;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
-import com.jkb.api.entity.auth.LoginEntity;
 import com.jkb.api.config.Config;
+import com.jkb.api.entity.auth.LoginEntity;
 import com.jkb.core.contract.entering.LoginContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LoginState;
@@ -301,7 +301,8 @@ public class LoginPresenter implements LoginContract.Presenter {
             loginSystem();
 
             //缓存并且设置到本地
-            loginResponsitory.cacheBitmapToFile(Config.PATH_ROOT_IMAGE, UID, bitmap, bitmapToFileDataCallback);
+//            loginResponsitory.cacheBitmapToFile(Config.PATH_ROOT_IMAGE, UID, bitmap,
+//                    bitmapToFileDataCallback);
         }
 
         @Override

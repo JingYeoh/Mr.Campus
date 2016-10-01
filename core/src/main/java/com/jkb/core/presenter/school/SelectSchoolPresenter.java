@@ -104,7 +104,6 @@ public class SelectSchoolPresenter implements SelectSchoolContract.Presenter {
             status.setFlag_login(false);
         }
         status.setVersion(repertory.getCurrentVersion());
-        status.setFlag_login(true);
         boolean selectedSchool = SchoolInfoSingleton.getInstance().isSelectedSchool();
         if (!selectedSchool) {
             status.setFlag_select_school(false);

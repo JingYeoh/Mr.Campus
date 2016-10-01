@@ -2,7 +2,7 @@ package com.jkb.core.presenter.function.index;
 
 import android.support.annotation.NonNull;
 
-import com.jkb.core.contract.function.index.HomePageContract;
+import com.jkb.core.contract.function.HomePageContract;
 import com.jkb.core.contract.menu.MenuContract;
 import com.jkb.core.control.userstate.LoginContext;
 

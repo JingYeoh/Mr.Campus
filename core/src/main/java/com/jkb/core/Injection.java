@@ -60,6 +60,9 @@ import com.jkb.model.dataSource.first.welcome.remote.WelcomeRemoteDataSource;
 import com.jkb.model.dataSource.function.index.dynamic.DynamicDataRepository;
 import com.jkb.model.dataSource.function.index.dynamic.local.DynamicLocalDataSource;
 import com.jkb.model.dataSource.function.index.dynamic.remote.DynamicRemoteDataSource;
+import com.jkb.model.dataSource.function.index.hot.DynamicHotDataRepository;
+import com.jkb.model.dataSource.function.index.hot.local.DynamicHotLocalDataSource;
+import com.jkb.model.dataSource.function.index.hot.remote.DynamicHotRemoteDataSource;
 import com.jkb.model.dataSource.menuRight.friends.FriendsRepertory;
 import com.jkb.model.dataSource.menuRight.friends.local.FriendsLocalDataSource;
 import com.jkb.model.dataSource.menuRight.friends.remote.FriendsRemoteDataSource;
@@ -429,6 +432,17 @@ public class Injection {
         SelectSchoolDataRepertory repertory = SelectSchoolDataRepertory.getInstance(
                 SelectSchoolLocalDataSource.getInstance(applicationContext),
                 SelectSchoolRemoteDataSource.getInstance());
+        return repertory;
+    }
+
+    /**
+     * 得到DynamicHotDataRepository对象
+     */
+    public static DynamicHotDataRepository provideDynamicHotDataRepository(
+            @NonNull Context applicationContext) {
+        DynamicHotDataRepository repertory = DynamicHotDataRepository.getInstance(
+                DynamicHotLocalDataSource.getInstance(applicationContext),
+                DynamicHotRemoteDataSource.getInstance());
         return repertory;
     }
 }

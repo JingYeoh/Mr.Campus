@@ -66,8 +66,8 @@ public class MrCampusDbGenerator {
         status.addStringProperty(DBConfig.VERSION).notNull();//缓存的版本号
         status.addBooleanProperty(DBConfig.FLAG_LOGIN).notNull();//是否登录
         status.addBooleanProperty(DBConfig.FLAG_SELECT_SEHOOL).notNull();//是否选择学校
-        status.addIntProperty(DBConfig.SCHOOL_ID);//选择的学校的id
-        status.addIntProperty(DBConfig.USER_ID);//用户的id
+        status.addIntProperty(DBConfig.SCHOOL_ID).notNull();//选择的学校的id
+        status.addIntProperty(DBConfig.USER_ID).notNull();//用户的id
         status.addDateProperty(DBConfig.CREATED_AT);//创建时间
     }
 

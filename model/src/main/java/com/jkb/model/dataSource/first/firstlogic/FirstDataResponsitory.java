@@ -85,6 +85,6 @@ public class FirstDataResponsitory implements FirstDataSource {
 
     @Override
     public Schools getSchoolFromDb(int schoolId) {
-        return remoteDataSource.getSchoolFromDb(schoolId);
+        return firstLocalDataSource.getSchoolFromDb(schoolId);
     }
 }

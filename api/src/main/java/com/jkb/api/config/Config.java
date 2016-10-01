@@ -41,6 +41,7 @@ public class Config {
     public static final String URL_OPERATION_VISITOTHER = "getVisitOther";//我访问的人
     //dynamic接口地址
     public static final String URL_DYNAMIC_GET_ALL = "dynamic/getAllDynamic";
+    public static final String URL_DYNAMIC_POPULAY_ALL = "getPopular/{schoolId}";
     public static final String URL_DYNAMIC_GET_SINGLE = "dynamic/{userId}/{id}";
     public static final String URL_DYNAMIC_POST = "dynamic";
     //Contacts接口
@@ -92,6 +93,7 @@ public class Config {
     public static final String KEY_USER_ID = "user_id";
     public static final String KEY_TARGET_USER_ID = "target_user_id";
     public static final String KEY_SCHOOL_ID = "school_id";
+    public static final String KEY_SCHOOLID = "schoolId";
     public static final String KEY_INTRODUCTION = "introduction";
     public static final String KEY_LONGITUDE = "longitude";
     public static final String KEY_LATITUDE = "latitude";

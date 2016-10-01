@@ -1,4 +1,4 @@
-package com.jkb.core.contract.function.index;
+package com.jkb.core.contract.function;
 
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;

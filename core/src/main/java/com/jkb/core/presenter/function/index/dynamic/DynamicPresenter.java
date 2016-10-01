@@ -1,4 +1,4 @@
-package com.jkb.core.presenter.function.index;
+package com.jkb.core.presenter.function.index.dynamic;
 
 import android.support.annotation.NonNull;
 import android.util.Log;

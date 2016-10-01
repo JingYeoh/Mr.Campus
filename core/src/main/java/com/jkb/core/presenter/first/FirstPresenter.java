@@ -48,9 +48,13 @@ public class FirstPresenter implements FirstContract.Presenter {
 
     @Override
     public void chooseFragment() {
+        //得到状态表的数据
         firstDataResponsitory.getStatusData(statusDataCallback);
     }
 
+    /**
+     * 得到状态表对象的回调
+     */
     FirstDataSource.StatusDataCallback statusDataCallback = new FirstDataSource.StatusDataCallback() {
         @Override
         public void onStatusDataLoaded(Status status) {
@@ -61,8 +65,8 @@ public class FirstPresenter implements FirstContract.Presenter {
             if (cacheVersion.equals(currentVersion)) {
                 showWelcome();
             } else {
-                firstDataResponsitory.cacheStatus(currentVersion, status.getFlag_login(),
-                        status.getFlag_select_school(), status.getSchool_id(), status.getUser_id(),
+                firstDataResponsitory.cacheStatus(currentVersion, isLogin,
+                        isSelectedSchool, status.getSchool_id(), status.getUser_id(),
                         StringUtils.getSystemCurrentTime());
                 showGuide();
             }
@@ -70,10 +74,10 @@ public class FirstPresenter implements FirstContract.Presenter {
             if (isSelectedSchool) {
                 //设置得到的学校信息
                 int school_id = status.getSchool_id();
+                SchoolInfoSingleton.getInstance().setSelectedSchool(true);
                 getSelectedSchool_id(school_id);//得到选择的学校id
-                SchoolInfoSingleton.getInstance().setSelectedSchool(isSelectedSchool);
             } else {
-                SchoolInfoSingleton.getInstance().setSelectedSchool(isSelectedSchool);
+                SchoolInfoSingleton.getInstance().setSelectedSchool(false);
             }
             //设置为未登录状态
             if (isLogin) {
@@ -106,11 +110,22 @@ public class FirstPresenter implements FirstContract.Presenter {
      * 得到选择的学校id
      */
     private void getSelectedSchool_id(int school_id) {
+        Log.d(TAG, "getSelectedSchool_id--------->schoolId=" + school_id);
         Schools school = firstDataResponsitory.getSchoolFromDb(school_id);
+        Log.d(TAG, "getSelectedSchool_id--------->school=" + school);
         if (school == null) {
             //设置为没有选择学校
             SchoolInfoSingleton.getInstance().setSelectedSchool(false);
         } else {
+            Log.d(TAG, "getSelectedSchool_id--------->getSchool_id=" + school.getSchool_id());
+            if (school.getSchool_id() == null) {
+                SchoolInfoSingleton.getInstance().setSelectedSchool(false);
+                return;
+            }
+            if (school.getSchool_id() <= 0) {
+                SchoolInfoSingleton.getInstance().setSelectedSchool(false);
+                return;
+            }
             SchoolInfoSingleton.getInstance().setSchool(school);
             SchoolInfoSingleton.getInstance().setSelectedSchool(true);
         }

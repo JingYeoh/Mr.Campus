@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.jkb.core.contract.function.index.HomePageContract;
+import com.jkb.core.contract.function.HomePageContract;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.adapter.fragmentPager.HomePageAdapter;

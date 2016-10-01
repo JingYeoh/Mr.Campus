@@ -16,7 +16,7 @@ import com.jkb.core.Injection;
 import com.jkb.core.contract.function.data.dynamic.DynamicBaseData;
 import com.jkb.core.contract.function.index.DynamicContract;
 import com.jkb.core.contract.menu.MenuContract;
-import com.jkb.core.presenter.function.index.DynamicPresenter;
+import com.jkb.core.presenter.function.index.dynamic.DynamicPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;

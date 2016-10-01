@@ -2,6 +2,7 @@ package com.jkb.mrcampus.fragment.menu;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -291,6 +292,9 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
             SchoolInfoSingleton.OnSchoolSelectedChangedListener() {
                 @Override
                 public void onSchoolSelected(Schools schools) {
+                    Log.i(TAG,"school_id="+schools.getSchool_id());
+                    Log.i(TAG,"school_name="+schools.getSchool_name());
+                    Log.i(TAG,"school_badge="+schools.getBadge());
                     String badge = schools.getBadge();
                     String school_name = schools.getSchool_name();
                     String summary = schools.getSummary();

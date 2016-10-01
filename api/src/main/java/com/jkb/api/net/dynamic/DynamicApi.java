@@ -5,6 +5,7 @@ import com.jkb.api.config.Config;
 import com.jkb.api.entity.dynamic.DynamicArticleEntity;
 import com.jkb.api.entity.dynamic.DynamicListEntity;
 import com.jkb.api.entity.dynamic.DynamicNormalEntity;
+import com.jkb.api.entity.dynamic.DynamicPopularListEntity;
 import com.jkb.api.entity.dynamic.DynamicPostEntity;
 import com.jkb.api.entity.dynamic.DynamicTopicEntity;
 
@@ -116,4 +117,18 @@ public interface DynamicApi {
             @Part(Config.KEY_TITLE) String title,
             @Part(Config.KEY_DCONTENT) String dcontent,
             @Part(Config.KEY_TAG) String tag);
+
+    /**
+     * 得到所有的热门动态
+     *
+     * @param Authorization 头，可选
+     * @param schoolId      学校id，必选
+     * @param page          分页
+     * @return Call
+     */
+    @GET(Config.URL_DYNAMIC_POPULAY_ALL)
+    Call<ApiResponse<DynamicPopularListEntity>> getAllPopularDynamic(
+            @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
+            @Path(Config.KEY_SCHOOLID) int schoolId,
+            @Query(Config.KEY_PAGE) int page);
 }
