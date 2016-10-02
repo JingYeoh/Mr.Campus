@@ -3,26 +3,35 @@ package com.jkb.mrcampus.fragment.function.index;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baidu.mapapi.radar.RadarSearchManager;
 import com.jkb.core.Injection;
 import com.jkb.core.contract.function.data.hot.HotDynamic;
 import com.jkb.core.contract.function.index.HotContract;
 import com.jkb.core.presenter.function.index.hot.HotPresenter;
+import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
+import com.jkb.mrcampus.adapter.recycler.dynamic.HotDynamicAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 
 import java.util.List;
+
+import jkb.mrcampus.db.entity.Schools;
 
 /**
  * 首页——热门的View层
  * Created by JustKiddingBaby on 2016/8/22.
  */
 
-public class HotFragment extends BaseFragment implements HotContract.View {
+public class HotFragment extends BaseFragment implements HotContract.View,
+        SwipeRefreshLayout.OnRefreshListener {
 
     public HotFragment() {
     }
@@ -39,6 +48,14 @@ public class HotFragment extends BaseFragment implements HotContract.View {
     //data
     private MainActivity mainActivity;
     private HotContract.Presenter mPresenter;
+
+    //view
+    private SwipeRefreshLayout refreshLayout;
+
+    //热门动态列表
+    private HotDynamicAdapter hotDynamicAdapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
 
     @Nullable
     @Override
@@ -65,12 +82,21 @@ public class HotFragment extends BaseFragment implements HotContract.View {
 
     @Override
     protected void initListener() {
-
+        //设置是否选择学校的监听事件
+        SchoolInfoSingleton.getInstance().setOnSchoolSelectedChangedListener(
+                onSchoolSelectedChangedListener);
+        //刷新
+        refreshLayout.setOnRefreshListener(this);
+        //加拉加载
+        //设置下拉加载
+        recyclerView.addOnScrollListener(onScrollListener);//设置滑动监听，设置是否下拉刷新
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         initPresenter();
+        hotDynamicAdapter = new HotDynamicAdapter(mActivity, null);
+        recyclerView.setAdapter(hotDynamicAdapter);
     }
 
     /**
@@ -85,32 +111,39 @@ public class HotFragment extends BaseFragment implements HotContract.View {
 
     @Override
     protected void initView() {
-
+        refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fhh_srl);
+        //初始化热门动态列表控件
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.fhh_rv);
+        linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
     }
 
     @Override
     public void hideHotView() {
-
+        rootView.findViewById(R.id.fhh_srl).setVisibility(View.GONE);
+        rootView.findViewById(R.id.fhh_content_unChooseSchoolView).setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showHotView() {
-
+        rootView.findViewById(R.id.fhh_srl).setVisibility(View.VISIBLE);
+        rootView.findViewById(R.id.fhh_content_unChooseSchoolView).setVisibility(View.GONE);
     }
 
     @Override
     public void showRefreshingView() {
-
+        refreshLayout.setRefreshing(true);
     }
 
     @Override
     public void hideRefreshingView() {
-
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
     public void setHotDynamicData(List<HotDynamic> hotDynamicData) {
-
+        hotDynamicAdapter.hotDynamics = hotDynamicData;
+        hotDynamicAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -157,4 +190,46 @@ public class HotFragment extends BaseFragment implements HotContract.View {
     public boolean isActive() {
         return isAdded();
     }
+
+    /**
+     * 是否选择学校的监听器
+     */
+    private SchoolInfoSingleton.OnSchoolSelectedChangedListener onSchoolSelectedChangedListener =
+            new SchoolInfoSingleton.OnSchoolSelectedChangedListener() {
+
+                @Override
+                public void onSchoolSelected(Schools schools) {
+                    showHotView();
+                }
+
+                @Override
+                public void onSchoolNotSelected() {
+                    hideHotView();
+                }
+            };
+
+    @Override
+    public void onRefresh() {
+        mPresenter.onRefresh();
+    }
+
+    /**
+     * 滑动的监听器
+     */
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int lastVisibleItem = (linearLayoutManager).findLastVisibleItemPosition();
+            int totalItemCount = linearLayoutManager.getItemCount();
+            if (lastVisibleItem > 5) {
+                rootView.findViewById(R.id.fhd_iv_floatBt_top).setVisibility(View.VISIBLE);
+            } else {
+                rootView.findViewById(R.id.fhd_iv_floatBt_top).setVisibility(View.GONE);
+            }
+            if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
+                mPresenter.onLoadMore();//设置下拉加载
+            }
+        }
+    };
 }

@@ -81,7 +81,7 @@ public class HotPresenter implements HotContract.Presenter {
             return;
         }
         isRefreshing = true;
-        view.showRefreshingView();
+//        view.showRefreshingView();
         hotDynamics.clear();
         pageControlEntity.setCurrent_page(1);
         reqHotDynamicData();

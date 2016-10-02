@@ -1527,7 +1527,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     /**
      * 原创——普通
      */
-    class OriginalNormal {
+    private class OriginalNormal {
         //关于图片
         View pictures;
         View pic1To3;
@@ -1552,7 +1552,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     /**
      * 原创——话题
      */
-    class OriginalTopic {
+    private class OriginalTopic {
         ImageView iv_picture;
         ImageView iv_headImg;
         TextView tvName;
@@ -1572,7 +1572,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     /**
      * 原创——文章
      */
-    class OriginalArticle {
+    private class OriginalArticle {
         ImageView iv_picture;
         ImageView iv_headImg;
         TextView tvName;
@@ -1611,7 +1611,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     /**
      * 非原创——喜欢：普通动态
      */
-    class UnOriginalFavoriteNormal {
+    private class UnOriginalFavoriteNormal {
         //作者信息
         ImageView iv_headImg;
         TextView tvName;
@@ -1635,7 +1635,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     /**
      * 非原创——喜欢：话题动态
      */
-    class UnOriginalFavoriteTopic {
+    private class UnOriginalFavoriteTopic {
         //作者信息
         ImageView iv_headImg;
         TextView tvName;
@@ -1661,7 +1661,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     /**
      * 非原创——喜欢：文章动态
      */
-    class UnOriginalFavoriteArticle {
+    private class UnOriginalFavoriteArticle {
         //作者信息
         ImageView iv_headImg;
         TextView tvName;
@@ -1686,7 +1686,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     /**
      * 圈子内动态：普通动态
      */
-    class UnOriginalCircleInCommonUseNormal {
+    private class UnOriginalCircleInCommonUseNormal {
         //作者信息
         ImageView iv_headImg;
         TextView tvName;
@@ -1710,7 +1710,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     /**
      * 圈子内动态：文章动态
      */
-    class UnOriginalCircleInCommonUseArticle {
+    private class UnOriginalCircleInCommonUseArticle {
         //作者信息
         ImageView iv_headImg;
         TextView tvName;
@@ -1734,7 +1734,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
     /**
      * 圈子内动态：话题动态
      */
-    class UnOriginalCircleInCommonUseTopic {
+    private class UnOriginalCircleInCommonUseTopic {
         //作者信息
         ImageView iv_headImg;
         TextView tvName;
