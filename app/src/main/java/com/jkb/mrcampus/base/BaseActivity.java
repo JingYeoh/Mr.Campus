@@ -23,6 +23,7 @@ import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleActivity;
+import com.jkb.mrcampus.activity.CircleListActivity;
 import com.jkb.mrcampus.activity.CommentActivity;
 import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
@@ -331,6 +332,13 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         }
         Intent intent = new Intent(this, DynamicCreateActivity.class);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_CREATE_TYPE, dynamicCreateType);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startCircleListActivity(@NonNull int user_id) {
+        Intent intent = new Intent(this, CircleListActivity.class);
+        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
         startActivityWithPushLeftAnim(intent);
     }
 

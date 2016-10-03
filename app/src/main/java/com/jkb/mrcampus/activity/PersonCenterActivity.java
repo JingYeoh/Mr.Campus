@@ -250,15 +250,6 @@ public class PersonCenterActivity extends BaseActivity {
         startActivityWithPushLeftAnim(intent);
     }
 
-    /**
-     * 显示圈子列表页面
-     */
-    public void startClircleListView(@NonNull int user_id) {
-        Intent intent = new Intent(this, CircleListActivity.class);
-        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
-        startActivityWithPushLeftAnim(intent);
-    }
-
 
     /**
      * 打开个人中心页面

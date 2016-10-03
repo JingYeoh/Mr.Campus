@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
+import com.jkb.model.info.LocationInfoSingleton;
 
 /**
  * MapFragment的页面协议类
@@ -12,28 +13,6 @@ import com.jkb.core.base.BaseView;
 public interface MapContract {
 
     interface View extends BaseView<Presenter> {
-
-        /**
-         * 得到地图的截图
-         */
-        void getMapSnapShot();
-
-        /**
-         * 显示地图截图：在侧滑时候调用
-         * 为了解决滑动黑边问题：现已过期
-         *
-         * @param bitmap
-         */
-        @Deprecated
-        void showMapSnapShort(Bitmap bitmap);
-
-        /**
-         * 隐藏地图截图：在侧滑完成后调用
-         * 为了解决滑动黑边问题：现已过期
-         */
-        @Deprecated
-        void hideMapSnapShort();
-
         /**
          * 选择学校
          */
@@ -60,31 +39,65 @@ public interface MapContract {
         void filterSex();
 
         /**
-         * 判断该页面是否活动
-         *
-         * @return
+         * 显示选择学校的视图
          */
-        boolean isActive();
+        void showSchoolSelectorView();
+
+        /**
+         * 显示学校的视图
+         *
+         * @param schoolBadge 学校校徽Url
+         */
+        void showSchoolView(String schoolBadge);
+
+        /**
+         * 显示用户位置视图
+         *
+         * @param userAvatar 用户头像
+         */
+        void showUserLocation(String userAvatar);
+
+        /**
+         * 移动地图到坐标点
+         *
+         * @param latitude  经度
+         * @param longitude 纬度
+         */
+        void moveMapToLng(double latitude, double longitude);
     }
 
     interface Presenter extends BasePresenter {
-        /**
-         * 得到地图截图
-         *
-         * @return
-         */
-        void setMapSnapShort(Bitmap bitmap);
 
         /**
-         * 销毁地图截图的Bitmap缓存对象
+         * 初始化位置和学校的数据
          */
-        void recycleSnapShort();
+        void initLocation$SchoolData();
 
         /**
-         * 得到地图截图
-         *
-         * @return
+         * 初始化用户数据
          */
-        Bitmap getMapSnapShort();
+        void initUserData();
+
+        /**
+         * 初始化地圖的位置：学校的坐标位置
+         */
+        void initMapLocation();
+
+        /**
+         * 移动地图到学校中心点
+         */
+        void moveMapToSchoolCenter();
+
+        /**
+         * 移动地图到用户坐标位置
+         */
+        void moveMapToUserLocation();
+
+        /**
+         * 绑定本地坐标信息类
+         *
+         * @return 本地坐标信息类的对象
+         */
+        LocationInfoSingleton bindLocationInfo();
     }
 }

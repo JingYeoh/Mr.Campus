@@ -1,10 +1,15 @@
 package com.jkb.core.presenter.map;
 
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
-import com.jkb.core.contract.map.MapAtyContract;
 import com.jkb.core.contract.map.MapContract;
+import com.jkb.core.control.userstate.LoginContext;
+import com.jkb.model.info.LocationInfoSingleton;
+import com.jkb.model.info.SchoolInfoSingleton;
+import com.jkb.model.info.UserInfoSingleton;
+
+import jkb.mrcampus.db.entity.Schools;
+import jkb.mrcampus.db.entity.Users;
 
 /**
  * Map的Presenter层
@@ -13,9 +18,10 @@ import com.jkb.core.contract.map.MapContract;
 public class MapPresenter implements MapContract.Presenter {
 
     private MapContract.View mapView;
-    private MapAtyContract.View mapAtyView;
 
-    private Bitmap cacheMapSnapShort = null;
+    //data
+    private SchoolInfoSingleton schoolInfo;
+    private LocationInfoSingleton locationInfo;
 
     public MapPresenter(@NonNull MapContract.View mapView) {
         this.mapView = mapView;
@@ -23,27 +29,60 @@ public class MapPresenter implements MapContract.Presenter {
         this.mapView.setPresenter(this);
     }
 
-
     @Override
-    public void setMapSnapShort(Bitmap bitmap) {
-        cacheMapSnapShort = bitmap;
+    public void start() {
+        initLocation$SchoolData();//初始化学校和个人位置的数据
+        initMapLocation();//初始化地图的位置
+        initUserData();//初始化用户数据
     }
 
     @Override
-    public void recycleSnapShort() {
-        if (cacheMapSnapShort != null && !cacheMapSnapShort.isRecycled()) {
-            cacheMapSnapShort.recycle();
-            cacheMapSnapShort = null;
+    public void initLocation$SchoolData() {
+        schoolInfo = SchoolInfoSingleton.getInstance();
+        locationInfo = LocationInfoSingleton.getInstence();
+    }
+
+    @Override
+    public void initUserData() {
+        if (!LoginContext.getInstance().isLogined()) {
+            mapView.showUserLocation(null);
+        } else {
+            UserInfoSingleton userInfo = UserInfoSingleton.getInstance();
+            Users users = userInfo.getUsers();
+            mapView.showUserLocation(users.getAvatar());
         }
     }
 
     @Override
-    public Bitmap getMapSnapShort() {
-        return cacheMapSnapShort;
+    public void initMapLocation() {
+        if (!schoolInfo.isSelectedSchool()) {
+            mapView.showReqResult("请先选择学校");
+            mapView.showSchoolSelectorView();
+            moveMapToUserLocation();
+        } else {
+            moveMapToSchoolCenter();
+        }
     }
 
     @Override
-    public void start() {
+    public void moveMapToSchoolCenter() {
+        if (!mapView.isActive()) {
+            return;
+        }
+        Schools school = schoolInfo.getSchool();
+        mapView.moveMapToLng(school.getLatitude(), school.getLongitude());
+    }
 
+    @Override
+    public void moveMapToUserLocation() {
+        if (!mapView.isActive()) {
+            return;
+        }
+        mapView.moveMapToLng(locationInfo.latitude, locationInfo.longitude);
+    }
+
+    @Override
+    public LocationInfoSingleton bindLocationInfo() {
+        return locationInfo;
     }
 }

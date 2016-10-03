@@ -34,21 +34,21 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <android.support.design.widget.FloatingActionButton
+            <ImageView
                 android:id="@+id/fm_fb_location"
-                android:layout_width="wrap_content"
+                style="@style/FunctionSetIcStyle"
                 android:layout_height="0dp"
                 android:layout_margin="@dimen/fab_margin"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_dialog_email" />
+                android:src="@drawable/selector_map_btn_location" />
 
-            <android.support.design.widget.FloatingActionButton
+            <ImageView
                 android:id="@+id/fm_fb_locationSwitch"
-                android:layout_width="wrap_content"
+                style="@style/FunctionSetIcStyle"
                 android:layout_height="0dp"
                 android:layout_margin="@dimen/fab_margin"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_dialog_email" />
+                android:src="@drawable/ic_write" />
         </LinearLayout>
 
         <LinearLayout
@@ -57,32 +57,29 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <android.support.design.widget.FloatingActionButton
+            <ImageView
                 android:id="@+id/fm_fb_nearUserSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                style="@style/FunctionSetIcStyle"
                 android:layout_gravity="bottom|start"
                 android:layout_margin="@dimen/fab_margin"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_dialog_email" />
+                android:src="@drawable/ic_write" />
 
-            <android.support.design.widget.FloatingActionButton
+            <ImageView
                 android:id="@+id/fm_fb_filterSex"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                style="@style/FunctionSetIcStyle"
                 android:layout_gravity="bottom|start"
                 android:layout_margin="@dimen/fab_margin"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_dialog_email" />
+                android:src="@drawable/ic_write" />
 
-            <android.support.design.widget.FloatingActionButton
+            <ImageView
                 android:id="@+id/fm_fb_chooseSchool"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                style="@style/FunctionSetIcStyle"
                 android:layout_gravity="bottom|start"
                 android:layout_margin="@dimen/fab_margin"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_dialog_email" />
+                android:src="@drawable/ic_write" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

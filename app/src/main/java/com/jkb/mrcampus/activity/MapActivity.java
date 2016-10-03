@@ -19,7 +19,7 @@ import com.jkb.mrcampus.helper.ActivityUtils;
 public class MapActivity extends BaseActivity implements MapAtyContract.View {
 
     //该页面逻辑
-    private MapAtyPresenter mPresenter;
+    private MapAtyContract.Presenter mPresenter;
 
     //地图视图
     private MapFragment mapFragment;
@@ -49,7 +49,9 @@ public class MapActivity extends BaseActivity implements MapAtyContract.View {
     protected void initData(Bundle savedInstanceState) {
         fm = getSupportFragmentManager();
         //初始化本页面的逻辑数据
-        mPresenter = new MapAtyPresenter(this);
+        if (mPresenter == null) {
+            mPresenter = new MapAtyPresenter(this);
+        }
 
         //第一次进入时调用显示首页视图
         if (!savedInstanceStateValued) {
@@ -140,7 +142,7 @@ public class MapActivity extends BaseActivity implements MapAtyContract.View {
 
     @Override
     public void setPresenter(MapAtyContract.Presenter presenter) {
-        mPresenter = (MapAtyPresenter) presenter;
+        mPresenter = presenter;
     }
 
     @Override

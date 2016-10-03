@@ -76,6 +76,13 @@ public interface BaseActivityAction {
     void startCommentListActivity(@NonNull int dynamicId);
 
     /**
+     * 打开圈子列表页面
+     *
+     * @param user_id 用户id
+     */
+    void startCircleListActivity(@NonNull int user_id);
+
+    /**
      * 打开评论详情页面
      *
      * @param commentId 评论id

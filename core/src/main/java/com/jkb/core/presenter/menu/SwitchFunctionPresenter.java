@@ -109,4 +109,13 @@ public class SwitchFunctionPresenter implements SwitchFunctionContract.Presenter
         return user_id;
     }
 
+    @Override
+    public void onCircleListClick() {
+        if (!LoginContext.getInstance().isLogined()) {
+            functionView.showReqResult("请先去登录再进行操作");
+            return;
+        }
+        functionView.startCircleList(getUser_id());
+    }
+
 }

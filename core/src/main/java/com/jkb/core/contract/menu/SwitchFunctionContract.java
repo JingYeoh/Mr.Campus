@@ -1,6 +1,7 @@
 package com.jkb.core.contract.menu;
 
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.jkb.core.base.BasePresenter;
@@ -41,6 +42,13 @@ public interface SwitchFunctionContract {
          * @return
          */
         android.view.View getPersonView();
+
+        /**
+         * 打开圈子列表页面
+         *
+         * @param user_id 用户id
+         */
+        void startCircleList(@NonNull int user_id);
     }
 
     /**
@@ -88,5 +96,10 @@ public interface SwitchFunctionContract {
          * @return 得到用户的id
          */
         int getUser_id();
+
+        /**
+         * 当圈子列表被点击的时候
+         */
+        void onCircleListClick();
     }
 }

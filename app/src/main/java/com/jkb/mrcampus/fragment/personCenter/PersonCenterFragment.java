@@ -400,7 +400,7 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void showAllCirclesView() {
-        personCenterActivity.startClircleListView(user_id);
+        personCenterActivity.startCircleListActivity(user_id);
     }
 
     @Override

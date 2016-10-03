@@ -1,6 +1,7 @@
 package com.jkb.mrcampus.fragment.menu;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -94,6 +95,10 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
         rootView.findViewById(R.id.fms_ll_selectSchool).setOnClickListener(startClickListener);
         rootView.findViewById(R.id.fms_tv_menuMap).setOnClickListener(startClickListener);
 
+        rootView.findViewById(R.id.fms_iv_topSearch).setOnClickListener(topMenuClickListener);
+        rootView.findViewById(R.id.fms_iv_topLike).setOnClickListener(topMenuClickListener);
+        rootView.findViewById(R.id.fms_iv_topCircle).setOnClickListener(topMenuClickListener);
+
         //设置选择学校的监听器
         SchoolInfoSingleton.getInstance().setOnSchoolSelectedChangedListener(
                 onSchoolSelectedChangedListener);
@@ -123,6 +128,24 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
         selectedColorId = mActivity.getResources().getColor(R.color.white);
         normalColorId = mActivity.getResources().getColor(R.color.line);
     }
+
+    /**
+     * 顶部菜单点击的监听器
+     */
+    private View.OnClickListener topMenuClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.fms_iv_topSearch://搜索
+                    break;
+                case R.id.fms_iv_topLike://我的喜欢
+                    break;
+                case R.id.fms_iv_topCircle://圈子
+                    mPresenter.onCircleListClick();
+                    break;
+            }
+        }
+    };
 
     /**
      * 打开视图的监听器
@@ -218,6 +241,11 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
         return personView;
     }
 
+    @Override
+    public void startCircleList(@NonNull int user_id) {
+        mainActivity.startCircleListActivity(user_id);
+    }
+
     /**
      * 个人信息菜单的监听器
      */
@@ -292,9 +320,9 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
             SchoolInfoSingleton.OnSchoolSelectedChangedListener() {
                 @Override
                 public void onSchoolSelected(Schools schools) {
-                    Log.i(TAG,"school_id="+schools.getSchool_id());
-                    Log.i(TAG,"school_name="+schools.getSchool_name());
-                    Log.i(TAG,"school_badge="+schools.getBadge());
+                    Log.i(TAG, "school_id=" + schools.getSchool_id());
+                    Log.i(TAG, "school_name=" + schools.getSchool_name());
+                    Log.i(TAG, "school_badge=" + schools.getBadge());
                     String badge = schools.getBadge();
                     String school_name = schools.getSchool_name();
                     String summary = schools.getSummary();
