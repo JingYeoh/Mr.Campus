@@ -28,6 +28,7 @@ public class Config {
     //circle的接口地址
     public static final String URL_CIRCLE_CREATE = "circle";
     public static final String URL_CIRCLE_INFO = "circle/{userId}/{id}";
+    public static final String URL_CIRCLE_ALLDYNAMIC = "getDynamicsByCircle/{circleId}";
     //user接口地址
     public static final String URL_USER_ACTION = "getOperation";
     public static final String URL_USER_INFO = "user/{id}";
@@ -119,7 +120,7 @@ public class Config {
     public static final String KEY_DCONTENT = "dcontent";
     public static final String KEY_TAG = "tag";
     public static final String KEY_CIRCLE_ID = "circle_id";
-
+    public static final String KEY_CIRCLEID = "circleId";
 
     public static final String GENDER_M = "m";
     public static final String GENDER_F = "f";

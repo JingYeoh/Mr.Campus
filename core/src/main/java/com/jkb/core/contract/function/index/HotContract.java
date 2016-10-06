@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
-import com.jkb.core.contract.function.data.hot.HotDynamic;
+import com.jkb.core.data.dynamic.hot.HotDynamic;
 
 import java.util.List;
 
@@ -26,6 +26,11 @@ public interface HotContract {
          * 显示热门动态视图
          */
         void showHotView();
+
+        /**
+         * 滑动到顶部
+         */
+        void scrollToTop();
 
         /**
          * 显示正在刷新的视图
@@ -72,6 +77,13 @@ public interface HotContract {
          * @param circle_id 圈子id
          */
         void startCircleIndex(@NonNull int circle_id);
+
+        /**
+         * 显示分享的页面
+         *
+         * @param position 需要分享的条目
+         */
+        void showShareView(@NonNull int position);
     }
 
     interface Presenter extends BasePresenter {
@@ -99,5 +111,54 @@ public interface HotContract {
          * 加载更多
          */
         void onLoadMore();
+
+        /**
+         * 热门动态条目被点击的时候
+         *
+         * @param position 条目数
+         */
+        void onHotDynamicItemClick(int position);
+
+        /**
+         * 用户关注按钮的条目点击监听事件
+         *
+         * @param position 条目
+         */
+        void onUserAttentionItemClick(int position);
+
+        /**
+         * 圈子订阅按钮的条目点击监听事件
+         *
+         * @param position 条目数
+         */
+        void onCircleSubscribeItemClick(int position);
+
+        /**
+         * 头像的点击监听事件
+         *
+         * @param position 条目数
+         */
+        void onHeadImgItemClick(int position);
+
+        /**
+         * 评论的点击监听事件
+         *
+         * @param position 条目数
+         */
+        void onCommentItemClick(int position);
+
+        /**
+         * 喜欢的点击监听事件
+         *
+         * @param position 条目数
+         */
+        void onLikeItemClick(int position);
+
+        /**
+         * 原作者的点击监听事件
+         *
+         * @param position 条木数
+         */
+        void onCreatorUserClick(int position);
     }
 }

@@ -1,9 +1,9 @@
 package com.jkb.core.contract.map;
 
-import android.graphics.Bitmap;
-
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
+import com.jkb.core.data.map.MapMarkCircleInfo;
+import com.jkb.core.data.map.MapMarkUserInfo;
 import com.jkb.model.info.LocationInfoSingleton;
 
 /**
@@ -64,6 +64,20 @@ public interface MapContract {
          * @param longitude 纬度
          */
         void moveMapToLng(double latitude, double longitude);
+
+        /**
+         * 设置地图标记：圈子
+         *
+         * @param mapMarkCircles 地图标记：圈子的数据集合类
+         */
+        void setMapMarkCircles(MapMarkCircleInfo mapMarkCircles);
+
+        /**
+         * 设置地图标记：用户
+         *
+         * @param mapMarkUsers 地图标记：用户的数据集合类
+         */
+        void setMapMarkUsers(MapMarkUserInfo mapMarkUsers);
     }
 
     interface Presenter extends BasePresenter {
@@ -99,5 +113,20 @@ public interface MapContract {
          * @return 本地坐标信息类的对象
          */
         LocationInfoSingleton bindLocationInfo();
+
+        /**
+         * 刷新数据
+         */
+        void onRefresh();
+
+        /**
+         * 初始化地图标记数据
+         */
+        void initMapMarkInfo();
+
+        /**
+         * 绑定数据到视图中
+         */
+        void bindDataToView();
     }
 }

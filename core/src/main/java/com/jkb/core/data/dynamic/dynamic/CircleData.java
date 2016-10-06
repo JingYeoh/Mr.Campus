@@ -1,4 +1,4 @@
-package com.jkb.core.contract.function.data.dynamic;
+package com.jkb.core.data.dynamic.dynamic;
 
 /**
  * 动态：圈子

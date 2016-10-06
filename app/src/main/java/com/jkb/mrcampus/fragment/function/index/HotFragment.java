@@ -10,16 +10,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.baidu.mapapi.radar.RadarSearchManager;
+import com.jkb.api.config.Config;
 import com.jkb.core.Injection;
-import com.jkb.core.contract.function.data.hot.HotDynamic;
+import com.jkb.core.data.dynamic.hot.HotDynamic;
 import com.jkb.core.contract.function.index.HotContract;
 import com.jkb.core.presenter.function.index.hot.HotPresenter;
 import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.mrcampus.R;
+import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.MainActivity;
+import com.jkb.mrcampus.adapter.recycler.NoAlphaItemAnimator;
 import com.jkb.mrcampus.adapter.recycler.dynamic.HotDynamicAdapter;
+import com.jkb.mrcampus.adapter.recycler.itemDecoration.DividerItemDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 
 import java.util.List;
 
@@ -31,7 +35,7 @@ import jkb.mrcampus.db.entity.Schools;
  */
 
 public class HotFragment extends BaseFragment implements HotContract.View,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     public HotFragment() {
     }
@@ -87,9 +91,18 @@ public class HotFragment extends BaseFragment implements HotContract.View,
                 onSchoolSelectedChangedListener);
         //刷新
         refreshLayout.setOnRefreshListener(this);
-        //加拉加载
+        rootView.findViewById(R.id.fhh_iv_floatBt_top).setOnClickListener(this);
         //设置下拉加载
         recyclerView.addOnScrollListener(onScrollListener);//设置滑动监听，设置是否下拉刷新
+        //设置动态条目的点击监听事件
+        hotDynamicAdapter.setOnItemClickListener(onItemClickListener);
+        hotDynamicAdapter.setOnUserAttentionClickListener(onUserAttentionClickListener);
+        hotDynamicAdapter.setOnCircleSubscribeClickListener(onCircleSubscribeClickListener);
+        hotDynamicAdapter.setOnHeadImgClickListener(onHeadImgClickListener);
+        hotDynamicAdapter.setOnCommentClickListener(onCommentClickListener);
+        hotDynamicAdapter.setOnLikeClickListener(onLikeClickListener);
+        hotDynamicAdapter.setOnCreatorUserClickListener(onCreatorUserClickListener);
+        hotDynamicAdapter.setOnShareClickListener(onShareClickListener);
     }
 
     @Override
@@ -115,6 +128,12 @@ public class HotFragment extends BaseFragment implements HotContract.View,
         //初始化热门动态列表控件
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fhh_rv);
         linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setItemAnimator(new NoAlphaItemAnimator());
+        recyclerView.getItemAnimator().setChangeDuration(0);
+        recyclerView.addItemDecoration(
+                new DividerItemDecoration(mActivity,
+                        LinearLayoutManager.VERTICAL,
+                        getResources().getColor(R.color.line), 1));//添加分割线
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
@@ -128,6 +147,14 @@ public class HotFragment extends BaseFragment implements HotContract.View,
     public void showHotView() {
         rootView.findViewById(R.id.fhh_srl).setVisibility(View.VISIBLE);
         rootView.findViewById(R.id.fhh_content_unChooseSchoolView).setVisibility(View.GONE);
+    }
+
+    @Override
+    public void scrollToTop() {
+        int totalItemCount = linearLayoutManager.getItemCount();
+        if (totalItemCount > 0) {
+            recyclerView.scrollToPosition(0);
+        }
     }
 
     @Override
@@ -148,6 +175,17 @@ public class HotFragment extends BaseFragment implements HotContract.View,
 
     @Override
     public void startDynamicDetail(@NonNull int dynamic_id, @NonNull String dynamicType) {
+        switch (dynamicType) {
+            case Config.D_TYPE_ARTICLE:
+                dynamicType = DynamicDetailActivity.SHOW_DYNAMIC_TYPE_ARTICLE;
+                break;
+            case Config.D_TYPE_NORMAL:
+                dynamicType = DynamicDetailActivity.SHOW_DYNAMIC_TYPE_NORMAL;
+                break;
+            case Config.D_TYPE_TOPIC:
+                dynamicType = DynamicDetailActivity.SHOW_DYNAMIC_TYPE_TOPIC;
+                break;
+        }
         mainActivity.startDynamicActivity(dynamic_id, dynamicType);
     }
 
@@ -164,6 +202,42 @@ public class HotFragment extends BaseFragment implements HotContract.View,
     @Override
     public void startCircleIndex(@NonNull int circle_id) {
         mainActivity.startCircleActivity(circle_id);
+    }
+
+    @Override
+    public void showShareView(@NonNull int position) {
+        mainActivity.showShareDynamicView(
+                new ShareDynamicDialogFragment.OnShareItemClickListener() {
+                    @Override
+                    public void onWechatClick() {
+
+                    }
+
+                    @Override
+                    public void onWechatCircleClick() {
+
+                    }
+
+                    @Override
+                    public void onQQClick() {
+
+                    }
+
+                    @Override
+                    public void onQQZoneClick() {
+
+                    }
+
+                    @Override
+                    public void onSinaClick() {
+
+                    }
+
+                    @Override
+                    public void onCircleClick() {
+
+                    }
+                });
     }
 
     @Override
@@ -223,13 +297,103 @@ public class HotFragment extends BaseFragment implements HotContract.View,
             int lastVisibleItem = (linearLayoutManager).findLastVisibleItemPosition();
             int totalItemCount = linearLayoutManager.getItemCount();
             if (lastVisibleItem > 5) {
-                rootView.findViewById(R.id.fhd_iv_floatBt_top).setVisibility(View.VISIBLE);
+                rootView.findViewById(R.id.fhh_iv_floatBt_top).setVisibility(View.VISIBLE);
             } else {
-                rootView.findViewById(R.id.fhd_iv_floatBt_top).setVisibility(View.GONE);
+                rootView.findViewById(R.id.fhh_iv_floatBt_top).setVisibility(View.GONE);
             }
             if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
                 mPresenter.onLoadMore();//设置下拉加载
             }
         }
     };
+    /**
+     * 热门动态条目的点击监听事件
+     */
+    private HotDynamicAdapter.OnItemClickListener onItemClickListener =
+            new HotDynamicAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    mPresenter.onHotDynamicItemClick(position);
+                }
+            };
+    /**
+     * 用户关注按钮的点击监听事件
+     */
+    private HotDynamicAdapter.OnUserAttentionClickListener onUserAttentionClickListener =
+            new HotDynamicAdapter.OnUserAttentionClickListener() {
+                @Override
+                public void onUserAttentionClick(int position) {
+                    mPresenter.onUserAttentionItemClick(position);
+                }
+            };
+    /**
+     * 圈子订阅按钮的点击监听事件
+     */
+    private HotDynamicAdapter.OnCircleSubscribeClickListener onCircleSubscribeClickListener =
+            new HotDynamicAdapter.OnCircleSubscribeClickListener() {
+                @Override
+                public void onCircleSubscribeClick(int position) {
+                    mPresenter.onCircleSubscribeItemClick(position);
+                }
+            };
+    /**
+     * 头像的点击监听事件
+     */
+    private HotDynamicAdapter.OnHeadImgClickListener onHeadImgClickListener =
+            new HotDynamicAdapter.OnHeadImgClickListener() {
+                @Override
+                public void onHeadImgClick(int position) {
+                    mPresenter.onHeadImgItemClick(position);
+                }
+            };
+    /**
+     * 评论的点击回调
+     */
+    private HotDynamicAdapter.OnCommentClickListener onCommentClickListener =
+            new HotDynamicAdapter.OnCommentClickListener() {
+                @Override
+                public void onCommentClick(int position) {
+                    mPresenter.onCommentItemClick(position);
+                }
+            };
+    /**
+     * 喜欢动态的点击回调
+     */
+    private HotDynamicAdapter.OnLikeClickListener onLikeClickListener =
+            new HotDynamicAdapter.OnLikeClickListener() {
+                @Override
+                public void onLikeClick(int position) {
+                    mPresenter.onLikeItemClick(position);
+                }
+            };
+    /**
+     * 原作者的点击回调
+     */
+    private HotDynamicAdapter.OnCreatorUserClickListener onCreatorUserClickListener =
+            new HotDynamicAdapter.OnCreatorUserClickListener() {
+                @Override
+                public void onCreatorUserClick(int position) {
+                    mPresenter.onCreatorUserClick(position);
+                }
+            };
+
+    /**
+     * 分享的点击回调
+     */
+    private HotDynamicAdapter.OnShareClickListener onShareClickListener =
+            new HotDynamicAdapter.OnShareClickListener() {
+                @Override
+                public void onShareClick(int position) {
+                    showShareView(position);
+                }
+            };
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fhh_iv_floatBt_top:
+                scrollToTop();
+                break;
+        }
+    }
 }

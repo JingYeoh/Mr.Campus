@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <ImageView
+            android:id="@+id/iidbf_iv_share"
+            style="@style/Dynamic_Icon_style"
+            android:src="@drawable/ic_share_list" />
+
+        <ImageView
+            android:id="@+id/iidbf_iv_comment"
+            style="@style/Dynamic_Icon_style"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_comment_gray" />
+
+        <TextView
+            android:id="@+id/iidbf_tv_commentNum"
+            style="@style/Dynamic_IconText_style"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="0" />
+
+        <ImageView
+            android:id="@+id/iidbf_iv_heart"
+            style="@style/Dynamic_Icon_style"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_heart_list_white" />
+
+        <TextView
+            android:id="@+id/iidbf_tv_likeNum"
+            style="@style/Dynamic_IconText_style"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="0" />
+
+    </LinearLayout>
+</LinearLayout>

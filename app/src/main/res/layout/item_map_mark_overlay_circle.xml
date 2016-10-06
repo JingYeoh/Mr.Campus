@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/immoc_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="10"
+        android:text="圈子名称"
+        android:textColor="@color/black"
+        android:textSize="8sp"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/immoc_contentImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/immoc_iv_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="40dp"
+            android:maxWidth="40dp"
+            android:scaleType="centerInside"
+            android:src="@color/default_picture" />
+    </RelativeLayout>
+</LinearLayout>

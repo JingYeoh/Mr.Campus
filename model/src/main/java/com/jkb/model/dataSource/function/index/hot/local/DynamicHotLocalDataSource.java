@@ -44,4 +44,18 @@ public class DynamicHotLocalDataSource implements DynamicHotDataSource {
             @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
 
     }
+
+    @Override
+    public void subscribeCircle(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
+
+    }
+
+    @Override
+    public void payAttentionUser(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
+
+    }
 }

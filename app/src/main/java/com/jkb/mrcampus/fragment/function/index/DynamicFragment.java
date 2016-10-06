@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.jkb.api.config.Config;
 import com.jkb.core.Injection;
-import com.jkb.core.contract.function.data.dynamic.DynamicBaseData;
+import com.jkb.core.data.dynamic.dynamic.DynamicBaseData;
 import com.jkb.core.contract.function.index.DynamicContract;
 import com.jkb.core.contract.menu.MenuContract;
 import com.jkb.core.presenter.function.index.dynamic.DynamicPresenter;

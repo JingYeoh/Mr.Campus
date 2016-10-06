@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dynamic_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/selector_white_general"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -11,7 +13,7 @@
         <ImageView
             android:id="@+id/idou_iv_userBg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="300dp"
             android:src="@color/default_picture" />
 
         <ImageView
@@ -40,7 +42,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/idou_iv_user_useless"
+            android:layout_below="@+id/idou_iv_user_useless"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="horizontal">
@@ -51,60 +54,58 @@
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textColor="@color/white_200"
-                android:textSize="13sp" />
+                android:textSize="10sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="关注"
                 android:textColor="@color/white_200"
-                android:textSize="13sp" />
+                android:textSize="10sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/"
+                android:textColor="@color/white_200"
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/idou_tv_fansCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="/"
-                android:textColor="@color/white_200"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/idou_tv_dynamicsCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="0"
                 android:textColor="@color/white_200"
-                android:textSize="13sp" />
+                android:textSize="10sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="粉丝"
                 android:textColor="@color/white_200"
-                android:textSize="13sp" />
+                android:textSize="10sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/"
+                android:textColor="@color/white_200"
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/idou_tv_visitorCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="/"
-                android:textColor="@color/white_200"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/idou_tv_operationCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="0"
                 android:textColor="@color/white_200"
-                android:textSize="13sp" />
+                android:textSize="10sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="访客"
                 android:textColor="@color/white_200"
-                android:textSize="13sp" />
+                android:textSize="10sp" />
         </LinearLayout>
     </RelativeLayout>
 

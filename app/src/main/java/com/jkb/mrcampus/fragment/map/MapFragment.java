@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -18,11 +19,14 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.jkb.core.contract.map.MapContract;
+import com.jkb.core.data.map.MapMarkCircleInfo;
+import com.jkb.core.data.map.MapMarkUserInfo;
 import com.jkb.model.info.LocationInfoSingleton;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MapActivity;
+import com.jkb.mrcampus.adapter.custom.map.MapMarkCircleAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.helper.map.MyOrientationListener;
 
@@ -62,6 +66,9 @@ public class MapFragment extends BaseFragment implements MapContract.View,
     private MyOrientationListener myOrientationListener;//重力传感器的监听器
     private int mXDirection = 0;//重力方向
 
+    //圈子标注
+    private MapMarkCircleAdapter mapMarkCircleAdapter;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,6 +98,7 @@ public class MapFragment extends BaseFragment implements MapContract.View,
     @Override
     protected void initData(Bundle savedInstanceState) {
         initBaiDuMap();
+        mapMarkCircleAdapter = new MapMarkCircleAdapter(mActivity, mBaiduMap, null);
     }
 
     /**
@@ -243,7 +251,12 @@ public class MapFragment extends BaseFragment implements MapContract.View,
 
     @Override
     public void showSchoolView(String schoolBadge) {
-
+        ImageView ivSchoolBadge = (ImageView) rootView.findViewById(R.id.fm_fb_chooseSchool);
+        if (StringUtils.isEmpty(schoolBadge)) {
+            ivSchoolBadge.setImageResource(R.drawable.ic_write);
+        } else {
+            ImageLoaderFactory.getInstance().displayImage(ivSchoolBadge, schoolBadge);
+        }
     }
 
     @Override
@@ -273,6 +286,18 @@ public class MapFragment extends BaseFragment implements MapContract.View,
         MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory
                 .newMapStatus(mMapStatus);
         mBaiduMap.animateMapStatus(mMapStatusUpdate);//以动画形式更新地图
+    }
+
+    @Override
+    public void setMapMarkCircles(MapMarkCircleInfo mapMarkCircles) {
+        mapMarkCircleAdapter.mapMarkCircleInfo = mapMarkCircles;
+        mapMarkCircleAdapter.notifyDataSetChanged();
+        mapMarkCircleAdapter.notifyDataSetChanged();//两次调用主要是为了防止图片不加载的BUG
+    }
+
+    @Override
+    public void setMapMarkUsers(MapMarkUserInfo mapMarkUsers) {
+
     }
 
     @Override

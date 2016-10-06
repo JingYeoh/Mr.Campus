@@ -127,14 +127,16 @@
                 android:id="@+id/idct_iv_comment"
                 style="@style/Dynamic_Icon_style"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_comment_gray" />
+                android:src="@drawable/ic_comment_gray"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/idct_tv_commentNum"
                 style="@style/Dynamic_IconText_style"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="0" />
+                android:text="0"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/idct_iv_heart"

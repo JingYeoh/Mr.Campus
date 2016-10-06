@@ -96,15 +96,15 @@ public class PageControlEntity {
 
     @Override
     public String toString() {
-        return "PageControlEntity{" +
-                "total=" + total +
-                ", per_page=" + per_page +
-                ", current_page=" + current_page +
-                ", last_page=" + last_page +
-                ", next_page_url='" + next_page_url + '\'' +
-                ", prev_page_url='" + prev_page_url + '\'' +
-                ", from=" + from +
-                ", to=" + to +
-                '}';
+        return "PageControlEntity{" +"\n"+
+                "total=" + total +"\n"+
+                ", per_page=" + per_page +"\n"+
+                ", current_page=" + current_page +"\n"+
+                ", last_page=" + last_page +"\n"+
+                ", next_page_url='" + next_page_url + '\'' +"\n"+
+                ", prev_page_url='" + prev_page_url + '\'' +"\n"+
+                ", from=" + from +"\n"+
+                ", to=" + to +"\n"+
+                "}"+"\n";
     }
 }

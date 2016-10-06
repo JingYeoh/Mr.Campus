@@ -38,4 +38,28 @@ public interface DynamicHotDataSource {
     void favorite(
             @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
             @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback);
+
+    /**
+     * 订阅圈子
+     *
+     * @param Authorization 头
+     * @param user_id       用户id
+     * @param target_id     目标Id
+     * @param apiCallback   回调
+     */
+    void subscribeCircle(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback);
+
+    /**
+     * 关注用户
+     *
+     * @param Authorization 头
+     * @param user_id       用户id
+     * @param target_id     目标Id
+     * @param apiCallback   回调
+     */
+    void payAttentionUser(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback);
 }

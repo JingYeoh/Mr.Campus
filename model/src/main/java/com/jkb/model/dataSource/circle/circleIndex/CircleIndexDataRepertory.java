@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.circle.CircleInfoEntity;
+import com.jkb.api.entity.circle.DynamicInCircleListEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.model.intfc.BitmapLoadedCallback;
 
@@ -13,24 +14,24 @@ import com.jkb.model.intfc.BitmapLoadedCallback;
  * Created by JustKiddingBaby on 2016/8/29.
  */
 
-public class CircleIndexDataResponsitiry implements CircleIndexDataSource {
+public class CircleIndexDataRepertory implements CircleIndexDataSource {
 
-    private static CircleIndexDataResponsitiry INSTANCE = null;
+    private static CircleIndexDataRepertory INSTANCE = null;
     private CircleIndexDataSource localDataSource;
     private CircleIndexDataSource remoteDataSource;
 
 
-    private CircleIndexDataResponsitiry(
+    private CircleIndexDataRepertory(
             CircleIndexDataSource localDataSource,
             CircleIndexDataSource remoteDataSource) {
         this.localDataSource = localDataSource;
         this.remoteDataSource = remoteDataSource;
     }
 
-    public static CircleIndexDataResponsitiry getInstance(
+    public static CircleIndexDataRepertory getInstance(
             @NonNull CircleIndexDataSource localDataSource, @NonNull CircleIndexDataSource remoteDataSource) {
         if (INSTANCE == null) {
-            INSTANCE = new CircleIndexDataResponsitiry(localDataSource, remoteDataSource);
+            INSTANCE = new CircleIndexDataRepertory(localDataSource, remoteDataSource);
         }
         return INSTANCE;
     }
@@ -52,5 +53,12 @@ public class CircleIndexDataResponsitiry implements CircleIndexDataSource {
             @NonNull int user_id, @NonNull int target_id, @NonNull String Authorization,
             @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
         remoteDataSource.circleSubscribeOrNot(user_id, target_id, Authorization, apiCallback);
+    }
+
+    @Override
+    public void getAllDynamicInCircle(
+            String Authorization, @NonNull int circleId, @NonNull int page,
+            @NonNull ApiCallback<ApiResponse<DynamicInCircleListEntity>> apiCallback) {
+        remoteDataSource.getAllDynamicInCircle(Authorization, circleId, page, apiCallback);
     }
 }

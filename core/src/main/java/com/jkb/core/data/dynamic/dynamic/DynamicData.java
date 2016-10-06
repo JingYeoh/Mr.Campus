@@ -1,4 +1,4 @@
-package com.jkb.core.contract.function.data.dynamic;
+package com.jkb.core.data.dynamic.dynamic;
 
 import java.util.List;
 

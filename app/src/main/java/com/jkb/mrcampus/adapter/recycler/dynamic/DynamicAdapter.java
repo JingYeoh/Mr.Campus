@@ -12,10 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jkb.api.config.Config;
-import com.jkb.core.contract.function.data.dynamic.CircleData;
-import com.jkb.core.contract.function.data.dynamic.CircleInCommonUseData;
-import com.jkb.core.contract.function.data.dynamic.DynamicBaseData;
-import com.jkb.core.contract.function.data.dynamic.DynamicData;
+import com.jkb.core.data.dynamic.dynamic.CircleData;
+import com.jkb.core.data.dynamic.dynamic.CircleInCommonUseData;
+import com.jkb.core.data.dynamic.dynamic.DynamicBaseData;
+import com.jkb.core.data.dynamic.dynamic.DynamicData;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
@@ -1298,7 +1298,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
         String headImgUrl = dynamicBaseData.getCreator_avatar();
         if (!StringUtils.isEmpty(headImgUrl)) {
             bindImageViewAndUrl(holder.originalTopic.iv_headImg, headImgUrl);
-        }else{
+        } else {
             holder.originalTopic.iv_headImg.setImageResource(R.drawable.ic_user_head);
         }
         //解析话题的数据
@@ -1311,9 +1311,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             if (bean != null) {
                 holder.originalTopic.tvContent.setText(bean.getDoc());
                 String img = bean.getImg();
-                if(StringUtils.isEmpty(img)){
+                if (StringUtils.isEmpty(img)) {
                     holder.originalTopic.iv_picture.setVisibility(View.GONE);
-                }else{
+                } else {
                     bindImageViewAndUrl(holder.originalTopic.iv_picture, bean.getImg());
                 }
             }
@@ -1405,9 +1405,9 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
                 DynamicData.Article.ArticleBean bean = articleBeen.get(0);
                 holder.originalArticle.tvContent.setText(bean.getDoc());
                 String picUrl = bean.getImg();
-                if(StringUtils.isEmpty(picUrl)){
+                if (StringUtils.isEmpty(picUrl)) {
                     holder.originalArticle.iv_picture.setVisibility(View.GONE);
-                }else{
+                } else {
                     holder.originalArticle.iv_picture.setVisibility(View.VISIBLE);
                     bindImageViewAndUrl(holder.originalArticle.iv_picture, picUrl);
                 }

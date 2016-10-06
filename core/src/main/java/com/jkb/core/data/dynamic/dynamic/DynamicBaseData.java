@@ -1,4 +1,4 @@
-package com.jkb.core.contract.function.data.dynamic;
+package com.jkb.core.data.dynamic.dynamic;
 
 /**
  * 动态数据——父类:所有的动态都能用到的数据

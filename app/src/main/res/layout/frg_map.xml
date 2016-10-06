@@ -73,7 +73,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_write" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/fm_fb_chooseSchool"
                 style="@style/FunctionSetIcStyle"
                 android:layout_gravity="bottom|start"

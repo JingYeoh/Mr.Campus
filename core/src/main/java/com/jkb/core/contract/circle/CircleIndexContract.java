@@ -4,6 +4,9 @@ import android.graphics.Bitmap;
 
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
+import com.jkb.core.data.dynamic.circle.DynamicInCircle;
+
+import java.util.List;
 
 /**
  * 圈子首页的页面协议类
@@ -29,6 +32,16 @@ public interface CircleIndexContract {
          * 隐藏视图
          */
         void hideContentView();
+
+        /**
+         * 显示刷新视图
+         */
+        void showRefreshingView();
+
+        /**
+         * 隐藏刷新视图
+         */
+        void hideRefreshingView();
 
         /**
          * 设置标题栏名称
@@ -70,6 +83,14 @@ public interface CircleIndexContract {
          */
         void setSubscribeStatus(boolean isSubscribe);
 
+
+        /**
+         * 设置圈子东动态数据
+         *
+         * @param dynamicInCircle 圈子动态数据
+         */
+        void setDynamicInCircle(List<DynamicInCircle> dynamicInCircle);
+
         /**
          * 返回
          */
@@ -105,6 +126,11 @@ public interface CircleIndexContract {
         void onRefresh();
 
         /**
+         * 加载更多
+         */
+        void onLoadMore();
+
+        /**
          * 得到圈子id
          */
         void initCircleId();
@@ -113,6 +139,11 @@ public interface CircleIndexContract {
          * 初始化圈子数据
          */
         void initCircleData();
+
+        /**
+         * 初始化圈子中动态数据
+         */
+        void initDynamicInCircle();
 
         /**
          * 绑定数据到视图中

@@ -11,6 +11,7 @@ import com.jkb.api.ApiFactoryImpl;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.circle.CircleInfoEntity;
+import com.jkb.api.entity.circle.DynamicInCircleListEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.net.circle.CircleInfoApi;
 import com.jkb.api.net.operation.OperationApi;
@@ -99,5 +100,22 @@ public class CircleIndexRemoteDataSource implements CircleIndexDataSource {
         Type type = new TypeToken<ApiResponse<OperationActionEntity>>() {
         }.getType();
         new ApiEngine<ApiResponse<OperationActionEntity>>(apiCallback, call, type);
+    }
+
+    @Override
+    public void getAllDynamicInCircle(
+            String Authorization, @NonNull int circleId, @NonNull int page,
+            @NonNull ApiCallback<ApiResponse<DynamicInCircleListEntity>> apiCallback) {
+        //请求网络数据
+        ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
+        apiFactory.setHttpClient(apiFactory.genericClient());
+        apiFactory.initRetrofit();
+        CircleInfoApi circleInfoApi = apiFactory.createApi(CircleInfoApi.class);
+        Call<ApiResponse<DynamicInCircleListEntity>> call;
+        call = circleInfoApi.getAllDynamicInCircle(
+                Authorization, circleId, page);
+        Type type = new TypeToken<ApiResponse<DynamicInCircleListEntity>>() {
+        }.getType();
+        new ApiEngine<ApiResponse<DynamicInCircleListEntity>>(apiCallback, call, type);
     }
 }

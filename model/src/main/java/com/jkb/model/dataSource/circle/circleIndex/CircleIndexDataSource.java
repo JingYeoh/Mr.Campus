@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.circle.CircleInfoEntity;
+import com.jkb.api.entity.circle.DynamicInCircleListEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.model.intfc.BitmapLoadedCallback;
 
@@ -43,4 +44,16 @@ public interface CircleIndexDataSource {
             @NonNull int user_id, @NonNull int target_id,
             @NonNull String Authorization,
             @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback);
+
+    /**
+     * 得到所有圈子内动态数据
+     *
+     * @param Authorization 头.可选
+     * @param circleId      圈子id
+     * @param page          页码
+     * @param apiCallback   回调
+     */
+    void getAllDynamicInCircle(
+            String Authorization, @NonNull int circleId, @NonNull int page,
+            @NonNull ApiCallback<ApiResponse<DynamicInCircleListEntity>> apiCallback);
 }

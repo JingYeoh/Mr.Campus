@@ -8,10 +8,10 @@ import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.dynamic.DynamicListEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
-import com.jkb.core.contract.function.data.dynamic.CircleData;
-import com.jkb.core.contract.function.data.dynamic.CircleInCommonUseData;
-import com.jkb.core.contract.function.data.dynamic.DynamicBaseData;
-import com.jkb.core.contract.function.data.dynamic.DynamicData;
+import com.jkb.core.data.dynamic.dynamic.CircleData;
+import com.jkb.core.data.dynamic.dynamic.CircleInCommonUseData;
+import com.jkb.core.data.dynamic.dynamic.DynamicBaseData;
+import com.jkb.core.data.dynamic.dynamic.DynamicData;
 import com.jkb.core.contract.function.index.DynamicContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
@@ -554,7 +554,7 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                     dynamicData.setDtype(bean.getDtype());
                     dynamicData.setTitle(bean.getTitle());
                     dynamicData.setTag(bean.getTag());
-                    dynamicData.setCreated_at(bean.getCreated_at());
+                    dynamicData.setCreate_time(bean.getCreated_at());
                     //设置是否原创的状态
                     String action = dynamicData.getAction();
                     if (Config.ACTION_TYPE_POST.equals(action)) {

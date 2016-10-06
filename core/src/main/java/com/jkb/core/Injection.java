@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.jkb.model.dataSource.baidu.map.webService.BaiduMapWebServiceResponsitory;
 import com.jkb.model.dataSource.baidu.map.webService.local.BaiduMapWebServiceLocalDataSource;
 import com.jkb.model.dataSource.baidu.map.webService.remote.BaiduMapWebServiceRemoteDataSource;
-import com.jkb.model.dataSource.circle.circleIndex.CircleIndexDataResponsitiry;
+import com.jkb.model.dataSource.circle.circleIndex.CircleIndexDataRepertory;
 import com.jkb.model.dataSource.circle.circleIndex.local.CircleIndexLocalDataSource;
 import com.jkb.model.dataSource.circle.circleIndex.remote.CircleIndexRemoteDataSource;
 import com.jkb.model.dataSource.circleList.CircleListDataResponsitory;
@@ -281,11 +281,11 @@ public class Injection {
      * 返回CircleIndexDataResponsitiry实例
      *
      * @param applicationContext 上下文
-     * @return CircleIndexDataResponsitiry
+     * @return CircleIndexDataRepertory
      */
-    public static CircleIndexDataResponsitiry provideCircleIndexDataResponsitiry(
+    public static CircleIndexDataRepertory provideCircleIndexDataResponsitiry(
             @NonNull Context applicationContext) {
-        CircleIndexDataResponsitiry responsitiry = CircleIndexDataResponsitiry.getInstance(
+        CircleIndexDataRepertory responsitiry = CircleIndexDataRepertory.getInstance(
                 CircleIndexLocalDataSource.getInstance(applicationContext),
                 CircleIndexRemoteDataSource.getInstance()
         );

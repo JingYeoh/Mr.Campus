@@ -1,6 +1,5 @@
 package com.jkb.core.presenter.circle;
 
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -8,15 +7,19 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.circle.CircleInfoEntity;
+import com.jkb.api.entity.circle.DynamicInCircleListEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.core.contract.circle.CircleIndexContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
-import com.jkb.model.dataSource.circle.circleIndex.CircleIndexDataResponsitiry;
+import com.jkb.core.data.dynamic.circle.DynamicInCircle;
+import com.jkb.model.data.PageControlEntity;
+import com.jkb.model.dataSource.circle.circleIndex.CircleIndexDataRepertory;
 import com.jkb.model.dataSource.circle.data.CircleIndexData;
 import com.jkb.model.info.UserInfoSingleton;
-import com.jkb.model.intfc.BitmapLoadedCallback;
-import com.jkb.model.utils.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import jkb.mrcampus.db.entity.UserAuths;
 import jkb.mrcampus.db.entity.Users;
@@ -29,20 +32,29 @@ import retrofit2.Response;
 
 public class CircleIndexPresenter implements CircleIndexContract.Presenter {
 
+    private static final String TAG = "CircleIndexPresenter";
     private CircleIndexContract.View view;
-    private CircleIndexDataResponsitiry responsitiry;
+    private CircleIndexDataRepertory repertory;
 
     //data
-    private static final String TAG = "CircleIndexPresenter";
     private int circle_id = 0;
     private boolean isCached = false;//是否有缓存的数据
     private CircleIndexData circleIndexData = null;
+    private List<DynamicInCircle> dynamicInCircles;
+
+    //分页控制器
+    private boolean isRefreshing = false;
+    private PageControlEntity pageControl;
 
     public CircleIndexPresenter(
             @NonNull CircleIndexContract.View view,
-            @NonNull CircleIndexDataResponsitiry responsitiry) {
+            @NonNull CircleIndexDataRepertory responsitiry) {
         this.view = view;
-        this.responsitiry = responsitiry;
+        this.repertory = responsitiry;
+
+        dynamicInCircles = new ArrayList<>();
+        pageControl = new PageControlEntity();
+        circleIndexData = new CircleIndexData();
 
         this.view.setPresenter(this);
     }
@@ -55,9 +67,28 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
 
     @Override
     public void onRefresh() {
+        if (isRefreshing) {
+            return;
+        }
+        view.showRefreshingView();
         //刷新数据
         isCached = false;
-        initCircleData();
+        isRefreshing = true;
+        dynamicInCircles.clear();
+        pageControl.setCurrent_page(1);
+        getCircleData();//请求圈子信息
+    }
+
+    @Override
+    public void onLoadMore() {
+        if (isRefreshing) {
+            return;
+        }
+        //刷新数据
+        isCached = false;
+        isRefreshing = true;
+        pageControl.setCurrent_page(pageControl.getCurrent_page() + 1);
+        initDynamicInCircle();//初始化圈子中动态数据
     }
 
     @Override
@@ -74,15 +105,32 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
         } else {
             view.hideContentView();
             //请求网络数据
-            getCircleData();
+            onRefresh();
         }
     }
 
     @Override
+    public void initDynamicInCircle() {
+        //请求圈子内动态数据
+        String Authorization = null;
+        if (LoginContext.getInstance().isLogined()) {
+            Authorization = Config.HEADER_BEARER + getUserAuths().getToken();
+        }
+        repertory.getAllDynamicInCircle(Authorization, circle_id, pageControl.getCurrent_page(),
+                dynamicInCircleApiCallback);
+    }
+
+    @Override
     public void bindData() {
+        isCached = true;
+        isRefreshing = false;
         if (!view.isActive()) {
             return;
         }
+        view.showContentView();
+        view.dismissLoading();
+        view.hideRefreshingView();
+
         view.setCircleName(circleIndexData.getCircleName());
         view.setCircleType(circleIndexData.getCircleType());
         view.setCircleIntroduction(circleIndexData.getCircleIntroducton());
@@ -92,6 +140,9 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
             view.setCirclePicture(circleIndexData.getPicture());
         }
         view.setSubscribeStatus(circleIndexData.isHasSubscribe());//设置是否有状态
+
+        //设置圈子中动态
+        view.setDynamicInCircle(dynamicInCircles);
     }
 
     @Override
@@ -109,7 +160,7 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
         String Authorization = Config.HEADER_BEARER + auths.getToken();
         view.showLoading("");
         //订阅或者取消订阅的操作
-        responsitiry.circleSubscribeOrNot(userId, circle_id, Authorization, subscribeApiCallBack);
+        repertory.circleSubscribeOrNot(userId, circle_id, Authorization, subscribeApiCallBack);
     }
 
     /**
@@ -122,7 +173,7 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
             userId = users.getUser_id();
         }
         view.showLoading("");
-        responsitiry.getCircleInfo(userId, circle_id, circleIndexApiCallback);
+        repertory.getCircleInfo(userId, circle_id, circleIndexApiCallback);
     }
 
     /**
@@ -133,9 +184,8 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                 @Override
                 public void onSuccess(Response<ApiResponse<CircleInfoEntity>> response) {
                     if (view.isActive()) {
-                        view.dismissLoading();
-                        view.showContentView();
                         handleCircleInfoData(response.body().getMsg());
+                        initDynamicInCircle();//请求圈子中动态数据
                     }
                 }
 
@@ -150,19 +200,9 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                     if (bean == null) {
                         return;
                     }
-                    //设置数据有缓存
-                    isCached = true;
-                    //绑定数据到用到的数据类中
-                    if (circleIndexData == null) {
-                        circleIndexData = new CircleIndexData();
-                    }
                     changeCircleData(bean);
-                    //请求加载图片数据
-//                    String pictureUrl = bean.getPicture();
-//                    loadPicure(pictureUrl);
                     bindData();
                 }
-
 
                 /**
                  * 转换圈子数据为可用的数据
@@ -181,53 +221,25 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                     circleIndexData.setPicture(bean.getPicture());
                 }
 
-                /**
-                 * 加载图片
-                 */
-                @Deprecated
-                private void loadPicure(String pictureUrl) {
-                    if (StringUtils.isEmpty(pictureUrl)) {
-                        return;
-                    }
-//                    responsitiry.loadBitmapByUrl(pictureUrl, bitmapLoadedCallback);
-
-                }
-
-                /**
-                 * 加载图片的回调方法
-                 */
-                @Deprecated
-                private BitmapLoadedCallback bitmapLoadedCallback = new BitmapLoadedCallback() {
-                    @Override
-                    public void onBitmapDataLoaded(Bitmap bitmap) {
-//                        circleIndexData.setPicture(bitmap);
-                        bindData();
-                    }
-
-                    @Override
-                    public void onDataNotAvailable(String url) {
-                        circleIndexData.setPicture(null);
-                        bindData();
-                    }
-                };
 
                 @Override
                 public void onError(Response<ApiResponse<CircleInfoEntity>> response, String error,
                                     ApiResponse<CircleInfoEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.dismissLoading();
                         view.showReqResult("获取失败");
+                        bindData();
                     }
                 }
 
                 @Override
                 public void onFail() {
                     if (view.isActive()) {
-                        view.dismissLoading();
                         view.showReqResult("获取失败，请检查您的网络");
+                        bindData();
                     }
                 }
             };
+
     /**
      * 关注/取消关注圈子的回调
      */
@@ -257,6 +269,81 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                     if (view.isActive()) {
                         view.dismissLoading();
                         view.showReqResult("请求失败，请检查您的网络连接");
+                    }
+                }
+            };
+    /**
+     * 获取圈子内动态回调接口
+     */
+    private ApiCallback<ApiResponse<DynamicInCircleListEntity>> dynamicInCircleApiCallback =
+            new ApiCallback<ApiResponse<DynamicInCircleListEntity>>() {
+                @Override
+                public void onSuccess(Response<ApiResponse<DynamicInCircleListEntity>> response) {
+                    if (view.isActive()) {
+                        handleData(response.body());
+                    }
+                }
+
+                /**
+                 * 处理数据
+                 */
+                private void handleData(ApiResponse<DynamicInCircleListEntity> body) {
+                    if (body == null) {
+                        dynamicInCircles.clear();
+                        bindData();
+                        return;
+                    }
+                    handleDynamicData(body.getMsg());
+                }
+
+                /**
+                 * 解析动态数据
+                 */
+                private void handleDynamicData(DynamicInCircleListEntity msg) {
+                    if (msg == null) {
+                        dynamicInCircles.clear();
+                        bindData();
+                        return;
+                    }
+
+                    //设置页码控制器
+                    pageControl.setTotal(msg.getTotal());
+                    pageControl.setPer_page(msg.getPer_page());
+                    pageControl.setCurrent_page(msg.getCurrent_page());
+                    pageControl.setLast_page(msg.getLast_page());
+                    pageControl.setNext_page_url(msg.getNext_page_url());
+                    pageControl.setPrev_page_url(msg.getPrev_page_url());
+                    pageControl.setFrom(msg.getFrom());
+                    pageControl.setTo(msg.getTo());
+
+                    List<DynamicInCircleListEntity.DataBean> data = msg.getData();
+                    if (data == null || data.size() == 0) {
+                        return;
+                    }
+                    for (DynamicInCircleListEntity.DataBean dataBean : data) {
+                        DynamicInCircle dynamicInCircle =
+                                new DynamicInCircle(dataBean).getDynamic();
+                        if (dynamicInCircle != null) {
+                            dynamicInCircles.add(dynamicInCircle);
+                        }
+                    }
+                    bindData();
+                }
+
+                @Override
+                public void onError(Response<ApiResponse<DynamicInCircleListEntity>> response,
+                                    String error, ApiResponse<DynamicInCircleListEntity> apiResponse) {
+                    if (view.isActive()) {
+                        view.showReqResult("得到圈子内动态失败");
+                        bindData();
+                    }
+                }
+
+                @Override
+                public void onFail() {
+                    if (view.isActive()) {
+                        view.showReqResult("得到圈子内动态失败");
+                        bindData();
                     }
                 }
             };

@@ -16,12 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jkb.core.contract.circle.CircleIndexContract;
+import com.jkb.core.data.dynamic.circle.DynamicInCircle;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleActivity;
 import com.jkb.mrcampus.adapter.recycler.DynamicCircleAdapter;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
+
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -31,9 +34,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class CircleIndexFragment extends BaseFragment
-        implements CircleIndexContract.View, View.OnClickListener,
+        implements CircleIndexContract.View,
+        View.OnClickListener,
         SwipeRefreshLayout.OnRefreshListener {
-
 
     private static CircleIndexFragment INSTANCE = null;
 
@@ -56,7 +59,6 @@ public class CircleIndexFragment extends BaseFragment
     private CircleActivity circleActivity;
     private CircleIndexContract.Presenter mPresenter;
     private static final String SAVED_CIRCLE_ID = "saved_circle_id";
-    private DynamicCircleAdapter dynamicCircleAdapter;
 
     //View
     private ImageView ivBg;
@@ -64,28 +66,24 @@ public class CircleIndexFragment extends BaseFragment
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
+    private SwipeRefreshLayout refreshLayout;
+
+    //圈子动态
+    private DynamicCircleAdapter dynamicCircleAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+
     //滑动监听状态
-    private CollapsingToolbarLayoutState state;//默认为展开
+    private int collapsingState = 0;
     private int color_translate;
     private int color_white;
     private String circleName = "";
 
-    @Override
-    public void onRefresh() {
-        //刷新数据
-        mPresenter.onRefresh();//无用
-    }
+    //滑动监听的三种状态
+    private static final int COLLAPSING_STATE_EXOANDED = 1001;
+    private static final int COLLAPSING_STATE_COLLAPSED = 1002;
+    private static final int COLLAPSING_STATE_INTERNEDIATE = 1003;
 
-    /**
-     * 滑动监听状态
-     */
-    private enum CollapsingToolbarLayoutState {
-        EXPANDED,
-        COLLAPSED,
-        INTERNEDIATE
-    }
 
     @Nullable
     @Override
@@ -122,6 +120,9 @@ public class CircleIndexFragment extends BaseFragment
         rootView.findViewById(R.id.fci_iv_subscribe).setOnClickListener(this);
         //新特性特效处理
         appBarLayout.addOnOffsetChangedListener(onOffsetChangedListener);
+        //设置下拉加载
+        recyclerView.addOnScrollListener(onScrollListener);//设置滑动监听，设置是否下拉刷新
+        refreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -153,6 +154,7 @@ public class CircleIndexFragment extends BaseFragment
         toolbar = (Toolbar) rootView.findViewById(R.id.fci_toolbar);
         collapsingToolbarLayout = (CollapsingToolbarLayout) rootView.findViewById(R.id.fci_ctl);
 
+        refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fci_srl);
         //初始化动态的控件
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fci_rv_dynamic);
         linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
@@ -170,28 +172,28 @@ public class CircleIndexFragment extends BaseFragment
         @Override
         public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
             if (verticalOffset == 0) {
-                if (state != CollapsingToolbarLayoutState.EXPANDED) {
-                    state = CollapsingToolbarLayoutState.EXPANDED;//修改状态标记为展开
+                if (collapsingState != COLLAPSING_STATE_EXOANDED) {
+                    collapsingState = COLLAPSING_STATE_EXOANDED;//修改状态标记为展开
                     collapsingToolbarLayout.setTitle("");//设置title为EXPANDED
                     toolbar.setBackgroundColor(color_translate);//设置颜色为透明点的颜色
                     //展开时候进行的操作
                     expandedWork();
                 }
             } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
-                if (state != CollapsingToolbarLayoutState.COLLAPSED) {
+                if (collapsingState != COLLAPSING_STATE_COLLAPSED) {
                     collapsingToolbarLayout.setTitle("");//设置title不显示
                     toolbar.setBackgroundColor(color_white);//设置颜色为透明点的颜色
-                    state = CollapsingToolbarLayoutState.COLLAPSED;//修改状态标记为折叠
+                    collapsingState = COLLAPSING_STATE_COLLAPSED;//修改状态标记为折叠
                     //折叠起来的动作
                     collapsedWork();
                 }
             } else {
-                if (state != CollapsingToolbarLayoutState.INTERNEDIATE) {
-                    if (state == CollapsingToolbarLayoutState.COLLAPSED) {
+                if (collapsingState != COLLAPSING_STATE_INTERNEDIATE) {
+                    if (collapsingState == COLLAPSING_STATE_COLLAPSED) {
                         toolbar.setBackgroundColor(color_translate);//设置颜色为不透明
                     }
                     collapsingToolbarLayout.setTitle("");//设置title为INTERNEDIATE
-                    state = CollapsingToolbarLayoutState.INTERNEDIATE;//修改状态标记为中间
+                    collapsingState = COLLAPSING_STATE_INTERNEDIATE;//修改状态标记为中间
                 }
             }
         }
@@ -253,6 +255,16 @@ public class CircleIndexFragment extends BaseFragment
     }
 
     @Override
+    public void showRefreshingView() {
+        refreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void hideRefreshingView() {
+        refreshLayout.setRefreshing(false);
+    }
+
+    @Override
     public void setTitleName(String titleName) {
         ((TextView) rootView.findViewById(R.id.ts5_tv_name)).setText(titleName);
     }
@@ -261,9 +273,6 @@ public class CircleIndexFragment extends BaseFragment
     public void setCirclePicture(String picture) {
         ImageLoaderFactory.getInstance().displayImage(ivHeadImg, picture);
         ImageLoaderFactory.getInstance().displayBlurImage(ivBg, picture, 5, 2);
-//        ivHeadImg.setImageBitmap(picture);
-//        //设置高斯模糊效果
-//        ivBg.setImageBitmap(BitmapUtil.fastBlur(picture, 8, 2));
     }
 
     @Override
@@ -301,6 +310,12 @@ public class CircleIndexFragment extends BaseFragment
             ((ImageView) rootView.findViewById(R.id.fci_iv_subscribe)).
                     setImageResource(R.drawable.ic_subscription_already_essays);
         }
+    }
+
+    @Override
+    public void setDynamicInCircle(List<DynamicInCircle> dynamicInCircle) {
+        dynamicCircleAdapter.dynamicInCircles = dynamicInCircle;
+        dynamicCircleAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -358,5 +373,31 @@ public class CircleIndexFragment extends BaseFragment
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVED_CIRCLE_ID, circleId);
+    }
+
+    /**
+     * 滑动的监听器
+     */
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int lastVisibleItem = (linearLayoutManager).findLastVisibleItemPosition();
+            int totalItemCount = linearLayoutManager.getItemCount();
+            if (lastVisibleItem > 5) {
+                rootView.findViewById(R.id.fhh_iv_floatBt_top).setVisibility(View.VISIBLE);
+            } else {
+                rootView.findViewById(R.id.fhh_iv_floatBt_top).setVisibility(View.GONE);
+            }
+            if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
+                mPresenter.onLoadMore();//设置下拉加载
+            }
+        }
+    };
+
+    @Override
+    public void onRefresh() {
+        //刷新数据
+        mPresenter.onRefresh();//无用
     }
 }
