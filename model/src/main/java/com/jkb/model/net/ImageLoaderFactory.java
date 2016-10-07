@@ -45,8 +45,6 @@ public class ImageLoaderFactory {
 
     /**
      * 得到单利实例对象
-     *
-     * @return
      */
     public static ImageLoaderFactory getInstance() {
         return ImageLoaderHolder.sInstance;
@@ -68,8 +66,6 @@ public class ImageLoaderFactory {
 
     /**
      * 设置上下文对象
-     *
-     * @param applicationContext
      */
     public void setApplicationContext(@NonNull Context applicationContext) {
         this.context = applicationContext;
@@ -81,10 +77,6 @@ public class ImageLoaderFactory {
 
     /**
      * 加载网络图片
-     *
-     * @param imageUrl
-     * @param imageSize
-     * @param listener
      */
     public void loadImage(@NonNull String imageUrl, ImageSize imageSize,
                           @NonNull ImageLoadingListener listener) {
@@ -97,9 +89,6 @@ public class ImageLoaderFactory {
 
     /**
      * 加载图片
-     *
-     * @param imageView ImageView
-     * @param imageUrl  Url
      */
     public void displayImage(ImageView imageView, String imageUrl) {
         Bundle bundle = (Bundle) imageView.getTag();
@@ -150,6 +139,42 @@ public class ImageLoaderFactory {
 
             }
         });
+    }
+
+    /**
+     * 从内存卡中异步加载本地图片
+     */
+    public void displayFromSDCard(String uri, ImageView imageView) {
+        // String imageUri = "file:///mnt/sdcard/image.png"; // from SD card
+        ImageLoader.getInstance().displayImage("file://" + uri, imageView);
+    }
+
+    /**
+     * 从assets文件夹中异步加载图片
+     */
+    public void dispalyFromAssets(String imageName, ImageView imageView) {
+        // String imageUri = "assets://image.png"; // from assets
+        ImageLoader.getInstance().displayImage("assets://" + imageName,
+                imageView);
+    }
+
+    /**
+     * 从drawable中异步加载本地图片
+     */
+    public void displayFromDrawable(int imageId, ImageView imageView) {
+        // String imageUri = "drawable://" + R.drawable.image; // from drawables
+        // (only images, non-9patch)
+        ImageLoader.getInstance().displayImage("drawable://" + imageId,
+                imageView);
+    }
+
+    /**
+     * 从内容提提供者中抓取图片
+     */
+    public void displayFromContent(String uri, ImageView imageView) {
+        // String imageUri = "content://media/external/audio/albumart/13"; //
+        // from content provider
+        ImageLoader.getInstance().displayImage("content://" + uri, imageView);
     }
 
     public DisplayImageOptions getDisplayOptions() {

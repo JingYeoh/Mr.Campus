@@ -98,6 +98,11 @@ public interface BaseActivityAction {
     void startDynamicCreateActivity(@NonNull String dynamicCreateType);
 
     /**
+     * 打开创建圈子的页面
+     */
+    void startCreateCircleActivity();
+
+    /**
      * 顯示輸入
      **/
     void showSoftInputView();

@@ -56,4 +56,16 @@ public interface CircleIndexDataSource {
     void getAllDynamicInCircle(
             String Authorization, @NonNull int circleId, @NonNull int page,
             @NonNull ApiCallback<ApiResponse<DynamicInCircleListEntity>> apiCallback);
+
+    /**
+     * 喜欢/点赞动态
+     *
+     * @param Authorization token
+     * @param user_id       用户id
+     * @param target_id     目标id
+     * @param apiCallback   回调
+     */
+    void favorite(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback);
 }

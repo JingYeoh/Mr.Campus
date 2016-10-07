@@ -1,6 +1,7 @@
 package com.jkb.mrcampus.adapter.recycler;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import com.jkb.core.data.user.UserInfo;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
+import com.jkb.mrcampus.adapter.recycler.dynamic.HotDynamicAdapter;
+import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,13 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
     private static final int DYNAMIC_TYPE_ARTICLE = 1001;
     private static final int DYNAMIC_TYPE_NORMAL = 1002;
     private static final int DYNAMIC_TYPE_TOPIC = 1003;
+
+    //回调
+    private OnDynamicInCircleItemClickListener onDynamicInCircleItemClickListener;
+    private OnHeadImgClickListener onHeadImgClickListener;
+    private OnCommentClickListener onCommentClickListener;
+    private OnLikeClickListener onLikeClickListener;
+    private OnShareClickListener onShareClickListener;
 
 
     public DynamicCircleAdapter(Context context, List<DynamicInCircle> dynamicInCircles) {
@@ -107,7 +117,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
      * 初始化动态：文章
      */
     private ViewHolder initDynamic_article(ViewGroup parent, LayoutInflater inflater) {
-        View view = inflater.inflate(R.layout.item_dynamic_circle_left, parent, false);
+        View view = inflater.inflate(R.layout.item_dynamic_circle_article, parent, false);
         ViewHolder holder = new ViewHolder(view);
 
         if (holder.original_article == null) {
@@ -135,12 +145,16 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         holder.original_article.tvLikeCount = (TextView) view.findViewById(R.id.iidbf_tv_likeNum);
 
         //初始化监听事件
-
+        holder.dynamicContent.setOnClickListener(clickItemListener);
+        holder.original_article.contentUserHeadImg.setOnClickListener(clickHeadImgListener);
+        holder.original_article.ivLike.setOnClickListener(clickLikeListener);
+        holder.original_article.ivComment.setOnClickListener(clickCommentListener);
+        holder.original_article.ivShare.setOnClickListener(clickShareListener);
         return holder;
     }
 
     private ViewHolder initDynamic_topic(ViewGroup parent, LayoutInflater inflater) {
-        View view = inflater.inflate(R.layout.item_dynamic_circle_left, parent, false);
+        View view = inflater.inflate(R.layout.item_dynamic_circle_topic, parent, false);
         ViewHolder holder = new ViewHolder(view);
 
         if (holder.original_topic == null) {
@@ -160,6 +174,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         holder.original_topic.ivPic = (ImageView) view.findViewById(R.id.idc_iv_image);
         holder.original_topic.tvDynamicTitle = (TextView) view.findViewById(R.id.idc_tv_dynamicName);
         holder.original_topic.tvDynamicContent = (TextView) view.findViewById(R.id.idc_tv_dynamicValue);
+        holder.original_topic.tvPartInCount = (TextView) view.findViewById(R.id.idc_tv_partInNum);
         //工具栏
         holder.original_topic.ivShare = (ImageView) view.findViewById(R.id.iidbf_iv_share);
         holder.original_topic.ivLike = (ImageView) view.findViewById(R.id.iidbf_iv_heart);
@@ -168,11 +183,16 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         holder.original_topic.tvLikeCount = (TextView) view.findViewById(R.id.iidbf_tv_likeNum);
 
         //初始化监听事件
+        holder.dynamicContent.setOnClickListener(clickItemListener);
+        holder.original_topic.contentUserHeadImg.setOnClickListener(clickHeadImgListener);
+        holder.original_topic.ivLike.setOnClickListener(clickLikeListener);
+        holder.original_topic.ivComment.setOnClickListener(clickCommentListener);
+        holder.original_topic.ivShare.setOnClickListener(clickShareListener);
         return holder;
     }
 
     private ViewHolder initDynamic_normal(ViewGroup parent, LayoutInflater inflater) {
-        View view = inflater.inflate(R.layout.item_dynamic_circle_right, parent, false);
+        View view = inflater.inflate(R.layout.item_dynamic_circle_normal, parent, false);
         ViewHolder holder = new ViewHolder(view);
 
         if (holder.original_normal == null) {
@@ -200,6 +220,11 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         holder.original_normal.tvLikeCount = (TextView) view.findViewById(R.id.iidbf_tv_likeNum);
 
         //初始化监听事件
+        holder.dynamicContent.setOnClickListener(clickItemListener);
+        holder.original_normal.contentUserHeadImg.setOnClickListener(clickHeadImgListener);
+        holder.original_normal.ivLike.setOnClickListener(clickLikeListener);
+        holder.original_normal.ivComment.setOnClickListener(clickCommentListener);
+        holder.original_normal.ivShare.setOnClickListener(clickShareListener);
         return holder;
     }
 
@@ -236,6 +261,15 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
     private void bindDynamic_article(ViewHolder holder, int position) {
         DynamicInCircle dynamicInCircle = dynamicInCircles.get(position);
         DynamicInCircleOriginalArticle article = (DynamicInCircleOriginalArticle) dynamicInCircle;
+
+        //设置TAG
+        ClassUtils.bindViewsTag(position,
+                holder.dynamicContent,
+                holder.original_article.contentUserHeadImg,
+                holder.original_article.ivComment,
+                holder.original_article.ivLike,
+                holder.original_article.ivShare);
+
         if (article == null) {
             holder.dynamicContent.setVisibility(View.GONE);
             return;
@@ -301,6 +335,15 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
     private void bindDynamic_normal(ViewHolder holder, int position) {
         DynamicInCircle dynamicInCircle = dynamicInCircles.get(position);
         DynamicInCircleOriginalNormal normal = (DynamicInCircleOriginalNormal) dynamicInCircle;
+
+        //设置TAG
+        ClassUtils.bindViewsTag(position,
+                holder.dynamicContent,
+                holder.original_normal.contentUserHeadImg,
+                holder.original_normal.ivComment,
+                holder.original_normal.ivLike,
+                holder.original_normal.ivShare);
+
         if (normal == null) {
             holder.dynamicContent.setVisibility(View.GONE);
             return;
@@ -355,6 +398,15 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
     private void bindDynamic_topic(ViewHolder holder, int position) {
         DynamicInCircle dynamicInCircle = dynamicInCircles.get(position);
         DynamicInCircleOriginalTopic topic = (DynamicInCircleOriginalTopic) dynamicInCircle;
+
+        //设置TAG
+        ClassUtils.bindViewsTag(position,
+                holder.dynamicContent,
+                holder.original_topic.contentUserHeadImg,
+                holder.original_topic.ivComment,
+                holder.original_topic.ivLike,
+                holder.original_topic.ivShare);
+
         if (topic == null) {
             holder.dynamicContent.setVisibility(View.GONE);
             return;
@@ -396,6 +448,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         //底部工具栏
         holder.original_topic.tvCommentCount.setText(topic.getCount_of_comment() + "");
         holder.original_topic.tvLikeCount.setText(topic.getCount_of_favorite() + "");
+        holder.original_topic.tvPartInCount.setText(topic.getCount_of_participation() + "");
         if (topic.isHas_favorite()) {
             holder.original_topic.ivLike.setImageResource(R.drawable.ic_heart_red);
         } else {
@@ -487,6 +540,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         ImageView ivPic;
         TextView tvDynamicTitle;
         TextView tvDynamicContent;
+        TextView tvPartInCount;
         //下方工具栏
         TextView tvCommentCount;
         TextView tvLikeCount;
@@ -495,4 +549,222 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         ImageView ivShare;
     }
 
+
+    /**
+     * 圈子内动态的条目点击监听事件
+     */
+    public interface OnDynamicInCircleItemClickListener {
+
+        /**
+         * 圈子内动态的条目点击回调方法
+         *
+         * @param position 条目数
+         */
+        void onDynamicInCircleClick(int position);
+    }
+
+    /**
+     * 头像的点击监听器
+     */
+    public interface OnHeadImgClickListener {
+
+        /**
+         * 头像的点击回调方法
+         *
+         * @param position 条目数
+         */
+        void onHeadImgClick(int position);
+    }
+
+    /**
+     * 评论的点击监听器
+     */
+    public interface OnCommentClickListener {
+
+        /**
+         * 当评论条目的点击回调
+         *
+         * @param position 条目数
+         */
+        void onCommentClick(int position);
+    }
+
+    /**
+     * 喜欢的点击监听器
+     */
+    public interface OnLikeClickListener {
+
+        /**
+         * 喜欢点击的回调方法
+         *
+         * @param position 条木数
+         */
+        void onLikeClick(int position);
+    }
+
+    /**
+     * 分享的点击监听器
+     */
+    public interface OnShareClickListener {
+
+        /**
+         * 点击分享的回调方法
+         *
+         * @param position 条木数
+         */
+        void onShareClick(int position);
+    }
+
+    /**
+     * 设置圈子内动态的条目点击监听事件
+     */
+    public void setOnDynamicInCircleItemClickListener(
+            OnDynamicInCircleItemClickListener onDynamicInCircleItemClickListener) {
+        this.onDynamicInCircleItemClickListener = onDynamicInCircleItemClickListener;
+    }
+
+    /**
+     * 设置评论的点击回调
+     */
+    public void setOnCommentClickListener(OnCommentClickListener onCommentClickListener) {
+        this.onCommentClickListener = onCommentClickListener;
+    }
+
+    /**
+     * 设置喜欢的点击回调
+     */
+    public void setOnLikeClickListener(OnLikeClickListener onLikeClickListener) {
+        this.onLikeClickListener = onLikeClickListener;
+    }
+
+    /**
+     * 设置分享的点击监听
+     */
+    public void setOnShareClickListener(OnShareClickListener onShareClickListener) {
+        this.onShareClickListener = onShareClickListener;
+    }
+
+    /**
+     * 设置头像的点击监听器
+     */
+    public void setOnHeadImgClickListener(OnHeadImgClickListener onHeadImgClickListener) {
+        this.onHeadImgClickListener = onHeadImgClickListener;
+    }
+
+
+    /**
+     * 条目点击的监听器
+     */
+    private View.OnClickListener clickItemListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (onDynamicInCircleItemClickListener == null) {
+                return;
+            }
+            //判断各种控件id
+            Bundle bundle = (Bundle) view.getTag();
+            if (bundle == null) {
+                return;
+            }
+            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
+            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
+            switch (viewId) {
+                case R.id.dynamic_content:
+                    onDynamicInCircleItemClickListener.onDynamicInCircleClick(position);
+                    break;
+            }
+        }
+    };
+    /**
+     * 头像点击的监听器
+     */
+    private View.OnClickListener clickHeadImgListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (onHeadImgClickListener == null) {
+                return;
+            }
+            //判断各种控件id
+            Bundle bundle = (Bundle) view.getTag();
+            if (bundle == null) {
+                return;
+            }
+            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
+            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
+            switch (viewId) {
+                case R.id.idc_contentHeadImg:
+                    onHeadImgClickListener.onHeadImgClick(position);
+                    break;
+            }
+        }
+    };
+    /**
+     * 评论点击的监听器
+     */
+    private View.OnClickListener clickCommentListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (onCommentClickListener == null) {
+                return;
+            }
+            //判断各种控件id
+            Bundle bundle = (Bundle) view.getTag();
+            if (bundle == null) {
+                return;
+            }
+            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
+            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
+            switch (viewId) {
+                case R.id.iidbf_iv_comment:
+                    onCommentClickListener.onCommentClick(position);
+                    break;
+            }
+        }
+    };
+    /**
+     * 喜欢点击的监听器
+     */
+    private View.OnClickListener clickLikeListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (onLikeClickListener == null) {
+                return;
+            }
+            //判断各种控件id
+            Bundle bundle = (Bundle) view.getTag();
+            if (bundle == null) {
+                return;
+            }
+            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
+            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
+            switch (viewId) {
+                case R.id.iidbf_iv_heart:
+                    onLikeClickListener.onLikeClick(position);
+                    break;
+            }
+        }
+    };
+    /**
+     * 喜欢点击的监听器
+     */
+    private View.OnClickListener clickShareListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (onShareClickListener == null) {
+                return;
+            }
+            //判断各种控件id
+            Bundle bundle = (Bundle) view.getTag();
+            if (bundle == null) {
+                return;
+            }
+            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
+            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
+            switch (viewId) {
+                case R.id.iidbf_iv_share:
+                    onShareClickListener.onShareClick(position);
+                    break;
+            }
+        }
+    };
 }

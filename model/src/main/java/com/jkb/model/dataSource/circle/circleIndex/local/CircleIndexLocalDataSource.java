@@ -58,4 +58,11 @@ public class CircleIndexLocalDataSource implements CircleIndexDataSource {
 
     }
 
+    @Override
+    public void favorite(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
+
+    }
+
 }

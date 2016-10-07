@@ -38,7 +38,7 @@ public class CircleCreateRemoteDataSource implements CircleCreateDataSource {
     @Override
     public void createCircle(
             @NonNull int user_id, @NonNull int school_id, @NonNull String name,
-            @NonNull String introduction, double latiude, double longitude,
+            @NonNull String introduction, @NonNull String tag, double latitude, double longitude,
             @NonNull String authorization, MultipartBody.Part image, String flag,
             ApiCallback<ApiResponse<CircleCreateEntity>> apiCallback) {
         //请求创建圈子接口
@@ -48,7 +48,7 @@ public class CircleCreateRemoteDataSource implements CircleCreateDataSource {
         CircleCreateApi circleCreateApi = apiFactory.createApi(CircleCreateApi.class);
         Call<ApiResponse<CircleCreateEntity>> call = null;
         call = circleCreateApi.createCircle(
-                authorization, user_id, school_id, name, introduction, longitude, latiude, image, flag
+                authorization, user_id, school_id, name, tag, introduction, longitude, latitude, image, flag
         );
         Type type = new TypeToken<ApiResponse<CircleCreateEntity>>() {
         }.getType();

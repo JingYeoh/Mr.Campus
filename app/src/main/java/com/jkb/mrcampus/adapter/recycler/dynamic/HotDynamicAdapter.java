@@ -359,7 +359,7 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
         holder.dynamicInCircleNormal.content = view.findViewById(R.id.idcn_ll_content);
         holder.dynamicInCircleNormal.contentHeadImg = view.findViewById(R.id.iidc_contentHeadImg);
         //初始化监听事件
-        holder.dynamicContent.setOnClickListener(clickItemListener);
+        holder.dynamicInCircleNormal.content.setOnClickListener(clickItemListener);
         holder.dynamicInCircleNormal.contentHeadImg.setOnClickListener(clickHeadImgListener);
         holder.dynamicInCircleNormal.ivComment.setOnClickListener(clickCommentListener);
         holder.dynamicInCircleNormal.ivHeart.setOnClickListener(clickLikeListener);
@@ -405,7 +405,7 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
         holder.dynamicInCircleTopic.contentHeadImg = view.findViewById(R.id.iidc_contentHeadImg);
 
         //设置监听事件
-        holder.dynamicContent.setOnClickListener(clickItemListener);
+        holder.dynamicInCircleTopic.content.setOnClickListener(clickItemListener);
         holder.dynamicInCircleTopic.contentHeadImg.setOnClickListener(clickHeadImgListener);
         holder.dynamicInCircleTopic.ivHeart.setOnClickListener(clickLikeListener);
         holder.dynamicInCircleTopic.tvOriginalNickName.setOnClickListener(clickCreatorUserListener);
@@ -449,7 +449,7 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
         holder.dynamicInCircleArticle.contentHeadImg = view.findViewById(R.id.iidc_contentHeadImg);
 
         //设置监听事件
-        holder.dynamicContent.setOnClickListener(clickItemListener);
+        holder.dynamicInCircleArticle.content.setOnClickListener(clickItemListener);
         holder.dynamicInCircleArticle.contentHeadImg.setOnClickListener(clickHeadImgListener);
         holder.dynamicInCircleArticle.ivComment.setOnClickListener(clickCommentListener);
         holder.dynamicInCircleArticle.ivHeart.setOnClickListener(clickLikeListener);
@@ -721,6 +721,7 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
         holder.dynamicContent.setVisibility(View.VISIBLE);
         //设置TAG
         ClassUtils.bindViewsTag(position,
+                holder.dynamicInCircleArticle.content,
                 holder.dynamicInCircleArticle.contentHeadImg,
                 holder.dynamicInCircleArticle.ivComment,
                 holder.dynamicInCircleArticle.ivShare,
@@ -792,6 +793,7 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
 
         //设置TAG
         ClassUtils.bindViewsTag(position,
+                holder.dynamicInCircleTopic.content,
                 holder.dynamicInCircleTopic.contentHeadImg,
                 holder.dynamicInCircleTopic.ivShare,
                 holder.dynamicInCircleTopic.tvOriginalNickName,
@@ -1228,6 +1230,9 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
             int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
             switch (viewId) {
                 case R.id.dynamic_content:
+                case R.id.idcn_ll_content:
+                case R.id.idct_ll_content:
+                case R.id.idca_ll_content:
                     onItemClickListener.onItemClick(position);
                     break;
             }
@@ -1362,7 +1367,7 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
         }
     };
     /**
-     * 喜欢点击的监听器
+     * 原创作者点击的监听器
      */
     private View.OnClickListener clickCreatorUserListener = new View.OnClickListener() {
         @Override

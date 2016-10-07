@@ -5,12 +5,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.baidu.mapapi.map.BaiduMap;
@@ -62,6 +65,7 @@ public class SelectCircleCoordinateFragment
 
     private View rootView;
     private Activity mActivity;
+    private Dialog mDialog;
     private CreateCircleActivity createCircleActivity;
 
     private SelectCircleCoordinatePresenter mPresenter;
@@ -92,20 +96,34 @@ public class SelectCircleCoordinateFragment
         LayoutInflater inflater = mActivity.getLayoutInflater();
         rootView = inflater.inflate(R.layout.frg_create_circle_select_coordinate, null);
         builder.setView(rootView);
+        mDialog = builder.create();
+        initConfig();
         //初始化操作
         init(savedInstanceState);
-        return builder.create();
+        return mDialog;
+    }
+
+    /**
+     * 初始化配置
+     */
+    private void initConfig() {
+        mDialog.setCanceledOnTouchOutside(false);
+        //设置动画
+        Window window = mDialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        window.setWindowAnimations(R.style.animate_dialog);
+        //设置宽度和高度为全屏
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));//注意此处
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        getDialog().setCanceledOnTouchOutside(false);//点击视图外部不可以取消视图
-        getDialog().getWindow().setGravity(Gravity.CENTER);
-        if (getDialog() != null) {
+        mDialog.setCanceledOnTouchOutside(false);//点击视图外部不可以取消视图
+        if (mDialog != null) {
             DisplayMetrics dm = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-            getDialog().getWindow().setLayout((int) (dm.widthPixels * 0.9), (int) (dm.heightPixels * 0.85));
+            mDialog.getWindow().setLayout(dm.widthPixels, getDialog().getWindow().getAttributes().height);
         }
         //开启方向传感器
         myOrientationListener.start();
@@ -306,11 +324,11 @@ public class SelectCircleCoordinateFragment
         //设置头像
         LayoutInflater inflater = LayoutInflater.from(mActivity);
         View view = inflater.inflate(R.layout.view_baidu_descriptor, null);
-        CircleImageView ivHeadImg= ((CircleImageView) view.findViewById(R.id.vbd_iv_headImg));
+        CircleImageView ivHeadImg = ((CircleImageView) view.findViewById(R.id.vbd_iv_headImg));
         if (!StringUtils.isEmpty(bitmap)) {
             ImageLoaderFactory.getInstance().displayImage(
-                    ivHeadImg  ,bitmap);
-        }else{
+                    ivHeadImg, bitmap);
+        } else {
             ivHeadImg.setImageResource(R.drawable.ic_user_head);
         }
         bitmapDescriptor = BitmapDescriptorFactory.fromView(view);

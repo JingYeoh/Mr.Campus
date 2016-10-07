@@ -6,8 +6,8 @@ import android.util.Log;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
-import com.jkb.api.entity.auth.RegisterEntity;
 import com.jkb.api.config.Config;
+import com.jkb.api.entity.auth.RegisterEntity;
 import com.jkb.core.contract.entering.EnterPersonMessageContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LoginState;
@@ -29,7 +29,8 @@ import retrofit2.Response;
  * 设置个人信息的Presenter层
  * Created by JustKiddingBaby on 2016/8/1.
  */
-public class EnterPersonMessagePresenter implements EnterPersonMessageContract.Presenter, ApiCallback<ApiResponse<RegisterEntity>> {
+public class EnterPersonMessagePresenter implements EnterPersonMessageContract.Presenter,
+        ApiCallback<ApiResponse<RegisterEntity>> {
 
     private static final String TAG = "personPresenter";
 
@@ -118,14 +119,13 @@ public class EnterPersonMessagePresenter implements EnterPersonMessageContract.P
         //保存头像得到路径
         headImagePath = personMessageResponsitory.saveBitmapToFile(bitmap, null, name);
         //设置头像显示
-        personView.setHeadImg(personMessageResponsitory.getBitmapFromFile(headImagePath));
+        personView.setHeadImg(headImagePath);
     }
 
     @Override
     public void setHeadImagePath(String imagePath) {
         this.headImagePath = imagePath;
-        Bitmap bitmap = BitmapUtils.getCompressedImage(imagePath);
-        personView.setHeadImg(bitmap);//设置头像上去
+        personView.setHeadImg(headImagePath);//设置头像上去
     }
 
     @Override
@@ -239,7 +239,7 @@ public class EnterPersonMessagePresenter implements EnterPersonMessageContract.P
         users.setAvatar(userInfoBean.getAvatar());
         users.setSex(userInfoBean.getSex());
         users.setName(userInfoBean.getName());
-        users.setAvatarLocalPath(headImagePath);
+        users.setAvatarLocalPath("file://" +headImagePath);
         users.setBref_introduction(userInfoBean.getBref_introduction());
         users.setBackground(userInfoBean.getBackground());
         users.setAttentionCount(userInfoBean.getAttentionCount());

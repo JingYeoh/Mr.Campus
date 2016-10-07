@@ -25,6 +25,7 @@ import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleActivity;
 import com.jkb.mrcampus.activity.CircleListActivity;
 import com.jkb.mrcampus.activity.CommentActivity;
+import com.jkb.mrcampus.activity.CreateCircleActivity;
 import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
@@ -339,6 +340,13 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     public void startCircleListActivity(@NonNull int user_id) {
         Intent intent = new Intent(this, CircleListActivity.class);
         intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startCreateCircleActivity() {
+        //显示创建圈子视图
+        Intent intent = new Intent(this, CreateCircleActivity.class);
         startActivityWithPushLeftAnim(intent);
     }
 

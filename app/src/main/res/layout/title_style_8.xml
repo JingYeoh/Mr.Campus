@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/titleStyle"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/ts8_ib_left"
+        style="@style/titleContentImage"
+        android:background="@drawable/selecter_clearity_gravy"
+        android:src="@drawable/ic_back_black" />
+
+
+    <TextView
+        android:id="@+id/ts8_tv_name"
+        style="@style/titleNameStyle"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1"
+        android:gravity="center|left"
+        android:singleLine="true"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/ts8_tv_right"
+        style="@style/titleNameStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:text="创建圈子"
+        android:textColor="@color/main_theme_green"
+        android:textSize="14sp" />
+
+</LinearLayout>

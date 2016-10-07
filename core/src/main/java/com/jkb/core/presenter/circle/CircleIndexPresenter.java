@@ -13,6 +13,13 @@ import com.jkb.core.contract.circle.CircleIndexContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.core.data.dynamic.circle.DynamicInCircle;
+import com.jkb.core.data.dynamic.circle.original.DynamicInCircleOriginalArticle;
+import com.jkb.core.data.dynamic.circle.original.DynamicInCircleOriginalNormal;
+import com.jkb.core.data.dynamic.circle.original.DynamicInCircleOriginalTopic;
+import com.jkb.core.data.dynamic.hot.HotDynamic;
+import com.jkb.core.data.dynamic.hot.dynamic.circle.DynamicInCircleDynamic;
+import com.jkb.core.data.dynamic.hot.dynamic.original.OriginalDynamic;
+import com.jkb.core.data.user.UserInfo;
 import com.jkb.model.data.PageControlEntity;
 import com.jkb.model.dataSource.circle.circleIndex.CircleIndexDataRepertory;
 import com.jkb.model.dataSource.circle.data.CircleIndexData;
@@ -161,6 +168,84 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
         view.showLoading("");
         //订阅或者取消订阅的操作
         repertory.circleSubscribeOrNot(userId, circle_id, Authorization, subscribeApiCallBack);
+    }
+
+    @Override
+    public void onDynamicInCircleItemClick(int position) {
+        DynamicInCircle dynamicInCircle = dynamicInCircles.get(position);
+        int dynamic_id = dynamicInCircle.getDynamic_id();
+        if (dynamicInCircle instanceof DynamicInCircleOriginalArticle) {
+            view.startDynamicActivity(dynamic_id, Config.DYNAMIC_TYPE_ARTICLE);
+        } else if (dynamicInCircle instanceof DynamicInCircleOriginalNormal) {
+            view.startDynamicActivity(dynamic_id, Config.DYNAMIC_TYPE_NORMAL);
+        } else if (dynamicInCircle instanceof DynamicInCircleOriginalTopic) {
+            view.startDynamicActivity(dynamic_id, Config.DYNAMIC_TYPE_TOPIC);
+        }
+    }
+
+    @Override
+    public void onHeadImgItemClick(int position) {
+        DynamicInCircle dynamicInCircle = dynamicInCircles.get(position);
+        UserInfo user = dynamicInCircle.getUser();
+        int id = user.getId();
+        view.startPersonCenter(id);
+    }
+
+    @Override
+    public void onCommentItemClick(int position) {
+        DynamicInCircle dynamicInCircle = dynamicInCircles.get(position);
+        int dynamic_id = dynamicInCircle.getDynamic_id();
+        view.startCommentActivity(dynamic_id);
+    }
+
+    @Override
+    public void onLikeItemClick(final int position) {
+        if (!LoginContext.getInstance().isLogined()) {
+            view.showReqResult("请先去登录再进行操作");
+            return;
+        }
+        DynamicInCircle dynamicInCircle = dynamicInCircles.get(position);
+        int dynamic_id = dynamicInCircle.getDynamic_id();
+        //请求喜欢操作
+        UserAuths userAuths = getUserAuths();
+        int userId = userAuths.getUser_id();
+        String Authorization = Config.HEADER_BEARER + userAuths.getToken();
+        repertory.favorite(Authorization, userId, dynamic_id,
+                new ApiCallback<ApiResponse<OperationActionEntity>>() {
+                    @Override
+                    public void onSuccess(Response<ApiResponse<OperationActionEntity>> response) {
+                        if (view.isActive()) {
+                            view.showReqResult("操作成功");
+                            DynamicInCircle dynamicInCircle = dynamicInCircles.get(position);
+                            boolean has_favorite = dynamicInCircle.isHas_favorite();
+                            has_favorite = !has_favorite;
+                            dynamicInCircle.setHas_favorite(has_favorite);
+                            int count_of_favorite = dynamicInCircle.getCount_of_favorite();
+                            if (has_favorite) {
+                                count_of_favorite += 1;
+                            } else {
+                                count_of_favorite -= 1;
+                            }
+                            dynamicInCircle.setCount_of_favorite(count_of_favorite);
+                            bindData();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ApiResponse<OperationActionEntity>> response,
+                                        String error, ApiResponse<OperationActionEntity> apiResponse) {
+                        if (view.isActive()) {
+                            view.showReqResult("操作失败");
+                        }
+                    }
+
+                    @Override
+                    public void onFail() {
+                        if (view.isActive()) {
+                            view.showReqResult("操作失败");
+                        }
+                    }
+                });
     }
 
     /**

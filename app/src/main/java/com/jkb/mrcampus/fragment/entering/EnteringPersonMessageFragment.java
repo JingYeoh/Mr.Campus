@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.jkb.core.contract.entering.EnterPersonMessageContract;
 import com.jkb.core.presenter.entering.EnterPersonMessagePresenter;
+import com.jkb.model.net.ImageLoaderFactory;
+import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.EnteringActivity;
 import com.jkb.mrcampus.base.BaseFragment;
@@ -93,9 +95,9 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
 
 
     @Override
-    public void setHeadImg(Bitmap bitmap) {
-        if (bitmap != null)
-            ivHeadImg.setImageBitmap(bitmap);
+    public void setHeadImg(String  headImg) {
+        if (!StringUtils.isEmpty(headImg))
+            ImageLoaderFactory.getInstance().displayFromSDCard(headImg,ivHeadImg);
     }
 
     @Override
@@ -207,7 +209,7 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
     @Override
     public void onPhotoCropped(Uri uri) {
         Log.d(TAG, "Crop Uri in path: " + uri.getPath());
-        mPresenter.setHeadImagePath(uri.getPath());//设置头像
+        setHeadImg(uri.getPath());//设置头像
     }
 
     @Override

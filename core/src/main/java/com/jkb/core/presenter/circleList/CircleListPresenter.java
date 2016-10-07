@@ -118,6 +118,15 @@ public class CircleListPresenter implements CircleListContract.Presenter {
     }
 
     @Override
+    public void onCreateCircleClick() {
+        if (!LoginContext.getInstance().isLogined()) {
+            view.showReqResult("请先登录再进行操作");
+            return;
+        }
+        view.startCreateCircleActivity();
+    }
+
+    @Override
     public void start() {
         //得到用户id
         initCircleListData();

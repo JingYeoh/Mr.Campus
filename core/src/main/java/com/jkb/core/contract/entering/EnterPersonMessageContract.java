@@ -16,7 +16,7 @@ public interface EnterPersonMessageContract {
         /**
          * 设置头像
          */
-        void setHeadImg(Bitmap bitmap);
+        void setHeadImg(String headImg);
 
         /**
          * 显示选取头像的视图
@@ -37,13 +37,6 @@ public interface EnterPersonMessageContract {
          * 注册
          */
         void register();
-
-        /**
-         * 显示请求结果
-         *
-         * @param value
-         */
-        void showReqResult(String value);
 
         /**
          * 登录进入系统

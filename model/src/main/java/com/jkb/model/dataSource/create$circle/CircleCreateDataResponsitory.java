@@ -36,7 +36,12 @@ public class CircleCreateDataResponsitory implements CircleCreateDataSource {
     private CircleCreateDataSource remoteDataSource = null;
 
     @Override
-    public void createCircle(@NonNull int user_id, @NonNull int school_id, @NonNull String name, @NonNull String introduction, @NonNull double latiude, @NonNull double longitude, @NonNull String authorization, MultipartBody.Part image, String flag, ApiCallback<ApiResponse<CircleCreateEntity>> apiCallback) {
-        remoteDataSource.createCircle(user_id, school_id, name, introduction, latiude, longitude, authorization, image, flag, apiCallback);
+    public void createCircle(
+            @NonNull int user_id, @NonNull int school_id, @NonNull String name,
+            @NonNull String introduction, @NonNull String tag, @NonNull double latitude,
+            @NonNull double longitude, @NonNull String authorization, MultipartBody.Part image,
+            String flag, ApiCallback<ApiResponse<CircleCreateEntity>> apiCallback) {
+        remoteDataSource.createCircle(user_id, school_id, name, introduction, tag,
+                latitude, longitude, authorization, image, flag, apiCallback);
     }
 }

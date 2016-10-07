@@ -61,4 +61,11 @@ public class CircleIndexDataRepertory implements CircleIndexDataSource {
             @NonNull ApiCallback<ApiResponse<DynamicInCircleListEntity>> apiCallback) {
         remoteDataSource.getAllDynamicInCircle(Authorization, circleId, page, apiCallback);
     }
+
+    @Override
+    public void favorite(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
+        remoteDataSource.favorite(Authorization, user_id, target_id, apiCallback);
+    }
 }

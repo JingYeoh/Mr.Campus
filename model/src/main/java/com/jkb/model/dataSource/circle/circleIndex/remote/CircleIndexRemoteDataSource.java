@@ -118,4 +118,19 @@ public class CircleIndexRemoteDataSource implements CircleIndexDataSource {
         }.getType();
         new ApiEngine<ApiResponse<DynamicInCircleListEntity>>(apiCallback, call, type);
     }
+
+    @Override
+    public void favorite(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
+        ApiFactoryImpl factory = ApiFactoryImpl.newInstance();
+        factory.setHttpClient(factory.genericClient());
+        factory.initRetrofit();
+        OperationApi operationApi = factory.createApi(OperationApi.class);
+        Call<ApiResponse<OperationActionEntity>> call;
+        call = operationApi.like(Authorization, Config.ACTION_FAVORITE, user_id, target_id);
+        Type type = new TypeToken<ApiResponse<OperationActionEntity>>() {
+        }.getType();
+        new ApiEngine<ApiResponse<OperationActionEntity>>(apiCallback, call, type);
+    }
 }

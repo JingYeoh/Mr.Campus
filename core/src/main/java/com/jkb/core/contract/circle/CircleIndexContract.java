@@ -1,10 +1,12 @@
 package com.jkb.core.contract.circle;
 
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
 import com.jkb.core.data.dynamic.circle.DynamicInCircle;
+import com.jkb.core.data.dynamic.dynamic.DynamicBaseData;
 
 import java.util.List;
 
@@ -42,6 +44,13 @@ public interface CircleIndexContract {
          * 隐藏刷新视图
          */
         void hideRefreshingView();
+
+        /**
+         * 显示分享的视图
+         *
+         * @param position 条木数
+         */
+        void showShareView(@NonNull int position);
 
         /**
          * 设置标题栏名称
@@ -116,6 +125,27 @@ public interface CircleIndexContract {
          */
         void showBigPictureView();
 
+        /**
+         * 打开动态详情页面
+         *
+         * @param dynamic_id  动态id
+         * @param dynamicType 动态类型
+         */
+        void startDynamicActivity(@NonNull int dynamic_id, @NonNull String dynamicType);
+
+        /**
+         * 打开评论页面
+         *
+         * @param dynamic_id 动态id
+         */
+        void startCommentActivity(@NonNull int dynamic_id);
+
+        /**
+         * 打开个人中心页面
+         *
+         * @param user_id 用户id
+         */
+        void startPersonCenter(@NonNull int user_id);
     }
 
     interface Presenter extends BasePresenter {
@@ -154,5 +184,33 @@ public interface CircleIndexContract {
          * 请求订阅/取消订阅圈子
          */
         void subscribeOrCancleCircle();
+
+        /**
+         * 圈子内动态条目点击事件
+         *
+         * @param position 条目数
+         */
+        void onDynamicInCircleItemClick(int position);
+
+        /**
+         * 头像的点击监听事件
+         *
+         * @param position 条目数
+         */
+        void onHeadImgItemClick(int position);
+
+        /**
+         * 评论的点击监听事件
+         *
+         * @param position 条目数
+         */
+        void onCommentItemClick(int position);
+
+        /**
+         * 喜欢的点击监听事件
+         *
+         * @param position 条目数
+         */
+        void onLikeItemClick(int position);
     }
 }

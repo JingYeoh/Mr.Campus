@@ -32,7 +32,11 @@ public class CircleCreateLocalDataSource implements CircleCreateDataSource {
     }
 
     @Override
-    public void createCircle(@NonNull int user_id, @NonNull int school_id, @NonNull String name, @NonNull String introduction, @NonNull double latiude, @NonNull double longitude, @NonNull String authorization, MultipartBody.Part image, String flag, ApiCallback<ApiResponse<CircleCreateEntity>> apiCallback) {
-
+    public void createCircle(
+            @NonNull int user_id, @NonNull int school_id, @NonNull String name,
+            @NonNull String introduction, @NonNull String tag,
+            @NonNull double latitude, @NonNull double longitude, @NonNull String authorization,
+            MultipartBody.Part image, String flag,
+            ApiCallback<ApiResponse<CircleCreateEntity>> apiCallback) {
     }
 }

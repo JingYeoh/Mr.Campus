@@ -59,7 +59,6 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
         viewHolder.tvOperationNum = (TextView) view.findViewById(R.id.icl_tv_operationCount);
         viewHolder.tvDynamicNum = (TextView) view.findViewById(R.id.icl_tv_dynamicsCount);
         viewHolder.ivPicture = (ImageView) view.findViewById(R.id.icl_iv_picture);
-        viewHolder.ivPicBg = (ImageView) view.findViewById(R.id.icl_iv_picBg);
 
         viewHolder.content.setOnClickListener(this);
 
@@ -79,22 +78,17 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
         holder.tvType.setText(data.getCircleType());
         String picUrl = data.getPictureUrl();
         if (!StringUtils.isEmpty(picUrl)) {
-            loadImage(holder.ivPicBg, holder.ivPicture, picUrl);
-//            setImageLoad(holder.ivPicture, holder.ivPicBg, picUrl);
+            loadImage(holder.ivPicture, picUrl);
         } else {
             holder.ivPicture.setImageResource(R.color.default_picture);
-            holder.ivPicBg.setImageResource(R.color.default_picture);
         }
     }
 
     /**
      * 加载图片
      */
-    private void loadImage(ImageView ivPicBg, ImageView ivPicture, String picUrl) {
-//        ivPicture.setTag(picUrl);
+    private void loadImage(ImageView ivPicture, String picUrl) {
         ImageLoaderFactory.getInstance().displayImage(ivPicture, picUrl);
-//        ImageLoaderFactory.getInstance().displayImage(ivPicBg, picUrl);
-        ImageLoaderFactory.getInstance().displayBlurImage(ivPicBg, picUrl, 25, 5);
     }
 
     @Override
@@ -127,7 +121,6 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
 
         TextView tvName;
         ImageView ivPicture;
-        ImageView ivPicBg;
         TextView tvType;
         TextView tvDynamicNum;
         TextView tvOperationNum;

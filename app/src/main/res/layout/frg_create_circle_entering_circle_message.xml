@@ -2,47 +2,257 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/fccecm_ib_chooseHeadImg"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="选择头像" />
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-    <Button
-        android:id="@+id/fccecm_bt_chooseSchool"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="选择学校" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/fccecm_bt_chooseCoordinate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="选择坐标" />
+            <LinearLayout
+                android:id="@+id/fccecm_contentInputCircleName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selecter_clearity_gravy"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
 
-    <Button
-        android:id="@+id/fccecm_bt_chooseBackground"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="添加背景图片" />
+                <TextView
+                    style="@style/PersonSettingTextPromptStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="圈子名称" />
 
-    <EditText
-        android:id="@+id/fccecm_et_circleName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="圈子名称" />
+                <TextView
+                    android:id="@+id/fccecm_et_circleName"
+                    style="@style/PersonSettingTextShowStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="20dp"
+                    android:singleLine="true" />
 
-    <EditText
-        android:id="@+id/fccecm_et_circleIntroduction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="圈子简介" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/aliwx_arrow" />
+            </LinearLayout>
 
-    <Button
-        android:id="@+id/fccecm_bt_createCircle"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/main_theme" />
+
+            <LinearLayout
+                android:id="@+id/fccecm_contentInputCircleBref"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selecter_clearity_gravy"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    style="@style/PersonSettingTextPromptStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="简介" />
+
+                <TextView
+                    android:id="@+id/fccecm_et_circleIntroduction"
+                    style="@style/PersonSettingTextShowStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="20dp"
+                    android:singleLine="true" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/aliwx_arrow" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/main_theme" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+
+                <TextView
+                    style="@style/PersonSettingTextPromptStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:text="背景" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/fccecm_iv_chooseBackground"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:src="@color/default_picture" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/main_theme" />
+
+
+            <LinearLayout
+                android:id="@+id/fccecm_contentInputCircleTag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selecter_clearity_gravy"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    style="@style/PersonSettingTextPromptStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="标签" />
+
+                <TextView
+                    android:id="@+id/fccecm_et_circleTag"
+                    style="@style/PersonSettingTextShowStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="20dp"
+                    android:singleLine="true"
+                    android:textColor="@color/main_theme_green" />
+
+                <ImageView
+                    android:id="@+id/fccecm_iv_addTag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_add_green" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/background_general" />
+
+            <LinearLayout
+                android:id="@+id/fccecm_contentChooseSchool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selecter_clearity_gravy"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    style="@style/PersonSettingTextPromptStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="选择学校" />
+
+                <TextView
+                    android:id="@+id/fccecm_tv_schoolName"
+                    style="@style/PersonSettingTextShowStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="20dp"
+                    android:singleLine="true" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/aliwx_arrow" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/main_theme" />
+
+            <LinearLayout
+                android:id="@+id/fccecm_contentChooseCoordinate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selecter_clearity_gravy"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
+
+                <TextView
+                    style="@style/PersonSettingTextPromptStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:gravity="center"
+                    android:text="选择驻扎点" />
+
+                <TextView
+                    android:id="@+id/fccecm_tv_coordinate"
+                    style="@style/PersonSettingTextShowStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="20dp"
+                    android:singleLine="true" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/aliwx_arrow" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/main_theme" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="创建圈子" />
+        android:layout_height="0.01dp"
+        android:background="@color/line"/>
+    <include layout="@layout/title_style_8" />
 </LinearLayout>

@@ -23,7 +23,8 @@ public interface CircleCreateDataSource extends BaseDataSource {
      * @param school_id     必选
      * @param name          必选
      * @param introduction  必选
-     * @param latiude       必选
+     * @param tag           标签 必须
+     * @param latitude      必选
      * @param longitude     必选
      * @param authorization 必选
      * @param image         可选
@@ -31,7 +32,7 @@ public interface CircleCreateDataSource extends BaseDataSource {
      */
     void createCircle(
             @NonNull int user_id, @NonNull int school_id, @NonNull String name,
-            @NonNull String introduction, @NonNull double latiude, @NonNull double longitude,
+            @NonNull String introduction, @NonNull String tag, @NonNull double latitude, @NonNull double longitude,
             @NonNull String authorization, MultipartBody.Part image, String flag,
             ApiCallback<ApiResponse<CircleCreateEntity>> apiCallback);
 }

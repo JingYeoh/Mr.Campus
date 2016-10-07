@@ -7,6 +7,9 @@ import com.jkb.api.entity.dynamic.DynamicPopularListEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.core.data.dynamic.hot.HotDynamic;
 import com.jkb.core.data.dynamic.hot.circle.CircleDynamic;
+import com.jkb.core.data.dynamic.hot.dynamic.circle.CircleArticleDynamic;
+import com.jkb.core.data.dynamic.hot.dynamic.circle.CircleNormalDynamic;
+import com.jkb.core.data.dynamic.hot.dynamic.circle.CircleTopicDynamic;
 import com.jkb.core.data.dynamic.hot.dynamic.circle.DynamicInCircleDynamic;
 import com.jkb.core.data.dynamic.hot.dynamic.original.OriginalArticleDynamic;
 import com.jkb.core.data.dynamic.hot.dynamic.original.OriginalDynamic;
@@ -136,6 +139,8 @@ public class HotPresenter implements HotContract.Presenter {
             onDynamicNormalClick(hotDynamic);
         } else if (hotDynamic instanceof OriginalTopicDynamic) {//动态：话题
             onDynamicTopicClick(hotDynamic);
+        } else if (hotDynamic instanceof DynamicInCircleDynamic) {//圈子内动态
+            onDynamicInCircleClick(hotDynamic);
         }
     }
 
@@ -354,6 +359,21 @@ public class HotPresenter implements HotContract.Presenter {
         OriginalTopicDynamic topicDynamic = (OriginalTopicDynamic) hotDynamic;
         int dynamic_id = topicDynamic.getDynamic_id();
         view.startDynamicDetail(dynamic_id, Config.D_TYPE_TOPIC);
+    }
+
+    /**
+     * 圈子内动态点击
+     */
+    private void onDynamicInCircleClick(HotDynamic hotDynamic) {
+        DynamicInCircleDynamic dynamic = (DynamicInCircleDynamic) hotDynamic;
+        int dynamic_id = dynamic.getDynamic_id();
+        if (hotDynamic instanceof CircleArticleDynamic) {
+            view.startDynamicDetail(dynamic_id, Config.D_TYPE_ARTICLE);
+        } else if (hotDynamic instanceof CircleNormalDynamic) {
+            view.startDynamicDetail(dynamic_id, Config.D_TYPE_NORMAL);
+        } else if (hotDynamic instanceof CircleTopicDynamic) {
+            view.startDynamicDetail(dynamic_id, Config.D_TYPE_TOPIC);
+        }
     }
 
     /**

@@ -37,6 +37,10 @@ public interface CircleListContract {
          */
         void setCircleData(List<CircleData> circleData);
 
+        /**
+         * 打开创建圈子的页面
+         */
+        void startCreateCircleActivity();
 
         /**
          * 绑定用户id
@@ -80,5 +84,10 @@ public interface CircleListContract {
          * @return 圈子id
          */
         int getCircleId(int position);
+
+        /**
+         * 当创建圈子页面被点击的时候
+         */
+        void onCreateCircleClick();
     }
 }

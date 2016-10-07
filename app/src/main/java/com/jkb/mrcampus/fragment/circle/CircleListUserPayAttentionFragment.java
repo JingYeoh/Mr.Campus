@@ -29,7 +29,9 @@ import java.util.List;
  */
 
 public class CircleListUserPayAttentionFragment extends BaseFragment
-        implements CircleListContract.View, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+        implements CircleListContract.View,
+        SwipeRefreshLayout.OnRefreshListener,
+        View.OnClickListener {
 
 
     private static CircleListUserPayAttentionFragment INSTANCE = null;
@@ -78,8 +80,8 @@ public class CircleListUserPayAttentionFragment extends BaseFragment
         recyclerView.addOnScrollListener(onScrollListener);//设置滑动监听，设置是否下拉刷新
 
         //其他点击事件
-        rootView.findViewById(R.id.ts4_ib_left).setOnClickListener(this);
-
+        rootView.findViewById(R.id.ts8_ib_left).setOnClickListener(this);
+        rootView.findViewById(R.id.ts8_tv_right).setOnClickListener(this);
     }
 
     @Override
@@ -124,11 +126,10 @@ public class CircleListUserPayAttentionFragment extends BaseFragment
         staggeredGridLayoutManager = new
                 StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(staggeredGridLayoutManager);
-        recyclerView.addItemDecoration(new DividerGridItemDecoration(mActivity));
-        recyclerView.setItemAnimator(new NoAlphaItemAnimator());//设置无动画,解决闪屏问题
 
         //初始化标题栏
-        ((TextView) rootView.findViewById(R.id.ts4_tv_name)).setText("所有圈子");
+        ((TextView) rootView.findViewById(R.id.ts8_tv_name)).setText("所有圈子");
+        ((TextView) rootView.findViewById(R.id.ts8_tv_right)).setText("创建圈子");
     }
 
     /**
@@ -162,8 +163,11 @@ public class CircleListUserPayAttentionFragment extends BaseFragment
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ts4_ib_left:
+            case R.id.ts8_ib_left://返回
                 circleListActivity.backToLastView();
+                break;
+            case R.id.ts8_tv_right://创建圈子
+                mPresenter.onCreateCircleClick();
                 break;
         }
     }
@@ -192,6 +196,11 @@ public class CircleListUserPayAttentionFragment extends BaseFragment
     public void setCircleData(List<CircleData> circleData) {
         circleListAdapter.circleDatas = circleData;
         circleListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void startCreateCircleActivity() {
+        circleListActivity.startCreateCircleActivity();
     }
 
     @Override

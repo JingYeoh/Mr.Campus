@@ -22,6 +22,7 @@ import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleActivity;
 import com.jkb.mrcampus.activity.CircleListActivity;
 import com.jkb.mrcampus.activity.CommentActivity;
+import com.jkb.mrcampus.activity.CreateCircleActivity;
 import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
@@ -210,10 +211,15 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
         startActivityWithPushLeftAnim(intent);
     }
 
+    @Override
+    public void startCreateCircleActivity() {
+        //显示创建圈子视图
+        Intent intent = new Intent(this, CreateCircleActivity.class);
+        startActivityWithPushLeftAnim(intent);
+    }
+
     /**
-     * 顯示Toash信息：短的
-     *
-     * @param value
+     * 顯示Toast信息：短的
      */
 
     public void showShortToast(String value) {
@@ -224,9 +230,7 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
     }
 
     /**
-     * 显示Toash信息：长的
-     *
-     * @param value
+     * 显示Toast信息：长的
      */
     public void showLongToast(String value) {
         if (value == null || value.isEmpty()) {

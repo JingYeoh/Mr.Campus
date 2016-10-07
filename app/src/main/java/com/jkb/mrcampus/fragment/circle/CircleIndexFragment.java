@@ -1,6 +1,7 @@
 package com.jkb.mrcampus.fragment.circle;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -15,14 +16,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jkb.api.config.Config;
 import com.jkb.core.contract.circle.CircleIndexContract;
 import com.jkb.core.data.dynamic.circle.DynamicInCircle;
+import com.jkb.core.data.dynamic.dynamic.DynamicBaseData;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleActivity;
+import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.adapter.recycler.DynamicCircleAdapter;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 
 import java.util.List;
 
@@ -123,6 +128,13 @@ public class CircleIndexFragment extends BaseFragment
         //设置下拉加载
         recyclerView.addOnScrollListener(onScrollListener);//设置滑动监听，设置是否下拉刷新
         refreshLayout.setOnRefreshListener(this);
+
+        //设置适配器的条目监听点击事件
+        dynamicCircleAdapter.setOnDynamicInCircleItemClickListener(onDynamicInCircleItemClickListener);
+        dynamicCircleAdapter.setOnShareClickListener(onShareClickListener);
+        dynamicCircleAdapter.setOnCommentClickListener(onCommentClickListener);
+        dynamicCircleAdapter.setOnHeadImgClickListener(onHeadImgClickListener);
+        dynamicCircleAdapter.setOnLikeClickListener(onLikeClickListener);
     }
 
     @Override
@@ -265,6 +277,42 @@ public class CircleIndexFragment extends BaseFragment
     }
 
     @Override
+    public void showShareView(@NonNull int position) {
+        circleActivity.showShareDynamicView(
+                new ShareDynamicDialogFragment.OnShareItemClickListener() {
+                    @Override
+                    public void onWechatClick() {
+
+                    }
+
+                    @Override
+                    public void onWechatCircleClick() {
+
+                    }
+
+                    @Override
+                    public void onQQClick() {
+
+                    }
+
+                    @Override
+                    public void onQQZoneClick() {
+
+                    }
+
+                    @Override
+                    public void onSinaClick() {
+
+                    }
+
+                    @Override
+                    public void onCircleClick() {
+
+                    }
+                });
+    }
+
+    @Override
     public void setTitleName(String titleName) {
         ((TextView) rootView.findViewById(R.id.ts5_tv_name)).setText(titleName);
     }
@@ -345,6 +393,32 @@ public class CircleIndexFragment extends BaseFragment
     }
 
     @Override
+    public void startDynamicActivity(@NonNull int dynamic_id, @NonNull String dynamicType) {
+        switch (dynamicType) {
+            case Config.D_TYPE_ARTICLE:
+                dynamicType = DynamicDetailActivity.SHOW_DYNAMIC_TYPE_ARTICLE;
+                break;
+            case Config.D_TYPE_NORMAL:
+                dynamicType = DynamicDetailActivity.SHOW_DYNAMIC_TYPE_NORMAL;
+                break;
+            case Config.D_TYPE_TOPIC:
+                dynamicType = DynamicDetailActivity.SHOW_DYNAMIC_TYPE_TOPIC;
+                break;
+        }
+        circleActivity.startDynamicActivity(dynamic_id, dynamicType);
+    }
+
+    @Override
+    public void startCommentActivity(@NonNull int dynamic_id) {
+        circleActivity.startCommentListActivity(dynamic_id);
+    }
+
+    @Override
+    public void startPersonCenter(@NonNull int user_id) {
+        circleActivity.startPersonalCenterActivity(user_id);
+    }
+
+    @Override
     public void setPresenter(CircleIndexContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -384,11 +458,6 @@ public class CircleIndexFragment extends BaseFragment
             super.onScrolled(recyclerView, dx, dy);
             int lastVisibleItem = (linearLayoutManager).findLastVisibleItemPosition();
             int totalItemCount = linearLayoutManager.getItemCount();
-            if (lastVisibleItem > 5) {
-                rootView.findViewById(R.id.fhh_iv_floatBt_top).setVisibility(View.VISIBLE);
-            } else {
-                rootView.findViewById(R.id.fhh_iv_floatBt_top).setVisibility(View.GONE);
-            }
             if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
                 mPresenter.onLoadMore();//设置下拉加载
             }
@@ -400,4 +469,56 @@ public class CircleIndexFragment extends BaseFragment
         //刷新数据
         mPresenter.onRefresh();//无用
     }
+
+    /**
+     * 圈子内动态的条目点击事件
+     */
+    private DynamicCircleAdapter.OnDynamicInCircleItemClickListener
+            onDynamicInCircleItemClickListener =
+            new DynamicCircleAdapter.OnDynamicInCircleItemClickListener() {
+                @Override
+                public void onDynamicInCircleClick(int position) {
+                    mPresenter.onDynamicInCircleItemClick(position);
+                }
+            };
+    /**
+     * 分享的点击监听事件
+     */
+    private DynamicCircleAdapter.OnShareClickListener onShareClickListener =
+            new DynamicCircleAdapter.OnShareClickListener() {
+                @Override
+                public void onShareClick(int position) {
+                    showShareView(position);
+                }
+            };
+    /**
+     * 评论的点击监听事件
+     */
+    private DynamicCircleAdapter.OnCommentClickListener onCommentClickListener =
+            new DynamicCircleAdapter.OnCommentClickListener() {
+                @Override
+                public void onCommentClick(int position) {
+                    mPresenter.onCommentItemClick(position);
+                }
+            };
+    /**
+     * 头像的点击监听事件
+     */
+    private DynamicCircleAdapter.OnHeadImgClickListener onHeadImgClickListener =
+            new DynamicCircleAdapter.OnHeadImgClickListener() {
+                @Override
+                public void onHeadImgClick(int position) {
+                    mPresenter.onHeadImgItemClick(position);
+                }
+            };
+    /**
+     * 点赞的点击监听事件
+     */
+    private DynamicCircleAdapter.OnLikeClickListener onLikeClickListener =
+            new DynamicCircleAdapter.OnLikeClickListener() {
+                @Override
+                public void onLikeClick(int position) {
+                    mPresenter.onLikeItemClick(position);
+                }
+            };
 }
