@@ -40,12 +40,29 @@ public interface BaseActivityAction {
      */
     void showSelectSchoolView();
 
+
+    /**
+     * 分享
+     *
+     * @param title    title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+     * @param titleUrl titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+     * @param text     text是分享文本，所有平台都需要这个字段
+     * @param imageUrl 分享网络图片，新浪微博分享网络图片需要通过审核后申请高级写入接口，否则请注释掉测试新浪微博
+     * @param url      url仅在微信（包括好友和朋友圈）中使用
+     * @param site     site是分享此内容的网站名称，仅在QQ空间使用
+     * @param siteUrl  siteUrl是分享此内容的网站地址，仅在QQ空间使用
+     */
+    void share(
+            String title, String titleUrl, String text, String imageUrl, String url,
+            String site, String siteUrl);
+
     /**
      * 打开动态详情页面
      *
      * @param dynamic_id  动态id
      * @param dynamicType 动态类型
      */
+
     void startDynamicActivity(@NonNull int dynamic_id, @NonNull String dynamicType);
 
     /**

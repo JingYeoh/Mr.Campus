@@ -24,7 +24,7 @@ public interface DynamicHotDataSource {
      * @param apiCallback   回调
      */
     void getAllHotDynamic(
-            @NonNull String Authorization, @NonNull int schoolId, @NonNull int page,
+            String Authorization, @NonNull int schoolId, @NonNull int page,
             @NonNull ApiCallback<ApiResponse<DynamicPopularListEntity>> apiCallback);
 
     /**

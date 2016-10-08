@@ -113,8 +113,6 @@ public class HotPresenter implements HotContract.Presenter {
 
     @Override
     public void onLoadMore() {
-//        Log.i(TAG,"isRefreshing="+isRefreshing);
-//        Log.i(TAG,"页面控制器的数据是------------\n"+pageControl.toString());
         if (isRefreshing) {
             return;
         }

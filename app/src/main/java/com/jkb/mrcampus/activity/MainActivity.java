@@ -12,6 +12,7 @@ import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.core.control.userstate.UserState;
 import com.jkb.core.presenter.function.index.HomePagePresenter;
+import com.jkb.core.presenter.function.setting.FunctionSettingPresenter;
 import com.jkb.core.presenter.menu.MenuPresenter;
 import com.jkb.core.presenter.menu.RightMenuPresenter;
 import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
@@ -58,6 +59,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
 
     //设置
     private SettingFragment settingFragment;
+    private FunctionSettingPresenter functionSettingPresenter;
 
     //服务
 //    private LocationService locationService;
@@ -130,6 +132,8 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
             homePagePresenter = new HomePagePresenter(homePageFragment, this);
         } else if (SettingFragment.class.getName().equals(fragmentTAG)) {
             settingFragment = (SettingFragment) fm.findFragmentByTag(fragmentTAG);
+            functionSettingPresenter = new FunctionSettingPresenter(settingFragment,
+                    Injection.provideFunctionSettingDataRepertory(getApplicationContext()));
         }
     }
 
@@ -402,6 +406,10 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         if (settingFragment == null) {
             settingFragment = SettingFragment.newInstance();
             ActivityUtils.addFragmentToActivity(fm, settingFragment, R.id.fm_content);
+        }
+        if (functionSettingPresenter == null) {
+            functionSettingPresenter = new FunctionSettingPresenter(settingFragment,
+                    Injection.provideFunctionSettingDataRepertory(getApplicationContext()));
         }
     }
 

@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 
 import com.jkb.api.config.Config;
 import com.jkb.core.Injection;
-import com.jkb.core.data.dynamic.hot.HotDynamic;
 import com.jkb.core.contract.function.index.HotContract;
+import com.jkb.core.data.dynamic.hot.HotDynamic;
 import com.jkb.core.presenter.function.index.hot.HotPresenter;
 import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.mrcampus.R;

@@ -33,7 +33,7 @@ public class DynamicHotLocalDataSource implements DynamicHotDataSource {
 
     @Override
     public void getAllHotDynamic(
-            @NonNull String Authorization, @NonNull int schoolId, @NonNull int page,
+            String Authorization, @NonNull int schoolId, @NonNull int page,
             @NonNull ApiCallback<ApiResponse<DynamicPopularListEntity>> apiCallback) {
 
     }

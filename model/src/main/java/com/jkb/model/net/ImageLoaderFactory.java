@@ -10,7 +10,10 @@ import android.widget.ImageView;
 import com.jkb.api.config.Config;
 import com.jkb.model.R;
 import com.jkb.model.utils.BitmapUtils;
+import com.jkb.model.utils.FileSizeUtil;
+import com.jkb.model.utils.FileUtils;
 import com.jkb.model.utils.StringUtils;
+import com.nostra13.universalimageloader.cache.disc.DiskCache;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -175,6 +178,31 @@ public class ImageLoaderFactory {
         // String imageUri = "content://media/external/audio/albumart/13"; //
         // from content provider
         ImageLoader.getInstance().displayImage("content://" + uri, imageView);
+    }
+
+    /**
+     * 清楚内存缓存
+     */
+    public void clearMenoryCache() {
+        ImageLoader.getInstance().clearMemoryCache();
+    }
+
+    /**
+     * 清楚硬盘缓存
+     */
+    public void clearDeskCache() {
+        ImageLoader.getInstance().clearDiskCache();
+    }
+
+    /**
+     * 得到缓存的大小
+     */
+    public double getDeskCacheSize() {
+        double deskCacheSize = 0;
+        DiskCache diskCache = ImageLoader.getInstance().getDiskCache();
+        File directory = diskCache.getDirectory();
+        deskCacheSize = FileSizeUtil.getFileOrFilesSize(directory.getPath(), 3);
+        return deskCacheSize;
     }
 
     public DisplayImageOptions getDisplayOptions() {

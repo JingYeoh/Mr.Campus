@@ -131,4 +131,16 @@ public interface DynamicApi {
             @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
             @Path(Config.KEY_SCHOOLID) int schoolId,
             @Query(Config.KEY_PAGE) int page);
+
+    /**
+     * 得到所有的热门动态
+     *
+     * @param schoolId 学校id，必选
+     * @param page     分页
+     * @return Call
+     */
+    @GET(Config.URL_DYNAMIC_POPULAY_ALL)
+    Call<ApiResponse<DynamicPopularListEntity>> getAllPopularDynamic(
+            @Path(Config.KEY_SCHOOLID) int schoolId,
+            @Query(Config.KEY_PAGE) int page);
 }

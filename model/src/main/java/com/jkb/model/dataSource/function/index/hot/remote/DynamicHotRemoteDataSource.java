@@ -1,6 +1,7 @@
 package com.jkb.model.dataSource.function.index.hot.remote;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.gson.reflect.TypeToken;
 import com.jkb.api.ApiCallback;
@@ -15,6 +16,7 @@ import com.jkb.api.net.dynamic.DynamicApi;
 import com.jkb.api.net.operation.OperationApi;
 import com.jkb.api.net.user.UserActionApi;
 import com.jkb.model.dataSource.function.index.hot.DynamicHotDataSource;
+import com.jkb.model.utils.StringUtils;
 
 import java.lang.reflect.Type;
 
@@ -42,14 +44,19 @@ public class DynamicHotRemoteDataSource implements DynamicHotDataSource {
 
     @Override
     public void getAllHotDynamic(
-            @NonNull String Authorization, @NonNull int schoolId, @NonNull int page,
+            String Authorization, @NonNull int schoolId, @NonNull int page,
             @NonNull ApiCallback<ApiResponse<DynamicPopularListEntity>> apiCallback) {
         ApiFactoryImpl factory = ApiFactoryImpl.newInstance();
         factory.setHttpClient(factory.genericClient());
         factory.initRetrofit();
         DynamicApi dynamicApi = factory.createApi(DynamicApi.class);
         Call<ApiResponse<DynamicPopularListEntity>> call;
-        call = dynamicApi.getAllPopularDynamic(Authorization, schoolId, page);
+        Log.d("HotRemote", "Authorization=" + Authorization);
+        if (StringUtils.isEmpty(Authorization)) {
+            call = dynamicApi.getAllPopularDynamic(schoolId, page);
+        } else {
+            call = dynamicApi.getAllPopularDynamic(Authorization, schoolId, page);
+        }
         Type type = new TypeToken<ApiResponse<DynamicPopularListEntity>>() {
         }.getType();
         new ApiEngine<ApiResponse<DynamicPopularListEntity>>(apiCallback, call, type);

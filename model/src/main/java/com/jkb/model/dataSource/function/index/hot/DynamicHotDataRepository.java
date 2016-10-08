@@ -36,7 +36,7 @@ public class DynamicHotDataRepository implements DynamicHotDataSource {
 
     @Override
     public void getAllHotDynamic(
-            @NonNull String Authorization, @NonNull int schoolId, @NonNull int page,
+            String Authorization, @NonNull int schoolId, @NonNull int page,
             @NonNull ApiCallback<ApiResponse<DynamicPopularListEntity>> apiCallback) {
         remoteDataSource.getAllHotDynamic(Authorization, schoolId, page, apiCallback);
     }

@@ -32,6 +32,7 @@ import com.jkb.mrcampus.fragment.dialog.SelectSchoolFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.TagFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
+import com.jkb.mrcampus.net.ShareFactory;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.utils.ClassUtils;
@@ -65,6 +66,8 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
 
     //单例类
     protected ActivityStackManager activityManager;
+
+    private ShareFactory shareFactory;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -465,5 +468,14 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
             selectSchoolFloatFragment.show(getFragmentManager(),
                     ClassUtils.getClassName(SelectSchoolFloatFragment.class));
         }
+    }
+
+    @Override
+    public void share(String title, String titleUrl, String text, String imageUrl, String url,
+                      String site, String siteUrl) {
+        if (shareFactory == null) {
+            shareFactory = new ShareFactory(getApplicationContext());
+        }
+        shareFactory.share(title, titleUrl, text, imageUrl, url, site, siteUrl);
     }
 }

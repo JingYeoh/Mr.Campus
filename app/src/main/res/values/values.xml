@@ -134,6 +134,11 @@
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
+    <!--设置显示字体-->
+    <style name="SystemSettingTextShowStyle">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/black_200</item>
+    </style>
     <!--小功能图标-->
     <style name="FunctionSetIcStyle">
         <item name="android:layout_width">40dp</item>

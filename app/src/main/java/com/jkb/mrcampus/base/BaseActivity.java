@@ -39,6 +39,7 @@ import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.TagFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.TextFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
+import com.jkb.mrcampus.net.ShareFactory;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.utils.ClassUtils;
@@ -76,6 +77,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     //单例类
     protected ActivityStackManager activityManager;
 
+    private ShareFactory shareFactory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,8 +95,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
 
     /**
      * 初始化方法
-     *
-     * @param savedInstanceState
      */
     protected void init(Bundle savedInstanceState) {
         context = this;
@@ -110,8 +111,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
 
     /**
      * 初始化数据
-     *
-     * @param savedInstanceState
      */
     protected abstract void initData(Bundle savedInstanceState);
 
@@ -442,8 +441,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
 
     /**
      * 选择图片方式的监听器
-     *
-     * @param listener
      */
     public void setChoosePictureWayListener(ChoosePictureFragment.PictureChooseWayListener listener) {
         if (choosePictureFragment != null) {
@@ -584,5 +581,14 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
             selectSchoolFloatFragment.show(getFragmentManager(),
                     ClassUtils.getClassName(SelectSchoolFloatFragment.class));
         }
+    }
+
+    @Override
+    public void share(String title, String titleUrl, String text, String imageUrl, String url,
+                      String site, String siteUrl) {
+        if (shareFactory == null) {
+            shareFactory = new ShareFactory(getApplicationContext());
+        }
+        shareFactory.share(title, titleUrl, text, imageUrl, url, site, siteUrl);
     }
 }

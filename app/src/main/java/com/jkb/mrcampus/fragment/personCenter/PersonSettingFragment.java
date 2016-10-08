@@ -145,8 +145,8 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
 
     @Override
     public void setHeadImg(String bitmap) {
-        CircleImageView circleImageView= ((CircleImageView) rootView.findViewById(R.id.fps_iv_headImg));
-        ImageLoaderFactory.getInstance().displayImage(circleImageView,bitmap);
+        CircleImageView circleImageView = ((CircleImageView) rootView.findViewById(R.id.fps_iv_headImg));
+        ImageLoaderFactory.getInstance().displayImage(circleImageView, bitmap);
     }
 
     @Override
@@ -172,8 +172,8 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
 
     @Override
     public void setBackGround(String bitmap) {
-        ImageView imageView=((ImageView) rootView.findViewById(R.id.fps_iv_backGround));
-        ImageLoaderFactory.getInstance().displayImage(imageView,bitmap);
+        ImageView imageView = ((ImageView) rootView.findViewById(R.id.fps_iv_backGround));
+        ImageLoaderFactory.getInstance().displayImage(imageView, bitmap);
     }
 
     @Override
