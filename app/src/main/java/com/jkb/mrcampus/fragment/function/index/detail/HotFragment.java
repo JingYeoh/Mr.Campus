@@ -1,4 +1,4 @@
-package com.jkb.mrcampus.fragment.function.index;
+package com.jkb.mrcampus.fragment.function.index.detail;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

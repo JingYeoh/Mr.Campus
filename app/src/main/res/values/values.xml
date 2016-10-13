@@ -19,7 +19,7 @@
 
     <!--标题栏名称样式-->
     <style name="titleNameStyle">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <!--tabLayout的主题-->
@@ -132,6 +132,11 @@
     <!--个人中心显示字体-->
     <style name="PersonSettingTextShowStyle">
         <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <!--个人中心显示字体-->
+    <style name="MessageCenterTextCountStyle">
+        <item name="android:textSize">10sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
     <!--设置显示字体-->

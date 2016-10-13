@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.jkb.mrcampus.fragment.function.index.DynamicFragment;
-import com.jkb.mrcampus.fragment.function.index.HotFragment;
+import com.jkb.mrcampus.fragment.function.index.detail.DynamicFragment;
+import com.jkb.mrcampus.fragment.function.index.detail.HotFragment;
 
 /**
  * 首页HomePageFragment的适配器

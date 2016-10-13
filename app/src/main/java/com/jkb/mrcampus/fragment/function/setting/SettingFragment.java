@@ -1,4 +1,4 @@
-package com.jkb.mrcampus.fragment.function;
+package com.jkb.mrcampus.fragment.function.setting;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

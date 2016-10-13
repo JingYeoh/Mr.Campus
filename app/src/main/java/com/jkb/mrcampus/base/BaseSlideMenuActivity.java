@@ -25,6 +25,8 @@ import com.jkb.mrcampus.activity.CommentActivity;
 import com.jkb.mrcampus.activity.CreateCircleActivity;
 import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
+import com.jkb.mrcampus.activity.MessageActivity;
+import com.jkb.mrcampus.activity.MessageCenterActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
@@ -101,8 +103,6 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
 
     /**
      * 初始化数据
-     *
-     * @param savedInstanceState
      */
     protected abstract void initData(Bundle savedInstanceState);
 
@@ -113,8 +113,6 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
 
     /**
      * 设置父布局的ID
-     *
-     * @param rootViewId
      */
     protected void setRootView(@NonNull int rootViewId) {
 //        checkNotNull(rootViewId, "传入布局id不能为空！");
@@ -134,15 +132,11 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
 
     /**
      * 恢复添加过的Presenter
-     *
-     * @param fragmentTAG
      */
     protected abstract void restorePresenter(String fragmentTAG);
 
     /**
      * 初始化展示的Fragment步骤1
-     *
-     * @param fragmentClass
      */
     protected void initFragmentStep1(Class<?> fragmentClass) {
         //判断是否被添加过
@@ -162,8 +156,6 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
 
     /**
      * 开启新的Activity使用左侧进入动画
-     *
-     * @param intent
      */
     protected void startActivityWithPushLeftAnim(Intent intent) {
         startActivity(intent);
@@ -322,6 +314,29 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
         intent.putExtra(Config.INTENT_KEY_SHOW_COMMENT,
                 CommentActivity.ACTION_SHOW_VIEW_COMMENT_SINGLE_ALL);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startMessageCenterActivity() {
+        Log.d(TAG, "startCommentActivity");
+        if (!LoginContext.getInstance().isLogined()) {
+            showShortToast("请登录后再进行操作");
+            return;
+        }
+        Intent intent = new Intent(this, MessageCenterActivity.class);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startMessageActivity(@NonNull int messageType) {
+        Log.d(TAG, "startCommentActivity");
+        if (!LoginContext.getInstance().isLogined()) {
+            showShortToast("请登录后再进行操作");
+            return;
+        }
+        Intent intent = new Intent(this, MessageActivity.class);
+        intent.putExtra(Config.INTENT_KEY_MESSAGE_TYPE, messageType);
         startActivityWithPushLeftAnim(intent);
     }
 

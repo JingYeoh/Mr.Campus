@@ -30,18 +30,14 @@ public interface SwitchFunctionContract {
         void hideSchoolView();
 
         /**
-         * 个人中心视图的监听器
-         *
-         * @return
+         * 显示登录后的视图
          */
-        UserState.MenuPersonViewListener onPersonViewListener();
+        void showLoginView();
 
         /**
-         * 返回个人中心的View对象
-         *
-         * @return
+         * 显示未登录时候的视图
          */
-        android.view.View getPersonView();
+        void showLogoutView();
 
         /**
          * 打开圈子列表页面
@@ -49,6 +45,18 @@ public interface SwitchFunctionContract {
          * @param user_id 用户id
          */
         void startCircleList(@NonNull int user_id);
+
+        /**
+         * 打开登录视图
+         */
+        void startLoginActivity();
+
+        /**
+         * 打开个人中心页面
+         *
+         * @param user_id 用户id
+         */
+        void startPersonCenterActivity(@NonNull int user_id);
     }
 
     /**
@@ -58,8 +66,6 @@ public interface SwitchFunctionContract {
 
         /**
          * 是否登录
-         *
-         * @return
          */
         boolean isLogined();
 
@@ -72,13 +78,6 @@ public interface SwitchFunctionContract {
          * 得到个人信息
          */
         void getPersonalData();
-
-        /**
-         * 个人中心视图的监听器
-         *
-         * @param listener
-         */
-        void setOnPersonViewListener(UserState.MenuPersonViewListener listener);
 
         /**
          * 得到当前的昵称
@@ -101,5 +100,10 @@ public interface SwitchFunctionContract {
          * 当圈子列表被点击的时候
          */
         void onCircleListClick();
+
+        /**
+         * 用户视图栏的点击
+         */
+        void onUserViewClick();
     }
 }

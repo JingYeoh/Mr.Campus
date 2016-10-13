@@ -13,53 +13,23 @@ public interface UserState {
      * true:已经登录
      * false:未登录
      *
-     * @return
+     * @return 是否登录
      */
     boolean isLogined();
 
     /**
-     * 展示个人信息视图接口
-     */
-    interface MenuPersonViewListener {
-        /**
-         * 展示登录状态下个人信息的视图
-         */
-        void showLoginPersonView();
-
-        /**
-         * 展示未登录状态下的个人信息视图
-         */
-        void showLogoutPersonView();
-
-        /**
-         * 登录状态下的个人视图的回调方法
-         */
-        void onClickLoginPersonView();
-
-        /**
-         * 未登录状态下的个人视图的回调方法
-         */
-        void onClickLogoutPersonView();
-    }
-
-    /**
-     * 设置左滑菜单的个人信息的监听器
-     */
-    void setOnMenuPersonViewListener(View view, MenuPersonViewListener listener);
-
-    /**
      * 登录状态变化的视图显示监听器
      */
-    interface LoginStatusChangedShowViewListener {
+    interface LoginStatusChangedListener {
         /**
-         * 展示登录状态下的顯示視圖
+         * 展示登录状态下
          */
-        void showLoginView();
+        void onLogin();
 
         /**
-         * 展示未登录状态下的顯示視圖
+         * 展示未登录状态下
          */
-        void showLogoutView();
+        void onLogout();
     }
 
     /**
@@ -72,18 +42,15 @@ public interface UserState {
         void onUserDataChanged();
     }
 
-
-    /**
-     * 设置右滑菜单的监听器
-     *
-     * @param listener 监听器
-     */
-    void setLoginStatusChangedShowViewListener(LoginStatusChangedShowViewListener listener);
-
     /**
      * 设置右滑菜单信息变化时候的监听
-     *
-     * @param listener
      */
     void setRightSlideMenuDataViewChangedListener(UsersChangedListener listener);
+
+    /**
+     * 设置登录状态变化的监听器
+     *
+     * @param loginStatusChangedListeners 监听器
+     */
+    void setLoginStatusChangedListener(LoginStatusChangedListener loginStatusChangedListeners);
 }

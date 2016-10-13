@@ -21,17 +21,12 @@ public class SwitchFunctionPresenter implements SwitchFunctionContract.Presenter
 
 
     private SwitchFunctionContract.View functionView;//左滑菜单的视图
-    private MenuContract.View menuView;//菜單总体控制的视图
 
     /**
      * 得到Presenter对象
-     *
-     * @param functionView
      */
-    public SwitchFunctionPresenter(@NonNull MenuContract.View menuView,
-                                   @NonNull SwitchFunctionContract.View functionView) {
+    public SwitchFunctionPresenter(@NonNull SwitchFunctionContract.View functionView) {
         this.functionView = functionView;
-        this.menuView = menuView;
         //向View层中注入Presenter层对象
         this.functionView.setPresenter(this);
     }
@@ -40,14 +35,12 @@ public class SwitchFunctionPresenter implements SwitchFunctionContract.Presenter
     public void start() {
         getCurrentSchool();
         getPersonalData();
-        //设置个人信息头像
-        setOnPersonViewListener(functionView.onPersonViewListener());
     }
 
 
     @Override
     public boolean isLogined() {
-        return false;
+        return LoginContext.getInstance().isLogined();
     }
 
     @Override
@@ -72,13 +65,11 @@ public class SwitchFunctionPresenter implements SwitchFunctionContract.Presenter
 
     @Override
     public void getPersonalData() {
-
-    }
-
-    @Override
-    public void setOnPersonViewListener(UserState.MenuPersonViewListener listener) {
-        LoginContext loginContext = LoginContext.getInstance();
-        loginContext.setOnMenuPersonViewListener(functionView.getPersonView(), listener);
+        if (LoginContext.getInstance().isLogined()) {
+            functionView.showLoginView();
+        } else {
+            functionView.showLogoutView();
+        }
     }
 
     @Override
@@ -118,4 +109,12 @@ public class SwitchFunctionPresenter implements SwitchFunctionContract.Presenter
         functionView.startCircleList(getUser_id());
     }
 
+    @Override
+    public void onUserViewClick() {
+        if (LoginContext.getInstance().isLogined()) {
+            functionView.startPersonCenterActivity(getUser_id());
+        } else {
+            functionView.startLoginActivity();
+        }
+    }
 }

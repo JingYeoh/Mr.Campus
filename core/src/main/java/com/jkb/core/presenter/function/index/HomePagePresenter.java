@@ -13,12 +13,9 @@ import com.jkb.core.control.userstate.LoginContext;
 public class HomePagePresenter implements HomePageContract.Presenter {
 
     private HomePageContract.View homePageView;
-    private MenuContract.View menuView;
 
-    public HomePagePresenter(@NonNull HomePageContract.View homePageView,
-                             @NonNull MenuContract.View menuView) {
+    public HomePagePresenter(@NonNull HomePageContract.View homePageView) {
         this.homePageView = homePageView;
-        this.menuView = menuView;
 
         this.homePageView.setPresenter(this);
     }

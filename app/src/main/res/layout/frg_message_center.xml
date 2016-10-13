@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fmsgc_srl"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/background_general">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/fmsgc_content_like"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selecter_clearity_gravy"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        style="@style/PersonSettingTextPromptStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="喜欢"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/fmsgc_tv_unReadCount_like"
+                        style="@style/MessageCenterTextCountStyle"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_dot_red"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/fmsgc_tv_allCount_like"
+                        style="@style/MessageCenterTextCountStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:singleLine="true"
+                        android:text="0" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/aliwx_arrow" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.01dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/gravy_70" />
+
+                <LinearLayout
+                    android:id="@+id/fmsgc_content_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selecter_clearity_gravy"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        style="@style/PersonSettingTextPromptStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="评论"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/fmsgc_tv_unReadCount_comment"
+                        style="@style/MessageCenterTextCountStyle"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_dot_red"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/fmsgc_tv_allCount_comment"
+                        style="@style/MessageCenterTextCountStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:singleLine="true"
+                        android:text="0" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/aliwx_arrow" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.01dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/gravy_70" />
+
+                <LinearLayout
+                    android:id="@+id/fmsgc_content_fans"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selecter_clearity_gravy"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        style="@style/PersonSettingTextPromptStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="粉丝"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/fmsgc_tv_unReadCount_fans"
+                        style="@style/MessageCenterTextCountStyle"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_dot_red"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/fmsgc_tv_allCount_fans"
+                        style="@style/MessageCenterTextCountStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:singleLine="true"
+                        android:text="0" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/aliwx_arrow" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.01dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/gravy_70" />
+
+                <LinearLayout
+                    android:id="@+id/fmsgc_content_subscribe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selecter_clearity_gravy"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        style="@style/PersonSettingTextPromptStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="订阅"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/fmsgc_tv_unReadCount_subscribe"
+                        style="@style/MessageCenterTextCountStyle"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_dot_red"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/fmsgc_tv_allCount_subscribe"
+                        style="@style/MessageCenterTextCountStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:singleLine="true"
+                        android:text="0" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/aliwx_arrow" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.01dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/gravy_70" />
+
+                <LinearLayout
+                    android:id="@+id/fmsgc_content_circle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selecter_clearity_gravy"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        style="@style/PersonSettingTextPromptStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="圈子"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/fmsgc_tv_unReadCount_circle"
+                        style="@style/MessageCenterTextCountStyle"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_dot_red"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/fmsgc_tv_allCount_circle"
+                        style="@style/MessageCenterTextCountStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:singleLine="true"
+                        android:text="0" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/aliwx_arrow" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.01dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/gravy_70" />
+
+                <LinearLayout
+                    android:id="@+id/fmsgc_content_system"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/selecter_clearity_gravy"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
+
+                    <TextView
+                        style="@style/PersonSettingTextPromptStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="系统"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/fmsgc_tv_unReadCount_system"
+                        style="@style/MessageCenterTextCountStyle"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_dot_red"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/fmsgc_tv_allCount_system"
+                        style="@style/MessageCenterTextCountStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:singleLine="true"
+                        android:text="0" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/aliwx_arrow" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <include layout="@layout/title_style_4" />
+</LinearLayout>

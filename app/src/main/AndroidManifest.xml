@@ -99,6 +99,12 @@
             android:name=".activity.DynamicCreateActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
+        //消息中心的页面控制器
+        <activity android:name=".activity.MessageCenterActivity" />
+
+        //消息详情的页面控制器
+        <activity android:name=".activity.MessageActivity" />
+
         //用于定位的服务
         <service android:name=".service.LocationService" />
 

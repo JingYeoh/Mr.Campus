@@ -120,6 +120,18 @@ public interface BaseActivityAction {
     void startCreateCircleActivity();
 
     /**
+     * 打开消息中心的页面
+     */
+    void startMessageCenterActivity();
+
+    /**
+     * 打开具体的消息页面
+     *
+     * @param messageType 消息的类型
+     */
+    void startMessageActivity(@NonNull int messageType);
+
+    /**
      * 顯示輸入
      **/
     void showSoftInputView();

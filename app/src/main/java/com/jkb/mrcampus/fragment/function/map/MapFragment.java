@@ -1,4 +1,4 @@
-package com.jkb.mrcampus.fragment.map;
+package com.jkb.mrcampus.fragment.function.map;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -1,4 +1,4 @@
-package com.jkb.mrcampus.fragment.function.index;
+package com.jkb.mrcampus.fragment.function.index.detail;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 
 import com.jkb.api.config.Config;
 import com.jkb.core.Injection;
+import com.jkb.core.control.userstate.LoginContext;
+import com.jkb.core.control.userstate.UserState;
 import com.jkb.core.data.dynamic.dynamic.DynamicBaseData;
 import com.jkb.core.contract.function.index.DynamicContract;
 import com.jkb.core.contract.menu.MenuContract;
@@ -94,9 +96,6 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         //设置下拉加载
         recyclerView.addOnScrollListener(onScrollListener);//设置滑动监听，设置是否下拉刷新
 
-        //设置登录状态改变时候的监听器
-        mainActivity.setDynamicLoginStatusChangedListener(dynamicLoginStatusChangedListener);
-
         //设置动态条目相关监听器
         dynamicAdapter.setOnUserClickListener(onUserClickListener);
         dynamicAdapter.setOnLikeActionClickListener(onLikeActionClickListener);
@@ -105,6 +104,9 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         dynamicAdapter.setOnShareClickListener(onShareClickListener);
         dynamicAdapter.setOnCommentClickListener(onCommentClickListener);
         dynamicAdapter.setOnDynamicClickListener(onDynamicClickListener);
+
+        //登录状态变化的监听器
+        LoginContext.getInstance().setLoginStatusChangedListener(loginStatusChangedListener);
     }
 
     @Override
@@ -410,18 +412,18 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
     /**
      * 登录状态改变时候的监听器
      */
-    private MenuContract.View.DynamicLoginStatusChangedListener dynamicLoginStatusChangedListener
-            = new MenuContract.View.DynamicLoginStatusChangedListener() {
-        @Override
-        public void showLoginDynamicView() {
-            showLoginedView();
-        }
+    private UserState.LoginStatusChangedListener loginStatusChangedListener =
+            new UserState.LoginStatusChangedListener() {
+                @Override
+                public void onLogin() {
+                    showLoginedView();
+                }
 
-        @Override
-        public void showLogoutDynamicView() {
-            showUnLoginView();
-        }
-    };
+                @Override
+                public void onLogout() {
+                    showUnLoginView();
+                }
+            };
     /**
      * 写动态的监听器
      */

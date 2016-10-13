@@ -8,8 +8,8 @@ import com.jkb.core.presenter.map.MapAtyPresenter;
 import com.jkb.core.presenter.map.MapPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
-import com.jkb.mrcampus.fragment.function.SettingFragment;
-import com.jkb.mrcampus.fragment.map.MapFragment;
+import com.jkb.mrcampus.fragment.function.setting.SettingFragment;
+import com.jkb.mrcampus.fragment.function.map.MapFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
 
 /**

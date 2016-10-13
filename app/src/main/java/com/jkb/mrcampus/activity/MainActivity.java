@@ -2,32 +2,29 @@ package com.jkb.mrcampus.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jkb.core.Injection;
 import com.jkb.core.contract.menu.MenuContract;
 import com.jkb.core.control.userstate.LoginContext;
-import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.core.control.userstate.UserState;
 import com.jkb.core.presenter.function.index.HomePagePresenter;
 import com.jkb.core.presenter.function.setting.FunctionSettingPresenter;
 import com.jkb.core.presenter.menu.MenuPresenter;
 import com.jkb.core.presenter.menu.RightMenuPresenter;
 import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
-import com.jkb.model.info.SchoolInfoSingleton;
-import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseSlideMenuActivity;
-import com.jkb.mrcampus.fragment.function.HomePageFragment;
-import com.jkb.mrcampus.fragment.function.SettingFragment;
+import com.jkb.mrcampus.fragment.function.index.HomePageFragment;
+import com.jkb.mrcampus.fragment.function.setting.SettingFragment;
+import com.jkb.mrcampus.fragment.function.special.SubjectFragment;
+import com.jkb.mrcampus.fragment.function.tools.ToolsFragment;
 import com.jkb.mrcampus.fragment.menu.RightMenuFragment;
 import com.jkb.mrcampus.fragment.menu.SwitchFunctionFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.service.LocationService;
-
-import jkb.mrcampus.db.entity.Schools;
+import com.jkb.mrcampus.utils.ClassUtils;
 
 /**
  * 核心的Activity类，负责显示主要功能模块
@@ -61,12 +58,14 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     private SettingFragment settingFragment;
     private FunctionSettingPresenter functionSettingPresenter;
 
+    //小工具
+    private ToolsFragment toolsFragment;
+
+    //专题
+    private SubjectFragment subjectFragment;
+
     //服务
 //    private LocationService locationService;
-
-    //data
-    private DynamicLoginStatusChangedListener dynamicLoginStatusChangedListener;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,8 +83,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
 
     @Override
     protected void initListener() {
-        //设置右滑菜单的监听器
-        LoginContext.getInstance().setLoginStatusChangedShowViewListener(slideMenuRightListener);
+        LoginContext.getInstance().setLoginStatusChangedListener(loginStatusChangedListener);
     }
 
 
@@ -100,7 +98,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         initPresenter();
         initSlideMenu(savedInstanceState);
 
-        startLocatonService();//开启服务
+        startLocationService();//开启服务
 
         //第一次进入时调用显示首页视图
         if (!savedInstanceStateValued) {
@@ -113,7 +111,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     /**
      * 开启Service
      */
-    private void startLocatonService() {
+    private void startLocationService() {
         System.out.println("提示信息:我在绑定service");
         if (!ActivityUtils.isServiceWorked(LocationService.class.getName(), getApplicationContext())) {
             Intent intent = new Intent(context, LocationService.class);
@@ -127,13 +125,17 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
      */
     @Override
     public void restorePresenter(String fragmentTAG) {
-        if (HomePageFragment.class.getName().equals(fragmentTAG)) {
+        if (ClassUtils.getClassName(HomePageFragment.class).equals(fragmentTAG)) {
             homePageFragment = (HomePageFragment) fm.findFragmentByTag(fragmentTAG);
-            homePagePresenter = new HomePagePresenter(homePageFragment, this);
-        } else if (SettingFragment.class.getName().equals(fragmentTAG)) {
+            homePagePresenter = new HomePagePresenter(homePageFragment);
+        } else if (ClassUtils.getClassName(SettingFragment.class).equals(fragmentTAG)) {
             settingFragment = (SettingFragment) fm.findFragmentByTag(fragmentTAG);
             functionSettingPresenter = new FunctionSettingPresenter(settingFragment,
                     Injection.provideFunctionSettingDataRepertory(getApplicationContext()));
+        } else if (ClassUtils.getClassName(ToolsFragment.class).equals(fragmentTAG)) {
+            toolsFragment = (ToolsFragment) fm.findFragmentByTag(fragmentTAG);
+        } else if (ClassUtils.getClassName(SubjectFragment.class).equals(fragmentTAG)) {
+            subjectFragment = (SubjectFragment) fm.findFragmentByTag(fragmentTAG);
         }
     }
 
@@ -163,45 +165,13 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         }
         //初始化侧滑菜单的Presenter层
         if (switchFunctionPresenter == null) {
-            switchFunctionPresenter = new SwitchFunctionPresenter(this, functionFragment);
+            switchFunctionPresenter = new SwitchFunctionPresenter(functionFragment);
         }
         if (rightMenuPresenter == null) {
             rightMenuPresenter = new RightMenuPresenter(rightMenuFragment,
                     Injection.provideRightMenuDataRepertory(getApplicationContext()));
         }
     }
-
-    /**
-     * 右滑菜单的状态改变的监听器
-     */
-    UserState.LoginStatusChangedShowViewListener slideMenuRightListener =
-            new UserState.LoginStatusChangedShowViewListener() {
-                @Override
-                public void showLoginView() {
-                    slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);//设置为两侧滑动
-                    //设置首页的右侧视图
-                    if (homePageFragment != null && homePageFragment.isActive()) {
-                        homePageFragment.setLoginRightMenuView();
-                        //设置动态的页面数据
-                        if (dynamicLoginStatusChangedListener != null) {
-                            dynamicLoginStatusChangedListener.showLoginDynamicView();
-                        }
-                    }
-                }
-
-                @Override
-                public void showLogoutView() {
-                    slidingMenu.setMode(SlidingMenu.LEFT);//设置为只有左侧滑动
-                    //设置首页的右侧视图
-                    if (homePageFragment != null && homePageFragment.isActive()) {
-                        homePageFragment.setLogoutRightMenuView();
-                        //设置动态的页面数据
-                        if (dynamicLoginStatusChangedListener != null) {
-                            dynamicLoginStatusChangedListener.showLogoutDynamicView();
-                        }
-                    }
-                }
-            };
 
     /**
      * 设置SlideMenu
@@ -311,16 +281,23 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     @Override
     public void showSpecialModel() {
         Log.d(TAG, "showSpecialModel");
+        initFragmentStep1(SubjectFragment.class);
+        showView = MenuPresenter.SHOW_VIEW.FEATURE;
+        ActivityUtils.showFragment(fm, subjectFragment);
     }
 
     @Override
     public void showTools() {
         Log.d(TAG, "showTools");
+        initFragmentStep1(ToolsFragment.class);
+        showView = MenuPresenter.SHOW_VIEW.TOOLS;
+        ActivityUtils.showFragment(fm, toolsFragment);
     }
 
     @Override
     public void startMessage() {
         Log.d(TAG, "startMessage");
+        startMessageCenterActivity();
     }
 
     @Override
@@ -331,7 +308,6 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         ActivityUtils.showFragment(fm, settingFragment);
     }
 
-
     @Override
     public void startChooseSchools() {
         Log.d(TAG, "startChooseSchools");
@@ -339,20 +315,6 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         showSelectSchoolView();
     }
 
-    @Override
-    public void startSearchView() {
-
-    }
-
-    @Override
-    public void startMyLoveView() {
-
-    }
-
-    @Override
-    public void startMyCircleWord() {
-
-    }
 
     @Override
     public void startLoginActivity() {
@@ -367,21 +329,20 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
                 SwitchFunctionFragment.class.getName(), RightMenuFragment.class.getName());
     }
 
-    @Override
-    public void setDynamicLoginStatusChangedListener(DynamicLoginStatusChangedListener listener) {
-        this.dynamicLoginStatusChangedListener = listener;
-    }
-
     /**
      * 初始化Fragment步骤2
      */
     @Override
     public void initFragmentStep2(Class<?> fragmentClass) {
         String fragmentTAG = fragmentClass.getName();
-        if (HomePageFragment.class.getName().equals(fragmentTAG)) {
+        if (ClassUtils.getClassName(HomePageFragment.class).equals(fragmentTAG)) {
             initIndexFragment();
-        } else if (SettingFragment.class.getName().equals(fragmentTAG)) {
+        } else if (ClassUtils.getClassName(SettingFragment.class).equals(fragmentTAG)) {
             initSettingFragment();
+        } else if (ClassUtils.getClassName(ToolsFragment.class).equals(fragmentTAG)) {
+            initToolsFragment();
+        } else if (ClassUtils.getClassName(SubjectFragment.class).equals(fragmentTAG)) {
+            initSubjectFragment();
         }
     }
 
@@ -395,7 +356,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
             ActivityUtils.addFragmentToActivity(fm, homePageFragment, R.id.fm_content);
         }
         if (homePagePresenter == null) {
-            homePagePresenter = new HomePagePresenter(homePageFragment, this);
+            homePagePresenter = new HomePagePresenter(homePageFragment);
         }
     }
 
@@ -410,6 +371,26 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         if (functionSettingPresenter == null) {
             functionSettingPresenter = new FunctionSettingPresenter(settingFragment,
                     Injection.provideFunctionSettingDataRepertory(getApplicationContext()));
+        }
+    }
+
+    /**
+     * 初始化专题
+     */
+    private void initSubjectFragment() {
+        if (subjectFragment == null) {
+            subjectFragment = SubjectFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(fm, subjectFragment, R.id.fm_content);
+        }
+    }
+
+    /**
+     * 初始化小工具
+     */
+    private void initToolsFragment() {
+        if (toolsFragment == null) {
+            toolsFragment = ToolsFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(fm, toolsFragment, R.id.fm_content);
         }
     }
 
@@ -452,4 +433,20 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
             exitBy2Click();
         }
     }
+
+    /**
+     * 是否登录的状态变化的监听器
+     */
+    private UserState.LoginStatusChangedListener loginStatusChangedListener =
+            new UserState.LoginStatusChangedListener() {
+                @Override
+                public void onLogin() {
+                    slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);//设置为两侧滑动
+                }
+
+                @Override
+                public void onLogout() {
+                    slidingMenu.setMode(SlidingMenu.LEFT);//设置为只有左侧滑动
+                }
+            };
 }

@@ -94,21 +94,6 @@ public interface MenuContract {
         void startChooseSchools();
 
         /**
-         * 打开搜索的视图页面
-         */
-        void startSearchView();
-
-        /**
-         * 打开我喜欢的视图页面
-         */
-        void startMyLoveView();
-
-        /**
-         * 打开我关注的圈子页面
-         */
-        void startMyCircleWord();
-
-        /**
          * 打开登录页面
          */
         void startLoginActivity();
@@ -117,29 +102,6 @@ public interface MenuContract {
          * 隐藏所有的View视图
          */
         void hideAllView();
-
-
-        /**
-         * 设置动态列表页面登录状态改变用于显示的监听器
-         *
-         * @param listener DynamicLoginStatusChangedListener
-         */
-        void setDynamicLoginStatusChangedListener(DynamicLoginStatusChangedListener listener);
-
-        /**
-         * 动态列表页面登录状态改变时候的监听器
-         */
-        interface DynamicLoginStatusChangedListener {
-            /**
-             * 显示登录状态下的动态视图
-             */
-            void showLoginDynamicView();
-
-            /**
-             * 显示未登录的动态视图
-             */
-            void showLogoutDynamicView();
-        }
     }
 
 

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jkb.core.contract.menu.SwitchFunctionContract;
+import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.UserState;
 import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.model.net.ImageLoaderFactory;
@@ -26,13 +27,11 @@ import jkb.mrcampus.db.entity.Schools;
  * 左滑菜单：切换功能的View
  * Created by JustKiddingBaby on 2016/7/24.
  */
-public class SwitchFunctionFragment extends BaseFragment implements SwitchFunctionContract.View {
+public class SwitchFunctionFragment extends BaseFragment implements SwitchFunctionContract.View, View.OnClickListener {
 
     private SwitchFunctionContract.Presenter mPresenter;
     private MainActivity mainActivity;
 
-    //个人中心的视图对象
-    private View personView;
 
     private CircleImageView ivHeadImg;
     private TextView[] tvItems;
@@ -50,6 +49,10 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
     //要恢复的数据
     private static final String SAVED_ITEMS_SELECTER = "savedItemsSelecter";
     private int itemSelector = 0;
+
+    //头像是否加载
+    private boolean isHeadImgLoaded = false;
+
 
     public SwitchFunctionFragment() {
     }
@@ -85,6 +88,8 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
 
     @Override
     protected void initListener() {
+        rootView.findViewById(R.id.fms_ll_person).setOnClickListener(this);//用戶藍點擊監聽
+
         rootView.findViewById(R.id.fms_tv_menuIndex).setOnClickListener(showClickListener);
         rootView.findViewById(R.id.fms_tv_menuSetting).setOnClickListener(showClickListener);
         rootView.findViewById(R.id.fms_tv_menuTools).setOnClickListener(showClickListener);
@@ -102,6 +107,7 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
         //设置选择学校的监听器
         SchoolInfoSingleton.getInstance().setOnSchoolSelectedChangedListener(
                 onSchoolSelectedChangedListener);
+        LoginContext.getInstance().setLoginStatusChangedListener(loginStatusChangedListener);
     }
 
     @Override
@@ -116,7 +122,6 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
     protected void initView() {
         mainActivity = (MainActivity) mActivity;
 
-        personView = rootView.findViewById(R.id.fms_ll_person);
         ivHeadImg = (CircleImageView) rootView.findViewById(R.id.fms_iv_headImg);
 
         //初始化View的条目信息
@@ -197,11 +202,20 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
         }
     };
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fms_ll_person:
+                mPresenter.onUserViewClick();
+                break;
+        }
+    }
+
     /**
      * 设置被选中的状态
      */
     private void setItemSelected(int position) {
-        clearItemSelectar();
+        clearItemSelector();
         itemSelector = position;
         tvItems[position].setTextColor(selectedColorId);
     }
@@ -209,7 +223,7 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
     /**
      * 清楚按钮选中的效果
      */
-    private void clearItemSelectar() {
+    private void clearItemSelector() {
         for (int i = 0; i < tvItemsId.length; i++) {
             tvItems[i].setTextColor(normalColorId);
         }
@@ -232,13 +246,29 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
     }
 
     @Override
-    public UserState.MenuPersonViewListener onPersonViewListener() {
-        return personViewListener;
+    public void showLoginView() {
+        ((TextView) rootView.findViewById(R.id.fms_tv_nickName)).
+                setText(mPresenter.getCurrentNickName());
+        String headImg = mPresenter.getCurrentHeadImg();
+        Log.d(TAG, "headImg=" + headImg);
+        if (StringUtils.isEmpty(headImg)) {
+            isHeadImgLoaded = false;
+            ivHeadImg.setImageResource(R.drawable.ic_user_head);
+        } else {
+            if (!isHeadImgLoaded) {
+                ivHeadImg.setTag(null);
+            }
+            isHeadImgLoaded = true;
+            ImageLoaderFactory.getInstance().displayImage(ivHeadImg, headImg);
+        }
     }
 
     @Override
-    public View getPersonView() {
-        return personView;
+    public void showLogoutView() {
+        //设置未登录头像
+        isHeadImgLoaded = false;
+        ((TextView) rootView.findViewById(R.id.fms_tv_nickName)).setText(R.string.unLogin);
+        ivHeadImg.setImageResource(R.drawable.ic_user_head);
     }
 
     @Override
@@ -246,41 +276,16 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
         mainActivity.startCircleListActivity(user_id);
     }
 
-    /**
-     * 个人信息菜单的监听器
-     */
-    private UserState.MenuPersonViewListener personViewListener =
-            new UserState.MenuPersonViewListener() {
-                @Override
-                public void showLoginPersonView() {
-                    ((TextView) rootView.findViewById(R.id.fms_tv_nickName)).
-                            setText(mPresenter.getCurrentNickName());
-//                    Bitmap bm = mPresenter.getCurrentHeadImg();
-                    String headImg = mPresenter.getCurrentHeadImg();
-                    if (StringUtils.isEmpty(headImg)) {
-                        ivHeadImg.setImageResource(R.drawable.ic_user_head);
-                    } else {
-                        ImageLoaderFactory.getInstance().displayImage(ivHeadImg, headImg);
-                    }
-                }
+    @Override
+    public void startLoginActivity() {
+        mainActivity.startLoginActivity();
+    }
 
-                @Override
-                public void showLogoutPersonView() {
-                    //设置未登录头像
-                    ((TextView) rootView.findViewById(R.id.fms_tv_nickName)).setText(R.string.unLogin);
-                    ivHeadImg.setImageResource(R.drawable.ic_user_head);
-                }
+    @Override
+    public void startPersonCenterActivity(@NonNull int user_id) {
+        mainActivity.startPersonalCenterActivity(user_id);
+    }
 
-                @Override
-                public void onClickLoginPersonView() {
-                    mainActivity.startPersonalCenterActivity(mPresenter.getUser_id());
-                }
-
-                @Override
-                public void onClickLogoutPersonView() {
-                    mainActivity.startLoginActivity();
-                }
-            };
 
     @Override
     public void setPresenter(SwitchFunctionContract.Presenter presenter) {
@@ -289,17 +294,17 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
 
     @Override
     public void showLoading(String value) {
-
+        mainActivity.showLoading(value);
     }
 
     @Override
     public void dismissLoading() {
-
+        mainActivity.dismissLoading();
     }
 
     @Override
     public void showReqResult(String value) {
-
+        mainActivity.showShortToast(value);
     }
 
     @Override
@@ -332,6 +337,21 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
                 @Override
                 public void onSchoolNotSelected() {
                     hideSchoolView();
+                }
+            };
+    /**
+     * 个人信息变化时候的监听回调
+     */
+    private UserState.LoginStatusChangedListener loginStatusChangedListener =
+            new UserState.LoginStatusChangedListener() {
+                @Override
+                public void onLogin() {
+                    showLoginView();
+                }
+
+                @Override
+                public void onLogout() {
+                    showLogoutView();
                 }
             };
 }

@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.BoolRes;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +25,8 @@ import com.jkb.mrcampus.activity.CommentActivity;
 import com.jkb.mrcampus.activity.CreateCircleActivity;
 import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
+import com.jkb.mrcampus.activity.MessageActivity;
+import com.jkb.mrcampus.activity.MessageCenterActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
@@ -155,15 +154,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
 
     /**
      * 恢复添加过的Presenter
-     *
-     * @param fragmentTAG
      */
     protected abstract void restoreFragments(String fragmentTAG);
 
     /**
      * 初始化展示的Fragment步骤1
-     *
-     * @param fragmentClass
      */
     protected void initFragmentStep1(Class<?> fragmentClass) {
         //判断是否被添加过
@@ -184,8 +179,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
 
     /**
      * 开启新的Activity使用左侧进入动画
-     *
-     * @param intent
      */
     protected void startActivityWithPushLeftAnim(Intent intent) {
 //        ActivityOptionsCompat compat = ActivityOptionsCompat.makeCustomAnimation(this,
@@ -212,8 +205,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
 
     /**
      * 顯示Toast信息：短的
-     *
-     * @param value
      */
     public void showShortToast(String value) {
         if (value == null || value.isEmpty()) {
@@ -224,8 +215,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
 
     /**
      * 显示Toast信息：长的
-     *
-     * @param value
      */
     public void showLongToast(String value) {
         if (value == null || value.isEmpty()) {
@@ -346,6 +335,29 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     public void startCreateCircleActivity() {
         //显示创建圈子视图
         Intent intent = new Intent(this, CreateCircleActivity.class);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startMessageCenterActivity() {
+        Log.d(TAG, "startCommentActivity");
+        if (!LoginContext.getInstance().isLogined()) {
+            showShortToast("请登录后再进行操作");
+            return;
+        }
+        Intent intent = new Intent(this, MessageCenterActivity.class);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startMessageActivity(@NonNull int messageType) {
+        Log.d(TAG, "startCommentActivity");
+        if (!LoginContext.getInstance().isLogined()) {
+            showShortToast("请登录后再进行操作");
+            return;
+        }
+        Intent intent = new Intent(this, MessageActivity.class);
+        intent.putExtra(Config.INTENT_KEY_MESSAGE_TYPE, messageType);
         startActivityWithPushLeftAnim(intent);
     }
 

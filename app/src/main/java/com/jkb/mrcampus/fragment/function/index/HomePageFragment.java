@@ -1,4 +1,4 @@
-package com.jkb.mrcampus.fragment.function;
+package com.jkb.mrcampus.fragment.function.index;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.jkb.core.contract.function.HomePageContract;
+import com.jkb.core.control.userstate.LoginContext;
+import com.jkb.core.control.userstate.UserState;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.adapter.fragmentPager.HomePageAdapter;
@@ -61,6 +63,8 @@ public class HomePageFragment extends BaseFragment implements
     protected void initListener() {
         rootView.findViewById(R.id.fi_title_left).setOnClickListener(this);
         rootView.findViewById(R.id.fi_title_right).setOnClickListener(this);
+
+        LoginContext.getInstance().setLoginStatusChangedListener(loginStatusChangedListener);
     }
 
     @Override
@@ -183,4 +187,20 @@ public class HomePageFragment extends BaseFragment implements
     public boolean isActive() {
         return isAdded();
     }
+
+    /**
+     * 登录状态变化的监听器
+     */
+    private UserState.LoginStatusChangedListener loginStatusChangedListener =
+            new UserState.LoginStatusChangedListener() {
+                @Override
+                public void onLogin() {
+                    setLoginRightMenuView();
+                }
+
+                @Override
+                public void onLogout() {
+                    setLogoutRightMenuView();
+                }
+            };
 }
