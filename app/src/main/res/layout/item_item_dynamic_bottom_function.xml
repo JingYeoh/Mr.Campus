@@ -8,10 +8,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:gravity="right"
+        android:gravity="center"
         android:orientation="horizontal"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
+
+        <TextView
+            android:id="@+id/iidb_tv_delete"
+            style="@style/Dynamic_IconText_style"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/selecter_clearity_gravy"
+            android:text="删除"
+            android:textColor="@color/main_theme_green"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <ImageView
             android:id="@+id/iidbf_iv_share"

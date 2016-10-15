@@ -105,6 +105,9 @@
         //消息详情的页面控制器
         <activity android:name=".activity.MessageActivity" />
 
+        //我的动态页面控制器
+        <activity android:name=".activity.MyDynamicActivity" />
+
         //用于定位的服务
         <service android:name=".service.LocationService" />
 
@@ -147,7 +150,8 @@
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+        </activity>
+        <activity android:name=".activity.MyDynamicActivity" /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data
             android:name="com.google.android.gms.version"

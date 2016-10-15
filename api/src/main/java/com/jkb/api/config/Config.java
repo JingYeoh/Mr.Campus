@@ -45,6 +45,8 @@ public class Config {
     public static final String URL_DYNAMIC_POPULAY_ALL = "getPopular/{schoolId}";
     public static final String URL_DYNAMIC_GET_SINGLE = "dynamic/{userId}/{id}";
     public static final String URL_DYNAMIC_POST = "dynamic";
+    public static final String URL_DYNAMIC_DELETE = "dynamic/{id}";
+    public static final String URL_DYNAMIC_MY = "personalDynamics/{type}";
     //Contacts接口
     public static final String URL_CONTACTS_FRIENDS = "contacts";//相互关注的好友
     //Comment的接口u
@@ -82,6 +84,7 @@ public class Config {
     public static final String KEY_BACKGROUND = "background";
     public static final String KEY_TYPE = "type";
     public static final String KEY_DOC = "doc";
+    public static final String KEY_PARTIAL = "partial";
 
     public static final String KEY_COORDTYPE = "coordtype";
     public static final String KEY_LOCATION = "location";
@@ -92,6 +95,7 @@ public class Config {
     public static final String KEY_AK = "ak";
     public static final String KEY_MCODE = "mcode";
     public static final String KEY_USER_ID = "user_id";
+    public static final String KEY_OPERATOR_ID = "operator_id";
     public static final String KEY_TARGET_USER_ID = "target_user_id";
     public static final String KEY_SCHOOL_ID = "school_id";
     public static final String KEY_SCHOOLID = "schoolId";
@@ -172,4 +176,8 @@ public class Config {
     public static final String DYNAMIC_TYPE_TOPIC = "topic";
     public static final String DYNAMIC_TYPE_ARTICLE = "article";
 
+    public static final String PARTIAL_TYPE_ARTICLE = "type|article";
+    public static final String PARTIAL_TYPE_NORMAL = "type|normal";
+    public static final String PARTIAL_TYPE_TOPIC = "type|topic";
+    public static final String PARTIAL_CIRCLE_CIRCLE_ID = "circle|circle_id";
 }

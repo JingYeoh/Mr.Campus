@@ -1,9 +1,5 @@
 package com.jkb.core.contract.dynamicDetail.data;
 
-import com.jkb.core.contract.dynamicDetail.data.comment.DynamicDetailCommentData;
-
-import java.util.List;
-
 /**
  * 普通动态详情数据
  * Created by JustKiddingBaby on 2016/9/17.
@@ -19,6 +15,7 @@ public class DynamicDetailNormalData {
     private int comments_count;//评论数
     private String created_at;
     private int operation_count;//喜欢数
+    private boolean isOriginal = false;
     //用户的内容
     private DynamicDetailUserData dynamicDetailUserData;
 
@@ -92,6 +89,14 @@ public class DynamicDetailNormalData {
 
     public void setOperation_count(int operation_count) {
         this.operation_count = operation_count;
+    }
+
+    public boolean isOriginal() {
+        return isOriginal;
+    }
+
+    public void setOriginal(boolean original) {
+        isOriginal = original;
     }
 
     public DynamicDetailUserData getDynamicDetailUserData() {

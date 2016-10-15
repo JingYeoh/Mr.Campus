@@ -73,9 +73,10 @@ public class FileSizeUtil {
     public static long getFileSize(File file) throws Exception {
         long size = 0;
         if (file.exists()) {
-            FileInputStream fis = null;
+            FileInputStream fis;
             fis = new FileInputStream(file);
             size = fis.available();
+            fis.close();
         } else {
             file.createNewFile();
             Log.e("获取文件大小", "文件不存在!");

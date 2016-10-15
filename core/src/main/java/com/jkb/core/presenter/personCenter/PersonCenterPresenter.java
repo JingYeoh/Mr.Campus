@@ -398,13 +398,18 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
 
     @Override
     public void getCircleData() {
+        int visitor_id;
         //从网上获取圈子数据
-        //只获取第一页的数据
-        Users users = getUsers();
-        if (users == null) {
-            return;
+        if (!LoginContext.getInstance().isLogined()) {
+            visitor_id = 0;
+        } else {
+            //只获取第一页的数据
+            Users users = getUsers();
+            if (users == null) {
+                return;
+            }
+            visitor_id = users.getUser_id();
         }
-        int visitor_id = users.getUser_id();
         responsitory.subscribeCircle(user_id, visitor_id, 1, subscribeCircleApiCallback);
     }
 

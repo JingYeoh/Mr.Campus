@@ -292,7 +292,11 @@ public class AttentionPresenter implements AttentionContract.Presenter {
         for (int i = 0; i < users.size(); i++) {
             UserData data = new UserData();
             UserActionUserEntity.DataBean bean = users.get(i);
-            data.setAttentioned(true);
+            if (bean.getHasPayAttention() == 0) {
+                data.setAttentioned(false);
+            } else {
+                data.setAttentioned(true);
+            }
             data.setAvatar(bean.getAvatar());
             data.setBref_introduction(bean.getBref_introduction());
             data.setNickname(bean.getNickname());

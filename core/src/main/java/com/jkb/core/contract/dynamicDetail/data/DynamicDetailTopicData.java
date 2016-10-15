@@ -12,6 +12,7 @@ public class DynamicDetailTopicData {
     private String doc;
     private String img;
     private boolean hasFavorite;
+    private boolean isOriginal;
     private int comments_count;//评论数
     private String created_at;
     private int operation_count;//喜欢数
@@ -65,6 +66,14 @@ public class DynamicDetailTopicData {
 
     public void setHasFavorite(boolean hasFavorite) {
         this.hasFavorite = hasFavorite;
+    }
+
+    public boolean isOriginal() {
+        return isOriginal;
+    }
+
+    public void setOriginal(boolean original) {
+        isOriginal = original;
     }
 
     public int getComments_count() {

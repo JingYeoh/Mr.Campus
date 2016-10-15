@@ -13,6 +13,7 @@ import com.jkb.core.contract.function.setting.FunctionSettingContract;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.helper.cropphoto.CropHelper;
 
 /**
@@ -108,7 +109,7 @@ public class SettingFragment extends BaseFragment implements
             case R.id.fss_tv_praise://评价
                 break;
             case R.id.fss_ll_clearCache://清除缓存
-                clearCache();
+                showHintDetermineView();
                 break;
             case R.id.fss_tv_aboutSoftWear://关于菌菌
                 break;
@@ -153,6 +154,13 @@ public class SettingFragment extends BaseFragment implements
     }
 
     @Override
+    public void showHintDetermineView() {
+        mainActivity.showHintDetermineFloatView("是否清除缓存",
+                "（注：缓存是平时浏览和裁剪的图片缓存，清除后会影响浏览效率）",
+                "确定", "取消", onDetermineItemClickListener);
+    }
+
+    @Override
     public void clearCache() {
         CropHelper.clearCacheDir();
         mPresenter.onClearCacheClick();
@@ -187,4 +195,21 @@ public class SettingFragment extends BaseFragment implements
     public boolean isActive() {
         return isAdded();
     }
+
+    /**
+     * 是否清楚缓存的提示框回调
+     */
+    private HintDetermineFloatFragment.OnDetermineItemClickListener onDetermineItemClickListener =
+            new HintDetermineFloatFragment.OnDetermineItemClickListener() {
+                @Override
+                public void onFirstItemClick() {
+                    mainActivity.dismiss();
+                    clearCache();
+                }
+
+                @Override
+                public void onSecondItemClick() {
+                    mainActivity.dismiss();
+                }
+            };
 }

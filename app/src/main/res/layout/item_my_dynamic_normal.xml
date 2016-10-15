@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/myDynamic_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector_bg_gravy"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="20dp"
+    android:paddingTop="20dp">
+
+    <TextView
+        android:id="@+id/imdn_tv_time"
+        style="@style/Dynamic_IconText_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:paddingLeft="10dp"
+        android:text="2016/10/10 00:00"
+        android:textColor="@color/black_200" />
+
+    <LinearLayout
+        android:id="@+id/imdn_ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imdn_iv_contentPic"
+            style="@style/Dynamic_Favorite_Image_Style"
+            android:layout_marginLeft="10dp"
+            android:background="@color/white"
+            android:src="@color/default_picture"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/imdn_tv_contentText"
+            style="@style/Dynamic_ContentText_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:maxLines="6"
+            android:padding="0dp"
+            android:text="@string/large_text" />
+    </LinearLayout>
+
+    <include layout="@layout/item_item_dynamic_bottom_function_black" />
+
+</LinearLayout>

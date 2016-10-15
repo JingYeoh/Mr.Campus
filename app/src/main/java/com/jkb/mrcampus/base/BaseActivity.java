@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jkb.core.contract.dynamicCreate.data.CategoryTypeData;
@@ -27,10 +28,12 @@ import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.MessageActivity;
 import com.jkb.mrcampus.activity.MessageCenterActivity;
+import com.jkb.mrcampus.activity.MyDynamicActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
+import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.InputTextFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.SelectSchoolFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.SexFilterFloatFragment;
@@ -72,6 +75,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     private ShareDynamicDialogFragment shareDynamicDialogFragment;
     private TagFloatFragment tagFloatFragment;
     private SelectSchoolFloatFragment selectSchoolFloatFragment;
+    private HintDetermineFloatFragment hintDetermineFloatFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -362,6 +366,54 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     }
 
     @Override
+    public void startMyDynamicArticleActivity(@NonNull int user_id) {
+        if (user_id <= 0) {
+            showShortToast("用户不存在");
+            return;
+        }
+        Intent intent = new Intent(this, MyDynamicActivity.class);
+        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE, MyDynamicActivity.MY_DYNAMIC_TYPE_ARTICLE);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startMyDynamicCircleActivity(@NonNull int user_id) {
+        if (user_id <= 0) {
+            showShortToast("用户不存在");
+            return;
+        }
+        Intent intent = new Intent(this, MyDynamicActivity.class);
+        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE, MyDynamicActivity.MY_DYNAMIC_TYPE_CIRCLE);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startMyDynamicNormalActivity(@NonNull int user_id) {
+        if (user_id <= 0) {
+            showShortToast("用户不存在");
+            return;
+        }
+        Intent intent = new Intent(this, MyDynamicActivity.class);
+        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE, MyDynamicActivity.MY_DYNAMIC_TYPE_NORMAL);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startMyDynamicTopicActivity(@NonNull int user_id) {
+        if (user_id <= 0) {
+            showShortToast("用户不存在");
+            return;
+        }
+        Intent intent = new Intent(this, MyDynamicActivity.class);
+        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE, MyDynamicActivity.MY_DYNAMIC_TYPE_TOPIC);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
     public void showSoftInputView() {
         InputMethodManager manager = ((InputMethodManager) this
                 .getSystemService(Activity.INPUT_METHOD_SERVICE));
@@ -493,6 +545,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         if (selectSchoolFloatFragment != null && selectSchoolFloatFragment.isAdded()) {
             selectSchoolFloatFragment.dismiss();
         }
+        //取消提示框的显示
+        if (hintDetermineFloatFragment != null && hintDetermineFloatFragment.isAdded()) {
+            hintDetermineFloatFragment.dismiss();
+        }
         dismissLoading();
     }
 
@@ -602,5 +658,19 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
             shareFactory = new ShareFactory(getApplicationContext());
         }
         shareFactory.share(title, titleUrl, text, imageUrl, url, site, siteUrl);
+    }
+
+    @Override
+    public void showHintDetermineFloatView(
+            String title, String content, String bt1Content, String bt2Content,
+            HintDetermineFloatFragment.OnDetermineItemClickListener onDetermineItemClickListener) {
+        if (hintDetermineFloatFragment == null) {
+            hintDetermineFloatFragment = new HintDetermineFloatFragment(title,content,
+                    bt1Content,bt2Content,onDetermineItemClickListener);
+        }
+        if (!hintDetermineFloatFragment.isAdded()) {
+            hintDetermineFloatFragment.show(getFragmentManager(),
+                    ClassUtils.getClassName(HintDetermineFloatFragment.class));
+        }
     }
 }

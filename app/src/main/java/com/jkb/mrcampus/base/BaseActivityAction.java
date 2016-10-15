@@ -2,8 +2,10 @@ package com.jkb.mrcampus.base;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.TextView;
 
 import com.jkb.core.contract.dynamicCreate.data.CategoryTypeData;
+import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.TagFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
@@ -39,6 +41,20 @@ public interface BaseActivityAction {
      * 显示选择学校的视图
      */
     void showSelectSchoolView();
+
+
+    /**
+     * 显示提示框的视图
+     *
+     * @param title                      标题栏，不可空
+     * @param content                    内容，可空
+     * @param bt1Content                  第一个条目的内容，可空
+     * @param bt2Content                 第二个可点击条目的内容，可空
+     * @param onDetermineItemClickListener 点击的监听回调事件
+     */
+    void showHintDetermineFloatView(
+            String title, String content, String bt1Content, String bt2Content,
+            HintDetermineFloatFragment.OnDetermineItemClickListener onDetermineItemClickListener);
 
 
     /**
@@ -130,6 +146,35 @@ public interface BaseActivityAction {
      * @param messageType 消息的类型
      */
     void startMessageActivity(@NonNull int messageType);
+
+
+    /**
+     * 打开我的文章动态页面
+     *
+     * @param user_id 用户id
+     */
+    void startMyDynamicArticleActivity(@NonNull int user_id);
+
+    /**
+     * 打开我的普通动态页面
+     *
+     * @param user_id 用户id
+     */
+    void startMyDynamicNormalActivity(@NonNull int user_id);
+
+    /**
+     * 打开我的话题动态页面
+     *
+     * @param user_id 用户id
+     */
+    void startMyDynamicTopicActivity(@NonNull int user_id);
+
+    /**
+     * 打开我的圈子动态页面
+     *
+     * @param user_id 用户id
+     */
+    void startMyDynamicCircleActivity(@NonNull int user_id);
 
     /**
      * 顯示輸入

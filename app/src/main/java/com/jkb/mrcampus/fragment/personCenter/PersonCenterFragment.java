@@ -415,17 +415,17 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void showDynamicArticleView() {
-
+        personCenterActivity.startMyDynamicArticleActivity(user_id);
     }
 
     @Override
     public void showDynamicTopicView() {
-
+        personCenterActivity.startMyDynamicTopicActivity(user_id);
     }
 
     @Override
     public void showDynamicNormalView() {
-
+        personCenterActivity.startMyDynamicNormalActivity(user_id);
     }
 
     @Override

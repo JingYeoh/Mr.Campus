@@ -12,6 +12,7 @@ public class DynamicDetailArticleData {
     private String title;
     private String tag;
     private boolean hasFavorite;
+    private boolean isOriginal;
     private int comments_count;//评论数
     private String created_at;
     private int operation_count;//喜欢数
@@ -75,6 +76,14 @@ public class DynamicDetailArticleData {
 
     public void setOperation_count(int operation_count) {
         this.operation_count = operation_count;
+    }
+
+    public boolean isOriginal() {
+        return isOriginal;
+    }
+
+    public void setOriginal(boolean original) {
+        isOriginal = original;
     }
 
     public DynamicDetailUserData getDynamicDetailUserData() {

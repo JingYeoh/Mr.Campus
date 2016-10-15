@@ -1,8 +1,8 @@
 package com.jkb.api.net.auth;
 
 import com.jkb.api.ApiResponse;
-import com.jkb.api.entity.auth.IdentifyCodeEntity;
 import com.jkb.api.config.Config;
+import com.jkb.api.entity.auth.IdentifyCodeEntity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +30,6 @@ public interface IdentifyCodeApi {
      * 发送邮箱接口
      *
      * @param email 邮箱地址
-     * @return
      */
     @Multipart
     @POST(Config.URL_SEND_EMAIL)
@@ -40,7 +39,6 @@ public interface IdentifyCodeApi {
      * 发送短信接口
      *
      * @param phone 手机号
-     * @return
      */
     @Multipart
     @POST(Config.URL_SEND_PHONE)

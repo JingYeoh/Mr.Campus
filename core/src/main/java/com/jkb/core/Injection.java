@@ -72,6 +72,15 @@ import com.jkb.model.dataSource.menuRight.friends.remote.FriendsRemoteDataSource
 import com.jkb.model.dataSource.menuRight.rightMenu.RightMenuDataRepertory;
 import com.jkb.model.dataSource.menuRight.rightMenu.local.RightMenuLocalDataSource;
 import com.jkb.model.dataSource.menuRight.rightMenu.remote.RightMenuRemoteDataSource;
+import com.jkb.model.dataSource.myDynamic.article.MyDynamicArticleRepertory;
+import com.jkb.model.dataSource.myDynamic.article.local.MyDynamicArticleLocalDataSource;
+import com.jkb.model.dataSource.myDynamic.article.remote.MyDynamicArticleRemoteDataSource;
+import com.jkb.model.dataSource.myDynamic.normal.MyDynamicNormalRepertory;
+import com.jkb.model.dataSource.myDynamic.normal.local.MyDynamicNormalLocalDataSource;
+import com.jkb.model.dataSource.myDynamic.normal.remote.MyDynamicNormalRemoteDataSource;
+import com.jkb.model.dataSource.myDynamic.topic.MyDynamicTopicRepertory;
+import com.jkb.model.dataSource.myDynamic.topic.local.MyDynamicTopicLocalDataSource;
+import com.jkb.model.dataSource.myDynamic.topic.remote.MyDynamicTopicRemoteDataSource;
 import com.jkb.model.dataSource.personCenter.PersonCenterDataResponsitory;
 import com.jkb.model.dataSource.personCenter.local.PersonCenterLocalDataSource;
 import com.jkb.model.dataSource.personCenter.remote.PersonCenterRemoteDataSource;
@@ -99,9 +108,6 @@ public class Injection {
 
     /**
      * 得到FirstDataResponsitory实例
-     *
-     * @param context
-     * @return
      */
     public static FirstDataResponsitory provideFirstResponsitory(Context context) {
         FirstLocalDataSource firstLocalDataSource = FirstLocalDataSource.getInstance(context);
@@ -112,9 +118,6 @@ public class Injection {
 
     /**
      * 得到WelcomeDataResponsitory的实例
-     *
-     * @param context
-     * @return
      */
     public static WelcomeDataResponsitory provideWelcomeResponsitory(Context context) {
         WelcomeDataResponsitory welcomeDataResponsitory = WelcomeDataResponsitory.getInstance(WelcomeLocalDataSource.getInstance(context),
@@ -124,8 +127,6 @@ public class Injection {
 
     /**
      * 得到IdentifyCodeResponsitory类的实例
-     *
-     * @return
      */
     public static IdentifyCodeResponsitory provideIdentifyCodeResponsitory() {
         IdentifyCodeResponsitory responsitory = IdentifyCodeResponsitory.getInstance(
@@ -136,8 +137,6 @@ public class Injection {
 
     /**
      * 得到PersonMessageResponsitory的实例
-     *
-     * @return
      */
     public static PersonMessageResponsitory providePersonMessageResponsotory(Context context) {
         PersonMessageResponsitory responsitory = PersonMessageResponsitory.getInstance(
@@ -148,9 +147,6 @@ public class Injection {
 
     /**
      * 得到LoginResponsitory的对象
-     *
-     * @param applicationContext
-     * @return
      */
     public static LoginResponsitory provideLoginResponsitory(@NonNull Context applicationContext) {
         LoginResponsitory responsitory = LoginResponsitory.getInstance(
@@ -162,9 +158,6 @@ public class Injection {
 
     /**
      * 得到ResetPasswordResponsitory对象
-     *
-     * @param applicationContext
-     * @return
      */
     public static ResetPasswordResponsitory provideResetPasswordResponsitory(
             @NonNull Context applicationContext) {
@@ -177,9 +170,6 @@ public class Injection {
 
     /**
      * 得到BaiduMapWebServiceResponsitory对象
-     *
-     * @param applicationContext
-     * @return
      */
     public static BaiduMapWebServiceResponsitory provideBaiduMapWebServiceResponsitory(
             @NonNull Context applicationContext) {
@@ -192,9 +182,6 @@ public class Injection {
 
     /**
      * 得到CircleCreateDataResponsitory对象
-     *
-     * @param applicationContext
-     * @return
      */
     public static CircleCreateDataResponsitory provideCircleCreateDataResponsitory(
             @NonNull Context applicationContext) {
@@ -457,6 +444,42 @@ public class Injection {
         FunctionSettingDataRepertory repertory = FunctionSettingDataRepertory.getInstance(
                 FunctionSettingLocalDataSource.getInstance(applicationContext),
                 FunctionSettingRemoteDataSource.getInstance());
+        return repertory;
+    }
+
+    /**
+     * 得到MyDynamicNormalRepertory對象
+     */
+    public static MyDynamicNormalRepertory provideMyDynamicNormalRepertory(
+            @NonNull Context applicationContext) {
+        MyDynamicNormalRepertory repertory = MyDynamicNormalRepertory.getInstance(
+                MyDynamicNormalLocalDataSource.getInstance(applicationContext),
+                MyDynamicNormalRemoteDataSource.getInstance()
+        );
+        return repertory;
+    }
+
+    /**
+     * 得到MyDynamicArticleRepertory對象
+     */
+    public static MyDynamicArticleRepertory provideMyDynamicArticleRepertory(
+            @NonNull Context applicationContext) {
+        MyDynamicArticleRepertory repertory = MyDynamicArticleRepertory.getInstance(
+                MyDynamicArticleLocalDataSource.getInstance(applicationContext),
+                MyDynamicArticleRemoteDataSource.getInstance()
+        );
+        return repertory;
+    }
+
+    /**
+     * 得到MyDynamicTopicRepertory對象
+     */
+    public static MyDynamicTopicRepertory provideMyDynamicTopicRepertory(
+            @NonNull Context applicationContext) {
+        MyDynamicTopicRepertory repertory = MyDynamicTopicRepertory.getInstance(
+                MyDynamicTopicLocalDataSource.getInstance(applicationContext),
+                MyDynamicTopicRemoteDataSource.getInstance()
+        );
         return repertory;
     }
 }

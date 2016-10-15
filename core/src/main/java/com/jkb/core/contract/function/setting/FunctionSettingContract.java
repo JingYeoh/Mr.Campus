@@ -47,6 +47,11 @@ public interface FunctionSettingContract {
         void showShareView();
 
         /**
+         * 显示提示框提醒是否清楚缓存
+         */
+        void showHintDetermineView();
+
+        /**
          * 清楚缓存
          */
         void clearCache();
