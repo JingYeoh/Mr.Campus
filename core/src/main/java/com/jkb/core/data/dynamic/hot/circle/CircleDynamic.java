@@ -2,7 +2,7 @@ package com.jkb.core.data.dynamic.hot.circle;
 
 import com.jkb.api.entity.dynamic.DynamicPopularListEntity;
 import com.jkb.core.data.dynamic.hot.HotDynamic;
-import com.jkb.core.data.user.UserInfo;
+import com.jkb.core.data.info.user.UserInfo;
 
 /**
  * 推荐的圈子热门动态

@@ -110,6 +110,15 @@ public class SwitchFunctionPresenter implements SwitchFunctionContract.Presenter
     }
 
     @Override
+    public void onMyFavoriteClick() {
+        if (!LoginContext.getInstance().isLogined()) {
+            functionView.showReqResult("请先去登录再进行操作");
+            return;
+        }
+        functionView.startMyFavoriteActivity(getUser_id());
+    }
+
+    @Override
     public void onUserViewClick() {
         if (LoginContext.getInstance().isLogined()) {
             functionView.startPersonCenterActivity(getUser_id());

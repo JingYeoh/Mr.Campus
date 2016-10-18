@@ -5,7 +5,9 @@ import com.jkb.api.config.Config;
 import com.jkb.api.entity.dynamic.DynamicActionEntity;
 import com.jkb.api.entity.dynamic.DynamicArticleEntity;
 import com.jkb.api.entity.dynamic.DynamicArticleListEntity;
+import com.jkb.api.entity.dynamic.DynamicCircleListEntity;
 import com.jkb.api.entity.dynamic.DynamicListEntity;
+import com.jkb.api.entity.dynamic.DynamicMyFavoriteEntity;
 import com.jkb.api.entity.dynamic.DynamicNormalEntity;
 import com.jkb.api.entity.dynamic.DynamicNormalListEntity;
 import com.jkb.api.entity.dynamic.DynamicPopularListEntity;
@@ -266,4 +268,73 @@ public interface DynamicApi {
             @Query(Config.KEY_USERID) int userId,
             @Query(Config.KEY_PAGE) int page,
             @Query(Config.KEY_PARTIAL) String partial);
+
+
+    /**
+     * 得到我喜欢的动态
+     *
+     * @param Authorization 头，可选
+     * @param type          类型
+     * @param userId        用户id
+     * @param ownerId       访客id
+     * @param page          分页
+     * @param partial       筛选条件
+     * @return Call
+     */
+    @GET(Config.URL_DYNAMIC_MY)
+    Call<ApiResponse<DynamicMyFavoriteEntity>> getMyFavoriteDynamic(
+            @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
+            @Path(Config.KEY_TYPE) String type,
+            @Query(Config.KEY_USERID) int userId,
+            @Query(Config.KEY_OWNERID) int ownerId,
+            @Query(Config.KEY_PAGE) int page,
+            @Query(Config.KEY_PARTIAL) String partial);
+
+    /**
+     * 得到我喜欢的动态
+     *
+     * @param type    类型
+     * @param ownerId 访客id
+     * @param page    分页
+     * @param partial 筛选条件
+     * @return Call
+     */
+    @GET(Config.URL_DYNAMIC_MY)
+    Call<ApiResponse<DynamicMyFavoriteEntity>> getMyFavoriteDynamic(
+            @Path(Config.KEY_TYPE) String type,
+            @Query(Config.KEY_OWNERID) int ownerId,
+            @Query(Config.KEY_PAGE) int page,
+            @Query(Config.KEY_PARTIAL) String partial);
+
+    /**
+     * 得到我喜欢的动态
+     *
+     * @param Authorization 头，可选
+     * @param type          类型
+     * @param userId        用户id
+     * @param ownerId       访客id
+     * @param page          分页
+     * @return Call
+     */
+    @GET(Config.URL_DYNAMIC_MY)
+    Call<ApiResponse<DynamicMyFavoriteEntity>> getMyFavoriteDynamic(
+            @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
+            @Path(Config.KEY_TYPE) String type,
+            @Query(Config.KEY_USERID) int userId,
+            @Query(Config.KEY_OWNERID) int ownerId,
+            @Query(Config.KEY_PAGE) int page);
+
+    /**
+     * 得到我喜欢的动态
+     *
+     * @param type    类型
+     * @param ownerId 访客id
+     * @param page    分页
+     * @return Call
+     */
+    @GET(Config.URL_DYNAMIC_MY)
+    Call<ApiResponse<DynamicMyFavoriteEntity>> getMyFavoriteDynamic(
+            @Path(Config.KEY_TYPE) String type,
+            @Query(Config.KEY_OWNERID) int ownerId,
+            @Query(Config.KEY_PAGE) int page);
 }

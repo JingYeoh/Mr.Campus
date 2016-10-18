@@ -27,7 +27,9 @@ import jkb.mrcampus.db.entity.Schools;
  * 左滑菜单：切换功能的View
  * Created by JustKiddingBaby on 2016/7/24.
  */
-public class SwitchFunctionFragment extends BaseFragment implements SwitchFunctionContract.View, View.OnClickListener {
+public class SwitchFunctionFragment extends BaseFragment
+        implements SwitchFunctionContract.View,
+        View.OnClickListener {
 
     private SwitchFunctionContract.Presenter mPresenter;
     private MainActivity mainActivity;
@@ -144,6 +146,7 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
                 case R.id.fms_iv_topSearch://搜索
                     break;
                 case R.id.fms_iv_topLike://我的喜欢
+                    mPresenter.onMyFavoriteClick();
                     break;
                 case R.id.fms_iv_topCircle://圈子
                     mPresenter.onCircleListClick();
@@ -284,6 +287,11 @@ public class SwitchFunctionFragment extends BaseFragment implements SwitchFuncti
     @Override
     public void startPersonCenterActivity(@NonNull int user_id) {
         mainActivity.startPersonalCenterActivity(user_id);
+    }
+
+    @Override
+    public void startMyFavoriteActivity(@NonNull int user_id) {
+        mainActivity.startMyFavoriteActivity(user_id);
     }
 
 

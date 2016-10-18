@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/fmdc_tv_circleName"
+            style="@style/titleNameStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:gravity="center|left"
+            android:singleLine="true"
+            android:text="全部圈子"
+            android:textColor="@color/black" />
+
+        <ImageButton
+            android:id="@+id/fmdc_ib_moreCircle"
+            style="@style/titleContentImage"
+            android:background="@drawable/selecter_clearity_gravy"
+            android:src="@drawable/ic_more_black" />
+    </LinearLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fmdc_srl"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/background_general">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/fmdc_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white" />
+
+                <include
+                    android:id="@+id/fmdc_contentLoadMore"
+                    layout="@layout/item_item_dynamic_load_all"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/fmdc_iv_floatBt_top"
+                style="@style/FunctionSetIcStyle"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="50dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/ic_top"
+                android:visibility="visible" />
+        </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <include layout="@layout/title_style_4" />
+
+</LinearLayout>

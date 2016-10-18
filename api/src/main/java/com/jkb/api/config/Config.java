@@ -105,6 +105,7 @@ public class Config {
     public static final String KEY_NAME = "name";
     public static final String KEY_ACTION = "action";
     public static final String KEY_USERID = "userId";
+    public static final String KEY_OWNERID = "ownerId";
     public static final String KEY_ID = "id";
     public static final String KEY_PAGE = "page";
     public static final String KEY_ORDER = "order";
@@ -166,6 +167,8 @@ public class Config {
     public static final String D_TYPE_TOPIC = "topic";
     public static final String D_TYPE_ARTICLE = "article";
     public static final String D_TYPE_NORMAL = "normal";
+
+    public static final String TYPE_CIRCLE="circle";
 
     public static final String ACTION_TYPE_POST = "post";
     public static final String ACTION_TYPE_FAVORITE = "favorite";

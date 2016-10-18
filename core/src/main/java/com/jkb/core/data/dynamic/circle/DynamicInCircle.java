@@ -6,7 +6,7 @@ import com.jkb.api.entity.circle.DynamicInCircleListEntity;
 import com.jkb.core.data.dynamic.circle.original.DynamicInCircleOriginalArticle;
 import com.jkb.core.data.dynamic.circle.original.DynamicInCircleOriginalNormal;
 import com.jkb.core.data.dynamic.circle.original.DynamicInCircleOriginalTopic;
-import com.jkb.core.data.user.UserInfo;
+import com.jkb.core.data.info.user.UserInfo;
 
 /**
  * 圈子动态的基类

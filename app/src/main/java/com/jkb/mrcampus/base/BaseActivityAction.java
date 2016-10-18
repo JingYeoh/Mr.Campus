@@ -46,10 +46,10 @@ public interface BaseActivityAction {
     /**
      * 显示提示框的视图
      *
-     * @param title                      标题栏，不可空
-     * @param content                    内容，可空
-     * @param bt1Content                  第一个条目的内容，可空
-     * @param bt2Content                 第二个可点击条目的内容，可空
+     * @param title                        标题栏，不可空
+     * @param content                      内容，可空
+     * @param bt1Content                   第一个条目的内容，可空
+     * @param bt2Content                   第二个可点击条目的内容，可空
      * @param onDetermineItemClickListener 点击的监听回调事件
      */
     void showHintDetermineFloatView(
@@ -175,6 +175,15 @@ public interface BaseActivityAction {
      * @param user_id 用户id
      */
     void startMyDynamicCircleActivity(@NonNull int user_id);
+
+
+    /**
+     * 打开我喜欢的动态页面
+     *
+     * @param user_id 用户id
+     */
+    void startMyFavoriteActivity(@NonNull int user_id);
+
 
     /**
      * 顯示輸入

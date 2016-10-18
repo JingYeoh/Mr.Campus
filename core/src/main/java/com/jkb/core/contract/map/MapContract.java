@@ -2,8 +2,8 @@ package com.jkb.core.contract.map;
 
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
-import com.jkb.core.data.map.MapMarkCircleInfo;
-import com.jkb.core.data.map.MapMarkUserInfo;
+import com.jkb.core.data.info.map.MapMarkCircleInfo;
+import com.jkb.core.data.info.map.MapMarkUserInfo;
 import com.jkb.model.info.LocationInfoSingleton;
 
 /**

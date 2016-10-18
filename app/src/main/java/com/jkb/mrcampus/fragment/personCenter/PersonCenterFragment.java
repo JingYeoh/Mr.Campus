@@ -113,6 +113,7 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
         rootView.findViewById(R.id.fpc_ll_article).setOnClickListener(this);
         rootView.findViewById(R.id.fpc_ll_topic).setOnClickListener(this);
         rootView.findViewById(R.id.fpc_ll_normal).setOnClickListener(this);
+        rootView.findViewById(R.id.fpc_ll_circle).setOnClickListener(this);
         //刷新控件监听器
         refreshLayout.setOnRefreshListener(this);
         //设置点击事件
@@ -405,7 +406,7 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void showMyLikeView() {
-
+        personCenterActivity.startMyFavoriteActivity(user_id);
     }
 
     @Override
@@ -430,7 +431,7 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void showDynamicCircleView() {
-
+        personCenterActivity.startMyDynamicCircleActivity(user_id);
     }
 
     @Override

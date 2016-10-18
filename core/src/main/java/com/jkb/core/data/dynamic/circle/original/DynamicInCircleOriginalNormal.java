@@ -2,7 +2,7 @@ package com.jkb.core.data.dynamic.circle.original;
 
 import com.jkb.api.entity.circle.DynamicInCircleListEntity;
 import com.jkb.core.data.dynamic.circle.DynamicInCircle;
-import com.jkb.core.data.user.UserInfo;
+import com.jkb.core.data.info.user.UserInfo;
 
 import java.util.List;
 

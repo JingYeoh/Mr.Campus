@@ -57,6 +57,13 @@ public interface SwitchFunctionContract {
          * @param user_id 用户id
          */
         void startPersonCenterActivity(@NonNull int user_id);
+
+        /**
+         * 打开我的喜欢的页面
+         *
+         * @param user_id 用户id
+         */
+        void startMyFavoriteActivity(@NonNull int user_id);
     }
 
     /**
@@ -100,6 +107,11 @@ public interface SwitchFunctionContract {
          * 当圈子列表被点击的时候
          */
         void onCircleListClick();
+
+        /**
+         * 当我的喜欢被点击的时候
+         */
+        void onMyFavoriteClick();
 
         /**
          * 用户视图栏的点击

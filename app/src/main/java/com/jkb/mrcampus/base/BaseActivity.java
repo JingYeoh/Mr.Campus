@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jkb.core.contract.dynamicCreate.data.CategoryTypeData;
@@ -28,7 +27,8 @@ import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.MessageActivity;
 import com.jkb.mrcampus.activity.MessageCenterActivity;
-import com.jkb.mrcampus.activity.MyDynamicActivity;
+import com.jkb.mrcampus.activity.MyOriginalDynamicActivity;
+import com.jkb.mrcampus.activity.MyUnOriginalDynamicActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
@@ -41,6 +41,7 @@ import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.TagFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.TextFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
+import com.jkb.mrcampus.fragment.personCenter.unOriginalDynamic.MyFavoriteDynamicFragment;
 import com.jkb.mrcampus.net.ShareFactory;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
 import com.jkb.mrcampus.helper.ActivityUtils;
@@ -371,9 +372,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
             showShortToast("用户不存在");
             return;
         }
-        Intent intent = new Intent(this, MyDynamicActivity.class);
+        Intent intent = new Intent(this, MyOriginalDynamicActivity.class);
         intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
-        intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE, MyDynamicActivity.MY_DYNAMIC_TYPE_ARTICLE);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE, MyOriginalDynamicActivity.MY_DYNAMIC_TYPE_ARTICLE);
         startActivityWithPushLeftAnim(intent);
     }
 
@@ -383,9 +384,10 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
             showShortToast("用户不存在");
             return;
         }
-        Intent intent = new Intent(this, MyDynamicActivity.class);
+        Intent intent = new Intent(this, MyOriginalDynamicActivity.class);
         intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
-        intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE, MyDynamicActivity.MY_DYNAMIC_TYPE_CIRCLE);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE,
+                MyOriginalDynamicActivity.MY_DYNAMIC_TYPE_CIRCLE);
         startActivityWithPushLeftAnim(intent);
     }
 
@@ -395,9 +397,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
             showShortToast("用户不存在");
             return;
         }
-        Intent intent = new Intent(this, MyDynamicActivity.class);
+        Intent intent = new Intent(this, MyOriginalDynamicActivity.class);
         intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
-        intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE, MyDynamicActivity.MY_DYNAMIC_TYPE_NORMAL);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE, MyOriginalDynamicActivity.MY_DYNAMIC_TYPE_NORMAL);
         startActivityWithPushLeftAnim(intent);
     }
 
@@ -407,9 +409,21 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
             showShortToast("用户不存在");
             return;
         }
-        Intent intent = new Intent(this, MyDynamicActivity.class);
+        Intent intent = new Intent(this, MyOriginalDynamicActivity.class);
         intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
-        intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE, MyDynamicActivity.MY_DYNAMIC_TYPE_TOPIC);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE, MyOriginalDynamicActivity.MY_DYNAMIC_TYPE_TOPIC);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startMyFavoriteActivity(@NonNull int user_id) {
+        if (user_id <= 0) {
+            showShortToast("用户不存在");
+            return;
+        }
+        Intent intent = new Intent(this, MyUnOriginalDynamicActivity.class);
+        intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE, MyUnOriginalDynamicActivity.TYPE_MY_FAVORITE);
         startActivityWithPushLeftAnim(intent);
     }
 
@@ -665,8 +679,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
             String title, String content, String bt1Content, String bt2Content,
             HintDetermineFloatFragment.OnDetermineItemClickListener onDetermineItemClickListener) {
         if (hintDetermineFloatFragment == null) {
-            hintDetermineFloatFragment = new HintDetermineFloatFragment(title,content,
-                    bt1Content,bt2Content,onDetermineItemClickListener);
+            hintDetermineFloatFragment = new HintDetermineFloatFragment(title, content,
+                    bt1Content, bt2Content, onDetermineItemClickListener);
         }
         if (!hintDetermineFloatFragment.isAdded()) {
             hintDetermineFloatFragment.show(getFragmentManager(),

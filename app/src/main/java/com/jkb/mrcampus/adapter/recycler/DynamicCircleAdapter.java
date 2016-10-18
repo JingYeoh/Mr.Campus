@@ -14,11 +14,10 @@ import com.jkb.core.data.dynamic.circle.DynamicInCircle;
 import com.jkb.core.data.dynamic.circle.original.DynamicInCircleOriginalArticle;
 import com.jkb.core.data.dynamic.circle.original.DynamicInCircleOriginalNormal;
 import com.jkb.core.data.dynamic.circle.original.DynamicInCircleOriginalTopic;
-import com.jkb.core.data.user.UserInfo;
+import com.jkb.core.data.info.user.UserInfo;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
-import com.jkb.mrcampus.adapter.recycler.dynamic.HotDynamicAdapter;
 import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.ArrayList;

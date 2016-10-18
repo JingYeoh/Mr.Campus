@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 
 import com.jkb.core.contract.map.MapContract;
 import com.jkb.core.control.userstate.LoginContext;
-import com.jkb.core.data.circle.CircleInfo;
-import com.jkb.core.data.map.MapMarkCircleInfo;
-import com.jkb.core.data.map.MapMarkUserInfo;
+import com.jkb.core.data.info.circle.CircleInfo;
+import com.jkb.core.data.info.map.MapMarkCircleInfo;
+import com.jkb.core.data.info.map.MapMarkUserInfo;
 import com.jkb.model.info.LocationInfoSingleton;
 import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.model.info.UserInfoSingleton;

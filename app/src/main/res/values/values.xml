@@ -62,7 +62,6 @@
     <style name="Dynamic_Title_style">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:singleLine">true</item>
     </style>
     <!--动态时间显示的样式-->
     <style name="Dynamic_Time_style">

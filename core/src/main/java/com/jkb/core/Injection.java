@@ -75,12 +75,21 @@ import com.jkb.model.dataSource.menuRight.rightMenu.remote.RightMenuRemoteDataSo
 import com.jkb.model.dataSource.myDynamic.article.MyDynamicArticleRepertory;
 import com.jkb.model.dataSource.myDynamic.article.local.MyDynamicArticleLocalDataSource;
 import com.jkb.model.dataSource.myDynamic.article.remote.MyDynamicArticleRemoteDataSource;
+import com.jkb.model.dataSource.myDynamic.circle.MyDynamicCircleRepertory;
+import com.jkb.model.dataSource.myDynamic.circle.local.MyDynamicCircleLocalDataSource;
+import com.jkb.model.dataSource.myDynamic.circle.remote.MyDynamicCircleRemoteDataSource;
+import com.jkb.model.dataSource.myDynamic.circleSelector.CircleSelectorRepertory;
+import com.jkb.model.dataSource.myDynamic.circleSelector.local.CircleSelectorLocalDataSource;
+import com.jkb.model.dataSource.myDynamic.circleSelector.remote.CircleSelectorRemoteDataSource;
 import com.jkb.model.dataSource.myDynamic.normal.MyDynamicNormalRepertory;
 import com.jkb.model.dataSource.myDynamic.normal.local.MyDynamicNormalLocalDataSource;
 import com.jkb.model.dataSource.myDynamic.normal.remote.MyDynamicNormalRemoteDataSource;
 import com.jkb.model.dataSource.myDynamic.topic.MyDynamicTopicRepertory;
 import com.jkb.model.dataSource.myDynamic.topic.local.MyDynamicTopicLocalDataSource;
 import com.jkb.model.dataSource.myDynamic.topic.remote.MyDynamicTopicRemoteDataSource;
+import com.jkb.model.dataSource.myFavorite.MyFavoriteDynamicRepertory;
+import com.jkb.model.dataSource.myFavorite.local.MyFavoriteLocalDataSource;
+import com.jkb.model.dataSource.myFavorite.remote.MyFavoriteRemoteDataSource;
 import com.jkb.model.dataSource.personCenter.PersonCenterDataResponsitory;
 import com.jkb.model.dataSource.personCenter.local.PersonCenterLocalDataSource;
 import com.jkb.model.dataSource.personCenter.remote.PersonCenterRemoteDataSource;
@@ -479,6 +488,42 @@ public class Injection {
         MyDynamicTopicRepertory repertory = MyDynamicTopicRepertory.getInstance(
                 MyDynamicTopicLocalDataSource.getInstance(applicationContext),
                 MyDynamicTopicRemoteDataSource.getInstance()
+        );
+        return repertory;
+    }
+
+    /**
+     * 得到MyFavoriteDynamicRepertory對象
+     */
+    public static MyFavoriteDynamicRepertory provideMyFavoriteDynamicRepertory(
+            @NonNull Context applicationContext) {
+        MyFavoriteDynamicRepertory repertory = MyFavoriteDynamicRepertory.getInstance(
+                MyFavoriteLocalDataSource.getInstance(applicationContext),
+                MyFavoriteRemoteDataSource.getInstance()
+        );
+        return repertory;
+    }
+
+    /**
+     * 得到MyDynamicCircleRepertory對象
+     */
+    public static MyDynamicCircleRepertory provideMyDynamicCircleRepertory(
+            @NonNull Context applicationContext) {
+        MyDynamicCircleRepertory repertory = MyDynamicCircleRepertory.getInstance(
+                MyDynamicCircleLocalDataSource.getInstance(applicationContext),
+                MyDynamicCircleRemoteDataSource.getInstance()
+        );
+        return repertory;
+    }
+
+    /**
+     * 得到CircleSelectorRepertory對象
+     */
+    public static CircleSelectorRepertory provideCircleSelectorRepertory(
+            @NonNull Context applicationContext) {
+        CircleSelectorRepertory repertory = CircleSelectorRepertory.newInstance(
+                CircleSelectorLocalDataSource.newInstance(applicationContext),
+                CircleSelectorRemoteDataSource.newInstance()
         );
         return repertory;
     }
