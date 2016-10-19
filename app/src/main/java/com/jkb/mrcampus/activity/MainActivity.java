@@ -14,6 +14,8 @@ import com.jkb.core.presenter.function.setting.FunctionSettingPresenter;
 import com.jkb.core.presenter.menu.MenuPresenter;
 import com.jkb.core.presenter.menu.RightMenuPresenter;
 import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
+import com.jkb.model.utils.LogUtils;
+import com.jkb.mrcampus.Mr_Campus;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseSlideMenuActivity;
 import com.jkb.mrcampus.fragment.function.index.HomePageFragment;
@@ -25,6 +27,9 @@ import com.jkb.mrcampus.fragment.menu.SwitchFunctionFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.service.LocationService;
 import com.jkb.mrcampus.utils.ClassUtils;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 /**
  * 核心的Activity类，负责显示主要功能模块
@@ -329,6 +334,44 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
                 SwitchFunctionFragment.class.getName(), RightMenuFragment.class.getName());
     }
 
+    @Override
+    public void connectRongIM(String token) {
+        if (getApplicationInfo().packageName.
+                equals(Mr_Campus.getCurProcessName(getApplicationContext()))) {
+            LogUtils.d(TAG, "我要开始连接融云服务了");
+            RongIM.connect(token, new RongIMClient.ConnectCallback() {
+                /**
+                 * Token 错误，在线上环境下主要是因为 Token 已经过期，
+                 * 您需要向 App Server 重新请求一个新的 Token
+                 */
+                @Override
+                public void onTokenIncorrect() {
+                    LogUtils.d(TAG, "--onTokenIncorrect");
+                    //设置登录失败状态
+                    mPresenter.rongIMTokenIncorrect();
+                }
+
+                @Override
+                public void onSuccess(String user_id) {
+                    LogUtils.d(TAG, "--onSuccess" + user_id);
+                }
+
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    LogUtils.d(TAG, "--onError" + errorCode.getValue());
+                }
+            });
+        } else {
+            showReqResult("应用包名不同，不能启动聊天服务");
+        }
+    }
+
+    @Override
+    public void breakConnectRongIM() {
+        LogUtils.d(TAG, "我要开始断开聊天了");
+        RongIM.getInstance().logout();
+    }
+
     /**
      * 初始化Fragment步骤2
      */
@@ -442,11 +485,13 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
                 @Override
                 public void onLogin() {
                     slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);//设置为两侧滑动
+                    mPresenter.connectRongIM();
                 }
 
                 @Override
                 public void onLogout() {
                     slidingMenu.setMode(SlidingMenu.LEFT);//设置为只有左侧滑动
+                    mPresenter.logoutRongIM();
                 }
             };
 }

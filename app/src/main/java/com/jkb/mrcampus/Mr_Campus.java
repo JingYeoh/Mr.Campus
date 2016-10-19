@@ -1,6 +1,7 @@
 package com.jkb.mrcampus;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.jkb.api.ApiFactoryImpl;
@@ -11,6 +12,7 @@ import com.jkb.model.utils.Config;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
 
 import cn.sharesdk.framework.ShareSDK;
+import io.rong.imkit.RongIM;
 import jkb.mrcampus.db.MrCampusDB;
 
 /**
@@ -80,6 +82,9 @@ public class Mr_Campus extends Application {
         SDKInitializer.initialize(getApplicationContext());
         //初始化ShareSDK
         ShareSDK.initSDK(getApplicationContext(), SHARE_SDK_APP_KEY);
+        //初始化融云SDK
+        RongIM.init(this);
+//        RongIM.getInstance().setMessageAttachedUserInfo(true);//设置携带用户信息
     }
 
     /**
@@ -87,6 +92,17 @@ public class Mr_Campus extends Application {
      */
     public static SingletonManager getSingletonManager() {
         return singletonManager;
+    }
+
+
+    /**
+     * 得到当前应用的包名
+     *
+     * @param applicationContext 上下文对象
+     * @return 当前应用的包名
+     */
+    public static String getCurProcessName(Context applicationContext) {
+        return "com.jkb.mrcampus";
     }
 
 }

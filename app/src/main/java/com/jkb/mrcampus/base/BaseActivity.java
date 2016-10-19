@@ -49,6 +49,8 @@ import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.List;
 
+import io.rong.imkit.RongIM;
+
 
 /**
  * 所有Activity类的基类
@@ -425,6 +427,19 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         intent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_TYPE, MyUnOriginalDynamicActivity.TYPE_MY_FAVORITE);
         startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startPrivateConversation(@NonNull int user_id) {
+        if (!LoginContext.getInstance().isLogined()) {
+            showShortToast("请您先去登录再进行操作");
+            return;
+        }
+        if (RongIM.getInstance() != null) {
+            RongIM.getInstance().startPrivateChat(this, user_id + "", "私聊");
+        } else {
+            showShortToast("未连接聊天服务器");
+        }
     }
 
     @Override

@@ -479,6 +479,18 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
         isOverdue = true;//设置数据过期
     }
 
+    @Override
+    public void onChatClick() {
+        if (!view.isActive()) {
+            return;
+        }
+        if (LoginContext.getInstance().isLogined()) {
+            view.startPrivateConversationActivity(user_id);
+        } else {
+            view.showReqResult("请先登录再进行操作");
+        }
+    }
+
     /**
      * 得到用户数据
      */

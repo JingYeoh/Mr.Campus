@@ -365,6 +365,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         UserAuths userAuths = new UserAuths();
         userAuths.setUser_id(bean.getId());
         userAuths.setToken(body.getToken());
+        userAuths.setRong_im_token(body.getRcToken());
         userAuths.setIdentity_type(identity_type);
         userAuths.setUpdated_at(StringUtils.getSystemCurrentTime());
         userAuths.setCredential(passWord);

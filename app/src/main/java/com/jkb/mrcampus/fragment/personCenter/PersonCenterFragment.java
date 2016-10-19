@@ -1,6 +1,7 @@
 package com.jkb.mrcampus.fragment.personCenter;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -436,7 +437,7 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void chat() {
-        showReqResult("聊天");
+        mPresenter.onChatClick();
     }
 
     @Override
@@ -452,6 +453,11 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     @Override
     public void showContentView() {
         rootView.findViewById(R.id.fpc_content).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void startPrivateConversationActivity(@NonNull int user_id) {
+        personCenterActivity.startPrivateConversation(user_id);
     }
 
     @Override

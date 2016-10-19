@@ -1,7 +1,6 @@
 package com.jkb.core.presenter.menu;
 
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.jkb.api.ApiCallback;
@@ -16,6 +15,7 @@ import com.jkb.model.dataSource.entering.login.LoginDataSource;
 import com.jkb.model.dataSource.entering.login.LoginResponsitory;
 import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.model.info.UserInfoSingleton;
+import com.jkb.model.utils.LogUtils;
 import com.jkb.model.utils.StringUtils;
 
 import java.io.Serializable;
@@ -111,6 +111,43 @@ public class MenuPresenter implements MenuContract.Presenter {
             //请求登录接口
             login(identity_type, identifier, credential, nickName);
         }
+    }
+
+    @Override
+    public void connectRongIM() {
+//        LogUtils.d(TAG, "connectRongIM");
+        if (!menuView.isActive()) {
+            return;
+        }
+        if (LoginContext.getInstance().isLogined()) {
+            UserAuths userAuths = UserInfoSingleton.getInstance().getUserAuths();
+            if (userAuths == null) {
+                changeToLogout();
+            } else {
+                String rong_im_token = userAuths.getRong_im_token();
+//                LogUtils.d(TAG, "rong_im_token=" + rong_im_token);
+                if (StringUtils.isEmpty(rong_im_token)) {
+                    changeToLogout();
+                } else {
+                    menuView.connectRongIM(rong_im_token);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void logoutRongIM() {
+        if (!menuView.isActive()) {
+            return;
+        }
+        if (LoginContext.getInstance().isLogined()) {
+            menuView.breakConnectRongIM();
+        }
+    }
+
+    @Override
+    public void rongIMTokenIncorrect() {
+        changeToLogout();
     }
 
     /**
@@ -286,6 +323,7 @@ public class MenuPresenter implements MenuContract.Presenter {
         UserAuths userAuths = new UserAuths();
         userAuths.setUser_id(bean.getId());
         userAuths.setToken(body.getToken());
+        userAuths.setRong_im_token(body.getRcToken());
         userAuths.setIdentity_type(identity_type);
         userAuths.setUpdated_at(StringUtils.getSystemCurrentTime());
         userAuths.setCredential(passWord);
@@ -338,5 +376,15 @@ public class MenuPresenter implements MenuContract.Presenter {
     public void start() {
 //        showFragment();
         ReqLogin();
+    }
+
+    /**
+     * 切换到登出状态
+     */
+    private void changeToLogout() {
+        LoginContext.getInstance().setUserState(new LogoutState());
+        if (menuView.isActive()) {
+            menuView.showReqResult("登录过期，请重新登录");
+        }
     }
 }

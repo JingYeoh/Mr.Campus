@@ -184,6 +184,13 @@ public interface BaseActivityAction {
      */
     void startMyFavoriteActivity(@NonNull int user_id);
 
+    /**
+     * 打开私人的会话页面
+     *
+     * @param user_id 用户id
+     */
+    void startPrivateConversation(@NonNull int user_id);
+
 
     /**
      * 顯示輸入

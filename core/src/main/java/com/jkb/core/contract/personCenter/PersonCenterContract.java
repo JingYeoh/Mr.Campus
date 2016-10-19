@@ -1,6 +1,7 @@
 package com.jkb.core.contract.personCenter;
 
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
@@ -225,6 +226,13 @@ public interface PersonCenterContract {
          * 调用时机：加载完成，有数据时
          */
         void showContentView();
+
+        /**
+         * 打开私聊页面
+         *
+         * @param user_id 用户id
+         */
+        void startPrivateConversationActivity(@NonNull int user_id);
     }
 
     interface Presenter extends BasePresenter {
@@ -272,5 +280,10 @@ public interface PersonCenterContract {
          * 通知数据过期
          */
         void notifyDataChanged();
+
+        /**
+         * 聊天按钮被点击的时候
+         */
+        void onChatClick();
     }
 }

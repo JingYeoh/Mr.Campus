@@ -85,7 +85,8 @@ public class MrCampusDbGenerator {
         userAuth.addStringProperty(DBConfig.IDENTITY_TYPE);//登录方式
         userAuth.addStringProperty(DBConfig.IDENTIFIER);//帐号
         userAuth.addStringProperty(DBConfig.CREDENTIAL);//密码
-        userAuth.addStringProperty(DBConfig.TOKEN);//密码
+        userAuth.addStringProperty(DBConfig.TOKEN);//token
+        userAuth.addStringProperty(DBConfig.RONG_IM_TOKEN);//融云聊天的token
         userAuth.addDateProperty(DBConfig.UPDATED_AT);//更新时间
     }
 

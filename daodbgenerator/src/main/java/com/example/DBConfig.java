@@ -39,6 +39,7 @@ public class DBConfig {
     public static final String SEX = "sex";
     public static final String NAME = "name";
     public static final String TOKEN = "token";
+    public static final String RONG_IM_TOKEN="rong_im_token";
     public static final String BREF_INTRODUCTION = "bref_introduction";
     public static final String BACKGROUND = "background";
     public static final String SCHOOL_ID = "school_id";

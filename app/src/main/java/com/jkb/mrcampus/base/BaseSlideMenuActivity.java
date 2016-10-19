@@ -46,6 +46,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.rong.imkit.RongIM;
+
 /**
  * 帶有侧滑菜單的Activity基类
  * Created by JustKiddingBaby on 2016/7/21.
@@ -403,6 +405,19 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
         Intent intent = new Intent(this, MessageActivity.class);
         intent.putExtra(Config.INTENT_KEY_MESSAGE_TYPE, messageType);
         startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startPrivateConversation(@NonNull int user_id) {
+        if (!LoginContext.getInstance().isLogined()) {
+            showShortToast("请您先去登录再进行操作");
+            return;
+        }
+        if (RongIM.getInstance() != null) {
+            RongIM.getInstance().startPrivateChat(this, user_id + "", "私聊");
+        } else {
+            showShortToast("未连接聊天服务器");
+        }
     }
 
     @Override

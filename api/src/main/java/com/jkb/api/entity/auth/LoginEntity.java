@@ -17,6 +17,8 @@ public class LoginEntity {
      */
 
     private String token;
+
+
     /**
      * id : 3
      * UID : 1000001
@@ -40,6 +42,11 @@ public class LoginEntity {
     private UserInfoBean userInfo;
     private List<String> credential;
     private List<String> identifier;
+    /**
+     * rcToken : uQfjRmfdYk2cKI1SWG8XLX91gn7pqoL5DyZ5...
+     */
+
+    private String rcToken;
 
     public String getToken() {
         return token;
@@ -71,6 +78,14 @@ public class LoginEntity {
 
     public void setIdentifier(List<String> identifier) {
         this.identifier = identifier;
+    }
+
+    public String getRcToken() {
+        return rcToken;
+    }
+
+    public void setRcToken(String rcToken) {
+        this.rcToken = rcToken;
     }
 
     public static class UserInfoBean {

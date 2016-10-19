@@ -215,6 +215,7 @@ public class EnterPersonMessagePresenter implements EnterPersonMessageContract.P
         userAuths.setIdentifier(identifier);
         userAuths.setCredential(credential);
         userAuths.setToken(registerEntity.getToken());
+        userAuths.setRong_im_token(registerEntity.getRcToken());
         userAuths.setUpdated_at(StringUtils.getSystemCurrentTime());
         personMessageResponsitory.saveUserAuthToDb(userAuths);
         //更新信息到个人数据的单例类中
