@@ -1,5 +1,6 @@
 package com.jkb.mrcampus.fragment.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -21,7 +22,7 @@ import com.jkb.mrcampus.R;
  * 提示框：有两个按钮可供选择
  * Created by JustKiddingBaby on 2016/10/15.
  */
-
+@SuppressLint("ValidFragment")
 public class HintDetermineFloatFragment extends DialogFragment implements View.OnClickListener {
 
     //data

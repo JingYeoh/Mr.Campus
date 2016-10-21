@@ -1,5 +1,6 @@
 package com.jkb.mrcampus.fragment.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -20,7 +21,7 @@ import com.jkb.mrcampus.R;
  * 写动态的DialogFragment
  * Created by JustKiddingBaby on 2016/9/6.
  */
-
+@SuppressLint("ValidFragment")
 public class WriteDynamicDialogFragment extends DialogFragment implements View.OnClickListener {
 
     //data

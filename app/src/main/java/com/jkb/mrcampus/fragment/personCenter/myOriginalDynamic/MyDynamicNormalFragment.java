@@ -41,16 +41,14 @@ public class MyDynamicNormalFragment extends BaseFragment implements
     public MyDynamicNormalFragment() {
     }
 
-    public MyDynamicNormalFragment(int user_id) {
-        this.user_id = user_id;
-        Log.d(TAG, "我收到的用户id是：" + user_id);
-    }
-
     private static MyDynamicNormalFragment INSTANCE = null;
 
     public static MyDynamicNormalFragment newInstance(@NonNull int user_id) {
         if (INSTANCE == null || user_id > 0) {
-            INSTANCE = new MyDynamicNormalFragment(user_id);
+            INSTANCE = new MyDynamicNormalFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID, user_id);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -106,6 +104,9 @@ public class MyDynamicNormalFragment extends BaseFragment implements
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             user_id = savedInstanceState.getInt(Config.KEY_USER_ID);
+        } else {
+            Bundle arguments = getArguments();
+            user_id = arguments.getInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID);
         }
         myDynamicNormalAdapter = new MyDynamicNormalAdapter(mActivity, null);
         recyclerView.setAdapter(myDynamicNormalAdapter);

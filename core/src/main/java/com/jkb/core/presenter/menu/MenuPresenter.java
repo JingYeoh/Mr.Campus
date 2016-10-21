@@ -137,10 +137,11 @@ public class MenuPresenter implements MenuContract.Presenter {
 
     @Override
     public void logoutRongIM() {
+        LogUtils.d(TAG, "logoutRongIM");
         if (!menuView.isActive()) {
             return;
         }
-        if (LoginContext.getInstance().isLogined()) {
+        if (!LoginContext.getInstance().isLogined()) {
             menuView.breakConnectRongIM();
         }
     }

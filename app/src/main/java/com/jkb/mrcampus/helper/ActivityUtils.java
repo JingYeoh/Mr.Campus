@@ -23,10 +23,6 @@ public class ActivityUtils {
 
     /**
      * 添加Fragment至Activity中
-     *
-     * @param fm
-     * @param fragment
-     * @param containId
      */
     public static void addFragmentToActivity(@NonNull FragmentManager fm,
                                              @NonNull Fragment fragment, @NonNull int containId) {
@@ -39,9 +35,6 @@ public class ActivityUtils {
 
     /**
      * 添加Fragment至Activity中
-     *
-     * @param fm
-     * @param fragment
      */
     public static void addFragmentToActivity(@NonNull android.app.FragmentManager fm,
                                              @NonNull android.app.Fragment fragment) {
@@ -54,8 +47,6 @@ public class ActivityUtils {
 
     /**
      * remove所有的Fragment
-     *
-     * @param fm
      */
     public static void removeAllFragment(@NonNull FragmentManager fm) {
         checkNotNull(fm);
@@ -72,9 +63,6 @@ public class ActivityUtils {
 
     /**
      * 销毁只使用add()方法添加的Fragment
-     *
-     * @param fm
-     * @param fragmentName
      */
     public static void removeFragment(@NonNull FragmentManager fm,
                                       @NonNull String fragmentName) {
@@ -93,9 +81,6 @@ public class ActivityUtils {
 
     /**
      * 销毁只使用add()方法添加的Fragment
-     *
-     * @param fm
-     * @param fragment
      */
     public static void removeFragment(@NonNull FragmentManager fm,
                                       @NonNull Fragment fragment) {
@@ -131,9 +116,6 @@ public class ActivityUtils {
 
     /**
      * 显示Fragment页面
-     *
-     * @param fm
-     * @param fragment
      */
     public static void showFragment(@NonNull FragmentManager fm, @NonNull Fragment fragment) {
         checkNotNull(fm);
@@ -143,9 +125,6 @@ public class ActivityUtils {
 
     /**
      * 显示Fragment
-     *
-     * @param fm
-     * @param fragmentTag
      */
     private static void showFragment(@NonNull FragmentManager fm, String fragmentTag) {
         checkNotNull(fm);
@@ -163,10 +142,6 @@ public class ActivityUtils {
 
     /**
      * 判断Fragment是否被添加过
-     *
-     * @param fm
-     * @param fragmentTAG
-     * @return
      */
     public static boolean isFragmentAdded(@NonNull FragmentManager fm, @NonNull String fragmentTAG) {
         checkNotNull(fm);
@@ -214,9 +189,6 @@ public class ActivityUtils {
     /**
      * * 隐藏Fragment视图
      * 已过期，方法错误
-     *
-     * @param fm
-     * @param mfragments 不要隐藏的视图
      */
     @Deprecated
     public static void hideFragments(@NonNull FragmentManager fm, Fragment... mfragments) {
@@ -237,9 +209,6 @@ public class ActivityUtils {
 
     /**
      * 隐藏所有的视图
-     *
-     * @param fm
-     * @param fgmTAG
      */
     public static void hideFragments(@NonNull FragmentManager fm, String... fgmTAG) {
         String[] tags = fgmTAG;

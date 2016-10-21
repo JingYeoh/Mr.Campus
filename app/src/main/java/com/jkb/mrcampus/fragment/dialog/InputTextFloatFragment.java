@@ -1,5 +1,6 @@
 package com.jkb.mrcampus.fragment.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -18,7 +19,7 @@ import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
  * 浮动的输入信息的DialogFragment
  * Created by JustKiddingBaby on 2016/8/24.
  */
-
+@SuppressLint("ValidFragment")
 public class InputTextFloatFragment extends BlurDialogFragment implements View.OnClickListener {
 
     private View rootView;

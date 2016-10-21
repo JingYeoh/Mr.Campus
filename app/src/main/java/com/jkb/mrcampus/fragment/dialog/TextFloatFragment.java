@@ -1,5 +1,6 @@
 package com.jkb.mrcampus.fragment.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
  * 悬浮的文字显示的弹出视图
  * Created by JustKiddingBaby on 2016/8/16.
  */
-
+@SuppressLint("ValidFragment")
 public class TextFloatFragment extends BlurDialogFragment {
 
     private View rootView;

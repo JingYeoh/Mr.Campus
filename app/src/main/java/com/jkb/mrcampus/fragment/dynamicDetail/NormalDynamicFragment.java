@@ -20,6 +20,7 @@ import com.jkb.core.contract.dynamicDetail.data.comment.DynamicDetailCommentData
 import com.jkb.core.contract.dynamicDetail.normal.DynamicDetailNormalContract;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.TimeUtils;
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CommentActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
@@ -44,15 +45,14 @@ public class NormalDynamicFragment extends BaseFragment
     public NormalDynamicFragment() {
     }
 
-    public NormalDynamicFragment(int dynamic_id) {
-        this.dynamic_id = dynamic_id;
-    }
-
     private static NormalDynamicFragment INSTANCE = null;
 
     public static NormalDynamicFragment newInstance(@NonNull int dynamic_id) {
         if (INSTANCE == null || dynamic_id >= 0) {
-            INSTANCE = new NormalDynamicFragment(dynamic_id);
+            INSTANCE = new NormalDynamicFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -165,7 +165,8 @@ public class NormalDynamicFragment extends BaseFragment
         //设置软键盘不弹出
         dynamicDetailActivity.hideSoftKeyboard(etCommentInput);
         if (savedInstanceState == null) {
-
+            Bundle arguments = getArguments();
+            dynamic_id = arguments.getInt(Config.INTENT_KEY_DYNAMIC_ID);
         } else {
             dynamic_id = savedInstanceState.getInt(SAVED_DYNAMIC_ID);//恢复数据
         }

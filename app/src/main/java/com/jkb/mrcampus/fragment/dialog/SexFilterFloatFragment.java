@@ -1,5 +1,6 @@
 package com.jkb.mrcampus.fragment.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
  * 筛选性别的浮动fragment
  * Created by JustKiddingBaby on 2016/8/28.
  */
-
+@SuppressLint("ValidFragment")
 public class SexFilterFloatFragment extends BlurDialogFragment implements View.OnClickListener {
 
     private View rootView;

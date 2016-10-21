@@ -34,15 +34,15 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
 
     }
 
-    public AttentionFragment(int user_id) {
-        this.user_id = user_id;
-    }
 
     public static AttentionFragment INSTANCE = null;
 
     public static AttentionFragment newInstance(int user_id) {
         if (INSTANCE == null || user_id != -1) {
-            INSTANCE = new AttentionFragment(user_id);
+            INSTANCE = new AttentionFragment();
+            Bundle bundle=new Bundle();
+            bundle.putInt(SAVED_USER_ID,user_id);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -89,7 +89,8 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
     @Override
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-
+            Bundle args = getArguments();
+            user_id=args.getInt(SAVED_USER_ID);
         } else {
             user_id = savedInstanceState.getInt(SAVED_USER_ID);//恢复数据
         }

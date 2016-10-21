@@ -1,5 +1,6 @@
 package com.jkb.mrcampus.fragment.personCenter.myOriginalDynamic;
 
+import android.icu.lang.UScript;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,16 +42,14 @@ public class MyDynamicTopicFragment extends BaseFragment implements
     public MyDynamicTopicFragment() {
     }
 
-    public MyDynamicTopicFragment(int user_id) {
-        this.user_id = user_id;
-        Log.d(TAG, "我收到的用户id是：" + user_id);
-    }
-
     private static MyDynamicTopicFragment INSTANCE = null;
 
     public static MyDynamicTopicFragment newInstance(@NonNull int user_id) {
         if (INSTANCE == null || user_id > 0) {
-            INSTANCE = new MyDynamicTopicFragment(user_id);
+            INSTANCE = new MyDynamicTopicFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID, user_id);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -106,6 +105,9 @@ public class MyDynamicTopicFragment extends BaseFragment implements
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             user_id = savedInstanceState.getInt(Config.KEY_USER_ID);
+        } else {
+            Bundle arguments = getArguments();
+            user_id = arguments.getInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID);
         }
         myDynamicTopicAdapter = new MyDynamicTopicAdapter(mActivity, null);
         recyclerView.setAdapter(myDynamicTopicAdapter);

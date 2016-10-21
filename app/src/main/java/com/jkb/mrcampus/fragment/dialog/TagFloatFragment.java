@@ -1,5 +1,6 @@
 package com.jkb.mrcampus.fragment.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
  * 展示TAG的浮动View
  * Created by JustKiddingBaby on 2016/9/27.
  */
-
+@SuppressLint("ValidFragment")
 public class TagFloatFragment extends BlurDialogFragment implements
         AdapterView.OnItemClickListener {
 

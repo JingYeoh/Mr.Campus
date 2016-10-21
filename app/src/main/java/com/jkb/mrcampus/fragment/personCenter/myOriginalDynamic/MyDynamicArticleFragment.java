@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,16 +40,14 @@ public class MyDynamicArticleFragment extends BaseFragment implements
     public MyDynamicArticleFragment() {
     }
 
-    public MyDynamicArticleFragment(int user_id) {
-        this.user_id = user_id;
-        Log.d(TAG, "我收到的用户id是：" + user_id);
-    }
-
     private static MyDynamicArticleFragment INSTANCE = null;
 
     public static MyDynamicArticleFragment newInstance(@NonNull int user_id) {
         if (INSTANCE == null || user_id > 0) {
-            INSTANCE = new MyDynamicArticleFragment(user_id);
+            INSTANCE = new MyDynamicArticleFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID, user_id);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -106,6 +103,9 @@ public class MyDynamicArticleFragment extends BaseFragment implements
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             user_id = savedInstanceState.getInt(Config.KEY_USER_ID);
+        } else {
+            Bundle arguments = getArguments();
+            user_id = arguments.getInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID);
         }
         myDynamicArticleAdapter = new MyDynamicArticleAdapter(mActivity, null);
         recyclerView.setAdapter(myDynamicArticleAdapter);

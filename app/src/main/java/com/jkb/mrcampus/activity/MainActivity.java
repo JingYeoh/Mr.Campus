@@ -1,8 +1,10 @@
 package com.jkb.mrcampus.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jkb.core.Injection;
@@ -17,6 +19,7 @@ import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
 import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.Mr_Campus;
 import com.jkb.mrcampus.R;
+import com.jkb.mrcampus.activity.callback.RongIMConnectCallBack;
 import com.jkb.mrcampus.base.BaseSlideMenuActivity;
 import com.jkb.mrcampus.fragment.function.index.HomePageFragment;
 import com.jkb.mrcampus.fragment.function.setting.SettingFragment;
@@ -30,6 +33,9 @@ import com.jkb.mrcampus.utils.ClassUtils;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
+import io.rong.imlib.model.UserInfo;
 
 /**
  * 核心的Activity类，负责显示主要功能模块
@@ -72,6 +78,9 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     //服务
 //    private LocationService locationService;
 
+    //监听器
+    private RongIMConnectCallBack rongIMConnectCallBack;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +98,8 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     @Override
     protected void initListener() {
         LoginContext.getInstance().setLoginStatusChangedListener(loginStatusChangedListener);
+        //设置融云聊天的点击事件
+        RongIM.setConversationBehaviorListener(behaviorListener);
     }
 
 
@@ -349,16 +360,25 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
                     LogUtils.d(TAG, "--onTokenIncorrect");
                     //设置登录失败状态
                     mPresenter.rongIMTokenIncorrect();
+                    if (rongIMConnectCallBack != null) {
+                        rongIMConnectCallBack.onTokenIncorrect();
+                    }
                 }
 
                 @Override
                 public void onSuccess(String user_id) {
                     LogUtils.d(TAG, "--onSuccess" + user_id);
+                    if (rongIMConnectCallBack != null) {
+                        rongIMConnectCallBack.onSuccess(Integer.parseInt(user_id));
+                    }
                 }
 
                 @Override
                 public void onError(RongIMClient.ErrorCode errorCode) {
                     LogUtils.d(TAG, "--onError" + errorCode.getValue());
+                    if (rongIMConnectCallBack != null) {
+                        rongIMConnectCallBack.onError(errorCode);
+                    }
                 }
             });
         } else {
@@ -478,6 +498,13 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     }
 
     /**
+     * 设置聊天连接状态的监听器
+     */
+    public void setRongIMConnectCallBack(RongIMConnectCallBack rongIMConnectCallBack) {
+        this.rongIMConnectCallBack = rongIMConnectCallBack;
+    }
+
+    /**
      * 是否登录的状态变化的监听器
      */
     private UserState.LoginStatusChangedListener loginStatusChangedListener =
@@ -494,4 +521,40 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
                     mPresenter.logoutRongIM();
                 }
             };
+    /**
+     * 设置用户聊天IM的各个点击事件
+     */
+    private RongIM.ConversationBehaviorListener behaviorListener = new RongIM.ConversationBehaviorListener() {
+        @Override
+        public boolean onUserPortraitClick(
+                Context context, Conversation.ConversationType conversationType,
+                UserInfo userInfo) {
+            String userId = userInfo.getUserId();
+            int user_id = Integer.parseInt(userId);
+            startPersonalCenterActivity(user_id);
+            return true;
+        }
+
+        @Override
+        public boolean onUserPortraitLongClick(
+                Context context, Conversation.ConversationType conversationType,
+                UserInfo userInfo) {
+            return false;
+        }
+
+        @Override
+        public boolean onMessageClick(Context context, View view, Message message) {
+            return false;
+        }
+
+        @Override
+        public boolean onMessageLinkClick(Context context, String s) {
+            return false;
+        }
+
+        @Override
+        public boolean onMessageLongClick(Context context, View view, Message message) {
+            return false;
+        }
+    };
 }

@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import com.jkb.api.config.Config;
 import com.jkb.core.Injection;
 import com.jkb.core.contract.function.index.HotContract;
+import com.jkb.core.control.userstate.LoginContext;
+import com.jkb.core.control.userstate.UserState;
 import com.jkb.core.data.dynamic.hot.HotDynamic;
 import com.jkb.core.presenter.function.index.hot.HotPresenter;
 import com.jkb.model.info.SchoolInfoSingleton;
@@ -89,6 +91,7 @@ public class HotFragment extends BaseFragment implements HotContract.View,
         //设置是否选择学校的监听事件
         SchoolInfoSingleton.getInstance().setOnSchoolSelectedChangedListener(
                 onSchoolSelectedChangedListener);
+        LoginContext.getInstance().setLoginStatusChangedListener(loginStatusChangedListener);
         //刷新
         refreshLayout.setOnRefreshListener(this);
         rootView.findViewById(R.id.fhh_iv_floatBt_top).setOnClickListener(this);
@@ -396,4 +399,20 @@ public class HotFragment extends BaseFragment implements HotContract.View,
                 break;
         }
     }
+
+    /**
+     * 登录状态的监听器
+     */
+    private UserState.LoginStatusChangedListener loginStatusChangedListener =
+            new UserState.LoginStatusChangedListener() {
+                @Override
+                public void onLogin() {
+//                    mPresenter.start();
+                }
+
+                @Override
+                public void onLogout() {
+                    mPresenter.setCacheExpired();
+                }
+            };
 }

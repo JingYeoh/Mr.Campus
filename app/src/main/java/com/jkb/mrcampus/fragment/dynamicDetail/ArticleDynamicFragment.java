@@ -43,15 +43,14 @@ public class ArticleDynamicFragment extends BaseFragment implements
     public ArticleDynamicFragment() {
     }
 
-    public ArticleDynamicFragment(int dynamic_id) {
-        this.dynamic_id = dynamic_id;
-    }
-
     private static ArticleDynamicFragment INSTANCE = null;
 
     public static ArticleDynamicFragment newInstance(@NonNull int dynamic_id) {
         if (INSTANCE == null || dynamic_id != -1) {
-            INSTANCE = new ArticleDynamicFragment(dynamic_id);
+            Bundle args = new Bundle();
+            INSTANCE = new ArticleDynamicFragment();
+            args.putInt(SAVED_DYNAMIC_ID,dynamic_id);
+            INSTANCE.setArguments(args);
         }
         return INSTANCE;
     }
@@ -123,7 +122,10 @@ public class ArticleDynamicFragment extends BaseFragment implements
     @Override
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-
+            Bundle args = getArguments();
+            if(args!=null){
+                dynamic_id=args.getInt(SAVED_DYNAMIC_ID);
+            }
         } else {
             dynamic_id = savedInstanceState.getInt(SAVED_DYNAMIC_ID);//恢复数据
         }

@@ -63,5 +63,10 @@ public interface FriendsContract {
          * 得到用户id
          */
         int getUserId(int position);
+
+        /**
+         * 设置缓存过期
+         */
+        void setCacheExpired();
     }
 }

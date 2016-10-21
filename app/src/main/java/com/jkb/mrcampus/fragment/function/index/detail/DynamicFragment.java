@@ -417,11 +417,13 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
                 @Override
                 public void onLogin() {
                     showLoginedView();
+//                    mPresenter.start();
                 }
 
                 @Override
                 public void onLogout() {
                     showUnLoginView();
+                    mPresenter.setCacheExpired();
                 }
             };
     /**

@@ -278,6 +278,11 @@ public class DynamicPresenter implements DynamicContract.Presenter {
         view.startCommentActivity(dynamic_id);
     }
 
+    @Override
+    public void setCacheExpired() {
+        isCached = false;
+    }
+
     /**
      * 得到动态数据
      */
@@ -313,11 +318,13 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                  */
                 private void handleRespData(ApiResponse<DynamicListEntity> body) {
                     if (body == null) {
+                        dynamicDatas.clear();
                         bindDataToView();
                         return;
                     }
                     DynamicListEntity entity = body.getMsg();
                     if (entity == null) {
+                        dynamicDatas.clear();
                         bindDataToView();
                         return;
                     }
@@ -355,6 +362,7 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                     //更新数据进去
                     List<DynamicListEntity.DataBean> dataBeen = entity.getData();
                     if (dataBeen == null) {
+                        dynamicDatas.clear();
                         return;
                     }
                     for (int i = 0; i < dataBeen.size(); i++) {
@@ -723,6 +731,7 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                     if (view.isActive()) {
                         isLoading = false;
                         view.hideRefreshingView();
+                        dynamicDatas.clear();
                         bindDataToView();
                     }
                 }
@@ -732,6 +741,7 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                     if (view.isActive()) {
                         isLoading = false;
                         view.hideRefreshingView();
+                        dynamicDatas.clear();
                         bindDataToView();
                     }
                 }

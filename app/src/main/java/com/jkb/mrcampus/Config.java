@@ -17,6 +17,9 @@ public class Config {
     public static final String INTENT_KEY_TARGET_ID = "intent.key.target_id";//目标id
     public static final String INTENT_KEY_COMMENT_ID = "intent.key.comment_id";//目标id
     public static final String INTENT_KEY_MESSAGE_TYPE = "intent.key.messageType";//消息类型
+    public static final String INTENT_KEY_TARGETID = "intent.key.targetId";
+    public static final String INTENT_KEY_TARGETIDS = "intent.key.targetIds";
+    public static final String INTENT_KEY_CONVERSATION_TYPE = "intent.key.conversationType";
 
     public static final String INTENT_KEY_SHOW_PERSONALCENTER = "intent.key.show.personalCenter";//显示的个人中心页面
 

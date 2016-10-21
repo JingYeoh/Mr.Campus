@@ -111,8 +111,8 @@ public class FunctionSettingPresenter implements FunctionSettingContract.Present
         status.setCreated_at(StringUtils.getSystemCurrentTime());
         repertory.saveStatusToDb(status);
 
-        LoginContext.getInstance().setUserState(new LogoutState());
         SchoolInfoSingleton.getInstance().setSelectedSchool(false);
+        LoginContext.getInstance().setUserState(new LogoutState());
     }
 
     @Override

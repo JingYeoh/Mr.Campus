@@ -44,15 +44,14 @@ public class MyDynamicCircleFragment extends BaseFragment implements
     public MyDynamicCircleFragment() {
     }
 
-    public MyDynamicCircleFragment(int user_id) {
-        this.user_id = user_id;
-    }
-
     private static MyDynamicCircleFragment INSTANCE = null;
 
     public static MyDynamicCircleFragment newInstance(@NonNull int user_id) {
         if (INSTANCE == null || user_id > 0) {
-            INSTANCE = new MyDynamicCircleFragment(user_id);
+            INSTANCE = new MyDynamicCircleFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -114,6 +113,9 @@ public class MyDynamicCircleFragment extends BaseFragment implements
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             user_id = savedInstanceState.getInt(Config.INTENT_KEY_USER_ID);
+        } else {
+            Bundle arguments = getArguments();
+            user_id = arguments.getInt(Config.INTENT_KEY_USER_ID);
         }
         //初始化选择圈子
         initCircleSelector();

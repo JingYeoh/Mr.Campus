@@ -42,13 +42,6 @@ public class CommentSingleAllFragment extends BaseFragment implements CommentSin
     private int dynamic_id = -1;
     private CommentActivity commentActivity;
 
-    private CommentSingleAllFragment(int comment_id, int dynamic_id) {
-        this.comment_id = comment_id;
-        this.dynamic_id = dynamic_id;
-
-        Log.d(TAG, "dynamic_id=" + dynamic_id);
-    }
-
     public CommentSingleAllFragment() {
     }
 
@@ -56,7 +49,11 @@ public class CommentSingleAllFragment extends BaseFragment implements CommentSin
 
     public static CommentSingleAllFragment newInstance(int dynamic_id, int comment_id) {
         if (INSTANCE == null || dynamic_id > 0 || comment_id > 0) {
-            INSTANCE = new CommentSingleAllFragment(comment_id, dynamic_id);
+            INSTANCE = new CommentSingleAllFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Config.INTENT_KEY_COMMENT_ID, comment_id);
+            bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -167,7 +164,9 @@ public class CommentSingleAllFragment extends BaseFragment implements CommentSin
         comment$ReplyStatusController = new Comment$ReplyStatusController();
         comment$ReplyStatusController.setSubmitType(Comment$ReplyStatusController.SUBMIT_TYPE_REPLY);
         if (savedInstanceState == null) {
-
+            Bundle arguments = getArguments();
+            dynamic_id = arguments.getInt(Config.INTENT_KEY_DYNAMIC_ID);
+            comment_id = arguments.getInt(Config.INTENT_KEY_COMMENT_ID);
         } else {
             comment_id = savedInstanceState.getInt(Config.INTENT_KEY_COMMENT_ID);
         }

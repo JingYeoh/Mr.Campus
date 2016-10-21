@@ -141,5 +141,10 @@ public interface DynamicContract {
          * 点击评论的时候
          */
         void onCommentClick(int position);
+
+        /**
+         * 设置缓存过期
+         */
+        void setCacheExpired();
     }
 }

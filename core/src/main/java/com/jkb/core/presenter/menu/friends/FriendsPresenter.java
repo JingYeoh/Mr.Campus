@@ -33,9 +33,6 @@ public class FriendsPresenter implements FriendsContract.Presenter {
 
     //Data
     private PageControlEntity pageControl;
-    private int action = ACTION_REFRESH;
-    private static final int ACTION_REFRESH = 0;
-    private static final int ACTION_LOADMORE = 1;
     private boolean isLoading = false;//正在加载
 
     private boolean isCached = false;//是否缓存
@@ -57,7 +54,7 @@ public class FriendsPresenter implements FriendsContract.Presenter {
             return;
         }
         view.showRefreshingView();//设置刷新动画
-        action = ACTION_REFRESH;
+        friendsDatas.clear();
         pageControl.setCurrent_page(1);
         getFriendsData();
     }
@@ -67,10 +64,10 @@ public class FriendsPresenter implements FriendsContract.Presenter {
         if (isLoading) {
             return;
         }
-        action = ACTION_LOADMORE;
         if (pageControl.getCurrent_page() >= pageControl.getLast_page()) {
             return;
         }
+        friendsDatas.clear();
         //设置当前页数+1
         pageControl.setCurrent_page(pageControl.getCurrent_page() + 1);
         getFriendsData();
@@ -110,6 +107,11 @@ public class FriendsPresenter implements FriendsContract.Presenter {
     }
 
     @Override
+    public void setCacheExpired() {
+        isCached = false;
+    }
+
+    @Override
     public void start() {
         initFriendsData();//初始化数据
     }
@@ -143,6 +145,7 @@ public class FriendsPresenter implements FriendsContract.Presenter {
                  */
                 private void handleData(ApiResponse<FriendListEntity> body) {
                     if (body == null) {
+                        friendsDatas.clear();
                         return;
                     }
                     //处理数据
@@ -155,6 +158,7 @@ public class FriendsPresenter implements FriendsContract.Presenter {
                  */
                 private void handleFriendsData(FriendListEntity entity) {
                     if (entity == null) {
+                        friendsDatas.clear();
                         return;
                     }
 
@@ -171,15 +175,8 @@ public class FriendsPresenter implements FriendsContract.Presenter {
                     //绑定数据到缓存类中
                     List<FriendListEntity.DataBean> dataBean = entity.getData();
                     if (dataBean == null || dataBean.size() == 0) {
+                        friendsDatas.clear();
                         return;
-                    }
-                    //判断操作动作
-                    switch (action) {
-                        case ACTION_REFRESH://刷新
-                            friendsDatas.clear();
-                            break;
-                        case ACTION_LOADMORE://加载
-                            break;
                     }
                     for (FriendListEntity.DataBean bean : dataBean) {
                         friendsDatas.add(changeData(bean));
@@ -191,6 +188,7 @@ public class FriendsPresenter implements FriendsContract.Presenter {
                  */
                 private FriendsData changeData(FriendListEntity.DataBean bean) {
                     if (bean == null) {
+                        friendsDatas.clear();
                         return null;
                     }
                     FriendsData friendsData = new FriendsData();
@@ -208,6 +206,8 @@ public class FriendsPresenter implements FriendsContract.Presenter {
                     if (view.isActive()) {
                         view.dismissLoading();
                         view.hideRefreshingView();
+                        friendsDatas.clear();
+                        bindData();
                         view.showReqResult("数据获取错误，请重试");
                     }
                 }
@@ -217,6 +217,8 @@ public class FriendsPresenter implements FriendsContract.Presenter {
                     if (view.isActive()) {
                         view.dismissLoading();
                         view.hideRefreshingView();
+                        friendsDatas.clear();
+                        bindData();
                         view.showReqResult("获取数据失败，请检测您的网络连接");
                     }
                 }

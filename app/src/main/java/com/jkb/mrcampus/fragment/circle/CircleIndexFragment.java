@@ -45,16 +45,15 @@ public class CircleIndexFragment extends BaseFragment
 
     private static CircleIndexFragment INSTANCE = null;
 
-    public CircleIndexFragment(int circleId) {
-        this.circleId = circleId;
-    }
-
     public CircleIndexFragment() {
     }
 
     public static CircleIndexFragment newInstance(int circleId) {
         if (INSTANCE == null || circleId >= 0) {
-            INSTANCE = new CircleIndexFragment(circleId);
+            INSTANCE = new CircleIndexFragment();
+            Bundle bundle=new Bundle();
+            bundle.putInt(SAVED_CIRCLE_ID,circleId);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -140,7 +139,8 @@ public class CircleIndexFragment extends BaseFragment
     @Override
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-
+            Bundle arguments = getArguments();
+            circleId=arguments.getInt(SAVED_CIRCLE_ID);
         } else {
             circleId = savedInstanceState.getInt(SAVED_CIRCLE_ID);
         }

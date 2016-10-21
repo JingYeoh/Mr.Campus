@@ -1,7 +1,7 @@
 package com.jkb.mrcampus;
 
-import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDexApplication;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.jkb.api.ApiFactoryImpl;
@@ -19,7 +19,7 @@ import jkb.mrcampus.db.MrCampusDB;
  * 该APP的Application类
  * Created by JustKiddingBaby on 2016/7/20.
  */
-public class Mr_Campus extends Application {
+public class Mr_Campus extends MultiDexApplication {
 
     private MrCampusDB mrCampusDB = null;
     private static SingletonManager singletonManager = SingletonManager.newInstance();
@@ -84,7 +84,6 @@ public class Mr_Campus extends Application {
         ShareSDK.initSDK(getApplicationContext(), SHARE_SDK_APP_KEY);
         //初始化融云SDK
         RongIM.init(this);
-//        RongIM.getInstance().setMessageAttachedUserInfo(true);//设置携带用户信息
     }
 
     /**

@@ -12,8 +12,8 @@
         <ImageView
             android:id="@+id/fi_title_left"
             style="@style/titleContentImage"
-            android:padding="10dp"
             android:background="@drawable/general_item_selector"
+            android:padding="10dp"
             android:src="@drawable/ic_drawer" />
 
 
@@ -33,10 +33,10 @@
 
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:padding="10dp"
             android:id="@+id/fi_title_right"
             style="@style/titleContentImage"
             android:background="@drawable/general_item_selector"
+            android:padding="10dp"
             android:src="@drawable/ic_user_head" />
     </LinearLayout>
 </LinearLayout>

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.jkb.core.contract.personCenter.PersonCenterContract;
 import com.jkb.core.presenter.personCenter.data.CircleData;
 import com.jkb.model.net.ImageLoaderFactory;
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
@@ -42,14 +43,12 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     public PersonCenterFragment() {
     }
 
-    public PersonCenterFragment(int user_id) {
-        this.user_id = user_id;
-//        Log.d(TAG, "构造方法：user_id=" + user_id);
-    }
-
     public static PersonCenterFragment newInstance(int user_id) {
         if (INSTANCE == null || user_id != -1) {
-            INSTANCE = new PersonCenterFragment(user_id);
+            INSTANCE = new PersonCenterFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -124,7 +123,8 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     @Override
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-
+            Bundle arguments = getArguments();
+            user_id = arguments.getInt(Config.INTENT_KEY_USER_ID);
         } else {
             if (user_id == -1) {//此层判断主要为了在页面销毁再次进入时保证是刷新数据而不是恢复数据
                 user_id = savedInstanceState.getInt(SAVED_USER_ID);//恢复数据

@@ -1,6 +1,7 @@
 package com.jkb.core.presenter.myDynamic.circle;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
@@ -9,6 +10,7 @@ import com.jkb.core.contract.myDynamic.circle.CircleSelectorContract;
 import com.jkb.core.data.info.circle.CircleInfo;
 import com.jkb.model.data.PageControlEntity;
 import com.jkb.model.dataSource.myDynamic.circleSelector.CircleSelectorRepertory;
+import com.jkb.model.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ import retrofit2.Response;
 
 public class CircleSelectorPresenter implements CircleSelectorContract.Presenter {
 
+    private static final String TAG = "CircleSelectorP";
     private CircleSelectorContract.View view;
     private CircleSelectorRepertory repertory;
 
@@ -119,6 +122,7 @@ public class CircleSelectorPresenter implements CircleSelectorContract.Presenter
      * 请求订阅的圈子数据
      */
     private void reqSubscribeCircle() {
+        LogUtils.d(TAG, "req user_id=" + user_id);
         repertory.subscribeCircle(user_id, 0, pageControl.getCurrent_page(),
                 subscribeCircleApiCallback);
     }

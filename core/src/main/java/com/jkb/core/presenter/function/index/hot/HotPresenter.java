@@ -331,6 +331,11 @@ public class HotPresenter implements HotContract.Presenter {
     }
 
     @Override
+    public void setCacheExpired() {
+        isCached = false;
+    }
+
+    @Override
     public void start() {
         initHotDynamic();
     }

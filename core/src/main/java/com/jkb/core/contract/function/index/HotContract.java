@@ -160,5 +160,10 @@ public interface HotContract {
          * @param position 条木数
          */
         void onCreatorUserClick(int position);
+
+        /**
+         * 设置缓存过期
+         */
+        void setCacheExpired();
     }
 }

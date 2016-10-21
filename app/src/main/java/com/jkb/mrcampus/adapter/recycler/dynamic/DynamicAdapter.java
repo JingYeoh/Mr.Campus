@@ -1023,6 +1023,7 @@ public class DynamicAdapter extends RecyclerView.Adapter<DynamicAdapter.ViewHold
             String image = topicBean.getImg();
             if (!StringUtils.isEmpty(image)) {
                 //绑定图片
+                holder.unOriginalFavoriteTopic.ivPic.setVisibility(View.VISIBLE);
                 bindImageViewAndUrl(holder.unOriginalFavoriteTopic.ivPic, image);
             } else {
                 holder.unOriginalFavoriteTopic.ivPic.setVisibility(View.GONE);

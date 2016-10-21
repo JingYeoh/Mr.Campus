@@ -22,6 +22,7 @@ import com.jkb.core.contract.dynamicDetail.topic.DynamicDetailTopicContract;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.model.utils.TimeUtils;
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.adapter.recycler.comment.CommentListAdapter;
@@ -47,15 +48,15 @@ public class TopicDynamicFragment extends BaseFragment implements DynamicDetailT
     public TopicDynamicFragment() {
     }
 
-    public TopicDynamicFragment(int dynamic_id) {
-        this.dynamic_id = dynamic_id;
-    }
 
     private static TopicDynamicFragment INSTANCE = null;
 
     public static TopicDynamicFragment newInstance(@NonNull int dynamic_id) {
         if (INSTANCE == null || dynamic_id != -1) {
-            INSTANCE = new TopicDynamicFragment(dynamic_id);
+            INSTANCE = new TopicDynamicFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -177,7 +178,8 @@ public class TopicDynamicFragment extends BaseFragment implements DynamicDetailT
 //        etCommentInput.clearFocus();
         dynamicDetailActivity.hideSoftKeyboard(etCommentInput);
         if (savedInstanceState == null) {
-
+            Bundle arguments = getArguments();
+            dynamic_id = arguments.getInt(Config.INTENT_KEY_DYNAMIC_ID);
         } else {
             dynamic_id = savedInstanceState.getInt(SAVED_DYNAMIC_ID);//恢复数据
         }

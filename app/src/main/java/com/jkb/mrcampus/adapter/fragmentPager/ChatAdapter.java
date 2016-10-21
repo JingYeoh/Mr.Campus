@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.jkb.mrcampus.fragment.chat.ChatFragment;
+import com.jkb.mrcampus.fragment.chat.ConversationListFragment;
 import com.jkb.mrcampus.fragment.chat.FriendsFragment;
 
 /**
@@ -25,7 +26,8 @@ public class ChatAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return ChatFragment.newInstance();
+//            return ChatFragment.newInstance();
+            return ConversationListFragment.newInstance();
         } else if (position == 1) {
             return FriendsFragment.newInstance();
         } else {

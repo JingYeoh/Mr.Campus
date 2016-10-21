@@ -132,7 +132,9 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
     protected void restorePresenters() {
         List<Fragment> fragments = fm.getFragments();
         for (Fragment fragment : fragments) {
-            restorePresenter(fragment.getClass().getName());
+            if (fragment != null) {
+                restorePresenter(fragment.getClass().getName());
+            }
         }
     }
 

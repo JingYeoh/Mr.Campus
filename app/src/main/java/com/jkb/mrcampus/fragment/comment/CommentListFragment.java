@@ -39,10 +39,6 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
 
     private int dynamic_id = -1;
 
-    private CommentListFragment(int dynamic_id) {
-        this.dynamic_id = dynamic_id;
-    }
-
     public CommentListFragment() {
     }
 
@@ -50,7 +46,10 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
 
     public static CommentListFragment newInstance(int dynamic_id) {
         if (INSTANCE == null || dynamic_id > 0) {
-            INSTANCE = new CommentListFragment(dynamic_id);
+            INSTANCE = new CommentListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -159,7 +158,8 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
         //初始化回复/评论的控制器
         comment$ReplyStatusController = new Comment$ReplyStatusController();
         if (savedInstanceState == null) {
-
+            Bundle arguments = getArguments();
+            dynamic_id = arguments.getInt(Config.INTENT_KEY_DYNAMIC_ID);
         } else {
             dynamic_id = savedInstanceState.getInt(Config.INTENT_KEY_DYNAMIC_ID);
         }

@@ -1,12 +1,25 @@
 package com.jkb.mrcampus.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
+import com.jkb.core.Injection;
+import com.jkb.core.presenter.im.conversation.ConversationPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
+import com.jkb.mrcampus.fragment.entering.EnteringPersonMessageFragment;
+import com.jkb.mrcampus.fragment.entering.IdentifyFragment;
+import com.jkb.mrcampus.fragment.entering.LoginFragment;
+import com.jkb.mrcampus.fragment.entering.MrCampusAgreementFragment;
+import com.jkb.mrcampus.fragment.entering.ResetPasswordFragment;
+import com.jkb.mrcampus.fragment.im.conversation.ConversationFragment;
+import com.jkb.mrcampus.helper.ActivityUtils;
+import com.jkb.mrcampus.utils.ClassUtils;
 
-import io.rong.imkit.RongIM;
+import java.util.Locale;
+
 import io.rong.imlib.model.Conversation;
 
 /**
@@ -14,10 +27,7 @@ import io.rong.imlib.model.Conversation;
  * Created by JustKiddingBaby on 2016/10/19.
  */
 
-public class ConversationActivity extends BaseActivity
-//        implements
-//        RongIM.UserInfoProvider
-{
+public class ConversationActivity extends BaseActivity {
 
     /**
      * 目标 Id
@@ -34,6 +44,19 @@ public class ConversationActivity extends BaseActivity
      */
     private Conversation.ConversationType mConversationType;
 
+    //常量
+    private static final String SAVED_TARGETID = "saved_target_id";
+    private static final String SAVED_TARGETIDS = "saved_targetIds";
+    private static final String SAVED_CONVERSATIONTYPE = "saved_conversationType";
+
+
+    //data
+    private int contentView = R.id.conversation_content;
+
+    //会话页面
+    private ConversationFragment conversationFragment;
+    private ConversationPresenter conversationPresenter;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +71,30 @@ public class ConversationActivity extends BaseActivity
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-//        RongIM.setUserInfoProvider(this, true);
+        fm = getSupportFragmentManager();
+        if (savedInstanceState == null) {
+            Intent intent = getIntent();
+            getIntentDate(intent);
+        } else {
+            //从保存的数据中取数据
+            mTargetId = savedInstanceState.getString(SAVED_TARGETID);
+            mTargetIds = savedInstanceState.getString(SAVED_TARGETIDS);
+            mConversationType = (Conversation.ConversationType)
+                    savedInstanceState.getSerializable(SAVED_CONVERSATIONTYPE);
+        }
+        //加载自己的Fragment
+        showFragment(ClassUtils.getClassName(ConversationFragment.class));
+    }
+
+    /**
+     * 展示如何从 Intent 中得到 融云会话页面传递的 Uri
+     */
+    private void getIntentDate(Intent intent) {
+        mTargetId = intent.getData().getQueryParameter("targetId");
+        mTargetIds = intent.getData().getQueryParameter("targetIds");
+        //intent.getData().getLastPathSegment();//获得当前会话类型
+        mConversationType = Conversation.ConversationType.valueOf(
+                intent.getData().getLastPathSegment().toUpperCase(Locale.getDefault()));
     }
 
     @Override
@@ -58,23 +104,67 @@ public class ConversationActivity extends BaseActivity
 
     @Override
     public void showFragment(String fragmentName) {
+        Log.d(TAG, "showFragment------->" + fragmentName);
+        try {
+            Class<?> clzFragment = Class.forName(fragmentName);
+            //初始化Fragment
+            initFragmentStep1(clzFragment);
+            //隐藏掉所有的视图
+            ActivityUtils.hideAllFragments(fm);
 
+            if (ClassUtils.isNameEquals(fragmentName, ConversationFragment.class)) {
+                showConversation();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void restoreFragments(String fragmentTAG) {
-
+        if (ClassUtils.isNameEquals(fragmentTAG, ConversationFragment.class)) {
+            conversationFragment = (ConversationFragment)
+                    fm.findFragmentByTag(ClassUtils.getClassName(ConversationFragment.class));
+            conversationPresenter = new ConversationPresenter(conversationFragment,
+                    Injection.provideConversationRepertory(getApplicationContext()));
+        }
     }
 
     @Override
     protected void initFragmentStep2(Class<?> fragmentClass) {
-
+        String fragmentTAG = fragmentClass.getName();
+        if (ClassUtils.isNameEquals(fragmentTAG, ConversationFragment.class)) {
+            initConversation();
+        }
     }
 
-   /* @Override
-    public UserInfo getUserInfo(String s) {
-        UserInfo userInfo = new UserInfo(s, "对面的昵称",
-                Uri.parse("http://rongcloud-web.qiniudn.com/docs_demo_rongcloud_logo.png"));
-        return userInfo;
-    }*/
+    /**
+     * 初始化会话页面
+     */
+    private void initConversation() {
+        if (conversationFragment == null) {
+            conversationFragment = ConversationFragment.newInstance(
+                    mTargetId, mTargetIds, mConversationType);
+            ActivityUtils.addFragmentToActivity(fm, conversationFragment, contentView);
+        }
+        if (conversationPresenter == null) {
+            conversationPresenter = new ConversationPresenter(conversationFragment,
+                    Injection.provideConversationRepertory(getApplicationContext()));
+        }
+    }
+
+    /**
+     * 显示会话页面
+     */
+    private void showConversation() {
+        ActivityUtils.showFragment(fm, conversationFragment);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(SAVED_TARGETID, mTargetId);
+        outState.putString(SAVED_TARGETIDS, mTargetIds);
+        outState.putSerializable(SAVED_CONVERSATIONTYPE, mConversationType);
+    }
 }

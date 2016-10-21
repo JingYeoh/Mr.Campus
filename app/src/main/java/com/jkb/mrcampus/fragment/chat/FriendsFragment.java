@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import com.jkb.core.Injection;
 import com.jkb.core.contract.menu.data.FriendsData;
 import com.jkb.core.contract.menu.friends.FriendsContract;
+import com.jkb.core.control.userstate.LoginContext;
+import com.jkb.core.control.userstate.UserState;
 import com.jkb.core.presenter.menu.friends.FriendsPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
@@ -37,7 +39,7 @@ public class FriendsFragment extends BaseFragment implements
     //Data
     private MainActivity mainActivity;
     private FriendsAdapter friendsAdapter;
-    private FriendsPresenter friendsPresenter;
+    private FriendsContract.Presenter mPresenter;
 
 
     private static FriendsFragment INSTANCE = null;
@@ -64,14 +66,14 @@ public class FriendsFragment extends BaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        friendsPresenter.start();
+        mPresenter.start();
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            friendsPresenter.start();
+            mPresenter.start();
         }
     }
 
@@ -82,6 +84,9 @@ public class FriendsFragment extends BaseFragment implements
         lvFriends.addOnScrollListener(onScrollListener);//设置滑动监听，设置是否下拉刷新
         //设置子组件点击监听
         friendsAdapter.setOnUserItemClickListener(onCircleItemClickListener);
+
+        //设置登录状态监听
+        LoginContext.getInstance().setLoginStatusChangedListener(loginStatusChangedListener);
     }
 
     @Override
@@ -112,8 +117,8 @@ public class FriendsFragment extends BaseFragment implements
      * 初始化P层
      */
     private void initPresenter() {
-        if (friendsPresenter == null) {
-            friendsPresenter = new FriendsPresenter(this,
+        if (mPresenter == null) {
+            mPresenter = new FriendsPresenter(this,
                     Injection.provideFriendsRepertory(mainActivity.getApplication()));
         }
     }
@@ -128,7 +133,7 @@ public class FriendsFragment extends BaseFragment implements
             int lastVisibleItem = (linearLayoutManager).findLastVisibleItemPosition();
             int totalItemCount = linearLayoutManager.getItemCount();
             if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
-                friendsPresenter.onLoadMore();//设置下拉加载
+                mPresenter.onLoadMore();//设置下拉加载
             }
         }
     };
@@ -140,22 +145,25 @@ public class FriendsFragment extends BaseFragment implements
         @Override
         public void onClick(int position) {
             //跳转到个人中心
-            mainActivity.startPersonalCenterActivity(friendsPresenter.getUserId(position));
+            mainActivity.startPersonalCenterActivity(mPresenter.getUserId(position));
         }
     };
 
     @Override
     public void onRefresh() {
-        friendsPresenter.onRefresh();//刷新数据
+        mPresenter.onRefresh();//刷新数据
     }
 
     @Override
     public void showNonFriendsDataView() {
-
+        lvFriends.setVisibility(View.GONE);
+        rootView.findViewById(R.id.fcf_contentNonFriends).setVisibility(View.VISIBLE);
     }
 
     @Override
     public void setFriendsData(List<FriendsData> friendsData) {
+        lvFriends.setVisibility(View.VISIBLE);
+        rootView.findViewById(R.id.fcf_contentNonFriends).setVisibility(View.GONE);
         friendsAdapter.friendsDatas = friendsData;
         friendsAdapter.notifyDataSetChanged();
     }
@@ -172,7 +180,7 @@ public class FriendsFragment extends BaseFragment implements
 
     @Override
     public void setPresenter(FriendsContract.Presenter presenter) {
-        friendsPresenter = (FriendsPresenter) presenter;
+        mPresenter = presenter;
     }
 
     @Override
@@ -194,4 +202,20 @@ public class FriendsFragment extends BaseFragment implements
     public boolean isActive() {
         return isAdded();
     }
+
+    /**
+     * 設置登錄狀態的監聽
+     */
+    private UserState.LoginStatusChangedListener loginStatusChangedListener =
+            new UserState.LoginStatusChangedListener() {
+                @Override
+                public void onLogin() {
+                    mPresenter.setCacheExpired();
+                }
+
+                @Override
+                public void onLogout() {
+                    mPresenter.setCacheExpired();
+                }
+            };
 }

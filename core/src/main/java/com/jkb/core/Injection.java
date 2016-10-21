@@ -66,6 +66,9 @@ import com.jkb.model.dataSource.function.index.hot.remote.DynamicHotRemoteDataSo
 import com.jkb.model.dataSource.function.setting.FunctionSettingDataRepertory;
 import com.jkb.model.dataSource.function.setting.local.FunctionSettingLocalDataSource;
 import com.jkb.model.dataSource.function.setting.remote.FunctionSettingRemoteDataSource;
+import com.jkb.model.dataSource.im.conversation.ConversationRepertory;
+import com.jkb.model.dataSource.im.conversation.local.ConversationLocalDataSource;
+import com.jkb.model.dataSource.im.conversation.remote.ConversationRemoteDataSource;
 import com.jkb.model.dataSource.menuRight.friends.FriendsRepertory;
 import com.jkb.model.dataSource.menuRight.friends.local.FriendsLocalDataSource;
 import com.jkb.model.dataSource.menuRight.friends.remote.FriendsRemoteDataSource;
@@ -524,6 +527,18 @@ public class Injection {
         CircleSelectorRepertory repertory = CircleSelectorRepertory.newInstance(
                 CircleSelectorLocalDataSource.newInstance(applicationContext),
                 CircleSelectorRemoteDataSource.newInstance()
+        );
+        return repertory;
+    }
+
+    /**
+     * 得到ConversationRepertory對象
+     */
+    public static ConversationRepertory provideConversationRepertory(
+            @NonNull Context applicationContext) {
+        ConversationRepertory repertory = ConversationRepertory.newInstance(
+                ConversationLocalDataSource.newInstance(applicationContext),
+                ConversationRemoteDataSource.newInstance()
         );
         return repertory;
     }

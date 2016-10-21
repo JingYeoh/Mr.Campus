@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.jkb.core.contract.usersList.FansContract;
 import com.jkb.core.presenter.usersList.data.UserData;
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.adapter.recycler.userList.FansListAdapter;
@@ -34,15 +35,15 @@ public class FansFragment extends BaseFragment implements FansContract.View,
 
     }
 
-    public FansFragment(int user_id) {
-        this.user_id = user_id;
-    }
 
     public static FansFragment INSTANCE = null;
 
     public static FansFragment newInstance(int user_id) {
         if (INSTANCE == null || user_id != -1) {
-            INSTANCE = new FansFragment(user_id);
+            INSTANCE = new FansFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -89,7 +90,8 @@ public class FansFragment extends BaseFragment implements FansContract.View,
     @Override
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-
+            Bundle arguments = getArguments();
+            user_id = arguments.getInt(Config.INTENT_KEY_USER_ID);
         } else {
             user_id = savedInstanceState.getInt(SAVED_USER_ID);//恢复数据
         }

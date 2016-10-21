@@ -63,15 +63,15 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
     public CircleSelectorFloatFragment() {
     }
 
-    private CircleSelectorFloatFragment(int user_id) {
-        this.user_id = user_id;
-    }
 
     private static CircleSelectorFloatFragment INSTANCE = null;
 
     public static CircleSelectorFloatFragment newInstance(@NonNull int user_id) {
         if (INSTANCE == null || user_id > 0) {
-            INSTANCE = new CircleSelectorFloatFragment(user_id);
+            INSTANCE = new CircleSelectorFloatFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -156,6 +156,9 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
         //初始化数据
         if (savedInstanceState != null) {
             user_id = savedInstanceState.getInt(Config.INTENT_KEY_USER_ID);
+        } else {
+            Bundle arguments = getArguments();
+            user_id = arguments.getInt(Config.INTENT_KEY_USER_ID);
         }
         circleSelectorAdapter = new CircleSelectorAdapter(mActivity, null);
         recyclerView.setAdapter(circleSelectorAdapter);

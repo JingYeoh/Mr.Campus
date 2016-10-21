@@ -38,10 +38,6 @@ public class MyFavoriteDynamicFragment extends BaseFragment implements
     //data
     private int user_id = -1;
 
-    private MyFavoriteDynamicFragment(int user_id) {
-        this.user_id = user_id;
-    }
-
     public MyFavoriteDynamicFragment() {
     }
 
@@ -49,7 +45,10 @@ public class MyFavoriteDynamicFragment extends BaseFragment implements
 
     public static MyFavoriteDynamicFragment newInstance(@NonNull int user_id) {
         if (INSTANCE == null || user_id > 0) {
-            INSTANCE = new MyFavoriteDynamicFragment(user_id);
+            INSTANCE = new MyFavoriteDynamicFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -99,6 +98,9 @@ public class MyFavoriteDynamicFragment extends BaseFragment implements
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             user_id = savedInstanceState.getInt(Config.INTENT_KEY_USER_ID);
+        } else {
+            Bundle arguments = getArguments();
+            user_id = arguments.getInt(Config.INTENT_KEY_USER_ID);
         }
         myFavoriteDynamicAdapter = new MyFavoriteDynamicAdapter(mActivity, null);
         recyclerView.setAdapter(myFavoriteDynamicAdapter);

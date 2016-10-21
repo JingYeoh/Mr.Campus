@@ -16,3 +16,11 @@
 #   public *;
 #}
 -keepattributes EnclosingMethod
+-keep class com.unionpay.mobile.android.**{*;}
+#融云混淆
+-dontwarn io.rong.push.**
+ -dontnote io.rong.**
+-keep public class * extends android.content.BroadcastReceiver
+-keep class com.jkb.mrcampus.receiver.RongImNotificationReceiver {*;}
+#混淆Activity
+-dontnote class * extends android.android.support.v7.app.AppCompatActivity

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.jkb.core.contract.usersList.VisitorContract;
 import com.jkb.core.presenter.usersList.data.UserData;
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.adapter.recycler.userList.VisitorListAdapter;
@@ -34,15 +35,15 @@ public class VisitorFragment extends BaseFragment implements VisitorContract.Vie
 
     }
 
-    public VisitorFragment(int user_id) {
-        this.user_id = user_id;
-    }
 
     public static VisitorFragment INSTANCE = null;
 
     public static VisitorFragment newInstance(int user_id) {
         if (INSTANCE == null || user_id != -1) {
-            INSTANCE = new VisitorFragment(user_id);
+            INSTANCE = new VisitorFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
+            INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
     }
@@ -89,7 +90,8 @@ public class VisitorFragment extends BaseFragment implements VisitorContract.Vie
     @Override
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-
+            Bundle arguments = getArguments();
+            user_id = arguments.getInt(Config.INTENT_KEY_USER_ID);
         } else {
             user_id = savedInstanceState.getInt(SAVED_USER_ID);//恢复数据
         }
