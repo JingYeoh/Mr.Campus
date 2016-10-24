@@ -92,6 +92,7 @@ public class SettingFragment extends BaseFragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mainActivity = null;
         Log.v(TAG, "onDestroy");
     }
 

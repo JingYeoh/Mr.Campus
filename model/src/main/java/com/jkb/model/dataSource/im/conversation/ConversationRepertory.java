@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
+import com.jkb.api.entity.circle.CircleInfoEntity;
 import com.jkb.api.entity.user.UserInfoEntity;
 
 /**
@@ -37,5 +38,12 @@ public class ConversationRepertory implements ConversationDataSource {
     public void getUserInfo(
             @NonNull int user_id, @NonNull ApiCallback<ApiResponse<UserInfoEntity>> apiCallback) {
         remoteDataSource.getUserInfo(user_id, apiCallback);
+    }
+
+    @Override
+    public void getCircleInfo(
+            @NonNull int userId, @NonNull int id,
+            @NonNull ApiCallback<ApiResponse<CircleInfoEntity>> apiCallback) {
+        remoteDataSource.getCircleInfo(userId, id, apiCallback);
     }
 }

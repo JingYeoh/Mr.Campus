@@ -254,4 +254,10 @@ public class MessageCenterFragment extends BaseFragment implements
     public boolean isActive() {
         return isAdded();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        messageCenterActivity = null;
+    }
 }

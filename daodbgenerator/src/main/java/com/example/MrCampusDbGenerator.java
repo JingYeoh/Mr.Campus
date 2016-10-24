@@ -31,7 +31,32 @@ public class MrCampusDbGenerator {
         initUsersEntity(schema);
         initStatusEntity(schema);
         initSchoolsEntity(schema);
+        initMessageEntity(schema);
         new DaoGenerator().generateAll(schema, DBConfig.AUTO_GENERATE_JAVA_PATH);
+    }
+
+    /**
+     * 初始化消息的实体表
+     *
+     * @param schema dao的自动生成器对象
+     */
+    private static void initMessageEntity(Schema schema) {
+        System.out.println("initMessageEntity");
+        Entity messages = schema.addEntity(DBConfig.ENTITY_MESSAGES);
+        messages.setTableName(DBConfig.TABLE_MESSAGES);
+        messages.addIdProperty();//建立自增的主键
+        messages.addStringProperty(DBConfig.MSG_CONTENT).notNull();//消息内容，相当于标题
+        messages.addStringProperty(DBConfig.ACTION).notNull();//消息的action
+        messages.addIntProperty(DBConfig.SENDER_ID).notNull();//发送者的id
+        messages.addIntProperty(DBConfig.TARGET_ID).notNull();//目标id
+        messages.addStringProperty(DBConfig.TARGET_TYPE).notNull();//目标类型
+        messages.addStringProperty(DBConfig.TARGET_NAME).notNull();//目标名称
+        messages.addStringProperty(DBConfig.TARGET_PICTURE);//目标的图片
+        messages.addStringProperty(DBConfig.SENDER_TYPE).notNull();//发送者的类型
+        messages.addStringProperty(DBConfig.SENDER_NAME).notNull();//发送者的名称
+        messages.addStringProperty(DBConfig.SENDER_PICTURE);//发送者的图片
+        messages.addBooleanProperty(DBConfig.IS_READED);//是否读取
+        messages.addDateProperty(DBConfig.UPDATED_AT);//最后更新的时间
     }
 
     /**

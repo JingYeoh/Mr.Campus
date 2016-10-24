@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.jkb.core.contract.usersList.VisitorContract;
 import com.jkb.core.presenter.usersList.data.UserData;
+import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.UsersListActivity;
@@ -95,7 +96,7 @@ public class VisitorFragment extends BaseFragment implements VisitorContract.Vie
         } else {
             user_id = savedInstanceState.getInt(SAVED_USER_ID);//恢复数据
         }
-        visitorListAdapter = new VisitorListAdapter(mActivity, null);
+        visitorListAdapter = new VisitorListAdapter(context, null);
         rv.setAdapter(visitorListAdapter);
     }
 
@@ -105,7 +106,7 @@ public class VisitorFragment extends BaseFragment implements VisitorContract.Vie
         ((TextView) rootView.findViewById(R.id.ts4_tv_name)).setText(R.string.Visitors);
         //设置布局方向等
         rv = (RecyclerView) rootView.findViewById(R.id.fua_rv);
-        linearLayoutManager = new LinearLayoutManager(mActivity);
+        linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(linearLayoutManager);
         //初始化刷新控件
@@ -225,5 +226,12 @@ public class VisitorFragment extends BaseFragment implements VisitorContract.Vie
     @Override
     public void onAttentionClick(int position) {
         clickPayAttention(position);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        usersListActivity = null;
+        LogUtils.d(TAG, "onDestroy");
     }
 }

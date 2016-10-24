@@ -200,6 +200,12 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
         return isAdded();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mainActivity = null;
+    }
+
     /**
      * 右滑数据变化时候的监听器
      */

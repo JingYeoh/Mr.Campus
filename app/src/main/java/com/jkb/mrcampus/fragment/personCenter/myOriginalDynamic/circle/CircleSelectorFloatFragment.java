@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
     private static final String TAG = ClassUtils.getClassName(CircleSelectorFloatFragment.class);
     private View rootView;
     private Activity mActivity;
+    private Context context;
     private Dialog mDialog;
 
 
@@ -79,9 +81,10 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         mActivity = getActivity();
+        context = mActivity.getApplicationContext();
         myOriginalDynamicActivity = (MyOriginalDynamicActivity) mActivity;
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        LayoutInflater inflater = mActivity.getLayoutInflater();
+        LayoutInflater inflater = LayoutInflater.from(context);
         rootView = inflater.inflate(R.layout.frg_float_select_circle, null);
         builder.setView(rootView);
         mDialog = builder.create();
@@ -160,7 +163,7 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
             Bundle arguments = getArguments();
             user_id = arguments.getInt(Config.INTENT_KEY_USER_ID);
         }
-        circleSelectorAdapter = new CircleSelectorAdapter(mActivity, null);
+        circleSelectorAdapter = new CircleSelectorAdapter(context, null);
         recyclerView.setAdapter(circleSelectorAdapter);
     }
 
@@ -170,7 +173,7 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
     private void initPresenter() {
         if (mPresenter == null) {
             mPresenter = new CircleSelectorPresenter(this,
-                    Injection.provideCircleSelectorRepertory(mActivity.getApplicationContext()));
+                    Injection.provideCircleSelectorRepertory(context.getApplicationContext()));
         }
     }
 
@@ -182,7 +185,7 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.ffsc_srl);
         //列表数据
         recyclerView = (RecyclerView) rootView.findViewById(R.id.ffsc_lv);
-        linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
@@ -231,6 +234,13 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        myOriginalDynamicActivity = null;
     }
 
     @Override

@@ -95,6 +95,14 @@ public class ShareDynamicDialogFragment extends DialogFragment implements View.O
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mActivity = null;
+        mDialog = null;
+        rootView = null;
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fdsd_iv_wechatCircle:

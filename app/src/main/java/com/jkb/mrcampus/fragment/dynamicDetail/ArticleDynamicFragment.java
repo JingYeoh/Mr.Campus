@@ -49,7 +49,7 @@ public class ArticleDynamicFragment extends BaseFragment implements
         if (INSTANCE == null || dynamic_id != -1) {
             Bundle args = new Bundle();
             INSTANCE = new ArticleDynamicFragment();
-            args.putInt(SAVED_DYNAMIC_ID,dynamic_id);
+            args.putInt(SAVED_DYNAMIC_ID, dynamic_id);
             INSTANCE.setArguments(args);
         }
         return INSTANCE;
@@ -123,17 +123,17 @@ public class ArticleDynamicFragment extends BaseFragment implements
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             Bundle args = getArguments();
-            if(args!=null){
-                dynamic_id=args.getInt(SAVED_DYNAMIC_ID);
+            if (args != null) {
+                dynamic_id = args.getInt(SAVED_DYNAMIC_ID);
             }
         } else {
             dynamic_id = savedInstanceState.getInt(SAVED_DYNAMIC_ID);//恢复数据
         }
 
-        articleContentShowAdapter = new ArticleContentShowAdapter(mActivity, null);
+        articleContentShowAdapter = new ArticleContentShowAdapter(context, null);
         articleContentRecyclerView.setAdapter(articleContentShowAdapter);
 
-        commentListAdapter = new CommentListAdapter(mActivity, null);
+        commentListAdapter = new CommentListAdapter(context, null);
         commentRecyclerView.setAdapter(commentListAdapter);
     }
 
@@ -145,14 +145,14 @@ public class ArticleDynamicFragment extends BaseFragment implements
 
         //初始化评论列表
         commentRecyclerView = (RecyclerView) rootView.findViewById(R.id.fdda_rv_comment);
-        commentLinearLayoutManager = new LinearLayoutManager(mActivity);
+        commentLinearLayoutManager = new LinearLayoutManager(context);
         commentLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         commentRecyclerView.setLayoutManager(commentLinearLayoutManager);
         commentRecyclerView.setNestedScrollingEnabled(false);
 
         //初始化文章数据
         articleContentRecyclerView = (RecyclerView) rootView.findViewById(R.id.fdda_rc_articleContent);
-        articleContentLinearLayoutManager = new LinearLayoutManager(mActivity);
+        articleContentLinearLayoutManager = new LinearLayoutManager(context);
         articleContentLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         articleContentRecyclerView.setLayoutManager(articleContentLinearLayoutManager);
         articleContentRecyclerView.setNestedScrollingEnabled(false);
@@ -340,6 +340,12 @@ public class ArticleDynamicFragment extends BaseFragment implements
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dynamicDetailActivity = null;
     }
 
     @Override

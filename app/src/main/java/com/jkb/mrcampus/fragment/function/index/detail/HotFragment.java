@@ -111,7 +111,7 @@ public class HotFragment extends BaseFragment implements HotContract.View,
     @Override
     protected void initData(Bundle savedInstanceState) {
         initPresenter();
-        hotDynamicAdapter = new HotDynamicAdapter(mActivity, null);
+        hotDynamicAdapter = new HotDynamicAdapter(context, null);
         recyclerView.setAdapter(hotDynamicAdapter);
     }
 
@@ -121,7 +121,7 @@ public class HotFragment extends BaseFragment implements HotContract.View,
     private void initPresenter() {
         if (mPresenter == null) {
             mPresenter = new HotPresenter(this,
-                    Injection.provideDynamicHotDataRepository(mActivity.getApplicationContext()));
+                    Injection.provideDynamicHotDataRepository(context.getApplicationContext()));
         }
     }
 
@@ -130,11 +130,11 @@ public class HotFragment extends BaseFragment implements HotContract.View,
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fhh_srl);
         //初始化热门动态列表控件
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fhh_rv);
-        linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setItemAnimator(new NoAlphaItemAnimator());
         recyclerView.getItemAnimator().setChangeDuration(0);
         recyclerView.addItemDecoration(
-                new DividerItemDecoration(mActivity,
+                new DividerItemDecoration(context,
                         LinearLayoutManager.VERTICAL,
                         getResources().getColor(R.color.line), 1));//添加分割线
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -266,6 +266,12 @@ public class HotFragment extends BaseFragment implements HotContract.View,
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mainActivity = null;
     }
 
     /**

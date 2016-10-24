@@ -45,10 +45,15 @@ public class ChoosePictureFragment extends BlurDialogFragment implements View.On
         rootView.findViewById(R.id.fdcp_tv_photo).setOnClickListener(this);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dialog = null;
+        rootView = null;
+    }
+
     /**
      * 设置点击的监听器
-     *
-     * @param mListener
      */
     public void setPictureSelectedListener(PictureChooseWayListener mListener) {
         this.mListener = mListener;

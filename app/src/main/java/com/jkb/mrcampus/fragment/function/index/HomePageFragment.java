@@ -188,6 +188,12 @@ public class HomePageFragment extends BaseFragment implements
         return isAdded();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mainActivity = null;
+    }
+
     /**
      * 登录状态变化的监听器
      */

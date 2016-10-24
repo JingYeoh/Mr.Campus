@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
+import com.jkb.api.entity.circle.CircleInfoEntity;
 import com.jkb.api.entity.user.UserInfoEntity;
 
 /**
@@ -20,4 +21,15 @@ public interface ConversationDataSource {
      */
     void getUserInfo(@NonNull int user_id,
                      @NonNull ApiCallback<ApiResponse<UserInfoEntity>> apiCallback);
+
+    /**
+     * 得到圈子数据
+     *
+     * @param userId      用户id
+     * @param id          圈子id
+     * @param apiCallback 回调
+     */
+    void getCircleInfo(
+            @NonNull int userId, @NonNull int id,
+            @NonNull ApiCallback<ApiResponse<CircleInfoEntity>> apiCallback);
 }

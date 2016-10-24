@@ -68,11 +68,6 @@ public class MenuPresenter implements MenuContract.Presenter {
 //        return currentView;
 //    }
 
-    public void setCurrentView(SHOW_VIEW currentView) {
-        this.currentView = currentView;
-//        showFragment();
-    }
-
     public MenuPresenter(MenuContract.View menuView, LoginResponsitory loginResponsitory) {
         this.menuView = menuView;
         this.loginResponsitory = loginResponsitory;
@@ -149,6 +144,32 @@ public class MenuPresenter implements MenuContract.Presenter {
     @Override
     public void rongIMTokenIncorrect() {
         changeToLogout();
+    }
+
+    @Override
+    public void initJPushAlias() {
+        if (!menuView.isActive()) {
+            return;
+        }
+        if (LoginContext.getInstance().isLogined()) {
+            UserAuths userAuths = UserInfoSingleton.getInstance().getUserAuths();
+            if (userAuths == null) {
+                changeToLogout();
+            } else {
+                Integer user_id = userAuths.getUser_id();
+                if (user_id > 0) {
+                    menuView.setJPushAlias(user_id);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void quitJPush() {
+        if (!menuView.isActive()) {
+            return;
+        }
+        menuView.quitJPush();
     }
 
     /**
@@ -376,7 +397,7 @@ public class MenuPresenter implements MenuContract.Presenter {
     @Override
     public void start() {
 //        showFragment();
-        ReqLogin();
+//        ReqLogin();
     }
 
     /**

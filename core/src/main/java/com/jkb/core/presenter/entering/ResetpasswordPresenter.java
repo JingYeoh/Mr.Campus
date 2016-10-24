@@ -67,10 +67,6 @@ public class ResetpasswordPresenter implements ResetpasswordContract.Presenter {
 
     /**
      * 手机号重置密码
-     *
-     * @param identifyCode
-     * @param phone
-     * @param password
      */
     private void resetPasswordWithPhone(String identifyCode, String phone, String password) {
         resetPasswordView.showLoading("加载中");
@@ -79,10 +75,6 @@ public class ResetpasswordPresenter implements ResetpasswordContract.Presenter {
 
     /**
      * 邮箱重置密码
-     *
-     * @param identifyCode
-     * @param email
-     * @param password
      */
     private void resetPasswordWithEmail(String identifyCode, String email, String password) {
         resetPasswordView.showLoading("加载中");

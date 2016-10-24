@@ -18,6 +18,20 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+
+        //JPush---->start
+        applicationId "com.jkb.mrcampus" //JPush上注册的包名.
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "415b5431bb182253e834b128", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+        ]
+        //JPush---->end
     }
     buildTypes {
         release {
@@ -55,4 +69,12 @@ dependencies {
 
     //融云
     compile 'com.android.support:multidex:1.0.1'
+
+    //激光推送
+    compile 'cn.jiguang:jpush:2.1.8'  // 此处以SDK 2.1.8版本为例
+
+    //leakCanary内存泄漏检测工具
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }

@@ -57,7 +57,7 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     private PersonCenterContract.Presenter mPresenter;
 
     //View层数据
-    private CircleImageView ivHeadImg;
+    private ImageView ivHeadImg;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout refreshLayout;
 
@@ -130,7 +130,7 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
                 user_id = savedInstanceState.getInt(SAVED_USER_ID);//恢复数据
             }
         }
-        circleAdapter = new PersonCenterCircleAdapter(mActivity, null);
+        circleAdapter = new PersonCenterCircleAdapter(context, null);
         //绑定数据
         recyclerView.setAdapter(circleAdapter);
     }
@@ -139,10 +139,10 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     protected void initView() {
         //下拉刷新控件
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fpc_srl);
-        ivHeadImg = (CircleImageView) rootView.findViewById(R.id.fpc_iv_headImg);
+        ivHeadImg = (ImageView) rootView.findViewById(R.id.fpc_iv_headImg);
         //初始化圈子视图信息，设置为横向的ListView效果
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fpc_rv);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mActivity);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
     }
@@ -489,6 +489,12 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SAVED_USER_ID, user_id);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        personCenterActivity = null;
     }
 
     @Override

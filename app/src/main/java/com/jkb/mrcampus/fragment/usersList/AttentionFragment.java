@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.jkb.core.contract.usersList.AttentionContract;
 import com.jkb.core.presenter.usersList.data.UserData;
+import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.adapter.recycler.userList.AttentionListAdapter;
@@ -40,8 +41,8 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
     public static AttentionFragment newInstance(int user_id) {
         if (INSTANCE == null || user_id != -1) {
             INSTANCE = new AttentionFragment();
-            Bundle bundle=new Bundle();
-            bundle.putInt(SAVED_USER_ID,user_id);
+            Bundle bundle = new Bundle();
+            bundle.putInt(SAVED_USER_ID, user_id);
             INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
@@ -90,11 +91,11 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             Bundle args = getArguments();
-            user_id=args.getInt(SAVED_USER_ID);
+            user_id = args.getInt(SAVED_USER_ID);
         } else {
             user_id = savedInstanceState.getInt(SAVED_USER_ID);//恢复数据
         }
-        attentionListAdapter = new AttentionListAdapter(mActivity, null);
+        attentionListAdapter = new AttentionListAdapter(context, null);
         rv.setAdapter(attentionListAdapter);
     }
 
@@ -104,7 +105,7 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
         ((TextView) rootView.findViewById(R.id.ts4_tv_name)).setText(R.string.Attention);
         //设置布局方向等
         rv = (RecyclerView) rootView.findViewById(R.id.fua_rv);
-        linearLayoutManager = new LinearLayoutManager(mActivity);
+        linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(linearLayoutManager);
         //初始化刷新控件
@@ -223,5 +224,12 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
     @Override
     public void onAttentionClick(int position) {
         clickPayAttention(position);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        usersListActivity = null;
+        LogUtils.d(TAG, "onDestroy");
     }
 }

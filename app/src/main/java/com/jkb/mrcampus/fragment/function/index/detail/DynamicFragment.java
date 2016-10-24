@@ -118,7 +118,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         } else {
 
         }
-        dynamicAdapter = new DynamicAdapter(mActivity, null);
+        dynamicAdapter = new DynamicAdapter(context, null);
         recyclerView.setAdapter(dynamicAdapter);
     }
 
@@ -128,12 +128,12 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fhd_srl);
         //初始化列表栏
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fhd_rv);
-        linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new NoAlphaItemAnimator());
         recyclerView.getItemAnimator().setChangeDuration(0);
         recyclerView.addItemDecoration(
-                new DividerItemDecoration(mActivity,
+                new DividerItemDecoration(context,
                         LinearLayoutManager.VERTICAL,
                         getResources().getColor(R.color.line), 1));//添加分割线
     }
@@ -293,7 +293,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
     private void initPresenter() {
         if (mPresenter == null) {
             mPresenter = new DynamicPresenter(this,
-                    Injection.provideDynamicDataResponsitory(mActivity.getApplication()));
+                    Injection.provideDynamicDataResponsitory(context.getApplicationContext()));
         }
     }
 
@@ -407,6 +407,12 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mainActivity = null;
     }
 
     /**

@@ -45,8 +45,11 @@ import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
  * Created by JustKiddingBaby on 2016/8/11.
  */
 
-public class SelectCircleCoordinateFragment
-        extends BlurDialogFragment implements SelectCircleCoordinateContract.View, View.OnClickListener, MyOrientationListener.OnOrientationListener, BaiduMap.OnMapStatusChangeListener {
+public class SelectCircleCoordinateFragment extends BlurDialogFragment
+        implements SelectCircleCoordinateContract.View,
+        View.OnClickListener,
+        MyOrientationListener.OnOrientationListener,
+        BaiduMap.OnMapStatusChangeListener {
 
 
     private static SelectCircleCoordinateFragment INSTANCE = null;
@@ -65,6 +68,7 @@ public class SelectCircleCoordinateFragment
 
     private View rootView;
     private Activity mActivity;
+    private Context context;
     private Dialog mDialog;
     private CreateCircleActivity createCircleActivity;
 
@@ -87,13 +91,14 @@ public class SelectCircleCoordinateFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         mActivity = getActivity();
+        context = mActivity.getApplicationContext();
         if (mActivity instanceof CreateCircleActivity) {
             createCircleActivity = (CreateCircleActivity) mActivity;
         } else {
             close();
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-        LayoutInflater inflater = mActivity.getLayoutInflater();
+        LayoutInflater inflater = LayoutInflater.from(mActivity);
         rootView = inflater.inflate(R.layout.frg_create_circle_select_coordinate, null);
         builder.setView(rootView);
         mDialog = builder.create();
@@ -174,7 +179,11 @@ public class SelectCircleCoordinateFragment
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mMapView.onDestroy();
+        createCircleActivity = null;
+        context = null;
+        mActivity = null;
         bitmapDescriptor.recycle();//回收资源
+        bitmapDescriptor = null;
     }
 
     /**
@@ -227,7 +236,7 @@ public class SelectCircleCoordinateFragment
     private void initSelectCircleCoordinate() {
         if (mPresenter == null) {
             mPresenter = new SelectCircleCoordinatePresenter(this,
-                    Injection.provideBaiduMapWebServiceResponsitory(mActivity.getApplicationContext()));
+                    Injection.provideBaiduMapWebServiceResponsitory(context.getApplicationContext()));
         }
     }
 
@@ -248,7 +257,7 @@ public class SelectCircleCoordinateFragment
      */
     private void initOritationListener() {
         myOrientationListener = new MyOrientationListener(
-                mActivity.getApplicationContext());
+                context.getApplicationContext());
         myOrientationListener
                 .setOnOrientationListener(this);
     }
@@ -322,7 +331,7 @@ public class SelectCircleCoordinateFragment
     @Override
     public void setLocationUserHeadImgBitmap(String bitmap) {
         //设置头像
-        LayoutInflater inflater = LayoutInflater.from(mActivity);
+        LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.view_baidu_descriptor, null);
         CircleImageView ivHeadImg = ((CircleImageView) view.findViewById(R.id.vbd_iv_headImg));
         if (!StringUtils.isEmpty(bitmap)) {
@@ -358,6 +367,7 @@ public class SelectCircleCoordinateFragment
     public boolean isActive() {
         return isAdded();
     }
+
 
     @Override
     public void onClick(View view) {

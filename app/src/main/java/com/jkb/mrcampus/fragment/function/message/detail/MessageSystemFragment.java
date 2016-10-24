@@ -67,4 +67,10 @@ public class MessageSystemFragment extends BaseFragment implements View.OnClickL
                 break;
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        messageActivity = null;
+    }
 }

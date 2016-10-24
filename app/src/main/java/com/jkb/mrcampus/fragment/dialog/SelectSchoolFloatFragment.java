@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class SelectSchoolFloatFragment extends DialogFragment implements
     //data
     private View rootView;
     private Activity mActivity;
+    private Context context;
     private Dialog mDialog;
     private SelectSchoolContract.Presenter mPresenter;
 
@@ -48,6 +50,7 @@ public class SelectSchoolFloatFragment extends DialogFragment implements
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         mActivity = getActivity();
+        context = mActivity.getApplication();
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
         LayoutInflater inflater = mActivity.getLayoutInflater();
         rootView = inflater.inflate(R.layout.frg_float_select_school, null);
@@ -98,7 +101,7 @@ public class SelectSchoolFloatFragment extends DialogFragment implements
     private void initData(Bundle savedInstanceState) {
         initPresenter();
         //初始化数据
-        selectSchoolAdapter = new SelectSchoolAdapter(mActivity, null);
+        selectSchoolAdapter = new SelectSchoolAdapter(context, null);
         listView.setAdapter(selectSchoolAdapter);
     }
 
@@ -108,7 +111,7 @@ public class SelectSchoolFloatFragment extends DialogFragment implements
     private void initPresenter() {
         if (mPresenter == null) {
             mPresenter = new SelectSchoolPresenter(this,
-                    Injection.provideSelectSchoolDataRepertory(mActivity.getApplicationContext()));
+                    Injection.provideSelectSchoolDataRepertory(context));
         }
     }
 
@@ -194,7 +197,7 @@ public class SelectSchoolFloatFragment extends DialogFragment implements
 
     @Override
     public void showReqResult(String value) {
-        Toast.makeText(mActivity, value, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, value, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -202,6 +205,12 @@ public class SelectSchoolFloatFragment extends DialogFragment implements
         return isAdded();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mActivity = null;
+        context = null;
+    }
 
     /**
      * 条目的点击事件的监听

@@ -102,7 +102,7 @@ public class MyFavoriteDynamicFragment extends BaseFragment implements
             Bundle arguments = getArguments();
             user_id = arguments.getInt(Config.INTENT_KEY_USER_ID);
         }
-        myFavoriteDynamicAdapter = new MyFavoriteDynamicAdapter(mActivity, null);
+        myFavoriteDynamicAdapter = new MyFavoriteDynamicAdapter(context, null);
         recyclerView.setAdapter(myFavoriteDynamicAdapter);
     }
 
@@ -113,7 +113,7 @@ public class MyFavoriteDynamicFragment extends BaseFragment implements
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fmud_srl);
         //数据列表
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fmud_rv);
-        linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
@@ -242,6 +242,12 @@ public class MyFavoriteDynamicFragment extends BaseFragment implements
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        myUnOriginalDynamicActivity = null;
     }
 
     /**

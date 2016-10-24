@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jkb.core.contract.entering.EnterPersonMessageContract;
@@ -36,7 +37,7 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
     private EnterPersonMessagePresenter mPresenter;
     private EnteringActivity enteringActivity;
 
-    private CircleImageView ivHeadImg;//头像
+    private ImageView ivHeadImg;//头像
     private EditText etIdentifyCode;
     private EditText etNickName;
     private EditText etPassWord;
@@ -50,8 +51,6 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
 
     /**
      * 获得一个实例化的MrCampusAgreementFragment对象
-     *
-     * @return
      */
     public static EnteringPersonMessageFragment newInstance() {
         return new EnteringPersonMessageFragment();
@@ -87,7 +86,7 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
     @Override
     protected void initView() {
         ((TextView) rootView.findViewById(R.id.ts1_tv_name)).setText(R.string.register);
-        ivHeadImg = (CircleImageView) rootView.findViewById(R.id.fep_bt_headImg);
+        ivHeadImg = (ImageView) rootView.findViewById(R.id.fep_bt_headImg);
         etIdentifyCode = (EditText) rootView.findViewById(R.id.fep_et_identifyCode);
         etNickName = (EditText) rootView.findViewById(R.id.fep_et_nickName);
         etPassWord = (EditText) rootView.findViewById(R.id.fep_et_passWord);
@@ -95,14 +94,14 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
 
 
     @Override
-    public void setHeadImg(String  headImg) {
+    public void setHeadImg(String headImg) {
         if (!StringUtils.isEmpty(headImg))
-            ImageLoaderFactory.getInstance().displayFromSDCard(headImg,ivHeadImg);
+            ImageLoaderFactory.getInstance().displayFromSDCard(headImg, ivHeadImg);
     }
 
     @Override
     public void showChoosePictureView() {
-        mCropParams = new CropParams(mActivity);
+        mCropParams = new CropParams(context);
         //显示选择图片的View
         enteringActivity.showChoosePictureDialog();
         enteringActivity.setChoosePictureWayListener(this);
@@ -145,6 +144,13 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        enteringActivity = null;
+        mCropParams = null;
     }
 
     @Override

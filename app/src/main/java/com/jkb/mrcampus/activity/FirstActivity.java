@@ -36,7 +36,6 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
     //引导页面
     private GuideFragment guideFragment;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar_Fullscreen);
@@ -59,12 +58,12 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
     @Override
     protected void initData(Bundle savedInstanceState) {
         fm = getSupportFragmentManager();
-
+        initFirstPresenter();
         if (savedInstanceStateValued) {
-            initFirstPresenter();
             restoreFragments();//回复数据
         } else {
-            initFirstPresenter();
+            Intent intent = getIntent();
+
         }
     }
 

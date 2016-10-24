@@ -21,6 +21,7 @@ import com.jkb.model.data.PageControlEntity;
 import com.jkb.model.dataSource.circle.circleIndex.CircleIndexDataRepertory;
 import com.jkb.model.dataSource.circle.data.CircleIndexData;
 import com.jkb.model.info.UserInfoSingleton;
+import com.jkb.model.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -243,6 +244,25 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onJoinChatRoomClick() {
+        if (circleIndexData == null) {
+            view.showReqResult("获取圈子数据失败");
+            return;
+        }
+        if (!view.isActive()) {
+            return;
+        }
+        //判断是否关注该圈子
+        boolean hasSubscribe = circleIndexData.isHasSubscribe();
+        LogUtils.d(CircleIndexPresenter.class, "是否关注状态是" + hasSubscribe);
+        if (hasSubscribe) {
+            view.showHintForJoinChatRoot(circleIndexData.getCircleName());
+        } else {
+            view.showHintForPayAttentionCircle();
+        }
     }
 
     /**

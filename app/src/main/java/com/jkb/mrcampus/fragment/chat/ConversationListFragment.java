@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.jkb.core.contract.im.conversationList.ConversationListContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.UserState;
+import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.activity.callback.RongIMConnectCallBack;
@@ -93,6 +94,7 @@ public class ConversationListFragment extends BaseFragment implements
      * 恢复会话列表
      */
     private void restoreConversationList() {
+        LogUtils.d(TAG, "restoreConversationList");
         conversationListFragment = (io.rong.imkit.fragment.ConversationListFragment)
                 fm.findFragmentByTag(ClassUtils.getClassName(
                         io.rong.imkit.fragment.ConversationListFragment.class));
@@ -102,17 +104,17 @@ public class ConversationListFragment extends BaseFragment implements
      * 初始化有关的fragment
      */
     private void initConversationList() {
-        if (conversationListFragment == null) {
-            conversationListFragment = io.rong.imkit.fragment.ConversationListFragment.getInstance();
-            conversationListFragment.setUri(uri);
-            ActivityUtils.addFragmentToActivity(fm, conversationListFragment, contentView);
-        }
+        LogUtils.d(TAG, "initConversationList");
+        conversationListFragment = new io.rong.imkit.fragment.ConversationListFragment();
+        conversationListFragment.setUri(uri);
+        ActivityUtils.addFragmentToActivity(fm, conversationListFragment, contentView);
     }
 
     /**
      * 显示聊天列表页面
      */
     private void showConversationList() {
+        LogUtils.d(TAG, "showConversationList");
         ActivityUtils.showFragment(fm, conversationListFragment);
     }
 
@@ -121,7 +123,7 @@ public class ConversationListFragment extends BaseFragment implements
      */
 
     private void initConversationListData() {
-        uri = Uri.parse("rong://" + mActivity.getApplicationInfo().packageName).buildUpon()
+        uri = Uri.parse("rong://" + context.getApplicationInfo().packageName).buildUpon()
                 .appendPath("conversationlist")
                 .appendQueryParameter(Conversation.ConversationType.PRIVATE.getName(), "false") //设置私聊会话非聚合显示
                 .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "true")//设置群组会话聚合显示
@@ -216,6 +218,12 @@ public class ConversationListFragment extends BaseFragment implements
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mainActivity = null;
     }
 
     @Override

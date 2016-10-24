@@ -51,6 +51,13 @@ public class TextFloatFragment extends BlurDialogFragment {
         return builder.create();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dialog = null;
+        rootView = null;
+    }
+
     /**
      * 初始化监听器
      */

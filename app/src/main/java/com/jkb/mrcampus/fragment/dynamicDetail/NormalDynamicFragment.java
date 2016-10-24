@@ -170,7 +170,7 @@ public class NormalDynamicFragment extends BaseFragment
         } else {
             dynamic_id = savedInstanceState.getInt(SAVED_DYNAMIC_ID);//恢复数据
         }
-        dynamicCommentAdapter = new DynamicCommentAdapter(mActivity, null);
+        dynamicCommentAdapter = new DynamicCommentAdapter(context, null);
         commentRecyclerView.setAdapter(dynamicCommentAdapter);
     }
 
@@ -180,7 +180,7 @@ public class NormalDynamicFragment extends BaseFragment
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fddn_srl);
         //初始化评论列表
         commentRecyclerView = (RecyclerView) rootView.findViewById(R.id.fddn_rv_comment);
-        linearLayoutManager = new LinearLayoutManager(mActivity);
+        linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         commentRecyclerView.setLayoutManager(linearLayoutManager);
         commentRecyclerView.setNestedScrollingEnabled(false);
@@ -415,6 +415,12 @@ public class NormalDynamicFragment extends BaseFragment
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dynamicDetailActivity = null;
     }
 
     @Override

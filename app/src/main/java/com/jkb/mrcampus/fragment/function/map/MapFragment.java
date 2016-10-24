@@ -98,7 +98,7 @@ public class MapFragment extends BaseFragment implements MapContract.View,
     @Override
     protected void initData(Bundle savedInstanceState) {
         initBaiDuMap();
-        mapMarkCircleAdapter = new MapMarkCircleAdapter(mActivity, mBaiduMap, null);
+        mapMarkCircleAdapter = new MapMarkCircleAdapter(context, mBaiduMap, null);
     }
 
     /**
@@ -125,7 +125,7 @@ public class MapFragment extends BaseFragment implements MapContract.View,
      */
     private void initOritationListener() {
         myOrientationListener = new MyOrientationListener(
-                mActivity.getApplicationContext());
+                context.getApplicationContext());
         myOrientationListener
                 .setOnOrientationListener(this);
     }
@@ -161,6 +161,7 @@ public class MapFragment extends BaseFragment implements MapContract.View,
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mMapView.onDestroy();
+        mapActivity=null;
     }
 
     @Override
@@ -263,7 +264,7 @@ public class MapFragment extends BaseFragment implements MapContract.View,
     public void showUserLocation(String userAvatar) {
         Log.d(TAG, "userAvatar=" + userAvatar);
         //设置用户头像
-        LayoutInflater inflater = LayoutInflater.from(mActivity);
+        LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.view_baidu_descriptor, null);
         CircleImageView ivHeadImg = ((CircleImageView) view.findViewById(R.id.vbd_iv_headImg));
         if (!StringUtils.isEmpty(userAvatar)) {

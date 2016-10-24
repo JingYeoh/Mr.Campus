@@ -183,7 +183,7 @@ public class TopicDynamicFragment extends BaseFragment implements DynamicDetailT
         } else {
             dynamic_id = savedInstanceState.getInt(SAVED_DYNAMIC_ID);//恢复数据
         }
-        commentListAdapter = new CommentListAdapter(mActivity, null);
+        commentListAdapter = new CommentListAdapter(context, null);
         commentRecyclerView.setAdapter(commentListAdapter);
         comment$ReplyStatusController = new Comment$ReplyStatusController();
     }
@@ -203,7 +203,7 @@ public class TopicDynamicFragment extends BaseFragment implements DynamicDetailT
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fddt_srl);
         //初始化评论列表
         commentRecyclerView = (RecyclerView) rootView.findViewById(R.id.fddt_rv_comment);
-        linearLayoutManager = new LinearLayoutManager(mActivity);
+        linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         commentRecyclerView.setLayoutManager(linearLayoutManager);
         commentRecyclerView.setNestedScrollingEnabled(false);
@@ -529,6 +529,12 @@ public class TopicDynamicFragment extends BaseFragment implements DynamicDetailT
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dynamicDetailActivity = null;
     }
 
     @Override

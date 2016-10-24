@@ -119,7 +119,7 @@ public class MyDynamicCircleFragment extends BaseFragment implements
         }
         //初始化选择圈子
         initCircleSelector();
-        myDynamicCircleAdapter = new MyDynamicCircleAdapter(mActivity, null);
+        myDynamicCircleAdapter = new MyDynamicCircleAdapter(context, null);
         recyclerView.setAdapter(myDynamicCircleAdapter);
     }
 
@@ -139,7 +139,7 @@ public class MyDynamicCircleFragment extends BaseFragment implements
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fmdc_srl);
         //初始化列表
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fmdc_rv);
-        linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
@@ -270,6 +270,12 @@ public class MyDynamicCircleFragment extends BaseFragment implements
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        myOriginalDynamicActivity = null;
     }
 
     @Override

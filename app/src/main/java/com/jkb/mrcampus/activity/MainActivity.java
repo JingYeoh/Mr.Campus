@@ -31,6 +31,10 @@ import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.service.LocationService;
 import com.jkb.mrcampus.utils.ClassUtils;
 
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -49,7 +53,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     private MenuPresenter.SHOW_VIEW showView = MenuPresenter.SHOW_VIEW.HOMEPAGE;
     private static final String SAVE_SHOW_VIEW_POSITION = "save_show_view_position";
     //本页的Presenter层
-    private MenuPresenter mPresenter;
+    private MenuContract.Presenter mPresenter;
     //菜单
     private SlidingMenu slidingMenu;
 
@@ -160,7 +164,6 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
      */
     private void initPresenter() {
         mPresenter = new MenuPresenter(this, Injection.provideLoginResponsitory(getApplicationContext()));
-        mPresenter.setCurrentView(showView);
     }
 
 
@@ -350,7 +353,17 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         if (getApplicationInfo().packageName.
                 equals(Mr_Campus.getCurProcessName(getApplicationContext()))) {
             LogUtils.d(TAG, "我要开始连接融云服务了");
-            RongIM.connect(token, new RongIMClient.ConnectCallback() {
+            RongIM.connect(token, rongImConnectCallback);
+        } else {
+            showReqResult("应用包名不同，不能启动聊天服务");
+        }
+    }
+
+    /**
+     * 融云连接的回调
+     */
+    private RongIMClient.ConnectCallback rongImConnectCallback =
+            new RongIMClient.ConnectCallback() {
                 /**
                  * Token 错误，在线上环境下主要是因为 Token 已经过期，
                  * 您需要向 App Server 重新请求一个新的 Token
@@ -380,17 +393,40 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
                         rongIMConnectCallBack.onError(errorCode);
                     }
                 }
-            });
-        } else {
-            showReqResult("应用包名不同，不能启动聊天服务");
-        }
-    }
+            };
 
     @Override
     public void breakConnectRongIM() {
         LogUtils.d(TAG, "我要开始断开聊天了");
         RongIM.getInstance().logout();
     }
+
+    @Override
+    public void setJPushAlias(int user_id) {
+        JPushInterface.setAlias(getApplicationContext(), user_id + "",tagAliasCallback);
+    }
+
+    @Override
+    public void quitJPush() {
+        JPushInterface.setAlias(getApplicationContext(), "", tagAliasCallback);
+    }
+
+    /**
+     * 设置别名的回调方法
+     */
+    private TagAliasCallback tagAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int i, String s, Set<String> set) {
+            switch (i) {
+                case 0:
+                    LogUtils.d(TAG, "-----设置的别名成功");
+                    break;
+                default:
+                    LogUtils.w(TAG, "-----设置别名失败，错误Code是" + i);
+                    break;
+            }
+        }
+    };
 
     /**
      * 初始化Fragment步骤2
@@ -459,7 +495,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
 
     @Override
     public void setPresenter(MenuContract.Presenter presenter) {
-        mPresenter = (MenuPresenter) presenter;
+        mPresenter = presenter;
     }
 
     @Override
@@ -513,12 +549,14 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
                 public void onLogin() {
                     slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);//设置为两侧滑动
                     mPresenter.connectRongIM();
+                    mPresenter.initJPushAlias();
                 }
 
                 @Override
                 public void onLogout() {
                     slidingMenu.setMode(SlidingMenu.LEFT);//设置为只有左侧滑动
                     mPresenter.logoutRongIM();
+                    mPresenter.quitJPush();
                 }
             };
     /**

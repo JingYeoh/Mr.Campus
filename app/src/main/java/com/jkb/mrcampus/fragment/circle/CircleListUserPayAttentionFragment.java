@@ -16,8 +16,6 @@ import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleListActivity;
 import com.jkb.mrcampus.adapter.recycler.CircleListAdapter;
-import com.jkb.mrcampus.adapter.recycler.NoAlphaItemAnimator;
-import com.jkb.mrcampus.adapter.recycler.itemDecoration.DividerGridItemDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
 
 import java.util.List;
@@ -99,7 +97,7 @@ public class CircleListUserPayAttentionFragment extends BaseFragment
         }
 
         //初始化页面数据
-        circleListAdapter = new CircleListAdapter(mActivity, null);
+        circleListAdapter = new CircleListAdapter(context, null);
         recyclerView.setAdapter(circleListAdapter);
     }
 
@@ -232,6 +230,12 @@ public class CircleListUserPayAttentionFragment extends BaseFragment
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        circleListActivity = null;
     }
 
     @Override

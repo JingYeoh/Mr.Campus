@@ -320,6 +320,11 @@ public class SwitchFunctionFragment extends BaseFragment
         return isAdded();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mainActivity = null;
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

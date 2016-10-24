@@ -163,7 +163,7 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
         } else {
             dynamic_id = savedInstanceState.getInt(Config.INTENT_KEY_DYNAMIC_ID);
         }
-        commentListAdapter = new CommentListAdapter(mActivity, null);
+        commentListAdapter = new CommentListAdapter(context, null);
         recyclerView.setAdapter(commentListAdapter);
     }
 
@@ -173,7 +173,7 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
         ((TextView) rootView.findViewById(R.id.ts4_tv_name)).setText("评论");
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fcl_rv);
-        linearLayoutManager = new LinearLayoutManager(mActivity);
+        linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -315,6 +315,12 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        commentActivity = null;
     }
 
     @Override

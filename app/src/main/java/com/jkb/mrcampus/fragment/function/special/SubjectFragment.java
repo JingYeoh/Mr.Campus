@@ -51,4 +51,9 @@ public class SubjectFragment extends BaseFragment {
     protected void initView() {
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

@@ -79,6 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     private TagFloatFragment tagFloatFragment;
     private SelectSchoolFloatFragment selectSchoolFloatFragment;
     private HintDetermineFloatFragment hintDetermineFloatFragment;
+    private HintDetermineFloatFragment newHintDetermineFloatFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -578,6 +579,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         if (hintDetermineFloatFragment != null && hintDetermineFloatFragment.isAdded()) {
             hintDetermineFloatFragment.dismiss();
         }
+        if (newHintDetermineFloatFragment != null && newHintDetermineFloatFragment.isAdded()) {
+            newHintDetermineFloatFragment.dismiss();
+        }
         dismissLoading();
     }
 
@@ -699,6 +703,18 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         }
         if (!hintDetermineFloatFragment.isAdded()) {
             hintDetermineFloatFragment.show(getFragmentManager(),
+                    ClassUtils.getClassName(HintDetermineFloatFragment.class));
+        }
+    }
+
+    @Override
+    public void showNewHintDetermineFloatView(
+            String title, String content, String bt1Content, String bt2Content,
+            HintDetermineFloatFragment.OnDetermineItemClickListener onDetermineItemClickListener) {
+        newHintDetermineFloatFragment = new HintDetermineFloatFragment(title, content,
+                bt1Content, bt2Content, onDetermineItemClickListener);
+        if (!newHintDetermineFloatFragment.isAdded()) {
+            newHintDetermineFloatFragment.show(getFragmentManager(),
                     ClassUtils.getClassName(HintDetermineFloatFragment.class));
         }
     }

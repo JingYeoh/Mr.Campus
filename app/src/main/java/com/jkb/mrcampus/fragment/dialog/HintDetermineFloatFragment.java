@@ -143,6 +143,13 @@ public class HintDetermineFloatFragment extends DialogFragment implements View.O
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mActivity = null;
+        mDialog = null;
+    }
+
+    @Override
     public void onClick(View v) {
         if (onDetermineItemClickListener == null) {
             return;

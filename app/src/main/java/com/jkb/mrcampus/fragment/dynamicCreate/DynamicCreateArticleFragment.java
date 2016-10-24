@@ -104,7 +104,7 @@ public class DynamicCreateArticleFragment extends BaseFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        dynamicCreateArticleAdapter = new DynamicCreateArticleAdapter(mActivity, null);
+        dynamicCreateArticleAdapter = new DynamicCreateArticleAdapter(context, null);
         recyclerView.setAdapter(dynamicCreateArticleAdapter);
     }
 
@@ -112,7 +112,7 @@ public class DynamicCreateArticleFragment extends BaseFragment
     protected void initView() {
         //初始化页面内容
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fdca_rv);
-        linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         //初始化标题栏
         ((TextView) rootView.findViewById(R.id.ts7_tv_name)).setText("发布文章");
@@ -167,7 +167,7 @@ public class DynamicCreateArticleFragment extends BaseFragment
 
     @Override
     public void showChoosePictureView() {
-        mCropParams = new CropParams(mActivity);
+        mCropParams = new CropParams(context);
         dynamicCreateActivity.showChoosePictureDialog();
         dynamicCreateActivity.setChoosePictureWayListener(pictureChooseWayListener);
     }
@@ -214,6 +214,13 @@ public class DynamicCreateArticleFragment extends BaseFragment
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dynamicCreateActivity = null;
+        mCropParams = null;
     }
 
     /**

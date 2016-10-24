@@ -168,6 +168,13 @@ public class DynamicCreateTopicFragment extends BaseFragment
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dynamicCreateActivity = null;
+        mCropParams = null;
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ts7_ib_left:
@@ -226,7 +233,7 @@ public class DynamicCreateTopicFragment extends BaseFragment
 
     @Override
     public void showChoosePictureView() {
-        mCropParams = new CropParams(mActivity);
+        mCropParams = new CropParams(context);
         dynamicCreateActivity.showChoosePictureDialog();
         dynamicCreateActivity.setChoosePictureWayListener(this);
     }

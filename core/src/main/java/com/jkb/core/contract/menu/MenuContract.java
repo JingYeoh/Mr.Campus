@@ -114,6 +114,18 @@ public interface MenuContract {
          * 登出融云聊天
          */
         void breakConnectRongIM();
+
+        /**
+         * 设置极光推送的别名
+         *
+         * @param user_id 用户id
+         */
+        void setJPushAlias(int user_id);
+
+        /**
+         * 退出激光推送
+         */
+        void quitJPush();
     }
 
 
@@ -146,5 +158,15 @@ public interface MenuContract {
          * 融云Token过期
          */
         void rongIMTokenIncorrect();
+
+        /**
+         * 设置极光推送别名
+         */
+        void initJPushAlias();
+
+        /**
+         * 退出极光推送
+         */
+        void quitJPush();
     }
 }

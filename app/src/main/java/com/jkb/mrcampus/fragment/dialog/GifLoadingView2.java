@@ -132,4 +132,11 @@ public class GifLoadingView2 extends BlurDialogFragment {
     protected boolean isDebugEnable() {
         return false;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mDialog = null;
+        mGifImageView = null;
+    }
 }

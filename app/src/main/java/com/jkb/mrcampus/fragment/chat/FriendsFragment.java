@@ -98,7 +98,7 @@ public class FriendsFragment extends BaseFragment implements
         }
         //初始化P层
         initPresenter();
-        friendsAdapter = new FriendsAdapter(mActivity, null);
+        friendsAdapter = new FriendsAdapter(context, null);
         lvFriends.setAdapter(friendsAdapter);
     }
 
@@ -107,10 +107,10 @@ public class FriendsFragment extends BaseFragment implements
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fcf_srl);
         //初始化列表数据
         lvFriends = (RecyclerView) rootView.findViewById(R.id.fcf_lv);
-        linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         lvFriends.setLayoutManager(linearLayoutManager);
         lvFriends.addItemDecoration(
-                new LineDecoration(mActivity, LineDecoration.VERTICAL_LIST));//添加分割线
+                new LineDecoration(context, LineDecoration.VERTICAL_LIST));//添加分割线
     }
 
     /**
@@ -201,6 +201,13 @@ public class FriendsFragment extends BaseFragment implements
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mainActivity = null;
     }
 
     /**

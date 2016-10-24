@@ -234,7 +234,7 @@ public class DynamicCreateNormalFragment extends BaseFragment
 
     @Override
     public void showChoosePictureView() {
-        mCropParams = new CropParams(mActivity);
+        mCropParams = new CropParams(context);
         dynamicCreateActivity.showChoosePictureDialog();
         dynamicCreateActivity.setChoosePictureWayListener(pictureChooseWayListener);
     }
@@ -281,6 +281,13 @@ public class DynamicCreateNormalFragment extends BaseFragment
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dynamicCreateActivity = null;
+        mCropParams = null;
     }
 
     /**

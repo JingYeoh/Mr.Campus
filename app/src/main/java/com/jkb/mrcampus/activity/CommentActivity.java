@@ -69,10 +69,10 @@ public class CommentActivity extends BaseActivity {
             target_id = intent.getIntExtra(Config.INTENT_KEY_TARGET_ID, -1);
             dynamic_id = intent.getIntExtra(Config.INTENT_KEY_DYNAMIC_ID, -1);
             String showType = intent.getStringExtra(Config.INTENT_KEY_SHOW_COMMENT);
-            comment_showType=showType;
+            comment_showType = showType;
         } else {
             restoreFragments();
-            target_id=savedInstanceState.getInt(SAVED_TARGET_ID,-1);
+            target_id = savedInstanceState.getInt(SAVED_TARGET_ID, -1);
             dynamic_id = savedInstanceState.getInt(SAVED_DYNAMIC_ID, -1);
             comment_id = savedInstanceState.getInt(SAVED_COMMENT_ID, -1);
             comment_showType = savedInstanceState.getString(SAVED_COMMENT_SHOW_TYPE);
@@ -203,7 +203,7 @@ public class CommentActivity extends BaseActivity {
         outState.putStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK,
                 fragmentStack.getFragmetStackNames());
         outState.putInt(SAVED_DYNAMIC_ID, dynamic_id);
-        outState.putInt(SAVED_TARGET_ID,target_id);
+        outState.putInt(SAVED_TARGET_ID, target_id);
         outState.putInt(SAVED_COMMENT_ID, comment_id);
         outState.putString(SAVED_COMMENT_SHOW_TYPE, comment_showType);
     }

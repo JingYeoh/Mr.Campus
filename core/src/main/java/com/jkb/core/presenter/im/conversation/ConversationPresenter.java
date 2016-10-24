@@ -4,8 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
+import com.jkb.api.entity.circle.CircleInfoEntity;
 import com.jkb.api.entity.user.UserInfoEntity;
 import com.jkb.core.contract.im.conversation.ConversationContract;
+import com.jkb.core.data.info.circle.CircleInfo;
 import com.jkb.core.data.info.user.UserInfo;
 import com.jkb.model.dataSource.im.conversation.ConversationRepertory;
 import com.jkb.model.info.UserInfoSingleton;
@@ -33,6 +35,8 @@ public class ConversationPresenter implements ConversationContract.Presenter {
     private boolean isCached = false;
     private List<UserInfo> userInfos;
     private int privateConversationUserId = -1;
+    private int chatRoomConversationCircleId = -1;
+    private CircleInfo circleInfo;
 
     public ConversationPresenter(
             @NonNull ConversationContract.View view, @NonNull ConversationRepertory repertory) {
@@ -51,10 +55,19 @@ public class ConversationPresenter implements ConversationContract.Presenter {
         }
         isCached = true;
         view.setUserInfo(userInfos);
+        //私聊
         if (privateConversationUserId != -1) {
             UserInfo userInfo = getUserInfo(privateConversationUserId);
             if (userInfo != null) {
                 view.setTitleName(userInfo.getNickName());
+            }
+        }
+        //聊天室
+        if (chatRoomConversationCircleId != -1) {
+            if (circleInfo == null) {
+                view.setTitleName("聊天室" + chatRoomConversationCircleId);
+            } else {
+                view.setTitleName(circleInfo.getCircleName());
             }
         }
     }
@@ -95,6 +108,28 @@ public class ConversationPresenter implements ConversationContract.Presenter {
         LogUtils.d(TAG, "对方私聊的id是" + userId);
         privateConversationUserId = userId;
         reqUserInfo(userId);
+    }
+
+    @Override
+    public void setChatRootConversationCircleId(int circleId) {
+        LogUtils.d(ConversationPresenter.class, "聊天室的圈子id是" + circleId);
+        chatRoomConversationCircleId = circleId;
+        reqCircleInfo(circleId);
+    }
+
+    /**
+     * 请求圈子数据
+     */
+    private void reqCircleInfo(int circleId) {
+        if (circleId < 0) {
+            return;
+        }
+        if (circleInfo != null) {
+            bindDataToView();
+        } else {
+            int userSelfId = getUserSelfId();
+            repertory.getCircleInfo(userSelfId, circleId, circleApiCallback);
+        }
     }
 
     /**
@@ -208,6 +243,80 @@ public class ConversationPresenter implements ConversationContract.Presenter {
                 @Override
                 public void onError(Response<ApiResponse<UserInfoEntity>> response, String error,
                                     ApiResponse<UserInfoEntity> apiResponse) {
+                    if (view.isActive()) {
+                        bindDataToView();
+                    }
+                }
+
+                @Override
+                public void onFail() {
+                    if (view.isActive()) {
+                        bindDataToView();
+                    }
+                }
+            };
+    /**
+     * 请求圈子数据的回调接口
+     */
+    private ApiCallback<ApiResponse<CircleInfoEntity>> circleApiCallback =
+            new ApiCallback<ApiResponse<CircleInfoEntity>>() {
+                @Override
+                public void onSuccess(Response<ApiResponse<CircleInfoEntity>> response) {
+                    if (view.isActive()) {
+                        handleData(response);
+                    }
+                }
+
+                /**
+                 * 处理数据
+                 */
+                private void handleData(Response<ApiResponse<CircleInfoEntity>> response) {
+                    if (response == null) {
+                        bindDataToView();
+                    } else {
+                        handleCircleData(response.body());
+                    }
+                }
+
+                /**
+                 * 处理圈子数据
+                 */
+                private void handleCircleData(ApiResponse<CircleInfoEntity> body) {
+                    if (body == null) {
+                        bindDataToView();
+                    } else {
+                        CircleInfoEntity msg = body.getMsg();
+                        if (msg == null) {
+                            bindDataToView();
+                        } else {
+                            CircleInfoEntity.CircleBean circle = msg.getCircle();
+                            if (circle == null) {
+                                bindDataToView();
+                            } else {
+                                handleCircleInfo(circle);
+                                bindDataToView();
+                            }
+                        }
+                    }
+                }
+
+                /**
+                 * 处理圈子信息
+                 */
+                private void handleCircleInfo(CircleInfoEntity.CircleBean circle) {
+                    circleInfo = new CircleInfo();
+                    circleInfo.setCircleId(circle.getId());
+                    circleInfo.setCircleName(circle.getName());
+                    circleInfo.setCircleType(circle.getType());
+                    circleInfo.setIntroduction(circle.getIntroduction());
+                    circleInfo.setDynamicsCount(circle.getDynamics_count());
+                    circleInfo.setOperatorCount(circle.getSubscribe_count());
+                    circleInfo.setPictureUrl(circle.getPicture());
+                }
+
+                @Override
+                public void onError(Response<ApiResponse<CircleInfoEntity>> response,
+                                    String error, ApiResponse<CircleInfoEntity> apiResponse) {
                     if (view.isActive()) {
                         bindDataToView();
                     }

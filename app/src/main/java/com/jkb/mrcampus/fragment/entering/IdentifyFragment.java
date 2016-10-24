@@ -40,8 +40,6 @@ public class IdentifyFragment extends BaseFragment implements IdentifyContract.V
 
     /**
      * 获得一个实例化的HomePageFragment对象
-     *
-     * @return
      */
     public static IdentifyFragment newInstance() {
         return new IdentifyFragment();
@@ -138,6 +136,12 @@ public class IdentifyFragment extends BaseFragment implements IdentifyContract.V
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        enteringActivity = null;
     }
 
     @Override

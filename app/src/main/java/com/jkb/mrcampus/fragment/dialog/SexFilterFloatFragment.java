@@ -97,6 +97,13 @@ public class SexFilterFloatFragment extends BlurDialogFragment implements View.O
         dismiss();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dialog = null;
+        rootView = null;
+    }
+
     /**
      * 设置性别数据
      */

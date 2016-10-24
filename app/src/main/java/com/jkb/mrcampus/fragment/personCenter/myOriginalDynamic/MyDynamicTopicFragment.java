@@ -109,7 +109,7 @@ public class MyDynamicTopicFragment extends BaseFragment implements
             Bundle arguments = getArguments();
             user_id = arguments.getInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID);
         }
-        myDynamicTopicAdapter = new MyDynamicTopicAdapter(mActivity, null);
+        myDynamicTopicAdapter = new MyDynamicTopicAdapter(context, null);
         recyclerView.setAdapter(myDynamicTopicAdapter);
     }
 
@@ -120,7 +120,7 @@ public class MyDynamicTopicFragment extends BaseFragment implements
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fmdn_srl);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fmdn_rv);
-        linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
@@ -197,6 +197,12 @@ public class MyDynamicTopicFragment extends BaseFragment implements
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        myDynamicActivity = null;
     }
 
     @Override

@@ -20,8 +20,6 @@ public class AdventFragment extends BaseFragment {
 
     /**
      * 获得一个实例化的AdventFragment对象
-     *
-     * @return
      */
     public static AdventFragment newInstance() {
         return new AdventFragment();

@@ -2,6 +2,7 @@ package com.jkb.mrcampus.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,7 +38,6 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        context = getActivity();
 
         initColor();
 
@@ -64,13 +64,22 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        this.context = context.getApplicationContext();
         this.mActivity = (Activity) context;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+//        this.context = activity;
         this.mActivity = activity;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.mActivity = null;
+        this.context = null;
     }
 
     @Override
@@ -81,8 +90,6 @@ public abstract class BaseFragment extends Fragment {
 
     /**
      * 初始化方法
-     *
-     * @param savedInstanceState
      */
     protected void init(Bundle savedInstanceState) {
         initView();
@@ -97,8 +104,6 @@ public abstract class BaseFragment extends Fragment {
 
     /**
      * 初始化数据
-     *
-     * @param savedInstanceState
      */
     protected abstract void initData(Bundle savedInstanceState);
 
@@ -109,8 +114,6 @@ public abstract class BaseFragment extends Fragment {
 
     /**
      * 设置父布局的ID
-     *
-     * @param rootViewId
      */
     protected void setRootView(int rootViewId) {
 //        checkNotNull(rootViewId, "传入布局id不能为空！");
@@ -118,9 +121,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
-     * 顯示Toash信息：短的
-     *
-     * @param value
+     * 顯示Toast信息：短的
      */
     public void showShortToash(String value) {
         if (value == null || value.isEmpty()) {
@@ -130,9 +131,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
-     * 显示Toash信息：长的
-     *
-     * @param value
+     * 显示Toast信息：长的
      */
     public void showLongToash(String value) {
         if (value == null || value.isEmpty()) {

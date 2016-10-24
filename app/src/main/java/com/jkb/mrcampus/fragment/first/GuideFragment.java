@@ -21,8 +21,6 @@ public class GuideFragment extends BaseFragment {
 
     /**
      * 获得一个实例化的GuideFragment对象
-     *
-     * @return
      */
     public static GuideFragment newInstance() {
         return new GuideFragment();

@@ -70,4 +70,9 @@ public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         refreshLayout.setRefreshing(false);
         Log.d(TAG, "onRefresh");
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

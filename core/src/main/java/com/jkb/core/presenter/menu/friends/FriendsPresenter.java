@@ -82,6 +82,7 @@ public class FriendsPresenter implements FriendsContract.Presenter {
         }
         //绑定数据到视图中
         if (friendsDatas == null || friendsDatas.size() == 0) {
+            isCached = false;
             view.showNonFriendsDataView();
         } else {
             view.setFriendsData(friendsDatas);
@@ -90,14 +91,11 @@ public class FriendsPresenter implements FriendsContract.Presenter {
 
     @Override
     public void initFriendsData() {
-        if (!LoginContext.getInstance().isLogined()) {
-            return;
-        }
         if (isCached) {
             bindData();
         } else {
             //请求数据
-            getFriendsData();
+            onRefresh();
         }
     }
 
@@ -108,7 +106,9 @@ public class FriendsPresenter implements FriendsContract.Presenter {
 
     @Override
     public void setCacheExpired() {
-        isCached = false;
+        if (isCached) {
+            isCached = false;
+        }
     }
 
     @Override
@@ -120,6 +120,11 @@ public class FriendsPresenter implements FriendsContract.Presenter {
      * 请求好友数据
      */
     public void getFriendsData() {
+        if (!LoginContext.getInstance().isLogined()) {
+            friendsDatas.clear();
+            bindData();
+            return;
+        }
         UserAuths userAuths = getUserAuths();
         String Authorization = Config.HEADER_BEARER + userAuths.getToken();
         repertory.getFriendsList(Authorization, pageControl.getCurrent_page(), friendsApiCallback);

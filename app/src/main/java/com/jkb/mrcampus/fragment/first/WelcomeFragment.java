@@ -78,9 +78,7 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
             count = savedInstanceState.getInt(SAVED_COUNT);
         }
 
-        if (mActivity instanceof FirstActivity) {
-            firstActivity = (FirstActivity) mActivity;
-        }
+        firstActivity = (FirstActivity) mActivity;
     }
 
     @Override
@@ -149,7 +147,7 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
         Log.d(TAG, "bitmap=" + bitmap);
         if (bitmap == null) {
             imageView.setImageResource(R.drawable.ic_screen_default);
-        }else{
+        } else {
             imageView.setImageBitmap(bitmap);
         }
         startCount();
@@ -160,6 +158,7 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
     public boolean isActive() {
         return isAdded();
     }
+
 
     @Override
     public void setPresenter(WelcomeContract.Presenter presenter) {
@@ -190,5 +189,6 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
     @Override
     public void onDestroy() {
         super.onDestroy();
+        firstActivity = null;
     }
 }

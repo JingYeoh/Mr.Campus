@@ -50,5 +50,12 @@ public interface ConversationContract {
          * 设置私聊的用户id
          */
         void setPrivateConversationUserId(int userId);
+
+        /**
+         * 设置聊天室的圈子id
+         *
+         * @param circleId 圈子id
+         */
+        void setChatRootConversationCircleId(int circleId);
     }
 }

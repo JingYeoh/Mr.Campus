@@ -71,6 +71,7 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
     private TagFloatFragment tagFloatFragment;
     private SelectSchoolFloatFragment selectSchoolFloatFragment;
     private HintDetermineFloatFragment hintDetermineFloatFragment;
+    private HintDetermineFloatFragment newHintDetermineFloatFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -558,6 +559,10 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
         if (hintDetermineFloatFragment != null && hintDetermineFloatFragment.isAdded()) {
             hintDetermineFloatFragment.dismiss();
         }
+        //取消提示框的显示
+        if (newHintDetermineFloatFragment != null && newHintDetermineFloatFragment.isAdded()) {
+            newHintDetermineFloatFragment.dismiss();
+        }
     }
 
     @Override
@@ -590,6 +595,18 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
         }
         if (!hintDetermineFloatFragment.isAdded()) {
             hintDetermineFloatFragment.show(getFragmentManager(),
+                    ClassUtils.getClassName(HintDetermineFloatFragment.class));
+        }
+    }
+
+    @Override
+    public void showNewHintDetermineFloatView(
+            String title, String content, String bt1Content, String bt2Content,
+            HintDetermineFloatFragment.OnDetermineItemClickListener onDetermineItemClickListener) {
+        newHintDetermineFloatFragment = new HintDetermineFloatFragment(title, content,
+                bt1Content, bt2Content, onDetermineItemClickListener);
+        if (!newHintDetermineFloatFragment.isAdded()) {
+            newHintDetermineFloatFragment.show(getFragmentManager(),
                     ClassUtils.getClassName(HintDetermineFloatFragment.class));
         }
     }

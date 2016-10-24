@@ -107,7 +107,7 @@ public class MyDynamicArticleFragment extends BaseFragment implements
             Bundle arguments = getArguments();
             user_id = arguments.getInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID);
         }
-        myDynamicArticleAdapter = new MyDynamicArticleAdapter(mActivity, null);
+        myDynamicArticleAdapter = new MyDynamicArticleAdapter(context, null);
         recyclerView.setAdapter(myDynamicArticleAdapter);
     }
 
@@ -118,7 +118,7 @@ public class MyDynamicArticleFragment extends BaseFragment implements
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fmda_srl);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fmda_rv);
-        linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
@@ -182,6 +182,12 @@ public class MyDynamicArticleFragment extends BaseFragment implements
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        myDynamicActivity = null;
     }
 
     @Override

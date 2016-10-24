@@ -118,12 +118,31 @@ public interface CircleIndexContract {
         /**
          * 订阅/取消订阅圈子
          */
-        void subscribeOrNot();
+        void subscribeOrCancel();
 
         /**
          * 显示大图视图
          */
         void showBigPictureView();
+
+        /**
+         * 显示关注圈子的提示
+         */
+        void showHintForPayAttentionCircle();
+
+        /**
+         * 显示是否加入聊天室
+         *
+         * @param circleName 圈子名称
+         */
+        void showHintForJoinChatRoot(String circleName);
+
+        /**
+         * 加入聊天室
+         *
+         * @param circle_id 圈子id
+         */
+        void joinChatRoom(@NonNull int circle_id);
 
         /**
          * 打开动态详情页面
@@ -212,5 +231,10 @@ public interface CircleIndexContract {
          * @param position 条目数
          */
         void onLikeItemClick(int position);
+
+        /**
+         * 加入聊天室的点击监听
+         */
+        void onJoinChatRoomClick();
     }
 }

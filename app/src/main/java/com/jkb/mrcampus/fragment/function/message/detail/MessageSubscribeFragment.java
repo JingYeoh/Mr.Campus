@@ -67,4 +67,10 @@ public class MessageSubscribeFragment extends BaseFragment implements View.OnCli
                 break;
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        messageActivity = null;
+    }
 }

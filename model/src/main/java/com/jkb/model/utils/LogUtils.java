@@ -64,4 +64,34 @@ public class LogUtils {
             Log.wtf(TAG, value);
         }
     }
+
+    public static void i(Class<?> clz, String value) {
+        String TAG = clz.getSimpleName();
+        i(TAG, value);
+    }
+
+    public static void d(Class<?> clz, String value) {
+        String TAG = clz.getSimpleName();
+        d(TAG, value);
+    }
+
+    public static void v(Class<?> clz, String value) {
+        String TAG = clz.getSimpleName();
+        v(TAG, value);
+    }
+
+    public static void w(Class<?> clz, String value) {
+        String TAG = clz.getSimpleName();
+        w(TAG, value);
+    }
+
+    public static void e(Class<?> clz, String value) {
+        String TAG = clz.getSimpleName();
+        e(TAG, value);
+    }
+
+    public static void wtf(Class<?> clz, String value) {
+        String TAG = clz.getSimpleName();
+        wtf(TAG, value);
+    }
 }

@@ -20,8 +20,6 @@ public class MrCampusAgreementFragment extends BaseFragment {
 
     /**
      * 获得一个实例化的MrCampusAgreementFragment对象
-     *
-     * @return
      */
     public static MrCampusAgreementFragment newInstance() {
         return new MrCampusAgreementFragment();

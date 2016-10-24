@@ -1,11 +1,15 @@
 package com.jkb.model.dataSource.im.conversation.remote;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.reflect.TypeToken;
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiEngine;
 import com.jkb.api.ApiFactoryImpl;
 import com.jkb.api.ApiResponse;
+import com.jkb.api.entity.circle.CircleInfoEntity;
 import com.jkb.api.entity.user.UserInfoEntity;
+import com.jkb.api.net.circle.CircleInfoApi;
 import com.jkb.api.net.user.UserInfoApi;
 import com.jkb.model.dataSource.im.conversation.ConversationDataSource;
 
@@ -45,5 +49,20 @@ public class ConversationRemoteDataSource implements ConversationDataSource {
         Type type = new TypeToken<ApiResponse<UserInfoEntity>>() {
         }.getType();
         new ApiEngine<ApiResponse<UserInfoEntity>>(apiCallback, call, type);
+    }
+
+    @Override
+    public void getCircleInfo(
+            @NonNull int userId, @NonNull int id,
+            @NonNull ApiCallback<ApiResponse<CircleInfoEntity>> apiCallback) {
+        ApiFactoryImpl factory = ApiFactoryImpl.newInstance();
+        factory.setHttpClient(factory.genericClient());
+        factory.initRetrofit();
+        CircleInfoApi circleInfoApi = factory.createApi(CircleInfoApi.class);
+        Call<ApiResponse<CircleInfoEntity>> call;
+        call = circleInfoApi.circleInfo(userId, id);
+        Type type = new TypeToken<ApiResponse<CircleInfoEntity>>() {
+        }.getType();
+        new ApiEngine<ApiResponse<CircleInfoEntity>>(apiCallback, call, type);
     }
 }

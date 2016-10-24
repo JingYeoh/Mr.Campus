@@ -19,19 +19,23 @@ import android.widget.TextView;
 import com.jkb.api.config.Config;
 import com.jkb.core.contract.circle.CircleIndexContract;
 import com.jkb.core.data.dynamic.circle.DynamicInCircle;
-import com.jkb.core.data.dynamic.dynamic.DynamicBaseData;
 import com.jkb.model.net.ImageLoaderFactory;
+import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.adapter.recycler.DynamicCircleAdapter;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 
 /**
  * 圈子首页的V层
@@ -51,8 +55,8 @@ public class CircleIndexFragment extends BaseFragment
     public static CircleIndexFragment newInstance(int circleId) {
         if (INSTANCE == null || circleId >= 0) {
             INSTANCE = new CircleIndexFragment();
-            Bundle bundle=new Bundle();
-            bundle.putInt(SAVED_CIRCLE_ID,circleId);
+            Bundle bundle = new Bundle();
+            bundle.putInt(SAVED_CIRCLE_ID, circleId);
             INSTANCE.setArguments(bundle);
         }
         return INSTANCE;
@@ -140,7 +144,7 @@ public class CircleIndexFragment extends BaseFragment
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             Bundle arguments = getArguments();
-            circleId=arguments.getInt(SAVED_CIRCLE_ID);
+            circleId = arguments.getInt(SAVED_CIRCLE_ID);
         } else {
             circleId = savedInstanceState.getInt(SAVED_CIRCLE_ID);
         }
@@ -149,15 +153,15 @@ public class CircleIndexFragment extends BaseFragment
             circleActivity.onBackPressed();
             return;
         }
-        dynamicCircleAdapter = new DynamicCircleAdapter(mActivity, null);
+        dynamicCircleAdapter = new DynamicCircleAdapter(context, null);
         recyclerView.setAdapter(dynamicCircleAdapter);
     }
 
     @Override
     protected void initView() {
         //初始化颜色数据
-        color_translate = mActivity.getResources().getColor(R.color.clarity);
-        color_white = mActivity.getResources().getColor(R.color.white);
+        color_translate = context.getResources().getColor(R.color.clarity);
+        color_white = context.getResources().getColor(R.color.white);
 
         ivBg = (ImageView) rootView.findViewById(R.id.fci_iv_backGround);
         ivHeadImg = (CircleImageView) rootView.findViewById(R.id.fci_iv_headImg);
@@ -169,11 +173,11 @@ public class CircleIndexFragment extends BaseFragment
         refreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fci_srl);
         //初始化动态的控件
         recyclerView = (RecyclerView) rootView.findViewById(R.id.fci_rv_dynamic);
-        linearLayoutManager = new LinearLayoutManager(mActivity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setNestedScrollingEnabled(false);//为了解决滑动冲突的问题
         recyclerView.addItemDecoration(
-                new LineDecoration(mActivity, LineDecoration.VERTICAL_LIST));//添加分割线
+                new LineDecoration(context, LineDecoration.VERTICAL_LIST));//添加分割线
     }
 
     /**
@@ -245,7 +249,7 @@ public class CircleIndexFragment extends BaseFragment
                 showBigPictureView();
                 break;
             case R.id.fci_iv_subscribe:
-                subscribeOrNot();
+                subscribeOrCancel();
                 break;
         }
     }
@@ -378,18 +382,75 @@ public class CircleIndexFragment extends BaseFragment
 
     @Override
     public void chat() {
-
+        mPresenter.onJoinChatRoomClick();
     }
 
     @Override
-    public void subscribeOrNot() {
-        Log.d(TAG, "subscribeOrNot");
+    public void subscribeOrCancel() {
+        Log.d(TAG, "subscribeOrCancel");
         mPresenter.subscribeOrCancleCircle();
     }
 
     @Override
     public void showBigPictureView() {
 
+    }
+
+    @Override
+    public void showHintForPayAttentionCircle() {
+        //显示提示是否加入聊天室
+        circleActivity.showNewHintDetermineFloatView("是否关注该圈子？",
+                "（注：您还不是该圈内成员，必须先关注该圈子才可以进入圈子聊天室，是否关注？）",
+                "关注", "取消", new HintDetermineFloatFragment.OnDetermineItemClickListener() {
+                    @Override
+                    public void onFirstItemClick() {
+                        circleActivity.dismiss();
+                        mPresenter.subscribeOrCancleCircle();
+                    }
+
+                    @Override
+                    public void onSecondItemClick() {
+                        circleActivity.dismiss();
+                    }
+                });
+    }
+
+    @Override
+    public void showHintForJoinChatRoot(String circleName) {
+        //显示提示是否加入聊天室
+        circleActivity.showNewHintDetermineFloatView("是否加入【" + circleName + "】聊天室？",
+                "（注：聊天室支持实时聊天，退出聊天室后将不再接收到聊天室消息？）",
+                "加入", "取消", new HintDetermineFloatFragment.OnDetermineItemClickListener() {
+                    @Override
+                    public void onFirstItemClick() {
+                        circleActivity.dismiss();
+                        joinChatRoom(circleId);
+                    }
+
+                    @Override
+                    public void onSecondItemClick() {
+                        circleActivity.dismiss();
+                    }
+                });
+    }
+
+    @Override
+    public void joinChatRoom(@NonNull final int circle_id) {
+        RongIM.getInstance().joinChatRoom(circle_id + "", 20,
+                new RongIMClient.OperationCallback() {
+                    @Override
+                    public void onSuccess() {
+                        RongIM.getInstance().startConversation(context,
+                                Conversation.ConversationType.CHATROOM, circle_id + "", "标题");
+                        showReqResult("加入成功");
+                    }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode errorCode) {
+                        showReqResult("加入失败");
+                        LogUtils.w(TAG, "加入聊天室失败-------errorCode>" + errorCode.getValue());
+                    }
+                });
     }
 
     @Override
@@ -441,6 +502,12 @@ public class CircleIndexFragment extends BaseFragment
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        circleActivity = null;
     }
 
     @Override

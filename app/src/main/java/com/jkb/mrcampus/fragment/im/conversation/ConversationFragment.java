@@ -169,9 +169,8 @@ public class ConversationFragment extends BaseFragment implements
      */
     private void bindRongUserInfo() {
         Log.d(TAG, "聊天类型是" + mConversationType);
-        if (mConversationType == Conversation.ConversationType.PRIVATE) {
-//            LogUtils.d(TAG, ",TargetId=" + mTargetId);
-            mPresenter.setPrivateConversationUserId(Integer.parseInt(mTargetId));
+        if (mConversationType == Conversation.ConversationType.PRIVATE ||
+                mConversationType == Conversation.ConversationType.CHATROOM) {
             //设置融云的头像等数据
             RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
 
@@ -184,9 +183,13 @@ public class ConversationFragment extends BaseFragment implements
             }, true);
         } else if (mConversationType == Conversation.ConversationType.GROUP) {
             //设置群聊的融云的头像等数据
-        } else if (mConversationType == Conversation.ConversationType.DISCUSSION) {
+        }
 
-        } else if (mConversationType == Conversation.ConversationType.NONE) {
+        //判断是什么类型的聊天
+        if (mConversationType == Conversation.ConversationType.PRIVATE) {
+            mPresenter.setPrivateConversationUserId(Integer.parseInt(mTargetId));
+        } else if (mConversationType == Conversation.ConversationType.CHATROOM) {
+            mPresenter.setChatRootConversationCircleId(Integer.parseInt(mTargetId));
         }
     }
 

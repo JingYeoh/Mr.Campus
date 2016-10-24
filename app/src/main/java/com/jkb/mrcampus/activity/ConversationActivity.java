@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.jkb.core.Injection;
 import com.jkb.core.presenter.im.conversation.ConversationPresenter;
+import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
 import com.jkb.mrcampus.fragment.entering.EnteringPersonMessageFragment;
@@ -20,6 +21,8 @@ import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.Locale;
 
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 
 /**
@@ -166,5 +169,23 @@ public class ConversationActivity extends BaseActivity {
         outState.putString(SAVED_TARGETID, mTargetId);
         outState.putString(SAVED_TARGETIDS, mTargetIds);
         outState.putSerializable(SAVED_CONVERSATIONTYPE, mConversationType);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mConversationType == Conversation.ConversationType.CHATROOM) {
+            RongIM.getInstance().quitChatRoom(mTargetId, new RongIMClient.OperationCallback() {
+                @Override
+                public void onSuccess() {
+                    showShortToast("退出聊天室成功");
+                }
+
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    LogUtils.w(TAG, "退出聊天室-----errorCode-->" + errorCode.getValue());
+                }
+            });
+        }
+        super.onBackPressed();
     }
 }

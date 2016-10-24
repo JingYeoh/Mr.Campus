@@ -240,13 +240,12 @@ public class ImageLoaderFactory {
                 // 线程池内加载的数量
                 .threadPriority(Thread.NORM_PRIORITY - 2)
                 .denyCacheImageMultipleSizesInMemory()
-                .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-                .memoryCacheSize(2 * 1024 * 1024)
+                .memoryCache(new LruMemoryCache(1 * 1024 * 1024))
+                .memoryCacheSize(1 * 1024 * 1024)
                 .memoryCacheSizePercentage(13) // default
 //                .memoryCache(new UsingFreqLimitedMemoryCache(2 * 1024 * 1024))
                 // You can pass your own memory cache
                 // implementation/你可以通过自己的内存缓存实现
-                .memoryCacheSize(2 * 1024 * 1024)
                 .discCacheSize(50 * 1024 * 1024)
                 .discCacheFileNameGenerator(new Md5FileNameGenerator())
                 // 将保存的时候的URI名称用MD5 加密

@@ -20,12 +20,14 @@ public class DBConfig {
     public static final String ENTITY_USERS = "Users";
     public static final String ENTITY_STATUS = "Status";
     public static final String ENTITY_SCHOOLS = "Schools";
+    public static final String ENTITY_MESSAGES = "Messages";
 
     //数据库表名称
     public static final String TABLE_USERAUTHS = "userAuths";
     public static final String TABLE_USERS = "users";
     public static final String TABLE_STATUS = "status";
     public static final String TABLE_SCHOOLS = "schools";
+    public static final String TABLE_MESSAGES = "messages";
 
     public static final String USER_ID = "user_id";
     public static final String IDENTITY_TYPE = "identity_type";//账户类型
@@ -39,7 +41,7 @@ public class DBConfig {
     public static final String SEX = "sex";
     public static final String NAME = "name";
     public static final String TOKEN = "token";
-    public static final String RONG_IM_TOKEN="rong_im_token";
+    public static final String RONG_IM_TOKEN = "rong_im_token";
     public static final String BREF_INTRODUCTION = "bref_introduction";
     public static final String BACKGROUND = "background";
     public static final String SCHOOL_ID = "school_id";
@@ -53,6 +55,17 @@ public class DBConfig {
     public static final String AVATAR_LOCAL_PATH = "avatarLocalPath";
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
+    public static final String SENDER_ID = "senderId";
+    public static final String TARGET_ID = "targetId";
+    public static final String TARGET_TYPE = "targetType";
+    public static final String TARGET_NAME = "targetName";
+    public static final String TARGET_PICTURE = "targetPicture";
+    public static final String SENDER_TYPE = "senderType";
+    public static final String SENDER_NAME = "senderName";
+    public static final String SENDER_PICTURE = "senderPicture";
+    public static final String ACTION = "action";
+    public static final String MSG_CONTENT = "msg_content";
+    public static final String IS_READED = "is_read";
 
     public static final String ATTENTIONCOUNT = "attentionCount";//关注圈子总数
     public static final String ATTENTIONUSERCOUNT = "attentionUserCount";//关注用户总数

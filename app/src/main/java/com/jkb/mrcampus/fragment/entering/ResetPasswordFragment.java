@@ -19,11 +19,13 @@ import com.jkb.mrcampus.utils.ClassUtils;
  * 重置密码View视图
  * Created by JustKiddingBaby on 2016/7/30.
  */
-public class ResetPasswordFragment extends BaseFragment implements ResetpasswordContract.View, View.OnClickListener {
+public class ResetPasswordFragment extends BaseFragment implements
+        ResetpasswordContract.View,
+        View.OnClickListener {
 
     private EnteringActivity enteringActivity;
 
-    private ResetpasswordPresenter mPresenter;
+    private ResetpasswordContract.Presenter mPresenter;
 
     private EditText etIdentifyCode;
     private EditText etPassword;
@@ -33,8 +35,6 @@ public class ResetPasswordFragment extends BaseFragment implements Resetpassword
 
     /**
      * 获得一个实例化的ResetPasswordFragment对象
-     *
-     * @return
      */
     public static ResetPasswordFragment newInstance() {
         return new ResetPasswordFragment();
@@ -107,7 +107,7 @@ public class ResetPasswordFragment extends BaseFragment implements Resetpassword
 
     @Override
     public void setPresenter(ResetpasswordContract.Presenter presenter) {
-        mPresenter = (ResetpasswordPresenter) presenter;
+        mPresenter = presenter;
     }
 
     @Override
@@ -128,5 +128,11 @@ public class ResetPasswordFragment extends BaseFragment implements Resetpassword
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        enteringActivity = null;
     }
 }

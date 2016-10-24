@@ -67,4 +67,10 @@ public class MessageFansFragment extends BaseFragment implements View.OnClickLis
                 break;
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        messageActivity = null;
+    }
 }

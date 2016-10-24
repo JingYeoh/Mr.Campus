@@ -60,7 +60,8 @@ public class TagFloatFragment extends BlurDialogFragment implements
         listView = (ListView) rootView.findViewById(R.id.fdst_lv);
         listView.setOnItemClickListener(this);
 
-        dialogShowTagAdapter = new DialogShowTagAdapter(getActivity(), categoryTypeDatas);
+        dialogShowTagAdapter = new DialogShowTagAdapter(getActivity().getApplicationContext()
+                , categoryTypeDatas);
         listView.setAdapter(dialogShowTagAdapter);
 
         return builder.create();
@@ -74,6 +75,13 @@ public class TagFloatFragment extends BlurDialogFragment implements
             onTagItemClickListener.onTagItemClick(category);
             dismiss();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        rootView = null;
+        dialog = null;
     }
 
     /**

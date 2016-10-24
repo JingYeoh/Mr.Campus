@@ -199,7 +199,7 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
     @Override
     public void onHeadImgClick() {
         //再次处初始化主要为了解决某些系统问题：再次选图片后无法裁剪
-        mCropParams = new CropParams(mActivity);
+        mCropParams = new CropParams(context);
         photoCropType = CROP_TYPE_HEADIMG;
         showChoosePictureView();
     }
@@ -207,7 +207,7 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
     @Override
     public void onBackGroundClick() {
         //再次处初始化主要为了解决某些系统问题：再次选图片后无法裁剪
-        mCropParams = new CropParams(mActivity);
+        mCropParams = new CropParams(context);
         photoCropType = CROP_TYPE_BG;
         showChoosePictureView();
     }
@@ -334,6 +334,12 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        personCenterActivity = null;
     }
 
     ///////////////////////////////头像裁剪处理回调区////////////////////////////

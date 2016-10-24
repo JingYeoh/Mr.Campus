@@ -105,7 +105,7 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mCropParams = new CropParams(mActivity);
+        mCropParams = new CropParams(context);
         //内存重启之后初始化对象
         if (savedInstanceState != null) {
             restoreCoordinateFragment();
@@ -188,6 +188,12 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        createCircleActivity = null;
     }
 
     @Override

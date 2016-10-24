@@ -67,4 +67,10 @@ public class MessageCommentFragment extends BaseFragment implements View.OnClick
                 break;
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        messageActivity = null;
+    }
 }

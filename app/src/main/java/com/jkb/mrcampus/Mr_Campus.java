@@ -10,7 +10,9 @@ import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.Config;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
+import com.squareup.leakcanary.LeakCanary;
 
+import cn.jpush.android.api.JPushInterface;
 import cn.sharesdk.framework.ShareSDK;
 import io.rong.imkit.RongIM;
 import jkb.mrcampus.db.MrCampusDB;
@@ -36,6 +38,8 @@ public class Mr_Campus extends MultiDexApplication {
      * 在新线程中初始化
      */
     private void initInNewThread() {
+        //初始化内存泄漏工具
+        LeakCanary.install(this);
         initSDK();
         initDb();
         initSingleton();
@@ -84,6 +88,9 @@ public class Mr_Campus extends MultiDexApplication {
         ShareSDK.initSDK(getApplicationContext(), SHARE_SDK_APP_KEY);
         //初始化融云SDK
         RongIM.init(this);
+        //初始化激光推送
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(getApplicationContext());
     }
 
     /**

@@ -170,7 +170,7 @@ public class CommentSingleAllFragment extends BaseFragment implements CommentSin
         } else {
             comment_id = savedInstanceState.getInt(Config.INTENT_KEY_COMMENT_ID);
         }
-        commentReplyAdapter = new CommentReplyAdapter(mActivity, null);
+        commentReplyAdapter = new CommentReplyAdapter(context, null);
         recyclerView.setAdapter(commentReplyAdapter);
     }
 
@@ -180,7 +180,7 @@ public class CommentSingleAllFragment extends BaseFragment implements CommentSin
         ((TextView) rootView.findViewById(R.id.ts4_tv_name)).setText("评论详情");
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.icsa_rv_comment);
-        linearLayoutManager = new LinearLayoutManager(mActivity);
+        linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setNestedScrollingEnabled(false);//禁止滑动
@@ -365,6 +365,12 @@ public class CommentSingleAllFragment extends BaseFragment implements CommentSin
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        commentActivity = null;
     }
 
     @Override

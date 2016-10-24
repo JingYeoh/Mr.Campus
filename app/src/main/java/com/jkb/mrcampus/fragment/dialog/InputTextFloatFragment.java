@@ -83,6 +83,12 @@ public class InputTextFloatFragment extends BlurDialogFragment implements View.O
         dismiss();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        dialog = null;
+        rootView = null;
+    }
 
     /**
      * 提交按钮点击事件
