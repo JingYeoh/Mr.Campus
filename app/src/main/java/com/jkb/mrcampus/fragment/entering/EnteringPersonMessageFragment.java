@@ -61,8 +61,9 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setRootView(R.layout.frg_entering_personalmessage);
         enteringActivity = (EnteringActivity) mActivity;
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

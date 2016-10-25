@@ -3,7 +3,6 @@ package com.jkb.mrcampus.fragment.menu;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jkb.core.contract.menu.SwitchFunctionContract;
+import com.jkb.core.control.messageState.MessageObservable;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.UserState;
 import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.model.net.ImageLoaderFactory;
+import com.jkb.model.utils.LogUtils;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.base.BaseFragment;
+
+import java.util.Observable;
+import java.util.Observer;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import jkb.mrcampus.db.entity.Schools;
@@ -29,11 +33,10 @@ import jkb.mrcampus.db.entity.Schools;
  */
 public class SwitchFunctionFragment extends BaseFragment
         implements SwitchFunctionContract.View,
-        View.OnClickListener {
+        View.OnClickListener, Observer {
 
     private SwitchFunctionContract.Presenter mPresenter;
     private MainActivity mainActivity;
-
 
     private CircleImageView ivHeadImg;
     private TextView[] tvItems;
@@ -70,8 +73,9 @@ public class SwitchFunctionFragment extends BaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setRootView(R.layout.frg_menu_switchfunction);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
@@ -92,15 +96,15 @@ public class SwitchFunctionFragment extends BaseFragment
     protected void initListener() {
         rootView.findViewById(R.id.fms_ll_person).setOnClickListener(this);//用戶藍點擊監聽
 
-        rootView.findViewById(R.id.fms_tv_menuIndex).setOnClickListener(showClickListener);
-        rootView.findViewById(R.id.fms_tv_menuSetting).setOnClickListener(showClickListener);
-        rootView.findViewById(R.id.fms_tv_menuTools).setOnClickListener(showClickListener);
-        rootView.findViewById(R.id.fms_tv_menuTopic).setOnClickListener(showClickListener);
+        rootView.findViewById(R.id.fms_content_menuIndex).setOnClickListener(showClickListener);
+        rootView.findViewById(R.id.fms_content_menuSetting).setOnClickListener(showClickListener);
+        rootView.findViewById(R.id.fms_content_menuTools).setOnClickListener(showClickListener);
+        rootView.findViewById(R.id.fms_content_menuTopic).setOnClickListener(showClickListener);
 
-        rootView.findViewById(R.id.fms_tv_menuMessage).setOnClickListener(startClickListener);
+        rootView.findViewById(R.id.fms_content_menuMessage).setOnClickListener(startClickListener);
         rootView.findViewById(R.id.fms_ll_school).setOnClickListener(startClickListener);
         rootView.findViewById(R.id.fms_ll_selectSchool).setOnClickListener(startClickListener);
-        rootView.findViewById(R.id.fms_tv_menuMap).setOnClickListener(startClickListener);
+        rootView.findViewById(R.id.fms_content_menuMap).setOnClickListener(startClickListener);
 
         rootView.findViewById(R.id.fms_iv_topSearch).setOnClickListener(topMenuClickListener);
         rootView.findViewById(R.id.fms_iv_topLike).setOnClickListener(topMenuClickListener);
@@ -109,7 +113,9 @@ public class SwitchFunctionFragment extends BaseFragment
         //设置选择学校的监听器
         SchoolInfoSingleton.getInstance().setOnSchoolSelectedChangedListener(
                 onSchoolSelectedChangedListener);
-        LoginContext.getInstance().setLoginStatusChangedListener(loginStatusChangedListener);
+        LoginContext.getInstance().addObserver(loginObserver);
+        //设置其为消息的观察者
+        MessageObservable.newInstance().addObserver(this);
     }
 
     @Override
@@ -162,10 +168,10 @@ public class SwitchFunctionFragment extends BaseFragment
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.fms_tv_menuMap:
+                case R.id.fms_content_menuMap:
                     mainActivity.startMap();
                     break;
-                case R.id.fms_tv_menuMessage:
+                case R.id.fms_content_menuMessage:
                     mainActivity.startMessage();
                     break;
                 case R.id.fms_ll_school:
@@ -185,19 +191,19 @@ public class SwitchFunctionFragment extends BaseFragment
             mainActivity.hideMenu();//隐藏侧滑菜单
             mainActivity.hideAllView();//隐藏其余的页面视图
             switch (v.getId()) {
-                case R.id.fms_tv_menuIndex:
+                case R.id.fms_content_menuIndex:
                     setItemSelected(0);
                     mainActivity.showIndex();
                     break;
-                case R.id.fms_tv_menuSetting:
+                case R.id.fms_content_menuSetting:
                     setItemSelected(5);
                     mainActivity.showSetting();
                     break;
-                case R.id.fms_tv_menuTools:
+                case R.id.fms_content_menuTools:
                     setItemSelected(3);
                     mainActivity.showTools();
                     break;
-                case R.id.fms_tv_menuTopic:
+                case R.id.fms_content_menuTopic:
                     setItemSelected(2);
                     mainActivity.showSpecialModel();
                     break;
@@ -253,7 +259,7 @@ public class SwitchFunctionFragment extends BaseFragment
         ((TextView) rootView.findViewById(R.id.fms_tv_nickName)).
                 setText(mPresenter.getCurrentNickName());
         String headImg = mPresenter.getCurrentHeadImg();
-        Log.d(TAG, "headImg=" + headImg);
+        LogUtils.d(TAG, "headImg=" + headImg);
         if (StringUtils.isEmpty(headImg)) {
             isHeadImgLoaded = false;
             ivHeadImg.setImageResource(R.drawable.ic_user_head);
@@ -324,6 +330,8 @@ public class SwitchFunctionFragment extends BaseFragment
     public void onDestroy() {
         super.onDestroy();
         mainActivity = null;
+        MessageObservable.newInstance().deleteObserver(this);
+        LoginContext.getInstance().deleteObserver(loginObserver);
     }
 
     @Override
@@ -338,9 +346,9 @@ public class SwitchFunctionFragment extends BaseFragment
             SchoolInfoSingleton.OnSchoolSelectedChangedListener() {
                 @Override
                 public void onSchoolSelected(Schools schools) {
-                    Log.i(TAG, "school_id=" + schools.getSchool_id());
-                    Log.i(TAG, "school_name=" + schools.getSchool_name());
-                    Log.i(TAG, "school_badge=" + schools.getBadge());
+                    LogUtils.i(TAG, "school_id=" + schools.getSchool_id());
+                    LogUtils.i(TAG, "school_name=" + schools.getSchool_name());
+                    LogUtils.i(TAG, "school_badge=" + schools.getBadge());
                     String badge = schools.getBadge();
                     String school_name = schools.getSchool_name();
                     String summary = schools.getSummary();
@@ -353,18 +361,28 @@ public class SwitchFunctionFragment extends BaseFragment
                 }
             };
     /**
-     * 个人信息变化时候的监听回调
+     * 登录状态的更新回调方法
      */
-    private UserState.LoginStatusChangedListener loginStatusChangedListener =
-            new UserState.LoginStatusChangedListener() {
-                @Override
-                public void onLogin() {
-                    showLoginView();
-                }
+    private Observer loginObserver = new Observer() {
+        @Override
+        public void update(Observable o, Object arg) {
+            boolean logined = LoginContext.getInstance().isLogined();
+            if (logined) {
+                showLoginView();
+            } else {
+                showLogoutView();
+            }
+        }
+    };
 
-                @Override
-                public void onLogout() {
-                    showLogoutView();
-                }
-            };
+    @Override
+    public void update(Observable o, Object arg) {
+        int allUnReadMessageCount = MessageObservable.newInstance().getAllUnReadMessageCount();
+        LogUtils.d(TAG, "functionMenu---unReadMessageCount->" + allUnReadMessageCount);
+        if (allUnReadMessageCount > 0) {
+            rootView.findViewById(R.id.fms_iv_menuMessageNotifyPoint).setVisibility(View.VISIBLE);
+        } else {
+            rootView.findViewById(R.id.fms_iv_menuMessageNotifyPoint).setVisibility(View.GONE);
+        }
+    }
 }

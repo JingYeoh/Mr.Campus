@@ -52,11 +52,6 @@ public class RightMenuPresenter implements RightMenuContract.Presenter {
     }
 
     @Override
-    public void setOnUsersDataChangedListener(UserState.UsersChangedListener listener) {
-        LoginContext.getInstance().setRightSlideMenuDataViewChangedListener(listener);
-    }
-
-    @Override
     public int getUser_id() {
         UserInfoSingleton info = UserInfoSingleton.getInstance();
         Users users = info.getUsers();
@@ -65,6 +60,9 @@ public class RightMenuPresenter implements RightMenuContract.Presenter {
 
     @Override
     public void start() {
-        setOnUsersDataChangedListener(view.onUserDataChangedListener());
+        if (LoginContext.getInstance().isLogined()) {
+            getUser_id();
+            getCountData();
+        }
     }
 }

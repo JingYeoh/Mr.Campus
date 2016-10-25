@@ -40,8 +40,9 @@ public class MessageCircleFragment extends BaseFragment implements View.OnClickL
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         messageActivity = (MessageActivity) mActivity;
         setRootView(R.layout.frg_message_circle);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

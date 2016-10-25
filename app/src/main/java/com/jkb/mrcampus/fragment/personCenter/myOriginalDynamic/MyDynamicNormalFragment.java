@@ -72,8 +72,9 @@ public class MyDynamicNormalFragment extends BaseFragment implements
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myDynamicActivity = (MyOriginalDynamicActivity) mActivity;
         setRootView(R.layout.frg_my_dynamic_normal);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

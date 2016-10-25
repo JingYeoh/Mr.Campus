@@ -66,8 +66,9 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
                              Bundle savedInstanceState) {
         usersListActivity = (UsersListActivity) mActivity;
         setRootView(R.layout.frg_userslist_attention);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

@@ -40,8 +40,9 @@ public class MessageLikeFragment extends BaseFragment implements View.OnClickLis
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         messageActivity = (MessageActivity) mActivity;
         setRootView(R.layout.frg_message_like);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
@@ -71,6 +72,6 @@ public class MessageLikeFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onDestroy() {
         super.onDestroy();
-        messageActivity=null;
+        messageActivity = null;
     }
 }

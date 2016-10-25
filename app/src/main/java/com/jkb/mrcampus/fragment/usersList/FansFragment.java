@@ -67,8 +67,9 @@ public class FansFragment extends BaseFragment implements FansContract.View,
                              Bundle savedInstanceState) {
         usersListActivity = (UsersListActivity) mActivity;
         setRootView(R.layout.frg_userslist_attention);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

@@ -8,6 +8,10 @@ import android.os.Bundle;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.jkb.api.config.Config;
+import com.jkb.core.control.messageState.MessageObservable;
+import com.jkb.core.control.userstate.LoginContext;
+import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.model.utils.LogUtils;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.receiver.data.MessageModel;
@@ -16,29 +20,26 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.Observable;
+import java.util.Observer;
 
 import cn.jpush.android.api.JPushInterface;
-import jkb.mrcampus.db.MrCampusDB;
-import jkb.mrcampus.db.dao.DaoSession;
 import jkb.mrcampus.db.entity.Messages;
+import jkb.mrcampus.db.entity.UserAuths;
 
 /**
  * 激光推送的广播接收器
  * Created by JustKiddingBaby on 2016/10/23.
  */
 
-public class JPushReceiver extends BroadcastReceiver {
+public class JPushReceiver extends BroadcastReceiver implements Observer {
 
     private NotificationManager nm;
-    //数据库
-    private MrCampusDB mrCampusDB;
-    private DaoSession daoSession;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        //初始化数据库
-        mrCampusDB = MrCampusDB.getInstance();
-        daoSession = mrCampusDB.getDaoSession();
+        //添加为观察者
+        MessageObservable.newInstance().addObserver(this);
 
         if (null == nm) {
             nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -66,13 +67,34 @@ public class JPushReceiver extends BroadcastReceiver {
      */
     private void onNotificationClick(Context context, Bundle bundle) {
         //跳转到相应的页面
+        Messages messages = changeNotifyDataToMessages(bundle, false);
+        if (messages == null) {
+            return;
+        }
+        //跳转
+        String action = messages.getAction();
+        switch (action) {
+            case Config.MESSAGE_ACTION_FAVORITE:
+            case Config.MESSAGE_ACTION_LIKE:
+            case Config.MESSAGE_ACTION_MAKECOMMENT:
+            case Config.MESSAGE_ACTION_MAKEREPLY:
+                //跳转到动态页面
+                startDynamicMessage();
+                break;
+        }
+    }
+
+    /**
+     * 打开动态的消息页面
+     */
+    private void startDynamicMessage() {
 
     }
 
     /**
-     * 处理消息
+     * 转换数据为Messages表的实体对象
      */
-    private void saveMessage(Context context, Bundle bundle, boolean isRead) {
+    private Messages changeNotifyDataToMessages(Bundle bundle, boolean isRead) {
         String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
         String alert = bundle.getString(JPushInterface.EXTRA_ALERT);
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
@@ -90,10 +112,41 @@ public class JPushReceiver extends BroadcastReceiver {
             }.getType();
             MessageModel messageModel = new Gson().fromJson(extras, mType);
             //录入到数据库中
-            addOrUpdateToDb(alert, title, messageModel, isRead);
+            Messages messages = changeToMessages(alert, title, messageModel, isRead);
+            return messages;
         } catch (JSONException e) {
             LogUtils.w(JPushReceiver.class, "消息非json，解析错误");
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 处理消息
+     */
+    private void saveMessage(Context context, Bundle bundle, boolean isRead) {
+        Messages messages = changeNotifyDataToMessages(bundle, isRead);
+        addOrUpdateToDb(messages);
+    }
+
+    /**
+     * 添加或者更新消息數據庫表
+     */
+    private void addOrUpdateToDb(Messages messages) {
+        if (messages != null) {
+            int user_id;
+            if (messages.getAction().equals("system")) {
+                user_id = -1;
+            } else {
+                if (LoginContext.getInstance().isLogined()) {
+                    UserAuths userAuths = UserInfoSingleton.getInstance().getUserAuths();
+                    user_id = userAuths.getUser_id();
+                } else {
+                    user_id = 0;
+                }
+            }
+            messages.setUser_id(user_id);
+            MessageObservable.newInstance().saveMessage(messages);
         }
     }
 
@@ -105,10 +158,10 @@ public class JPushReceiver extends BroadcastReceiver {
      * @param messageModel 解析的消息对象
      * @param is_read      是否读取
      */
-    private void addOrUpdateToDb(
+    private Messages changeToMessages(
             String alert, String action, MessageModel messageModel, boolean is_read) {
         if (messageModel == null) {
-            return;
+            return null;
         }
         Messages messages = new Messages();
         messages.setMsg_content(alert);
@@ -123,7 +176,11 @@ public class JPushReceiver extends BroadcastReceiver {
         messages.setTargetPicture(messageModel.getTargetPicture());
         messages.setTargetType(messageModel.getTargetType());
         messages.setUpdated_at(StringUtils.getSystemCurrentTime());
+        return messages;
+    }
 
-        daoSession.insertOrReplace(messages);
+    @Override
+    public void update(Observable o, Object arg) {
+        //在此无用
     }
 }

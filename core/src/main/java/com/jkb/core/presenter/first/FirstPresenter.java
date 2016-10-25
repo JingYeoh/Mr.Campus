@@ -81,14 +81,10 @@ public class FirstPresenter implements FirstContract.Presenter {
             }
             //设置为未登录状态
             if (isLogin) {
-                LoginContext loginContext = LoginContext.getInstance();
-                loginContext.setUserState(new LoginState());
                 //得到个人信息并设置到个人的信息单例类中
                 getUsersData(status.getUser_id());
-                getUserAuthData(status.getUser_id());
             } else {//设置为已登录状态
-                LoginContext loginContext = LoginContext.getInstance();
-                loginContext.setUserState(new LogoutState());
+                LoginContext.getInstance().setUserState(new LogoutState());
             }
         }
 
@@ -101,8 +97,7 @@ public class FirstPresenter implements FirstContract.Presenter {
                     false, 0, 0,
                     StringUtils.getSystemCurrentTime());
             //设置为未登录在状态
-            LoginContext loginContext = LoginContext.getInstance();
-            loginContext.setUserState(new LogoutState());
+            LoginContext.getInstance().setUserState(new LogoutState());
         }
     };
 
@@ -139,13 +134,13 @@ public class FirstPresenter implements FirstContract.Presenter {
             @Override
             public void onUserDataLoaded(Users users) {
                 UserInfoSingleton.getInstance().setUsers(users);
+                getUserAuthData(users.getUser_id());
             }
 
             @Override
             public void onDataNotAvailable() {
                 Log.d(TAG, "getUsersData-->onDataNotAvailable-------->>没有得到数据");
-                LoginContext loginContext = LoginContext.getInstance();
-                loginContext.setUserState(new LogoutState());
+                LoginContext.getInstance().setUserState(new LogoutState());
                 firstDataResponsitory.cacheStatus(
                         firstDataResponsitory.getCurrentVersion(), false, false, 0, 0,
                         StringUtils.getSystemCurrentTime());//缓存为未登录
@@ -161,13 +156,13 @@ public class FirstPresenter implements FirstContract.Presenter {
             @Override
             public void onUserDataLoaded(UserAuths userAuths) {
                 UserInfoSingleton.getInstance().setUserAuths(userAuths);
+                LoginContext.getInstance().setUserState(new LoginState());
             }
 
             @Override
             public void onDataNotAvailable() {//设置为未登录状态
                 Log.d(TAG, "getUserAuthData-->onDataNotAvailable-------->>没有得到数据");
-                LoginContext loginContext = LoginContext.getInstance();
-                loginContext.setUserState(new LogoutState());
+                LoginContext.getInstance().setUserState(new LogoutState());
                 firstDataResponsitory.cacheStatus(
                         firstDataResponsitory.getCurrentVersion(), false,
                         false, 0, 0, StringUtils.getSystemCurrentTime());//缓存为未登录

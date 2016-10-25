@@ -10,20 +10,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jkb.core.contract.function.HomePageContract;
+import com.jkb.core.control.messageState.MessageObservable;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.UserState;
+import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.adapter.fragmentPager.HomePageAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
+
+import java.util.Observable;
+import java.util.Observer;
+
+import io.rong.imkit.RongIM;
 
 /**
  * 首页的页面视图
  * Created by JustKiddingBaby on 2016/7/25.
  */
 public class HomePageFragment extends BaseFragment implements
-        HomePageContract.View, View.OnClickListener {
+        HomePageContract.View, View.OnClickListener, Observer {
 
     private HomePageContract.Presenter mPresenter;
     private MainActivity mainActivity;
@@ -47,10 +55,11 @@ public class HomePageFragment extends BaseFragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setRootView(R.layout.frg_function_index);
         mainActivity = (MainActivity) mActivity;
+        setRootView(R.layout.frg_function_index);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
@@ -64,7 +73,12 @@ public class HomePageFragment extends BaseFragment implements
         rootView.findViewById(R.id.fi_title_left).setOnClickListener(this);
         rootView.findViewById(R.id.fi_title_right).setOnClickListener(this);
 
-        LoginContext.getInstance().setLoginStatusChangedListener(loginStatusChangedListener);
+        LoginContext.getInstance().addObserver(loginObserver);
+        //设置为消息的观察者
+        MessageObservable.newInstance().addObserver(this);
+        //设置融云的未读消息聊天数的监听
+       /* RongIM.getInstance().setOnReceiveUnreadCountChangedListener(
+                onReceiveUnreadCountChangedListener);*/
     }
 
     @Override
@@ -164,6 +178,24 @@ public class HomePageFragment extends BaseFragment implements
     }
 
     @Override
+    public void setLeftMenuNotifyStatus(boolean leftMenuNotifyStatus) {
+        if (leftMenuNotifyStatus) {
+            rootView.findViewById(R.id.fi_iv_notifyPoint).setVisibility(View.VISIBLE);
+        } else {
+            rootView.findViewById(R.id.fi_iv_notifyPoint).setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void setRightMenuNotifyStatus(boolean rightMenuNotifyStatus) {
+        if (rightMenuNotifyStatus) {
+            rootView.findViewById(R.id.fi_right_notifyPoint).setVisibility(View.VISIBLE);
+        } else {
+            rootView.findViewById(R.id.fi_right_notifyPoint).setVisibility(View.GONE);
+        }
+    }
+
+    @Override
     public void setPresenter(HomePageContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -192,21 +224,49 @@ public class HomePageFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         mainActivity = null;
+        MessageObservable.newInstance().deleteObserver(this);
+        LoginContext.getInstance().deleteObserver(loginObserver);
     }
 
     /**
-     * 登录状态变化的监听器
+     * 登录的Observer监听
      */
-    private UserState.LoginStatusChangedListener loginStatusChangedListener =
-            new UserState.LoginStatusChangedListener() {
-                @Override
-                public void onLogin() {
-                    setLoginRightMenuView();
-                }
+    private Observer loginObserver = new Observer() {
+        @Override
+        public void update(Observable o, Object arg) {
+            boolean logined = LoginContext.getInstance().isLogined();
+            if (logined) {
+                setLoginRightMenuView();
+            } else {
+                setLogoutRightMenuView();
+            }
+        }
+    };
 
+    @Override
+    public void update(Observable o, Object arg) {
+        //得到消息并判断
+        int unReadMessageCount = MessageObservable.newInstance().getAllUnReadMessageCount();
+        if (unReadMessageCount > 0) {
+            setLeftMenuNotifyStatus(true);
+        } else {
+            setLeftMenuNotifyStatus(false);
+        }
+    }
+
+    /**
+     * 设置用户聊天IM的未读消息数监听
+     */
+   /* private RongIM.OnReceiveUnreadCountChangedListener onReceiveUnreadCountChangedListener =
+            new RongIM.OnReceiveUnreadCountChangedListener() {
                 @Override
-                public void onLogout() {
-                    setLogoutRightMenuView();
+                public void onMessageIncreased(int i) {
+                    LogUtils.d(TAG, "我受到未读的消息数是：" + i);
+                    if (i > 0) {
+                        setRightMenuNotifyStatus(true);
+                    } else {
+                        setRightMenuNotifyStatus(false);
+                    }
                 }
-            };
+            };*/
 }

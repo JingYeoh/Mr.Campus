@@ -21,6 +21,9 @@ import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.utils.ClassUtils;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import io.rong.imkit.RongContext;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -64,14 +67,15 @@ public class ConversationListFragment extends BaseFragment implements
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mainActivity = (MainActivity) mActivity;
         setRootView(R.layout.frg_conversationlist);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
     protected void initListener() {
         //设置是否退出登录的状态监听
-        LoginContext.getInstance().setLoginStatusChangedListener(loginStatusChangedListener);
+        LoginContext.getInstance().addObserver(loginObserver);
         mainActivity.setRongIMConnectCallBack(rongIMConnectCallBack);
         refreshLayout.setOnRefreshListener(this);
     }
@@ -138,20 +142,18 @@ public class ConversationListFragment extends BaseFragment implements
     }
 
     /**
-     * 登录状态的监听
+     * 登录的Observer监听
      */
-    private UserState.LoginStatusChangedListener loginStatusChangedListener =
-            new UserState.LoginStatusChangedListener() {
-                @Override
-                public void onLogin() {
-                    refreshConversationList();
-                }
-
-                @Override
-                public void onLogout() {
-
-                }
-            };
+    private Observer loginObserver = new Observer() {
+        @Override
+        public void update(Observable o, Object arg) {
+            boolean logined = LoginContext.getInstance().isLogined();
+            if (logined) {
+                refreshConversationList();
+            } else {
+            }
+        }
+    };
     /**
      * 连接聊天服务器的回调
      */
@@ -224,6 +226,7 @@ public class ConversationListFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         mainActivity = null;
+        LoginContext.getInstance().deleteObserver(loginObserver);
     }
 
     @Override

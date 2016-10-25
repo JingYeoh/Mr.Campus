@@ -45,6 +45,7 @@ public class MrCampusDbGenerator {
         Entity messages = schema.addEntity(DBConfig.ENTITY_MESSAGES);
         messages.setTableName(DBConfig.TABLE_MESSAGES);
         messages.addIdProperty();//建立自增的主键
+        messages.addIntProperty(DBConfig.USER_ID).notNull();//設置用戶的id
         messages.addStringProperty(DBConfig.MSG_CONTENT).notNull();//消息内容，相当于标题
         messages.addStringProperty(DBConfig.ACTION).notNull();//消息的action
         messages.addIntProperty(DBConfig.SENDER_ID).notNull();//发送者的id

@@ -66,8 +66,9 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         personCenterActivity = (PersonCenterActivity) mActivity;
         setRootView(R.layout.frg_person_setting);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

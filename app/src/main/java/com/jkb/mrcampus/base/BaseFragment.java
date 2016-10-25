@@ -30,17 +30,26 @@ public abstract class BaseFragment extends Fragment {
     protected Context context;
     protected Activity mActivity;
     protected View rootView;
+    private int rootViewId;
+    private Bundle mSavedInstanceState;
 
     //颜色
     protected int COLOR_MAIN_THEME_GREEN;
     protected int COLOR_MAIN_THEME;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSavedInstanceState = savedInstanceState;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        initColor();
-
+        if (this.rootView == null) {
+            this.rootView = inflater.inflate(rootViewId, container, false);
+            initColor();
+        }
         //处理页面是否隐藏的问题
         if (savedInstanceState != null) {
             boolean isSupportHidden = savedInstanceState.getBoolean(STATE_SAVE_IS_HIDDEN);
@@ -80,6 +89,7 @@ public abstract class BaseFragment extends Fragment {
         super.onDestroy();
         this.mActivity = null;
         this.context = null;
+//        this.rootView = null;
     }
 
     @Override
@@ -116,8 +126,7 @@ public abstract class BaseFragment extends Fragment {
      * 设置父布局的ID
      */
     protected void setRootView(int rootViewId) {
-//        checkNotNull(rootViewId, "传入布局id不能为空！");
-        this.rootView = LayoutInflater.from(getActivity()).inflate(rootViewId, null);
+        this.rootViewId = rootViewId;
     }
 
     /**

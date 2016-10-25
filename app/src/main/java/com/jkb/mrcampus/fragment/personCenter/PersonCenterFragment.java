@@ -7,7 +7,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -70,12 +72,14 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     private static final String SAVED_USER_ID = "saved_user_id";
 
 
+    @Nullable
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setRootView(R.layout.frg_peronal_center_2);
         personCenterActivity = (PersonCenterActivity) mActivity;
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        super.onCreate(savedInstanceState);
+        return rootView;
     }
 
     @Override

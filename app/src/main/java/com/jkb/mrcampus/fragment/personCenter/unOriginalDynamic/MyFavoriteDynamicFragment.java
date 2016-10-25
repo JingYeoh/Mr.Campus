@@ -72,8 +72,9 @@ public class MyFavoriteDynamicFragment extends BaseFragment implements
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myUnOriginalDynamicActivity = (MyUnOriginalDynamicActivity) mActivity;
         setRootView(R.layout.frg_my_unoriginal_dynamic);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

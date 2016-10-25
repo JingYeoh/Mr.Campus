@@ -22,6 +22,8 @@ import com.jkb.mrcampus.adapter.recycler.menuRight.FriendsAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * 右滑菜单——好友页面
@@ -59,8 +61,9 @@ public class FriendsFragment extends BaseFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mainActivity = (MainActivity) mActivity;
         setRootView(R.layout.frg_chat_friends);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
@@ -86,7 +89,7 @@ public class FriendsFragment extends BaseFragment implements
         friendsAdapter.setOnUserItemClickListener(onCircleItemClickListener);
 
         //设置登录状态监听
-        LoginContext.getInstance().setLoginStatusChangedListener(loginStatusChangedListener);
+        LoginContext.getInstance().addObserver(loginObserver);
     }
 
     @Override
@@ -208,21 +211,16 @@ public class FriendsFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         mainActivity = null;
+        LoginContext.getInstance().deleteObserver(loginObserver);
     }
 
     /**
-     * 設置登錄狀態的監聽
+     * 登录的Observer监听
      */
-    private UserState.LoginStatusChangedListener loginStatusChangedListener =
-            new UserState.LoginStatusChangedListener() {
-                @Override
-                public void onLogin() {
-                    mPresenter.setCacheExpired();
-                }
-
-                @Override
-                public void onLogout() {
-                    mPresenter.setCacheExpired();
-                }
-            };
+    private Observer loginObserver = new Observer() {
+        @Override
+        public void update(Observable o, Object arg) {
+            mPresenter.setCacheExpired();
+        }
+    };
 }

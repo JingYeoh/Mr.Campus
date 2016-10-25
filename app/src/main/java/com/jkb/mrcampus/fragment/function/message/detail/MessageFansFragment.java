@@ -40,8 +40,9 @@ public class MessageFansFragment extends BaseFragment implements View.OnClickLis
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         messageActivity = (MessageActivity) mActivity;
         setRootView(R.layout.frg_message_fans);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

@@ -9,10 +9,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jkb.core.contract.message.MessageCenterContract;
+import com.jkb.core.control.messageState.MessageObservable;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MessageActivity;
 import com.jkb.mrcampus.activity.MessageCenterActivity;
 import com.jkb.mrcampus.base.BaseFragment;
+
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * 消息中心的View层
@@ -22,7 +26,7 @@ import com.jkb.mrcampus.base.BaseFragment;
 public class MessageCenterFragment extends BaseFragment implements
         MessageCenterContract.View,
         SwipeRefreshLayout.OnRefreshListener,
-        View.OnClickListener {
+        View.OnClickListener, Observer {
 
     public MessageCenterFragment() {
     }
@@ -49,8 +53,9 @@ public class MessageCenterFragment extends BaseFragment implements
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         messageCenterActivity = (MessageCenterActivity) mActivity;
         setRootView(R.layout.frg_message_center);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
@@ -73,12 +78,13 @@ public class MessageCenterFragment extends BaseFragment implements
         refreshLayout.setOnRefreshListener(this);
         //各个点击事件
         rootView.findViewById(R.id.ts4_ib_left).setOnClickListener(this);
-        rootView.findViewById(R.id.fmsgc_content_like).setOnClickListener(this);
-        rootView.findViewById(R.id.fmsgc_content_comment).setOnClickListener(this);
+        rootView.findViewById(R.id.fmsgc_content_dynamic).setOnClickListener(this);
         rootView.findViewById(R.id.fmsgc_content_fans).setOnClickListener(this);
         rootView.findViewById(R.id.fmsgc_content_subscribe).setOnClickListener(this);
         rootView.findViewById(R.id.fmsgc_content_circle).setOnClickListener(this);
         rootView.findViewById(R.id.fmsgc_content_system).setOnClickListener(this);
+        //添加为消息的观察者
+        MessageObservable.newInstance().addObserver(this);
     }
 
     @Override
@@ -94,17 +100,15 @@ public class MessageCenterFragment extends BaseFragment implements
 
     @Override
     public void onRefresh() {
-        mPresenter.onRefresh();
+//        mPresenter.onRefresh();
+        initMessages();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fmsgc_content_like:
-                showMessageLikeView();
-                break;
-            case R.id.fmsgc_content_comment:
-                showMessageCommentView();
+            case R.id.fmsgc_content_dynamic:
+                showMessageDynamicView();
                 break;
             case R.id.fmsgc_content_fans:
                 showMessageFansView();
@@ -125,24 +129,14 @@ public class MessageCenterFragment extends BaseFragment implements
     }
 
     @Override
-    public void setLikeMessageCount(int unReadCount, int allCount) {
-        ((TextView) rootView.findViewById(R.id.fmsgc_tv_allCount_like)).setText(allCount);
+    public void setDynamicMessageCount(int unReadCount, int allCount) {
+        ((TextView) rootView.findViewById(R.id.fmsgc_tv_allCount_dynamic)).setText(allCount + "");
         if (unReadCount == 0) {
-            rootView.findViewById(R.id.fmsgc_tv_unReadCount_like).setVisibility(View.GONE);
+            rootView.findViewById(R.id.fmsgc_tv_unReadCount_dynamic).setVisibility(View.GONE);
         } else {
-            rootView.findViewById(R.id.fmsgc_tv_unReadCount_like).setVisibility(View.VISIBLE);
-            ((TextView) rootView.findViewById(R.id.fmsgc_tv_unReadCount_like)).setText(unReadCount);
-        }
-    }
-
-    @Override
-    public void setCommentMessageCount(int unReadCount, int allCount) {
-        ((TextView) rootView.findViewById(R.id.fmsgc_tv_allCount_comment)).setText(allCount);
-        if (unReadCount == 0) {
-            rootView.findViewById(R.id.fmsgc_tv_unReadCount_comment).setVisibility(View.GONE);
-        } else {
-            rootView.findViewById(R.id.fmsgc_tv_unReadCount_comment).setVisibility(View.VISIBLE);
-            ((TextView) rootView.findViewById(R.id.fmsgc_tv_unReadCount_comment)).setText(unReadCount);
+            rootView.findViewById(R.id.fmsgc_tv_unReadCount_dynamic).setVisibility(View.VISIBLE);
+            ((TextView) rootView.findViewById(R.id.fmsgc_tv_unReadCount_dynamic))
+                    .setText(unReadCount + "");
         }
     }
 
@@ -201,13 +195,8 @@ public class MessageCenterFragment extends BaseFragment implements
     }
 
     @Override
-    public void showMessageLikeView() {
-        messageCenterActivity.startMessageActivity(MessageActivity.MESSAGE_TYPE_LIKE);
-    }
-
-    @Override
-    public void showMessageCommentView() {
-        messageCenterActivity.startMessageActivity(MessageActivity.MESSAGE_TYPE_COMMENT);
+    public void showMessageDynamicView() {
+        messageCenterActivity.startMessageActivity(MessageActivity.MESSAGE_TYPE_DYNAMIC);
     }
 
     @Override
@@ -259,5 +248,30 @@ public class MessageCenterFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         messageCenterActivity = null;
+        MessageObservable.newInstance().deleteObserver(this);
     }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        //得到各种数据
+        initMessages();
+    }
+
+    /**
+     * 初始化消息
+     */
+    private void initMessages() {
+        hideRefreshingView();
+        initDynamicMessage();
+    }
+
+    /**
+     * 初始化动态消息
+     */
+    private void initDynamicMessage() {
+        int unReadCount = MessageObservable.newInstance().getAllUnReadDynamicMessageCount();
+        int dynamicCount = MessageObservable.newInstance().getAllDynamicMessageCount();
+        setDynamicMessageCount(unReadCount, dynamicCount);
+    }
+
 }

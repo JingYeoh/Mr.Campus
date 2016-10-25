@@ -168,7 +168,7 @@ public class Config {
     public static final String D_TYPE_ARTICLE = "article";
     public static final String D_TYPE_NORMAL = "normal";
 
-    public static final String TYPE_CIRCLE="circle";
+    public static final String TYPE_CIRCLE = "circle";
 
     public static final String ACTION_TYPE_POST = "post";
     public static final String ACTION_TYPE_FAVORITE = "favorite";
@@ -183,4 +183,15 @@ public class Config {
     public static final String PARTIAL_TYPE_NORMAL = "type|normal";
     public static final String PARTIAL_TYPE_TOPIC = "type|topic";
     public static final String PARTIAL_CIRCLE_CIRCLE_ID = "circle|circle_id";
+
+    public static final String MESSAGE_ACTION_INBLACKLIST = "inBlacklist";
+    public static final String MESSAGE_ACTION_OUTBLACKLIST = "outBlacklist";
+    public static final String MESSAGE_ACTION_SUBSCRIBE = "subscribe";
+    public static final String MESSAGE_ACTION_FAVORITE = "favorite";
+    public static final String MESSAFGE_ACTION_PAYATTENTION = "payAttention";
+    public static final String MESSAGE_ACTION_LIKE = "like";
+    public static final String MESSAGE_ACTION_VISIT = "visit";
+    public static final String MESSAGE_ACTION_MAKECOMMENT = "makeComment";
+    public static final String MESSAGE_ACTION_MAKEREPLY = "makeReply";
+    public static final String MESSAGE_ACTION_SYSTEM = "system";
 }

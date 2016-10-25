@@ -188,6 +188,8 @@ public class DynamicDetailArticlePresenter implements DynamicDetailArticleContra
             if (userAuths == null) {
                 view.showReqResult("登录过期，请重新登录");
                 return;
+            }else{
+                user_id=userAuths.getUser_id();
             }
         }
         view.showRefreshView();

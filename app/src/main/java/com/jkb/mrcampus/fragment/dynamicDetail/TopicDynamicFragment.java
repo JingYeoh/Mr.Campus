@@ -89,8 +89,9 @@ public class TopicDynamicFragment extends BaseFragment implements DynamicDetailT
                              Bundle savedInstanceState) {
         dynamicDetailActivity = (DynamicDetailActivity) mActivity;
         setRootView(R.layout.frg_dynamic_detail_topic);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

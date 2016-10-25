@@ -13,20 +13,12 @@ public interface MessageCenterContract {
     interface View extends BaseView<Presenter> {
 
         /**
-         * 設置喜欢的消息数据
-         *
-         * @param unReadCount 未读消息数
-         * @param allCount    总消息数
-         */
-        void setLikeMessageCount(int unReadCount, int allCount);
-
-        /**
          * 設置评论的消息数据
          *
          * @param unReadCount 未读消息数
          * @param allCount    总消息数
          */
-        void setCommentMessageCount(int unReadCount, int allCount);
+        void setDynamicMessageCount(int unReadCount, int allCount);
 
         /**
          * 設置粉丝的消息数据
@@ -70,15 +62,11 @@ public interface MessageCenterContract {
          */
         void hideRefreshingView();
 
-        /**
-         * 显示喜欢的消息的页面
-         */
-        void showMessageLikeView();
 
         /**
          * 显示喜欢的消息的页面
          */
-        void showMessageCommentView();
+        void showMessageDynamicView();
 
         /**
          * 显示喜欢的消息的页面

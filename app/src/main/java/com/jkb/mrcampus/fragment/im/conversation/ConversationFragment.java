@@ -94,8 +94,9 @@ public class ConversationFragment extends BaseFragment implements
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         conversationActivity = (ConversationActivity) mActivity;
         setRootView(R.layout.frg_conversation);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
@@ -268,6 +269,12 @@ public class ConversationFragment extends BaseFragment implements
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        conversationActivity = null;
     }
 
     @Override

@@ -70,8 +70,9 @@ public class DynamicCreateNormalFragment extends BaseFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         dynamicCreateActivity = (DynamicCreateActivity) mActivity;
         setRootView(R.layout.frg_dynamic_create_normal);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
 

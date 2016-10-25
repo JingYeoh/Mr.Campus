@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jkb.core.contract.menu.RightMenuContract;
+import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.UserState;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
@@ -22,12 +23,15 @@ import com.jkb.mrcampus.fragment.usersList.FansFragment;
 import com.jkb.mrcampus.fragment.usersList.VisitorFragment;
 import com.jkb.mrcampus.utils.ClassUtils;
 
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * 右滑菜单：聊天页面
  * Created by JustKiddingBaby on 2016/7/24.
  */
 public class RightMenuFragment extends BaseFragment implements RightMenuContract.View,
-        View.OnClickListener {
+        View.OnClickListener, Observer {
 
     //View层
     private TabLayout mTab;
@@ -54,8 +58,9 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
                              Bundle savedInstanceState) {
         mainActivity = (MainActivity) mActivity;
         setRootView(R.layout.frg_menu_chat);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
@@ -82,6 +87,8 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
 
         //设置菜单打开的监听器
         mainActivity.setMenuOpenedListener(onOpenedListener);
+        //设置其为登录的状态监听器
+        LoginContext.getInstance().addObserver(this);
     }
 
     @Override
@@ -150,11 +157,6 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
     }
 
     @Override
-    public UserState.UsersChangedListener onUserDataChangedListener() {
-        return usersChangedListener;
-    }
-
-    @Override
     public void showAttentionView() {
         String action = ClassUtils.getClassName(AttentionFragment.class);
         int user_id = mPresenter.getUser_id();
@@ -204,15 +206,11 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
     public void onDestroy() {
         super.onDestroy();
         mainActivity = null;
+        LoginContext.getInstance().deleteObserver(this);
     }
 
-    /**
-     * 右滑数据变化时候的监听器
-     */
-    private UserState.UsersChangedListener usersChangedListener = new UserState.UsersChangedListener() {
-        @Override
-        public void onUserDataChanged() {
-            mPresenter.getCountData();
-        }
-    };
+    @Override
+    public void update(Observable o, Object arg) {
+        mPresenter.start();
+    }
 }

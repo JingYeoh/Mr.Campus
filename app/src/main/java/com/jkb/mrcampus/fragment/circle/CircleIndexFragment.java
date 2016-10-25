@@ -99,8 +99,9 @@ public class CircleIndexFragment extends BaseFragment
                              Bundle savedInstanceState) {
         setRootView(R.layout.frg_circle_index2);
         circleActivity = (CircleActivity) mActivity;
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
@@ -588,4 +589,5 @@ public class CircleIndexFragment extends BaseFragment
                     mPresenter.onLikeItemClick(position);
                 }
             };
+
 }

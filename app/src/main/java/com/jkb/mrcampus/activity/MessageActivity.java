@@ -9,7 +9,7 @@ import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
 import com.jkb.mrcampus.fragment.function.message.detail.MessageCircleFragment;
-import com.jkb.mrcampus.fragment.function.message.detail.MessageCommentFragment;
+import com.jkb.mrcampus.fragment.function.message.detail.MessageDynamicFragment;
 import com.jkb.mrcampus.fragment.function.message.detail.MessageFansFragment;
 import com.jkb.mrcampus.fragment.function.message.detail.MessageLikeFragment;
 import com.jkb.mrcampus.fragment.function.message.detail.MessageSubscribeFragment;
@@ -30,18 +30,14 @@ public class MessageActivity extends BaseActivity {
     private static final String SAVED_CURRENT_SHOW_VIEW = "saved.current.show.view";
 
     //常量
-    public static final int MESSAGE_TYPE_LIKE = 1001;
-    public static final int MESSAGE_TYPE_COMMENT = 1002;
+    public static final int MESSAGE_TYPE_DYNAMIC = 1002;
     public static final int MESSAGE_TYPE_FANS = 1003;
     public static final int MESSAGE_TYPE_SUBSCRIBE = 1004;
     public static final int MESSAGE_TYPE_CIRCLE = 1005;
     public static final int MESSAGE_TYPE_SYSTEM = 1006;
 
-    //喜欢
-    private MessageLikeFragment messageLikeFragment;
-
     //评论
-    private MessageCommentFragment messageCommentFragment;
+    private MessageDynamicFragment messageDynamicFragment;
 
     //粉丝
     private MessageFansFragment messageFansFragment;
@@ -93,11 +89,8 @@ public class MessageActivity extends BaseActivity {
      */
     private void filterMessageType(int messageType) {
         switch (messageType) {
-            case MESSAGE_TYPE_LIKE:
-                showFragment = ClassUtils.getClassName(MessageLikeFragment.class);
-                break;
-            case MESSAGE_TYPE_COMMENT:
-                showFragment = ClassUtils.getClassName(MessageCommentFragment.class);
+            case MESSAGE_TYPE_DYNAMIC:
+                showFragment = ClassUtils.getClassName(MessageDynamicFragment.class);
                 break;
             case MESSAGE_TYPE_FANS:
                 showFragment = ClassUtils.getClassName(MessageFansFragment.class);
@@ -132,9 +125,7 @@ public class MessageActivity extends BaseActivity {
             //隐藏掉所有的视图
             ActivityUtils.hideAllFragments(fm);
 
-            if (ClassUtils.isNameEquals(fragmentName, MessageLikeFragment.class)) {
-                showMessageLike();
-            } else if (ClassUtils.isNameEquals(fragmentName, MessageCommentFragment.class)) {
+            if (ClassUtils.isNameEquals(fragmentName, MessageDynamicFragment.class)) {
                 showMessageComment();
             } else if (ClassUtils.isNameEquals(fragmentName, MessageFansFragment.class)) {
                 showMessageFans();
@@ -153,10 +144,8 @@ public class MessageActivity extends BaseActivity {
 
     @Override
     protected void restoreFragments(String fragmentTAG) {
-        if (ClassUtils.isNameEquals(fragmentTAG, MessageLikeFragment.class)) {
-            messageLikeFragment = (MessageLikeFragment) fm.findFragmentByTag(fragmentTAG);
-        } else if (ClassUtils.isNameEquals(fragmentTAG, MessageCommentFragment.class)) {
-            messageCommentFragment = (MessageCommentFragment) fm.findFragmentByTag(fragmentTAG);
+        if (ClassUtils.isNameEquals(fragmentTAG, MessageDynamicFragment.class)) {
+            messageDynamicFragment = (MessageDynamicFragment) fm.findFragmentByTag(fragmentTAG);
         } else if (ClassUtils.isNameEquals(fragmentTAG, MessageFansFragment.class)) {
             messageFansFragment = (MessageFansFragment) fm.findFragmentByTag(fragmentTAG);
         } else if (ClassUtils.isNameEquals(fragmentTAG, MessageSubscribeFragment.class)) {
@@ -171,9 +160,7 @@ public class MessageActivity extends BaseActivity {
     @Override
     protected void initFragmentStep2(Class<?> fragmentClass) {
         String fragmentTAG = fragmentClass.getName();
-        if (ClassUtils.isNameEquals(fragmentTAG, MessageLikeFragment.class)) {
-            initMessageLike();
-        } else if (ClassUtils.isNameEquals(fragmentTAG, MessageCommentFragment.class)) {
+        if (ClassUtils.isNameEquals(fragmentTAG, MessageDynamicFragment.class)) {
             initMessageComment();
         } else if (ClassUtils.isNameEquals(fragmentTAG, MessageFansFragment.class)) {
             initMessageFans();
@@ -230,21 +217,12 @@ public class MessageActivity extends BaseActivity {
      * 初始化评论的消息
      */
     private void initMessageComment() {
-        if (messageCommentFragment == null) {
-            messageCommentFragment = MessageCommentFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(fm, messageCommentFragment, contentView);
+        if (messageDynamicFragment == null) {
+            messageDynamicFragment = MessageDynamicFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(fm, messageDynamicFragment, contentView);
         }
     }
 
-    /**
-     * 初始化喜欢的消息
-     */
-    private void initMessageLike() {
-        if (messageLikeFragment == null) {
-            messageLikeFragment = MessageLikeFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(fm, messageLikeFragment, contentView);
-        }
-    }
 
     /**
      * 显示系统的消息详情页面
@@ -278,14 +256,7 @@ public class MessageActivity extends BaseActivity {
      * 显示评论的消息详情页面
      */
     private void showMessageComment() {
-        ActivityUtils.showFragment(fm, messageCommentFragment);
-    }
-
-    /**
-     * 显示喜欢的消息详情页面
-     */
-    private void showMessageLike() {
-        ActivityUtils.showFragment(fm, messageLikeFragment);
+        ActivityUtils.showFragment(fm, messageDynamicFragment);
     }
 
     @Override

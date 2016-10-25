@@ -79,8 +79,9 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         commentActivity = (CommentActivity) mActivity;
         setRootView(R.layout.frg_comment_list);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

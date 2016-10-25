@@ -36,11 +36,20 @@ public interface HomePageContract {
          */
         void showHot();
 
-
         /**
          * 显示动态
          */
         void showMatters();
+
+        /**
+         * 设置左边菜单的通知状态
+         */
+        void setLeftMenuNotifyStatus(boolean leftMenuNotifyStatus);
+
+        /**
+         * 设置右边菜单的通知状态
+         */
+        void setRightMenuNotifyStatus(boolean rightMenuNotifyStatus);
     }
 
     interface Presenter extends BasePresenter {

@@ -44,8 +44,9 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
         setRootView(R.layout.frg_entering_login);
         //初始化页面控制器
         enteringActivity = (EnteringActivity) mActivity;
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

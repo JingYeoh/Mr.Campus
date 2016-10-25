@@ -86,6 +86,11 @@ public interface DynamicContract {
          * @param dynamic_id 动态id
          */
         void startCommentActivity(@NonNull int dynamic_id);
+
+        /**
+         * 打开动态消息的页面
+         */
+        void startDynamicMessageActivity();
     }
 
     interface Presenter extends BasePresenter {

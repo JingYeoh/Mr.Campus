@@ -16,17 +16,17 @@ import com.jkb.mrcampus.base.BaseFragment;
  * Created by JustKiddingBaby on 2016/10/10.
  */
 
-public class MessageCommentFragment extends BaseFragment implements View.OnClickListener {
+public class MessageDynamicFragment extends BaseFragment implements View.OnClickListener {
 
 
-    public MessageCommentFragment() {
+    public MessageDynamicFragment() {
     }
 
-    private static MessageCommentFragment INSTANCE = null;
+    private static MessageDynamicFragment INSTANCE = null;
 
-    public static MessageCommentFragment newInstance() {
+    public static MessageDynamicFragment newInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new MessageCommentFragment();
+            INSTANCE = new MessageDynamicFragment();
         }
         return INSTANCE;
     }
@@ -40,8 +40,9 @@ public class MessageCommentFragment extends BaseFragment implements View.OnClick
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         messageActivity = (MessageActivity) mActivity;
         setRootView(R.layout.frg_message_comment);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
@@ -56,7 +57,7 @@ public class MessageCommentFragment extends BaseFragment implements View.OnClick
 
     @Override
     protected void initView() {
-        ((TextView) rootView.findViewById(R.id.ts4_tv_name)).setText("评论");
+        ((TextView) rootView.findViewById(R.id.ts4_tv_name)).setText("动态");
     }
 
     @Override

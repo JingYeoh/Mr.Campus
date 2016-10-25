@@ -74,93 +74,186 @@
         android:layout_marginRight="20dp"
         android:background="@color/line_deep" />
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/fms_tv_menuIndex"
-            style="@style/menuLeftSideTextStyle"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/general_item_selector2"
-            android:gravity="center_vertical"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:text="首页·HOME PAGE"
-            android:textColor="@color/white" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/fms_content_menuIndex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/general_item_selector2"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/fms_tv_menuMap"
-            style="@style/menuLeftSideTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/general_item_selector2"
-            android:gravity="center_vertical"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:text="地图·MAP"
-            android:textColor="@color/line" />
+                <TextView
+                    android:id="@+id/fms_tv_menuIndex"
+                    style="@style/menuLeftSideTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:text="首页·HOME PAGE"
+                    android:textColor="@color/white" />
 
-        <TextView
-            android:id="@+id/fms_tv_menuTopic"
-            style="@style/menuLeftSideTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/general_item_selector2"
-            android:gravity="center_vertical"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:text="专题·TOPIC"
-            android:textColor="@color/line" />
+                <ImageView
+                    android:id="@+id/fms_iv_menuIndexNotifyPoint"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_dot_red"
+                    android:visibility="gone" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/fms_tv_menuTools"
-            style="@style/menuLeftSideTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/general_item_selector2"
-            android:gravity="center_vertical"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:text="小工具·TOOLS"
-            android:textColor="@color/line" />
+            <LinearLayout
+                android:id="@+id/fms_content_menuMap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/general_item_selector2"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/fms_tv_menuMessage"
-            style="@style/menuLeftSideTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/general_item_selector2"
-            android:gravity="center_vertical"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:text="消息·MESSAGE"
-            android:textColor="@color/line" />
+                <TextView
+                    android:id="@+id/fms_tv_menuMap"
+                    style="@style/menuLeftSideTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:text="地图·MAP"
+                    android:textColor="@color/line" />
 
-        <TextView
-            android:id="@+id/fms_tv_menuSetting"
-            style="@style/menuLeftSideTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/general_item_selector2"
-            android:gravity="center_vertical"
-            android:paddingBottom="10dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp"
-            android:text="设置·SETTING"
-            android:textColor="@color/line" />
+                <ImageView
+                    android:id="@+id/fms_iv_menuMapNotifyPoint"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_dot_red"
+                    android:visibility="gone" />
+            </LinearLayout>
 
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/fms_content_menuTopic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/general_item_selector2"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/fms_tv_menuTopic"
+                    style="@style/menuLeftSideTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:text="专题·TOPIC"
+                    android:textColor="@color/line" />
+
+                <ImageView
+                    android:id="@+id/fms_iv_menuTopicNotifyPoint"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_dot_red"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fms_content_menuTools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/general_item_selector2"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/fms_tv_menuTools"
+                    style="@style/menuLeftSideTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:text="小工具·TOOLS"
+                    android:textColor="@color/line" />
+
+                <ImageView
+                    android:id="@+id/fms_iv_menuToolsNotifyPoint"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_dot_red"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fms_content_menuMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/general_item_selector2"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/fms_tv_menuMessage"
+                    style="@style/menuLeftSideTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:text="消息·MESSAGE"
+                    android:textColor="@color/line" />
+
+                <ImageView
+                    android:id="@+id/fms_iv_menuMessageNotifyPoint"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_dot_red"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/fms_content_menuSetting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/general_item_selector2"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/fms_tv_menuSetting"
+                    style="@style/menuLeftSideTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:text="设置·SETTING"
+                    android:textColor="@color/line" />
+
+                <ImageView
+                    android:id="@+id/fms_iv_menuSettingNotifyPoint"
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_dot_red"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
     <View
         android:layout_width="match_parent"

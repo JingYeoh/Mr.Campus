@@ -203,7 +203,6 @@ public interface BaseActivityAction {
      */
     void startPrivateConversation(@NonNull int user_id);
 
-
     /**
      * 顯示輸入
      **/

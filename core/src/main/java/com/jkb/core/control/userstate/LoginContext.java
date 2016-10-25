@@ -3,23 +3,24 @@ package com.jkb.core.control.userstate;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.jkb.core.control.messageState.MessageObservable;
+import com.jkb.model.info.UserInfoSingleton;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * 登录的状态类：单例
+ * 设置其为观察者模式
  * Created by JustKiddingBaby on 2016/7/30.
  */
-public class LoginContext implements UserState {
+public class LoginContext extends Observable implements UserState {
 
     private UserState mState = new LogoutState();
 
     private static LoginContext sLoginContext = new LoginContext();
-
-    //右滑菜单数据变化时候的监听器
-    private UsersChangedListener slideRightDataViewListener;
-
-    private List<LoginStatusChangedListener> loginStatusChangedListeners;
 
     private LoginContext() {
     }
@@ -36,11 +37,16 @@ public class LoginContext implements UserState {
      */
     public void setUserState(@NonNull UserState userState) {
         mState = userState;
-        //身份状态改变的时候监听
-        if (slideRightDataViewListener != null) {
-            setRightSlideMenuDataViewChangedListener(slideRightDataViewListener);
+        update();
+        //设置消息的变化
+        if (isLogined()) {
+            MessageObservable.newInstance().setUser_id
+                    (UserInfoSingleton.getInstance().getUserAuths().getUser_id());
+            MessageObservable.newInstance().setMessageUserState(true);//设置消息的状态
+        } else {
+            MessageObservable.newInstance().setUser_id(0);
+            MessageObservable.newInstance().setMessageUserState(false);//设置消息的状态
         }
-        onLoginStatusChanged();
     }
 
     @Override
@@ -48,36 +54,17 @@ public class LoginContext implements UserState {
         return mState.isLogined();
     }
 
-
     @Override
-    public void setRightSlideMenuDataViewChangedListener(UsersChangedListener listener) {
-        slideRightDataViewListener = listener;
-        mState.setRightSlideMenuDataViewChangedListener(slideRightDataViewListener);
-    }
-
-    @Override
-    public void setLoginStatusChangedListener(
-            LoginStatusChangedListener loginStatusChangedListener) {
-        if (loginStatusChangedListeners == null) {
-            loginStatusChangedListeners = new ArrayList<>();
-        }
-        loginStatusChangedListeners.add(loginStatusChangedListener);
-        onLoginStatusChanged();
+    public synchronized void addObserver(Observer o) {
+        super.addObserver(o);
+        update();
     }
 
     /**
-     * 登录状态变化时候调用
+     * 更新
      */
-    private void onLoginStatusChanged() {
-        if (loginStatusChangedListeners == null || loginStatusChangedListeners.size() <= 0) {
-            return;
-        }
-        for (LoginStatusChangedListener loginStatusChangedListener : loginStatusChangedListeners) {
-            if (isLogined()) {
-                loginStatusChangedListener.onLogin();
-            } else {
-                loginStatusChangedListener.onLogout();
-            }
-        }
+    private void update() {
+        setChanged();
+        notifyObservers();
     }
 }

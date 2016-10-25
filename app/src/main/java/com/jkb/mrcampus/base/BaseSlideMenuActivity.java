@@ -390,10 +390,6 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
     @Override
     public void startMessageCenterActivity() {
         Log.d(TAG, "startCommentActivity");
-        if (!LoginContext.getInstance().isLogined()) {
-            showShortToast("请登录后再进行操作");
-            return;
-        }
         Intent intent = new Intent(this, MessageCenterActivity.class);
         startActivityWithPushLeftAnim(intent);
     }
@@ -401,9 +397,11 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity impl
     @Override
     public void startMessageActivity(@NonNull int messageType) {
         Log.d(TAG, "startCommentActivity");
-        if (!LoginContext.getInstance().isLogined()) {
-            showShortToast("请登录后再进行操作");
-            return;
+        if (messageType != MessageActivity.MESSAGE_TYPE_SYSTEM) {
+            if (!LoginContext.getInstance().isLogined()) {
+                showShortToast("请登录后再进行操作");
+                return;
+            }
         }
         Intent intent = new Intent(this, MessageActivity.class);
         intent.putExtra(Config.INTENT_KEY_MESSAGE_TYPE, messageType);

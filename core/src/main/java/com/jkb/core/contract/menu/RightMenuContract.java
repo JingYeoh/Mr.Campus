@@ -30,13 +30,6 @@ public interface RightMenuContract {
         void setFansCount(int count);
 
         /**
-         * 用户数据变化时候的监听器
-         *
-         * @return UserState.UsersChangedListener
-         */
-        UserState.UsersChangedListener onUserDataChangedListener();
-
-        /**
          * 显示关注视图
          */
         void showAttentionView();
@@ -58,11 +51,6 @@ public interface RightMenuContract {
          * 得到总数
          */
         void getCountData();
-
-        /**
-         * 设置用户数据变化时候的监听器
-         */
-        void setOnUsersDataChangedListener(UserState.UsersChangedListener listener);
 
         /**
          * 得到用户的id

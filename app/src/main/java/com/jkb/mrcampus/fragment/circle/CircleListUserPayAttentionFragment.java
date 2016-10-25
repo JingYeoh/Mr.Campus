@@ -65,8 +65,9 @@ public class CircleListUserPayAttentionFragment extends BaseFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         circleListActivity = (CircleListActivity) mActivity;
         setRootView(R.layout.frg_circle_list_user_attention);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

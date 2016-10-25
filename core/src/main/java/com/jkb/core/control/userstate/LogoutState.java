@@ -10,13 +10,4 @@ public class LogoutState implements UserState {
     public boolean isLogined() {
         return false;
     }
-
-    @Override
-    public void setRightSlideMenuDataViewChangedListener(UsersChangedListener listener) {
-    }
-
-    @Override
-    public void setLoginStatusChangedListener(
-            LoginStatusChangedListener loginStatusChangedListeners) {
-    }
 }

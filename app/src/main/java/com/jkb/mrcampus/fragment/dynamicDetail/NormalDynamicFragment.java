@@ -86,8 +86,9 @@ public class NormalDynamicFragment extends BaseFragment
                              Bundle savedInstanceState) {
         dynamicDetailActivity = (DynamicDetailActivity) mActivity;
         setRootView(R.layout.frg_dynamic_detail_normal);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

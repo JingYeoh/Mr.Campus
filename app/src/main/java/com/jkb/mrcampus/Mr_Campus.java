@@ -5,6 +5,7 @@ import android.support.multidex.MultiDexApplication;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.jkb.api.ApiFactoryImpl;
+import com.jkb.core.control.messageState.MessageObservable;
 import com.jkb.model.info.SingletonManager;
 import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.model.net.ImageLoaderFactory;
@@ -42,7 +43,16 @@ public class Mr_Campus extends MultiDexApplication {
         LeakCanary.install(this);
         initSDK();
         initDb();
+        initObservables();
         initSingleton();
+    }
+
+    /**
+     * 初始化观察者模式
+     */
+    private void initObservables() {
+        //初始化消息数据库的观察者模式
+        MessageObservable.init(getApplicationContext());
     }
 
     /**
@@ -68,7 +78,6 @@ public class Mr_Campus extends MultiDexApplication {
         UserInfoSingleton userInfoSingleton = UserInfoSingleton.getInstance();
         //初始化Activity管理者
         ActivityStackManager activityStackManager = ActivityStackManager.getInstance();
-
 
         //添加到单例的管理类中
         SingletonManager.registerService(Config.SINGLETON_KEY_CAMPUSDB, mrCampusDB);

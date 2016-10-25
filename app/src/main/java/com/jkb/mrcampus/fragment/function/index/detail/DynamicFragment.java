@@ -10,19 +10,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jkb.api.config.Config;
 import com.jkb.core.Injection;
+import com.jkb.core.contract.function.index.DynamicContract;
+import com.jkb.core.control.messageState.MessageObservable;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.UserState;
 import com.jkb.core.data.dynamic.dynamic.DynamicBaseData;
-import com.jkb.core.contract.function.index.DynamicContract;
-import com.jkb.core.contract.menu.MenuContract;
 import com.jkb.core.presenter.function.index.dynamic.DynamicPresenter;
+import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.MainActivity;
+import com.jkb.mrcampus.activity.MessageActivity;
 import com.jkb.mrcampus.adapter.recycler.NoAlphaItemAnimator;
 import com.jkb.mrcampus.adapter.recycler.dynamic.DynamicAdapter;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.DividerItemDecoration;
@@ -31,6 +34,8 @@ import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * 首页——动态的View层
@@ -38,7 +43,7 @@ import java.util.List;
  */
 
 public class DynamicFragment extends BaseFragment implements DynamicContract.View,
-        SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+        SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Observer {
 
     public DynamicFragment() {
     }
@@ -67,8 +72,9 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mainActivity = (MainActivity) mActivity;
         setRootView(R.layout.frg_homepage_dynamic);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
@@ -92,6 +98,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         //设置添加动态按钮监听器
         rootView.findViewById(R.id.fhd_iv_floatBt).setOnClickListener(this);
         rootView.findViewById(R.id.fhd_iv_floatBt_top).setOnClickListener(this);
+        rootView.findViewById(R.id.fhd_content_unReadMessage).setOnClickListener(this);
 
         //设置下拉加载
         recyclerView.addOnScrollListener(onScrollListener);//设置滑动监听，设置是否下拉刷新
@@ -106,7 +113,10 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         dynamicAdapter.setOnDynamicClickListener(onDynamicClickListener);
 
         //登录状态变化的监听器
-        LoginContext.getInstance().setLoginStatusChangedListener(loginStatusChangedListener);
+        LoginContext.getInstance().addObserver(loginObserver);
+
+        //消息的观察者模式
+        MessageObservable.newInstance().addObserver(this);
     }
 
     @Override
@@ -146,6 +156,9 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
                 break;
             case R.id.fhd_iv_floatBt_top://滚动到顶部
                 scrollToTop();
+                break;
+            case R.id.fhd_content_unReadMessage://未读消息的点击事件
+                startDynamicMessageActivity();
                 break;
         }
     }
@@ -385,6 +398,11 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
     }
 
     @Override
+    public void startDynamicMessageActivity() {
+        mainActivity.startMessageActivity(MessageActivity.MESSAGE_TYPE_DYNAMIC);
+    }
+
+    @Override
     public void setPresenter(DynamicContract.Presenter presenter) {
         mPresenter = (DynamicPresenter) presenter;
     }
@@ -413,25 +431,24 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
     public void onDestroy() {
         super.onDestroy();
         mainActivity = null;
+        MessageObservable.newInstance().deleteObserver(this);
+        LoginContext.getInstance().deleteObserver(loginObserver);
     }
-
     /**
      * 登录状态改变时候的监听器
      */
-    private UserState.LoginStatusChangedListener loginStatusChangedListener =
-            new UserState.LoginStatusChangedListener() {
-                @Override
-                public void onLogin() {
-                    showLoginedView();
-//                    mPresenter.start();
-                }
-
-                @Override
-                public void onLogout() {
-                    showUnLoginView();
-                    mPresenter.setCacheExpired();
-                }
-            };
+    private Observer loginObserver= new Observer() {
+        @Override
+        public void update(Observable o, Object arg) {
+            boolean logined = LoginContext.getInstance().isLogined();
+            if(logined){
+                showLoginedView();
+            }else{
+                showUnLoginView();
+                mPresenter.setCacheExpired();
+            }
+        }
+    };
     /**
      * 写动态的监听器
      */
@@ -452,4 +469,17 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
             mainActivity.startDynamicCreateActivity(DynamicCreateActivity.DYNAMIC_CREATE_TYPE_NORMAL);
         }
     };
+
+    @Override
+    public void update(Observable o, Object arg) {
+        //订阅消息数目
+        int count = MessageObservable.newInstance().getAllUnReadDynamicMessageCount();
+        LogUtils.d(TAG,"functionMenu---unReadMessageCount->"+count);
+        if (count > 0) {
+            rootView.findViewById(R.id.fhd_content_unReadMessage).setVisibility(View.VISIBLE);
+            ((TextView) rootView.findViewById(R.id.fhd_tv_unReadMessageCount)).setText(count + "");
+        } else {
+            rootView.findViewById(R.id.fhd_content_unReadMessage).setVisibility(View.GONE);
+        }
+    }
 }

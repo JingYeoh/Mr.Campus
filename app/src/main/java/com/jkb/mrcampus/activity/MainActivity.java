@@ -31,6 +31,8 @@ import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.service.LocationService;
 import com.jkb.mrcampus.utils.ClassUtils;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
@@ -101,7 +103,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
 
     @Override
     protected void initListener() {
-        LoginContext.getInstance().setLoginStatusChangedListener(loginStatusChangedListener);
+        LoginContext.getInstance().addObserver(loginObserver);
         //设置融云聊天的点击事件
         RongIM.setConversationBehaviorListener(behaviorListener);
     }
@@ -113,6 +115,8 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         if (savedInstanceState != null) {
             showView = (MenuPresenter.SHOW_VIEW) savedInstanceState.
                     getSerializable(SAVE_SHOW_VIEW_POSITION);
+        } else {
+
         }
         fm = getSupportFragmentManager();
         initPresenter();
@@ -403,7 +407,8 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
 
     @Override
     public void setJPushAlias(int user_id) {
-        JPushInterface.setAlias(getApplicationContext(), user_id + "",tagAliasCallback);
+        LogUtils.d(TAG, "我收到的user_id=" + user_id);
+        JPushInterface.setAlias(getApplicationContext(), user_id + "", tagAliasCallback);
     }
 
     @Override
@@ -519,6 +524,12 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LoginContext.getInstance().deleteObserver(loginObserver);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable(SAVE_SHOW_VIEW_POSITION, showView);
@@ -539,60 +550,60 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     public void setRongIMConnectCallBack(RongIMConnectCallBack rongIMConnectCallBack) {
         this.rongIMConnectCallBack = rongIMConnectCallBack;
     }
-
     /**
-     * 是否登录的状态变化的监听器
+     * 聊天的Observer监听
      */
-    private UserState.LoginStatusChangedListener loginStatusChangedListener =
-            new UserState.LoginStatusChangedListener() {
-                @Override
-                public void onLogin() {
-                    slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);//设置为两侧滑动
-                    mPresenter.connectRongIM();
-                    mPresenter.initJPushAlias();
-                }
-
-                @Override
-                public void onLogout() {
-                    slidingMenu.setMode(SlidingMenu.LEFT);//设置为只有左侧滑动
-                    mPresenter.logoutRongIM();
-                    mPresenter.quitJPush();
-                }
-            };
+    private Observer loginObserver= new Observer() {
+        @Override
+        public void update(Observable o, Object arg) {
+            boolean logined = LoginContext.getInstance().isLogined();
+            if(logined){
+                slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);//设置为两侧滑动
+                mPresenter.connectRongIM();
+                mPresenter.initJPushAlias();
+            }else{
+                slidingMenu.setMode(SlidingMenu.LEFT);//设置为只有左侧滑动
+                mPresenter.logoutRongIM();
+                mPresenter.quitJPush();
+            }
+        }
+    };
     /**
      * 设置用户聊天IM的各个点击事件
      */
-    private RongIM.ConversationBehaviorListener behaviorListener = new RongIM.ConversationBehaviorListener() {
-        @Override
-        public boolean onUserPortraitClick(
-                Context context, Conversation.ConversationType conversationType,
-                UserInfo userInfo) {
-            String userId = userInfo.getUserId();
-            int user_id = Integer.parseInt(userId);
-            startPersonalCenterActivity(user_id);
-            return true;
-        }
+    private RongIM.ConversationBehaviorListener behaviorListener =
+            new RongIM.ConversationBehaviorListener() {
+                @Override
+                public boolean onUserPortraitClick(
+                        Context context, Conversation.ConversationType conversationType,
+                        UserInfo userInfo) {
+                    String userId = userInfo.getUserId();
+                    int user_id = Integer.parseInt(userId);
+                    startPersonalCenterActivity(user_id);
+                    return true;
+                }
 
-        @Override
-        public boolean onUserPortraitLongClick(
-                Context context, Conversation.ConversationType conversationType,
-                UserInfo userInfo) {
-            return false;
-        }
+                @Override
+                public boolean onUserPortraitLongClick(
+                        Context context, Conversation.ConversationType conversationType,
+                        UserInfo userInfo) {
+                    return false;
+                }
 
-        @Override
-        public boolean onMessageClick(Context context, View view, Message message) {
-            return false;
-        }
+                @Override
+                public boolean onMessageClick(Context context, View view, Message message) {
+                    return false;
+                }
 
-        @Override
-        public boolean onMessageLinkClick(Context context, String s) {
-            return false;
-        }
+                @Override
+                public boolean onMessageLinkClick(Context context, String s) {
+                    return false;
+                }
 
-        @Override
-        public boolean onMessageLongClick(Context context, View view, Message message) {
-            return false;
-        }
-    };
+                @Override
+                public boolean onMessageLongClick(Context context, View view, Message message) {
+                    return false;
+                }
+            };
+
 }

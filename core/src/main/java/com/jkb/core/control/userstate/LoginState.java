@@ -10,18 +10,4 @@ public class LoginState implements UserState {
     public boolean isLogined() {
         return true;
     }
-
-
-    @Override
-    public void setRightSlideMenuDataViewChangedListener(UsersChangedListener listener) {
-        if (listener != null) {
-            listener.onUserDataChanged();
-        }
-    }
-
-    @Override
-    public void setLoginStatusChangedListener(
-            LoginStatusChangedListener loginStatusChangedListeners) {
-    }
-
 }

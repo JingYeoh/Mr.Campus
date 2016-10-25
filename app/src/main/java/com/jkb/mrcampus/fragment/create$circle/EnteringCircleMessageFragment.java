@@ -72,8 +72,9 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setRootView(R.layout.frg_create_circle_entering_circle_message);
         createCircleActivity = (CreateCircleActivity) mActivity;
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

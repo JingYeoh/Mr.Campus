@@ -71,8 +71,9 @@ public class DynamicCreateTopicFragment extends BaseFragment
                              Bundle savedInstanceState) {
         dynamicCreateActivity = (DynamicCreateActivity) mActivity;
         setRootView(R.layout.frg_dynamic_create_topic);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override

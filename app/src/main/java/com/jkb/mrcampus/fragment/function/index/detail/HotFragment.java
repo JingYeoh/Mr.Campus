@@ -28,6 +28,8 @@ import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import jkb.mrcampus.db.entity.Schools;
 
@@ -68,8 +70,9 @@ public class HotFragment extends BaseFragment implements HotContract.View,
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mainActivity = (MainActivity) mActivity;
         setRootView(R.layout.frg_homepage_hot);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
@@ -91,7 +94,7 @@ public class HotFragment extends BaseFragment implements HotContract.View,
         //设置是否选择学校的监听事件
         SchoolInfoSingleton.getInstance().setOnSchoolSelectedChangedListener(
                 onSchoolSelectedChangedListener);
-        LoginContext.getInstance().setLoginStatusChangedListener(loginStatusChangedListener);
+        LoginContext.getInstance().addObserver(loginObserver);
         //刷新
         refreshLayout.setOnRefreshListener(this);
         rootView.findViewById(R.id.fhh_iv_floatBt_top).setOnClickListener(this);
@@ -272,6 +275,7 @@ public class HotFragment extends BaseFragment implements HotContract.View,
     public void onDestroy() {
         super.onDestroy();
         mainActivity = null;
+        LoginContext.getInstance().deleteObserver(loginObserver);
     }
 
     /**
@@ -407,18 +411,12 @@ public class HotFragment extends BaseFragment implements HotContract.View,
     }
 
     /**
-     * 登录状态的监听器
+     * 登录的Observer监听
      */
-    private UserState.LoginStatusChangedListener loginStatusChangedListener =
-            new UserState.LoginStatusChangedListener() {
-                @Override
-                public void onLogin() {
-//                    mPresenter.start();
-                }
-
-                @Override
-                public void onLogout() {
-                    mPresenter.setCacheExpired();
-                }
-            };
+    private Observer loginObserver = new Observer() {
+        @Override
+        public void update(Observable o, Object arg) {
+            mPresenter.setCacheExpired();
+        }
+    };
 }

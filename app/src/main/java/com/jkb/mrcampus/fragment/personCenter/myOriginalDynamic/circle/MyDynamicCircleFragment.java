@@ -77,8 +77,9 @@ public class MyDynamicCircleFragment extends BaseFragment implements
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         myOriginalDynamicActivity = (MyOriginalDynamicActivity) mActivity;
         setRootView(R.layout.frg_my_dynamic_circle);
+        super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return rootView;
     }
 
     @Override
