@@ -1,7 +1,6 @@
 package com.jkb.mrcampus.fragment.first;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -55,6 +54,7 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        firstActivity = (FirstActivity) mActivity;
         setRootView(R.layout.frg_first_welcome);
         super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
@@ -78,8 +78,6 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
         if (savedInstanceState != null) {
             count = savedInstanceState.getInt(SAVED_COUNT);
         }
-
-        firstActivity = (FirstActivity) mActivity;
     }
 
     @Override

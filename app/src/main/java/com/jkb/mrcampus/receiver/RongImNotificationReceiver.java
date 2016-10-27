@@ -3,9 +3,14 @@ package com.jkb.mrcampus.receiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 
 import com.jkb.model.utils.LogUtils;
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.activity.FirstActivity;
+import com.jkb.mrcampus.activity.MainActivity;
+import com.jkb.mrcampus.activity.MessageActivity;
+import com.jkb.mrcampus.utils.SystemUtils;
 
 import io.rong.push.RongPushClient;
 import io.rong.push.notification.PushMessageReceiver;
@@ -45,24 +50,20 @@ public class RongImNotificationReceiver extends PushMessageReceiver {
      */
     private void startPrivateConversation(
             Context context, PushNotificationMessage pushNotificationMessage) {
-        Intent[] intents = new Intent[2];
-        //主要的Activity
-        Intent mainIntent = new Intent(context, FirstActivity.class);
-        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intents[0] = mainIntent;
-        //会话的Activity
-        Intent conversationIntent = new Intent();
-//        conversationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Uri.Builder builder = Uri.parse("rong://" + context.getPackageName()).buildUpon();
-        RongPushClient.ConversationType type = pushNotificationMessage.getConversationType();
         String targetId = pushNotificationMessage.getTargetId();
         String targetName = pushNotificationMessage.getObjectName();
-        builder.appendPath("conversation").appendPath(type.getName())
-                .appendQueryParameter("targetId", targetId)
-                .appendQueryParameter("title", targetName);
-        Uri uri = builder.build();
-        conversationIntent.setData(uri);
-        intents[1] = conversationIntent;
-        context.startActivities(intents);
+        RongPushClient.ConversationType type = pushNotificationMessage.getConversationType();
+        if (SystemUtils.isActivityRunning(MainActivity.class.getName(), context)) {
+            SystemUtils.startConversationPrivateActivity(context,type,targetId,targetName);
+        } else {
+            //正常启动
+            Bundle args = new Bundle();
+            args.putString(com.jkb.mrcampus.Config.BUNDLE_KEY_JUMP_ACTION,
+                    com.jkb.mrcampus.Config.BUNDLE_JUMP_ACTION_CONVERSATION_PRIVETE);
+            args.putSerializable(Config.INTENT_KEY_CONVERSATION_TYPE,type);
+            args.putString(Config.INTENT_KEY_TARGETID,targetId);
+            args.putString(Config.INTENT_KEY_TARGETNAME,targetName);
+            SystemUtils.launchApp(context,args);
+        }
     }
 }

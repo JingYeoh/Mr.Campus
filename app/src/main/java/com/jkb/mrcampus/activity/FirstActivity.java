@@ -36,6 +36,9 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
     //引导页面
     private GuideFragment guideFragment;
 
+    //要跳转到的数据
+    private Bundle jumpBundle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar_Fullscreen);
@@ -62,8 +65,7 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
         if (savedInstanceStateValued) {
             restoreFragments();//回复数据
         } else {
-            Intent intent = getIntent();
-
+            jumpBundle = getIntent().getExtras();
         }
     }
 
@@ -185,6 +187,9 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
     public void startMenuActivity() {
         Log.d(TAG, "startMenuActivity");
         Intent intent = new Intent(this, MainActivity.class);
+        if (jumpBundle != null) {
+            intent.putExtras(jumpBundle);
+        }
         startActivityWithPushLeftAnim(intent);
         finish();
     }

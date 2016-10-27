@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/messageContent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selecter_clearity_gravy"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/message_status_read"
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:background="@color/main_theme" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imdl_iv_sendUserHeadImg"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_user_head" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/imdl_tv_senderNickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="昵称"
+                android:textColor="@color/main_theme_green"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_praise_yellow" />
+
+            <TextView
+                android:id="@+id/imdl_tv_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:maxLines="20"
+                android:text="@string/large_text"
+                android:textColor="@color/black_200" />
+
+            <TextView
+                android:id="@+id/imdl_tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="时间"
+                android:textColor="@color/line"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp">
+
+            <TextView
+                android:id="@+id/imdl_tv_targetText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/gravy_70"
+                android:text="@string/large_text"
+                android:textColor="@color/line"
+                android:textSize="13sp" />
+
+            <ImageView
+                android:id="@+id/imdl_iv_targetPicture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@color/default_picture"
+                android:visibility="visible" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

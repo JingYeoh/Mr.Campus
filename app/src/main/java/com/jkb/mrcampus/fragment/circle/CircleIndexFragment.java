@@ -29,6 +29,7 @@ import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
+import com.jkb.mrcampus.utils.SystemUtils;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.push.RongPushClient;
 
 /**
  * 圈子首页的V层
@@ -441,8 +443,8 @@ public class CircleIndexFragment extends BaseFragment
                 new RongIMClient.OperationCallback() {
                     @Override
                     public void onSuccess() {
-                        RongIM.getInstance().startConversation(context,
-                                Conversation.ConversationType.CHATROOM, circle_id + "", "标题");
+                        SystemUtils.startConversationPrivateActivity(context,
+                                RongPushClient.ConversationType.CHATROOM, circle_id+"","标题" );
                         showReqResult("加入成功");
                     }
 

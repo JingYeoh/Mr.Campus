@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.jkb.core.presenter.message.MessageDynamicPresenter;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
@@ -11,7 +12,6 @@ import com.jkb.mrcampus.base.BaseActivity;
 import com.jkb.mrcampus.fragment.function.message.detail.MessageCircleFragment;
 import com.jkb.mrcampus.fragment.function.message.detail.MessageDynamicFragment;
 import com.jkb.mrcampus.fragment.function.message.detail.MessageFansFragment;
-import com.jkb.mrcampus.fragment.function.message.detail.MessageLikeFragment;
 import com.jkb.mrcampus.fragment.function.message.detail.MessageSubscribeFragment;
 import com.jkb.mrcampus.fragment.function.message.detail.MessageSystemFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
@@ -38,6 +38,7 @@ public class MessageActivity extends BaseActivity {
 
     //评论
     private MessageDynamicFragment messageDynamicFragment;
+    private MessageDynamicPresenter messageDynamicPresenter;
 
     //粉丝
     private MessageFansFragment messageFansFragment;
@@ -126,7 +127,7 @@ public class MessageActivity extends BaseActivity {
             ActivityUtils.hideAllFragments(fm);
 
             if (ClassUtils.isNameEquals(fragmentName, MessageDynamicFragment.class)) {
-                showMessageComment();
+                showMessageDynamic();
             } else if (ClassUtils.isNameEquals(fragmentName, MessageFansFragment.class)) {
                 showMessageFans();
             } else if (ClassUtils.isNameEquals(fragmentName, MessageSubscribeFragment.class)) {
@@ -146,6 +147,7 @@ public class MessageActivity extends BaseActivity {
     protected void restoreFragments(String fragmentTAG) {
         if (ClassUtils.isNameEquals(fragmentTAG, MessageDynamicFragment.class)) {
             messageDynamicFragment = (MessageDynamicFragment) fm.findFragmentByTag(fragmentTAG);
+            messageDynamicPresenter = new MessageDynamicPresenter(messageDynamicFragment);
         } else if (ClassUtils.isNameEquals(fragmentTAG, MessageFansFragment.class)) {
             messageFansFragment = (MessageFansFragment) fm.findFragmentByTag(fragmentTAG);
         } else if (ClassUtils.isNameEquals(fragmentTAG, MessageSubscribeFragment.class)) {
@@ -161,7 +163,7 @@ public class MessageActivity extends BaseActivity {
     protected void initFragmentStep2(Class<?> fragmentClass) {
         String fragmentTAG = fragmentClass.getName();
         if (ClassUtils.isNameEquals(fragmentTAG, MessageDynamicFragment.class)) {
-            initMessageComment();
+            initMessageDynamic();
         } else if (ClassUtils.isNameEquals(fragmentTAG, MessageFansFragment.class)) {
             initMessageFans();
         } else if (ClassUtils.isNameEquals(fragmentTAG, MessageSubscribeFragment.class)) {
@@ -216,11 +218,12 @@ public class MessageActivity extends BaseActivity {
     /**
      * 初始化评论的消息
      */
-    private void initMessageComment() {
+    private void initMessageDynamic() {
         if (messageDynamicFragment == null) {
             messageDynamicFragment = MessageDynamicFragment.newInstance();
             ActivityUtils.addFragmentToActivity(fm, messageDynamicFragment, contentView);
         }
+        messageDynamicPresenter = new MessageDynamicPresenter(messageDynamicFragment);
     }
 
 
@@ -253,9 +256,9 @@ public class MessageActivity extends BaseActivity {
     }
 
     /**
-     * 显示评论的消息详情页面
+     * 显示动态的消息详情页面
      */
-    private void showMessageComment() {
+    private void showMessageDynamic() {
         ActivityUtils.showFragment(fm, messageDynamicFragment);
     }
 

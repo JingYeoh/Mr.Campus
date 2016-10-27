@@ -56,6 +56,11 @@ public interface RightMenuContract {
          * 得到用户的id
          */
         int getUser_id();
+
+        /**
+         * 更新个人数据
+         */
+        void updatePersonInfo();
     }
 
 }

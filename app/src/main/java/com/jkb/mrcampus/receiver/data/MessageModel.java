@@ -29,6 +29,7 @@ public class MessageModel {
     private String senderType;
     private String senderName;
     private String senderPicture;
+    private String relationContent;
 
     public String getContentType() {
         return contentType;
@@ -100,5 +101,13 @@ public class MessageModel {
 
     public void setSenderPicture(String senderPicture) {
         this.senderPicture = senderPicture;
+    }
+
+    public String getRelationContent() {
+        return relationContent;
+    }
+
+    public void setRelationContent(String relationContent) {
+        this.relationContent = relationContent;
     }
 }

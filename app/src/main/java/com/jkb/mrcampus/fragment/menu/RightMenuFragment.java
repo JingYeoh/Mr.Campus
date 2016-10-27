@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jkb.core.contract.menu.RightMenuContract;
+import com.jkb.core.control.messageState.MessageObservable;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.UserState;
 import com.jkb.mrcampus.R;
@@ -89,6 +90,7 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
         mainActivity.setMenuOpenedListener(onOpenedListener);
         //设置其为登录的状态监听器
         LoginContext.getInstance().addObserver(this);
+        MessageObservable.newInstance().addObserver(messageObserver);
     }
 
     @Override
@@ -207,10 +209,21 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
         super.onDestroy();
         mainActivity = null;
         LoginContext.getInstance().deleteObserver(this);
+        MessageObservable.newInstance().deleteObserver(messageObserver);
     }
 
     @Override
     public void update(Observable o, Object arg) {
         mPresenter.start();
     }
+
+    /**
+     * 消息的观察者
+     */
+    private Observer messageObserver = new Observer() {
+        @Override
+        public void update(Observable o, Object arg) {
+            mPresenter.updatePersonInfo();
+        }
+    };
 }

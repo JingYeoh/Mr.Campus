@@ -3,6 +3,9 @@ package com.jkb.model.dataSource.menuRight.rightMenu.local;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.jkb.api.ApiCallback;
+import com.jkb.api.ApiResponse;
+import com.jkb.api.entity.user.UserInfoEntity;
 import com.jkb.model.dataSource.menuRight.rightMenu.RightMenuDataSource;
 
 /**
@@ -25,5 +28,10 @@ public class RightMenuLocalDataSource implements RightMenuDataSource {
             INSTANCE = new RightMenuLocalDataSource(applicationContext);
         }
         return INSTANCE;
+    }
+
+    @Override
+    public void getUserInfo(
+            @NonNull int user_id, @NonNull ApiCallback<ApiResponse<UserInfoEntity>> apiCallback) {
     }
 }

@@ -2,6 +2,9 @@ package com.jkb.core.presenter.menu;
 
 import android.support.annotation.NonNull;
 
+import com.jkb.api.ApiCallback;
+import com.jkb.api.ApiResponse;
+import com.jkb.api.entity.user.UserInfoEntity;
 import com.jkb.core.contract.menu.RightMenuContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
@@ -10,6 +13,7 @@ import com.jkb.model.dataSource.menuRight.rightMenu.RightMenuDataRepertory;
 import com.jkb.model.info.UserInfoSingleton;
 
 import jkb.mrcampus.db.entity.Users;
+import retrofit2.Response;
 
 /**
  * 右滑菜单的P层
@@ -29,6 +33,9 @@ public class RightMenuPresenter implements RightMenuContract.Presenter {
 
         this.view.setPresenter(this);
     }
+
+    //请求数据
+    private boolean isRequesting = false;
 
     @Override
     public void getCountData() {
@@ -55,7 +62,20 @@ public class RightMenuPresenter implements RightMenuContract.Presenter {
     public int getUser_id() {
         UserInfoSingleton info = UserInfoSingleton.getInstance();
         Users users = info.getUsers();
+        if(users==null){
+            return 0;
+        }
         return users.getUser_id();
+    }
+
+    @Override
+    public void updatePersonInfo() {
+        if (isRequesting) {
+            return;
+        }
+        isRequesting = true;
+        //更新个人数据
+        repertory.getUserInfo(getUser_id(), userInfoApiCallback);
     }
 
     @Override
@@ -65,4 +85,56 @@ public class RightMenuPresenter implements RightMenuContract.Presenter {
             getCountData();
         }
     }
+
+    /**
+     * 得到个人数据的回调
+     */
+    private ApiCallback<ApiResponse<UserInfoEntity>> userInfoApiCallback =
+            new ApiCallback<ApiResponse<UserInfoEntity>>() {
+                @Override
+                public void onSuccess(Response<ApiResponse<UserInfoEntity>> response) {
+                    isRequesting = false;
+                    handleData(response.body());
+                }
+
+                /**
+                 * 处理数据
+                 */
+                private void handleData(ApiResponse<UserInfoEntity> body) {
+                    if (body == null) {
+                        return;
+                    }
+                    handlePersonInfo(body.getMsg());
+                }
+
+                /**
+                 * 处理个人数据
+                 */
+                private void handlePersonInfo(UserInfoEntity msg) {
+                    UserInfoEntity.UserInfoBean userInfo = msg.getUserInfo();
+                    if (userInfo == null) {
+                        return;
+                    }
+                    UserInfoSingleton instance = UserInfoSingleton.getInstance();
+                    Users users = instance.getUsers();
+                    users.setAttentionCount(userInfo.getAttentionCount());
+                    users.setFansCount(userInfo.getFansCount());
+                    users.setVisitorCount(userInfo.getVisitorCount());
+                    users.setAvatar(userInfo.getAvatar());
+                    users.setNickname(userInfo.getNickname());
+                    UserInfoSingleton.getInstance().setUsers(users);
+                    getCountData();
+                }
+
+                @Override
+                public void onError(Response<ApiResponse<UserInfoEntity>> response,
+                                    String error, ApiResponse<UserInfoEntity> apiResponse) {
+                    isRequesting = false;
+                }
+
+                @Override
+                public void onFail() {
+                    isRequesting = false;
+                }
+            };
 }

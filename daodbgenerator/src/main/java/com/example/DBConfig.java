@@ -63,6 +63,7 @@ public class DBConfig {
     public static final String SENDER_TYPE = "senderType";
     public static final String SENDER_NAME = "senderName";
     public static final String SENDER_PICTURE = "senderPicture";
+    public static final String RELATION_CONTENT = "relationContent";
     public static final String ACTION = "action";
     public static final String MSG_CONTENT = "msg_content";
     public static final String IS_READED = "is_read";

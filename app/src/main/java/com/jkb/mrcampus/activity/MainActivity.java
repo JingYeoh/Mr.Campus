@@ -17,6 +17,8 @@ import com.jkb.core.presenter.menu.MenuPresenter;
 import com.jkb.core.presenter.menu.RightMenuPresenter;
 import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
 import com.jkb.model.utils.LogUtils;
+import com.jkb.model.utils.StringUtils;
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.Mr_Campus;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.callback.RongIMConnectCallBack;
@@ -30,6 +32,7 @@ import com.jkb.mrcampus.fragment.menu.SwitchFunctionFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.service.LocationService;
 import com.jkb.mrcampus.utils.ClassUtils;
+import com.jkb.mrcampus.utils.SystemUtils;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -42,6 +45,7 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
+import io.rong.push.RongPushClient;
 
 /**
  * 核心的Activity类，负责显示主要功能模块
@@ -81,6 +85,9 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     //专题
     private SubjectFragment subjectFragment;
 
+    //data
+    private Bundle jumpBundle;//要跳转的数据
+
     //服务
 //    private LocationService locationService;
 
@@ -116,7 +123,7 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
             showView = (MenuPresenter.SHOW_VIEW) savedInstanceState.
                     getSerializable(SAVE_SHOW_VIEW_POSITION);
         } else {
-
+            jumpBundle = getIntent().getExtras();
         }
         fm = getSupportFragmentManager();
         initPresenter();
@@ -130,6 +137,53 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         } else {
             restorePresenters();
         }
+        handleJumpView();
+    }
+
+    /**
+     * 处理跳转页面
+     */
+    private void handleJumpView() {
+        if (jumpBundle == null) {
+            return;
+        }
+        String jumpAction = jumpBundle.getString(Config.BUNDLE_KEY_JUMP_ACTION);
+        if (StringUtils.isEmpty(jumpAction)) {
+            return;
+        }
+        switch (jumpAction) {
+            case Config.BUNDLE_JUMP_ACTION_MESSAGE_DYNAMIC:
+                startMessageActivity(MessageActivity.MESSAGE_TYPE_DYNAMIC);
+                break;
+            case Config.BUNDLE_JUMP_ACTION_MESSAGE_FANS:
+                startMessageActivity(MessageActivity.MESSAGE_TYPE_FANS);
+                break;
+            case Config.BUNDLE_JUMP_ACTION_MESSAGE_SUBSCRIBE:
+                startMessageActivity(MessageActivity.MESSAGE_TYPE_SUBSCRIBE);
+                break;
+            case Config.BUNDLE_JUMP_ACTION_MESSAGE_CIRCLE:
+                startMessageActivity(MessageActivity.MESSAGE_TYPE_CIRCLE);
+                break;
+            case Config.BUNDLE_JUMP_ACTION_MESSAGE_SYSTEM:
+                startMessageActivity(MessageActivity.MESSAGE_TYPE_SYSTEM);
+                break;
+            case Config.BUNDLE_JUMP_ACTION_CONVERSATION_PRIVETE://私聊
+                jumpToPrivateConversation();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 跳转私聊页面
+     */
+    private void jumpToPrivateConversation() {
+        RongPushClient.ConversationType type= (RongPushClient.ConversationType)
+                jumpBundle.getSerializable(Config.INTENT_KEY_CONVERSATION_TYPE);
+        String targetId = jumpBundle.getString(Config.INTENT_KEY_TARGETID);
+        String targetName = jumpBundle.getString(Config.INTENT_KEY_TARGETNAME);
+        SystemUtils.startConversationPrivateActivity(this,type,targetId,targetName);
     }
 
     /**
@@ -315,6 +369,10 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
         initFragmentStep1(ToolsFragment.class);
         showView = MenuPresenter.SHOW_VIEW.TOOLS;
         ActivityUtils.showFragment(fm, toolsFragment);
+        boolean activityRunning =
+                SystemUtils.isActivityRunning(MainActivity.class.getName(),
+                        getApplicationContext());
+        LogUtils.d(TAG, "activityRunning=" + activityRunning);
     }
 
     @Override
@@ -550,18 +608,19 @@ public class MainActivity extends BaseSlideMenuActivity implements MenuContract.
     public void setRongIMConnectCallBack(RongIMConnectCallBack rongIMConnectCallBack) {
         this.rongIMConnectCallBack = rongIMConnectCallBack;
     }
+
     /**
      * 聊天的Observer监听
      */
-    private Observer loginObserver= new Observer() {
+    private Observer loginObserver = new Observer() {
         @Override
         public void update(Observable o, Object arg) {
             boolean logined = LoginContext.getInstance().isLogined();
-            if(logined){
+            if (logined) {
                 slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);//设置为两侧滑动
                 mPresenter.connectRongIM();
                 mPresenter.initJPushAlias();
-            }else{
+            } else {
                 slidingMenu.setMode(SlidingMenu.LEFT);//设置为只有左侧滑动
                 mPresenter.logoutRongIM();
                 mPresenter.quitJPush();

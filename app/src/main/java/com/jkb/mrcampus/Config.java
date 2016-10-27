@@ -18,6 +18,7 @@ public class Config {
     public static final String INTENT_KEY_COMMENT_ID = "intent.key.comment_id";//目标id
     public static final String INTENT_KEY_MESSAGE_TYPE = "intent.key.messageType";//消息类型
     public static final String INTENT_KEY_TARGETID = "intent.key.targetId";
+    public static final String INTENT_KEY_TARGETNAME = "intent.key.targetName";
     public static final String INTENT_KEY_TARGETIDS = "intent.key.targetIds";
     public static final String INTENT_KEY_CONVERSATION_TYPE = "intent.key.conversationType";
 
@@ -26,4 +27,14 @@ public class Config {
     public static final String BUNDLE_KEY_VIEW_POSITION = "bundle.key.view.position";
     public static final String BUNDLE_KEY_VIEW_ID = "bundle.key.view.id";
     public static final String BUNDLE_KEY_IMAGE_URL = "bundle.key.image.url";
+
+    public static final String BUNDLE_KEY_JUMP_ACTION = "bundle.key.jump.action";
+    //要跳转的页面
+    public static final String BUNDLE_JUMP_ACTION_MESSAGE_DYNAMIC = "bundle_jump_action_message_dynamic";
+    public static final String BUNDLE_JUMP_ACTION_MESSAGE_SYSTEM = "bundle_jump_action_message_system";
+    public static final String BUNDLE_JUMP_ACTION_MESSAGE_FANS = "bundle_jump_action_message_fans";
+    public static final String BUNDLE_JUMP_ACTION_MESSAGE_SUBSCRIBE = "bundle_jump_action_message_subscribe";
+    public static final String BUNDLE_JUMP_ACTION_MESSAGE_CIRCLE = "bundle_jump_action_message_circle";
+    public static final String BUNDLE_JUMP_ACTION_CONVERSATION_PRIVETE="bundle_jump_action_conversation_private";
+    public static final String BUNDLE_JUMP_ACTION_CONVERSATION_LIST="bundle_jump_action_conversation_list";
 }

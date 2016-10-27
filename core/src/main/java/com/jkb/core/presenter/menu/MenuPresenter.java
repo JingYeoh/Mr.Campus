@@ -397,7 +397,7 @@ public class MenuPresenter implements MenuContract.Presenter {
     @Override
     public void start() {
 //        showFragment();
-//        ReqLogin();
+        ReqLogin();
     }
 
     /**

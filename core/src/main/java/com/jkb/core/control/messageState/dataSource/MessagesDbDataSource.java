@@ -80,4 +80,12 @@ public interface MessagesDbDataSource {
      * @param messages 消息数据库表的实体类对象
      */
     void saveMessagesToDb(Messages messages);
+
+    /**
+     * 通过消息id查找消息
+     *
+     * @param message_id 消息id
+     * @param callback   回调
+     */
+    void getMessageById(int message_id, MessagesDataCallback<Messages> callback);
 }

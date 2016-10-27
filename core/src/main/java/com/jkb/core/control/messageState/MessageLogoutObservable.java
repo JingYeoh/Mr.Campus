@@ -71,10 +71,22 @@ public class MessageLogoutObservable implements MessageObservableAction {
 
     @Override
     public void readMessage(Messages messages) {
+        messages.setIs_read(true);
+        dataSource.saveMessagesToDb(messages);
     }
 
     @Override
     public void readMessage(int messageId) {
+        dataSource.getMessageById(messageId, new MessagesDataCallback<Messages>() {
+            @Override
+            public void onSuccess(Messages messageObj) {
+                readMessage(messageObj);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+            }
+        });
     }
 
     @Override

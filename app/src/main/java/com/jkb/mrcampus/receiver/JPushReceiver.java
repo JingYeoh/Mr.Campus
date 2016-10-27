@@ -14,7 +14,10 @@ import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.model.utils.LogUtils;
 import com.jkb.model.utils.StringUtils;
+import com.jkb.mrcampus.activity.MainActivity;
+import com.jkb.mrcampus.activity.MessageActivity;
 import com.jkb.mrcampus.receiver.data.MessageModel;
+import com.jkb.mrcampus.utils.SystemUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,9 +54,10 @@ public class JPushReceiver extends BroadcastReceiver implements Observer {
             LogUtils.d(JPushReceiver.class, "JPush用户注册成功");
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
             LogUtils.d(JPushReceiver.class, "接受到推送下来的自定义消息");
+            saveReceivedMessage(context, bundle, true);
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             LogUtils.d(JPushReceiver.class, "接受到推送下来的通知");
-            saveMessage(context, bundle, false);
+            saveNotifyMessage(context, bundle, false);
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             LogUtils.d(JPushReceiver.class, "用户点击打开了通知");
             onNotificationClick(context, bundle);
@@ -79,7 +83,7 @@ public class JPushReceiver extends BroadcastReceiver implements Observer {
             case Config.MESSAGE_ACTION_MAKECOMMENT:
             case Config.MESSAGE_ACTION_MAKEREPLY:
                 //跳转到动态页面
-                startDynamicMessage();
+                startDynamicMessage(context);
                 break;
         }
     }
@@ -87,8 +91,50 @@ public class JPushReceiver extends BroadcastReceiver implements Observer {
     /**
      * 打开动态的消息页面
      */
-    private void startDynamicMessage() {
+    private void startDynamicMessage(Context context) {
+        if (SystemUtils.isActivityRunning(MainActivity.class.getName(), context)) {
+            Intent mainIntent = new Intent(context, MessageActivity.class);
+            mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mainIntent.putExtra(com.jkb.mrcampus.Config.INTENT_KEY_MESSAGE_TYPE,
+                    MessageActivity.MESSAGE_TYPE_DYNAMIC);
+            context.startActivity(mainIntent);
+        } else {
+            //正常启动
+            Bundle args = new Bundle();
+            args.putString(com.jkb.mrcampus.Config.BUNDLE_KEY_JUMP_ACTION,
+                    com.jkb.mrcampus.Config.BUNDLE_JUMP_ACTION_MESSAGE_DYNAMIC);
+            SystemUtils.launchApp(context,args);
+        }
+    }
 
+    /**
+     * 转换数据为Messages表的实体对象
+     */
+    private Messages changeReceiveDataToMessages(Bundle bundle, boolean isRead) {
+        String title = bundle.getString(JPushInterface.EXTRA_TITLE);
+        String alert = bundle.getString(JPushInterface.EXTRA_ALERT);
+        String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+
+        LogUtils.d(JPushReceiver.class, "---------title=" + title);
+        LogUtils.d(JPushReceiver.class, "---------alert=" + alert);
+        LogUtils.d(JPushReceiver.class, "---------extras=" + extras);
+
+        //处理extras数据
+        try {
+            new JSONObject(extras);
+            Gson gson = new Gson();
+            gson.toJson(extras);
+            Type mType = new TypeToken<MessageModel>() {
+            }.getType();
+            MessageModel messageModel = new Gson().fromJson(extras, mType);
+            //录入到数据库中
+            Messages messages = changeToMessages(title, title, messageModel, isRead);
+            return messages;
+        } catch (JSONException e) {
+            LogUtils.w(JPushReceiver.class, "消息非json，解析错误");
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -122,9 +168,17 @@ public class JPushReceiver extends BroadcastReceiver implements Observer {
     }
 
     /**
+     * 保存自定义消息
+     */
+    private void saveReceivedMessage(Context context, Bundle bundle, boolean isRead) {
+        Messages messages = changeReceiveDataToMessages(bundle, isRead);
+        addOrUpdateToDb(messages);
+    }
+
+    /**
      * 处理消息
      */
-    private void saveMessage(Context context, Bundle bundle, boolean isRead) {
+    private void saveNotifyMessage(Context context, Bundle bundle, boolean isRead) {
         Messages messages = changeNotifyDataToMessages(bundle, isRead);
         addOrUpdateToDb(messages);
     }
@@ -175,6 +229,7 @@ public class JPushReceiver extends BroadcastReceiver implements Observer {
         messages.setTargetName(messageModel.getTargetName());
         messages.setTargetPicture(messageModel.getTargetPicture());
         messages.setTargetType(messageModel.getTargetType());
+        messages.setRelationContent(messageModel.getRelationContent());
         messages.setUpdated_at(StringUtils.getSystemCurrentTime());
         return messages;
     }

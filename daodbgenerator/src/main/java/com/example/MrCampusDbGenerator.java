@@ -56,6 +56,7 @@ public class MrCampusDbGenerator {
         messages.addStringProperty(DBConfig.SENDER_TYPE).notNull();//发送者的类型
         messages.addStringProperty(DBConfig.SENDER_NAME).notNull();//发送者的名称
         messages.addStringProperty(DBConfig.SENDER_PICTURE);//发送者的图片
+        messages.addStringProperty(DBConfig.RELATION_CONTENT);//可空，相关联的内容
         messages.addBooleanProperty(DBConfig.IS_READED);//是否读取
         messages.addDateProperty(DBConfig.UPDATED_AT);//最后更新的时间
     }

@@ -18,9 +18,6 @@ public class StringUtils {
 
     /**
      * 判断字符串是否为空
-     *
-     * @param strs
-     * @return
      */
     public static boolean isEmpty(String... strs) {
         if (strs == null || strs.length == 0) {
@@ -32,6 +29,15 @@ public class StringUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * 转换时间对象为字符串
+     */
+    public static String changeDateToString(Date date) {
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format = f.format(date);
+        return format;
     }
 
     /**
