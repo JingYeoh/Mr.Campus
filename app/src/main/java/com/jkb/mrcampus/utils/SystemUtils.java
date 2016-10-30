@@ -96,24 +96,27 @@ public class SystemUtils {
     /**
      * 启动APP
      */
-    public static void launchApp(Context context, Bundle bundle){
+    public static void launchApp(Context context, Bundle bundle) {
         Intent launchIntent = context.getPackageManager().
                 getLaunchIntentForPackage("com.jkb.mrcampus");
         launchIntent.setFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-        launchIntent.putExtras(bundle);
+        if (bundle != null) {
+            launchIntent.putExtras(bundle);
+        }
         context.startActivity(launchIntent);
     }
 
     /**
      * 打开私聊页面
-     * @param context 上下文
-     * @param type 聊天类型
-     * @param targetId 会话id
+     *
+     * @param context    上下文
+     * @param type       聊天类型
+     * @param targetId   会话id
      * @param targetName 会话名称
      */
     public static void startConversationPrivateActivity(
-            Context context, RongPushClient.ConversationType type, String targetId, String targetName){
+            Context context, RongPushClient.ConversationType type, String targetId, String targetName) {
         Intent conversationIntent = new Intent();
         conversationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Uri.Builder builder = Uri.parse("rong://" + context.getPackageName()).buildUpon();

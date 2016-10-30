@@ -1,7 +1,5 @@
 package com.jkb.model.dataSource.circle.data;
 
-import android.graphics.Bitmap;
-
 /**
  * 圈子首页的数据
  * Created by JustKiddingBaby on 2016/8/29.
@@ -16,7 +14,7 @@ public class CircleIndexData {
     private int dynamicsCount;//动态数
     private String picture;
     private boolean hasSubscribe;//是否被用戶订阅
-
+    private int user_id;//创建圈子的用户id
 
     public String getCircleName() {
         return circleName;
@@ -72,5 +70,13 @@ public class CircleIndexData {
 
     public void setHasSubscribe(boolean hasSubscribe) {
         this.hasSubscribe = hasSubscribe;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 }

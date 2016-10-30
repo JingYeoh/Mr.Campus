@@ -380,7 +380,7 @@ public class CircleIndexFragment extends BaseFragment
 
     @Override
     public void setting() {
-
+        mPresenter.onCircleSettingClick();
     }
 
     @Override
@@ -444,7 +444,7 @@ public class CircleIndexFragment extends BaseFragment
                     @Override
                     public void onSuccess() {
                         SystemUtils.startConversationPrivateActivity(context,
-                                RongPushClient.ConversationType.CHATROOM, circle_id+"","标题" );
+                                RongPushClient.ConversationType.CHATROOM, circle_id + "", "标题");
                         showReqResult("加入成功");
                     }
 
@@ -480,6 +480,16 @@ public class CircleIndexFragment extends BaseFragment
     @Override
     public void startPersonCenter(@NonNull int user_id) {
         circleActivity.startPersonalCenterActivity(user_id);
+    }
+
+    @Override
+    public void showUserCircleSetting() {
+        circleActivity.showUserCircleSetting();
+    }
+
+    @Override
+    public void showVisitorCircleSetting() {
+        circleActivity.showVisitorCircleSetting();
     }
 
     @Override

@@ -356,7 +356,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     @Override
     public void startMessageActivity(@NonNull int messageType) {
         Log.d(TAG, "startCommentActivity");
-        if(messageType!=MessageActivity.MESSAGE_TYPE_SYSTEM){
+        if (messageType != MessageActivity.MESSAGE_TYPE_SYSTEM) {
             if (!LoginContext.getInstance().isLogined()) {
                 showShortToast("请登录后再进行操作");
                 return;

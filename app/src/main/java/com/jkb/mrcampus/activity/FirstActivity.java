@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.baidu.platform.comapi.map.C;
 import com.jkb.core.Injection;
 import com.jkb.core.contract.first.FirstContract;
 import com.jkb.core.presenter.first.FirstPresenter;
@@ -55,7 +56,6 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
 
     @Override
     protected void initListener() {
-
     }
 
     @Override
@@ -155,10 +155,10 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
     public void showFragment(int position) {
         switch (position) {
             case 0:
-                showFragment(WelcomeFragment.class.getName());
+                showFragment(ClassUtils.getClassName(WelcomeFragment.class));
                 break;
             case 1:
-                showFragment(GuideFragment.class.getName());
+                showFragment(ClassUtils.getClassName(GuideFragment.class));
                 break;
             case 2:
                 showAdvent();

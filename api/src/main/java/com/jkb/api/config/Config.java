@@ -29,6 +29,8 @@ public class Config {
     public static final String URL_CIRCLE_CREATE = "circle";
     public static final String URL_CIRCLE_INFO = "circle/{userId}/{id}";
     public static final String URL_CIRCLE_ALLDYNAMIC = "getDynamicsByCircle/{circleId}";
+    public static final String URL_CIRCLE_UPDATE_INFO = "circle/{id}";
+    public static final String URL_CIRCLE_UPDATE_IMAGE = "circle/updateImage/{id}";
     //user接口地址
     public static final String URL_USER_ACTION = "getOperation";
     public static final String URL_USER_INFO = "user/{id}";
@@ -158,6 +160,7 @@ public class Config {
     public static final String COLUMN_NICKNAME = "nickname";
     public static final String COLUMN_SEX = "sex";
     public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_INTRODUCTION = "introduction";
     public static final String COLUMN_BREF_INTRODUCTION = "bref_introduction";
 
     public static final String TARGET_TYPE_CIRCLE = "circle";

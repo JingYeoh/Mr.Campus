@@ -152,4 +152,6 @@
     <string name="View_all">查看全部</string>
     <string name="click_add_picture">点击添加图片</string>
     <string name="post_topic">发布话题</string>
+    <string name="background">背景</string>
+    <string name="circleName">圈子名称</string>
 </resources>

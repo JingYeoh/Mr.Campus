@@ -46,9 +46,7 @@ public class DynamicCreateTopicFragment extends BaseFragment
     private static DynamicCreateTopicFragment INSTANCE = null;
 
     public static DynamicCreateTopicFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new DynamicCreateTopicFragment();
-        }
+        INSTANCE = new DynamicCreateTopicFragment();
         return INSTANCE;
     }
 
@@ -241,8 +239,8 @@ public class DynamicCreateTopicFragment extends BaseFragment
 
     @Override
     public void choosePictureFromCamera() {
-        mCropParams.enable = true;
-        mCropParams.compress = false;
+        mCropParams.enable = false;
+        mCropParams.compress = true;
         Intent intent = CropHelper
                 .buildCameraIntent(mCropParams);
         startActivityForResult(intent,
@@ -251,8 +249,8 @@ public class DynamicCreateTopicFragment extends BaseFragment
 
     @Override
     public void choosePictureFromAlbum() {
-        mCropParams.enable = true;
-        mCropParams.compress = false;
+        mCropParams.enable = false;
+        mCropParams.compress = true;
         Intent intent = CropHelper
                 .buildGalleryIntent(mCropParams);
         startActivityForResult(intent, CropHelper.REQUEST_CROP);
@@ -277,12 +275,12 @@ public class DynamicCreateTopicFragment extends BaseFragment
     @Override
     public void onPhotoCropped(Uri uri) {
         Log.d(TAG, "Crop Uri in path: " + uri.getPath());
-        mPresenter.uploadImage(uri.getPath());
     }
 
     @Override
     public void onCompressed(Uri uri) {
         Log.d(TAG, "onCompressed: " + uri.getPath());
+        mPresenter.uploadImage(uri.getPath());
     }
 
     @Override

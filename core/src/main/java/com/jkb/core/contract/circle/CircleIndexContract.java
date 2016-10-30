@@ -165,6 +165,16 @@ public interface CircleIndexContract {
          * @param user_id 用户id
          */
         void startPersonCenter(@NonNull int user_id);
+
+        /**
+         * 显示用户圈子设置
+         */
+        void showUserCircleSetting();
+
+        /**
+         * 显示访客圈子设置
+         */
+        void showVisitorCircleSetting();
     }
 
     interface Presenter extends BasePresenter {
@@ -236,5 +246,10 @@ public interface CircleIndexContract {
          * 加入聊天室的点击监听
          */
         void onJoinChatRoomClick();
+
+        /**
+         * 当圈子设置按钮被点击的时候
+         */
+        void onCircleSettingClick();
     }
 }

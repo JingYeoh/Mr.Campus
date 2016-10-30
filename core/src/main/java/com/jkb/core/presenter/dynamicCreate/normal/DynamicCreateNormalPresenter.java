@@ -172,7 +172,7 @@ public class DynamicCreateNormalPresenter implements DynamicCreateNormalContract
                     if (msg == null) {
                         return;
                     }
-                    if (replaceImgPosition != -1) {
+                    if (replaceImgPosition != -1 && imgUrls.size() > 0) {
                         imgUrls.set(replaceImgPosition, msg.getUrl());
                     } else {
                         imgUrls.add(msg.getUrl());

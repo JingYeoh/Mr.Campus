@@ -9,6 +9,9 @@ import com.jkb.model.dataSource.baidu.map.webService.remote.BaiduMapWebServiceRe
 import com.jkb.model.dataSource.circle.circleIndex.CircleIndexDataRepertory;
 import com.jkb.model.dataSource.circle.circleIndex.local.CircleIndexLocalDataSource;
 import com.jkb.model.dataSource.circle.circleIndex.remote.CircleIndexRemoteDataSource;
+import com.jkb.model.dataSource.circle.circleSetting.user.CircleSettingUserDataRepertory;
+import com.jkb.model.dataSource.circle.circleSetting.user.local.CircleSettingUserLocalDataSource;
+import com.jkb.model.dataSource.circle.circleSetting.user.remote.CircleSettingUserRemoteDataSource;
 import com.jkb.model.dataSource.circleList.CircleListDataResponsitory;
 import com.jkb.model.dataSource.circleList.local.CircleListLocalDatasource;
 import com.jkb.model.dataSource.circleList.remote.CircleListRemoteDatasource;
@@ -542,4 +545,17 @@ public class Injection {
         );
         return repertory;
     }
+
+    /**
+     * 得到CircleSettingUserDataRepertory對象
+     */
+    public static CircleSettingUserDataRepertory provideCircleSettingUserDataRepertory(
+            @NonNull Context applicationContext) {
+        CircleSettingUserDataRepertory repertory = CircleSettingUserDataRepertory.newInstance(
+                CircleSettingUserLocalDataSource.newInstance(applicationContext),
+                CircleSettingUserRemoteDataSource.newInstance()
+        );
+        return repertory;
+    }
+
 }

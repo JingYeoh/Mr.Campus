@@ -34,7 +34,9 @@ public class FirstPresenter implements FirstContract.Presenter {
     /**
      * 初始化Presenter并且绑定View
      */
-    public FirstPresenter(@NonNull FirstDataResponsitory firstDataResponsitory, @NonNull FirstContract.View firstView) {
+    public FirstPresenter(
+            @NonNull FirstDataResponsitory firstDataResponsitory,
+            @NonNull FirstContract.View firstView) {
         this.firstDataResponsitory = checkNotNull(firstDataResponsitory, "firstDataResponsitory不能为空");
         this.firstView = checkNotNull(firstView, "firstView不能为空");
 

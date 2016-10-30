@@ -45,9 +45,7 @@ public class DynamicCreateArticleFragment extends BaseFragment
     private static DynamicCreateArticleFragment INSTANCE = null;
 
     public static DynamicCreateArticleFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new DynamicCreateArticleFragment();
-        }
+        INSTANCE = new DynamicCreateArticleFragment();
         return INSTANCE;
     }
 
@@ -175,8 +173,8 @@ public class DynamicCreateArticleFragment extends BaseFragment
 
     @Override
     public void choosePictureFromCamera() {
-        mCropParams.enable = true;
-        mCropParams.compress = false;
+        mCropParams.enable = false;
+        mCropParams.compress = true;
         Intent intent = CropHelper
                 .buildCameraIntent(mCropParams);
         startActivityForResult(intent,
@@ -185,8 +183,8 @@ public class DynamicCreateArticleFragment extends BaseFragment
 
     @Override
     public void choosePictureFromAlbum() {
-        mCropParams.enable = true;
-        mCropParams.compress = false;
+        mCropParams.enable = false;
+        mCropParams.compress = true;
         Intent intent = CropHelper
                 .buildGalleryIntent(mCropParams);
         startActivityForResult(intent, CropHelper.REQUEST_CROP);
@@ -268,17 +266,17 @@ public class DynamicCreateArticleFragment extends BaseFragment
     @Override
     public void onPhotoCropped(Uri uri) {
         Log.d(TAG, "Crop Uri in path: " + uri.getPath());
+    }
+
+    @Override
+    public void onCompressed(Uri uri) {
+        Log.d(TAG, "onCompressed: " + uri.getPath());
         if (replaceImgPosition == -1) {
             mPresenter.uploadImage(uri.getPath());
         } else {
             mPresenter.replaceImage(replaceImgPosition, uri.getPath());
         }
         replaceImgPosition = -1;
-    }
-
-    @Override
-    public void onCompressed(Uri uri) {
-        Log.d(TAG, "onCompressed: " + uri.getPath());
     }
 
     @Override

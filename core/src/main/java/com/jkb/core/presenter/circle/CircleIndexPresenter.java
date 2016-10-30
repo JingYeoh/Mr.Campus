@@ -248,6 +248,10 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
 
     @Override
     public void onJoinChatRoomClick() {
+        if (!LoginContext.getInstance().isLogined()) {
+            view.showReqResult("请您先去登录再进行操作");
+            return;
+        }
         if (circleIndexData == null) {
             view.showReqResult("获取圈子数据失败");
             return;
@@ -262,6 +266,29 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
             view.showHintForJoinChatRoot(circleIndexData.getCircleName());
         } else {
             view.showHintForPayAttentionCircle();
+        }
+    }
+
+    @Override
+    public void onCircleSettingClick() {
+        if (!LoginContext.getInstance().isLogined()) {
+            view.showReqResult("请您先去登录再进行操作");
+            return;
+        }
+        if (circleIndexData == null) {
+            view.showReqResult("获取圈子数据失败");
+            return;
+        }
+        if (!view.isActive()) {
+            return;
+        }
+        int user_id = circleIndexData.getUser_id();
+        UserAuths userAuths = getUserAuths();
+        Integer mUser_id = userAuths.getUser_id();
+        if (user_id == mUser_id) {
+            view.showUserCircleSetting();
+        } else {
+            view.showVisitorCircleSetting();
         }
     }
 
@@ -321,6 +348,10 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                         circleIndexData.setHasSubscribe(true);
                     }
                     circleIndexData.setPicture(bean.getPicture());
+                    CircleInfoEntity.CircleBean.UserBean user = bean.getUser();
+                    if (user != null) {
+                        circleIndexData.setUser_id(user.getId());
+                    }
                 }
 
 

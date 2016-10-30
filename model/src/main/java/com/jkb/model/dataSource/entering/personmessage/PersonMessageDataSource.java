@@ -64,11 +64,6 @@ public interface PersonMessageDataSource {
 
     /**
      * 保存系统状态到数据库中
-     *
-     * @param userId
-     * @param version
-     * @param isLogin
-     * @param date
      */
     void saveStatusToDb(int userId, String version, boolean isLogin,
                         boolean isSelectedSchool, int schoolId, Date date);
@@ -87,14 +82,11 @@ public interface PersonMessageDataSource {
      * 通过路径名得到Bitmap对象
      *
      * @param urlPath 图片路径
-     * @return
      */
     Bitmap getBitmapFromFile(String urlPath);
 
     /**
      * 得到系统的当前版本号
-     *
-     * @return
      */
     String getCurrentVersion();
 }
