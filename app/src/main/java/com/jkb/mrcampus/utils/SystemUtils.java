@@ -1,14 +1,10 @@
 package com.jkb.mrcampus.utils;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-
-import com.jkb.model.utils.LogUtils;
 
 import java.util.List;
 
@@ -116,7 +112,8 @@ public class SystemUtils {
      * @param targetName 会话名称
      */
     public static void startConversationPrivateActivity(
-            Context context, RongPushClient.ConversationType type, String targetId, String targetName) {
+            Context context, RongPushClient.ConversationType type,
+            String targetId, String targetName) {
         Intent conversationIntent = new Intent();
         conversationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Uri.Builder builder = Uri.parse("rong://" + context.getPackageName()).buildUpon();

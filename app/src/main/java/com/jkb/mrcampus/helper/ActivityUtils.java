@@ -57,6 +57,7 @@ public class ActivityUtils {
         for (Fragment fragment : fragments) {
             if (fragment != null) {
                 removeFragment(fm, fragment);
+                fragment = null;
             }
         }
     }

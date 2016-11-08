@@ -63,6 +63,7 @@ public class FansPresenter implements FansContract.Presenter {
     public void start() {
         //得到用户id
         getUser_id();
+        readAllUnReadFansMessage();
         //得到用户数据
         getData();
     }
@@ -76,6 +77,17 @@ public class FansPresenter implements FansContract.Presenter {
             bindDataToView();
         } else {//否则缓存过期
             onRefresh();//刷新数据
+        }
+    }
+
+    @Override
+    public void readAllUnReadFansMessage() {
+        if (!LoginContext.getInstance().isLogined()) {
+            return;
+        }
+        Integer userId = UserInfoSingleton.getInstance().getUserAuths().getUser_id();
+        if (userId == user_id) {
+            view.readAllUnReadFansMessage();
         }
     }
 
@@ -194,7 +206,7 @@ public class FansPresenter implements FansContract.Presenter {
                                     String error, ApiResponse<OperationActionEntity> apiResponse) {
                     if (view.isActive()) {
                         view.dismissLoading();
-                        view.showReqResult("请求错误，请重试");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -277,7 +289,7 @@ public class FansPresenter implements FansContract.Presenter {
                     isLoading = false;
                     if (view.isActive()) {
                         view.dismissRefresh$Loaded();
-                        view.showReqResult("请求错误，请重试");
+                        view.showReqResult(error);
                         pageControl.setCurrent_page(pageControl.getCurrent_page() - 1);
                     }
                 }

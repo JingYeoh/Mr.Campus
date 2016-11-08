@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.jkb.core.contract.dynamicCreate.data.CategoryTypeData;
 import com.jkb.core.control.userstate.LoginContext;
+import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleActivity;
@@ -135,8 +136,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
 
     /**
      * 设置父布局的ID
-     *
-     * @param rootViewId
      */
     protected void setRootView(@NonNull int rootViewId) {
 //        checkNotNull(rootViewId, "传入布局id不能为空！");
@@ -173,7 +172,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         if (!ActivityUtils.isFragmentAdded(fm, fragmentClass.getName())) {
             initFragmentStep2(fragmentClass);
         } else {
-            if (!savedInstanceStateValued) {//判断是否发生了内存重启
+            if (savedInstanceStateValued) {//判断是否发生了内存重启
                 Log.i(TAG, "发生了内存重启需要初始化fragment----------------");
                 initFragmentStep2(fragmentClass);
             }
@@ -235,6 +234,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     protected void onDestroy() {
         super.onDestroy();
         activityManager.removeActivity(this);
+        rootView = null;
         //销毁所有的Fragment
         ActivityUtils.removeAllFragment(fm);
         System.gc();
@@ -321,7 +321,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     }
 
     @Override
-    public void startDynamicCreateActivity(@NonNull String dynamicCreateType) {
+    public void startDynamicCreateActivity(@NonNull String dynamicCreateType, int circle_id) {
         Log.d(TAG, "startCommentActivity");
         if (!LoginContext.getInstance().isLogined()) {
             showShortToast("请登录后再进行操作");
@@ -329,6 +329,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         }
         Intent intent = new Intent(this, DynamicCreateActivity.class);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_CREATE_TYPE, dynamicCreateType);
+        if (circle_id > 0) {
+            intent.putExtra(Config.INTENT_KEY_CIRCLE_ID, circle_id);
+        }
         startActivityWithPushLeftAnim(intent);
     }
 
@@ -496,11 +499,12 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     /**
      * 显示Loading加载效果
      */
-    public void showLoading(String value) {
+    public synchronized void showLoading(String value) {
         if (gifLoadingView == null) {
-            gifLoadingView = new GifLoadingView2();
+            gifLoadingView = GifLoadingView2.newInstance();
             gifLoadingView.setImageResource(R.drawable.num31);
         }
+        LogUtils.d(TAG, "showLoading");
         if (!gifLoadingView.isAdded()) {
             gifLoadingView.show(getFragmentManager(),
                     ClassUtils.getClassName(GifLoadingView2.class));

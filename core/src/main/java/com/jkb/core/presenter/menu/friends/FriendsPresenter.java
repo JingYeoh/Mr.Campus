@@ -213,7 +213,7 @@ public class FriendsPresenter implements FriendsContract.Presenter {
                         view.hideRefreshingView();
                         friendsDatas.clear();
                         bindData();
-                        view.showReqResult("数据获取错误，请重试");
+                        view.showReqResult(error);
                     }
                 }
 

@@ -185,7 +185,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
 
     @Override
     public void showLoading(String value) {
-        enteringActivity.showLoading(value);
+        if (!isHidden()) enteringActivity.showLoading(value);
     }
 
     @Override

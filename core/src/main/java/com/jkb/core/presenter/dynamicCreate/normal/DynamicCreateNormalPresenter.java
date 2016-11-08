@@ -41,6 +41,7 @@ public class DynamicCreateNormalPresenter implements DynamicCreateNormalContract
     //data
     private List<String> imgUrls;
     private int replaceImgPosition = -1;
+    private int circle_id = 0;
 
     public DynamicCreateNormalPresenter(
             @NonNull DynamicCreateNormalContract.View view,
@@ -100,8 +101,14 @@ public class DynamicCreateNormalPresenter implements DynamicCreateNormalContract
 
             Log.i(TAG, "发送的内容" + obj);
             //处理数据
-            repertory.postDynamic(Authorization, user_id,
-                    Config.DYNAMIC_TYPE_NORMAL, null, obj.toString(), null, postDynamicApiCallback);
+            if (circle_id > 0) {
+                repertory.postDynamic(Authorization, user_id,
+                        Config.DYNAMIC_TYPE_NORMAL, null, obj.toString(), null, circle_id,
+                        postDynamicApiCallback);
+            } else {
+                repertory.postDynamic(Authorization, user_id,
+                        Config.DYNAMIC_TYPE_NORMAL, null, obj.toString(), null, postDynamicApiCallback);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -145,7 +152,7 @@ public class DynamicCreateNormalPresenter implements DynamicCreateNormalContract
 
     @Override
     public void start() {
-
+        circle_id = view.getCircleId();
     }
 
     /**
@@ -186,7 +193,8 @@ public class DynamicCreateNormalPresenter implements DynamicCreateNormalContract
                                     String error, ApiResponse<ImageUploadEntity> apiResponse) {
                     if (view.isActive()) {
                         view.dismissLoading();
-                        view.showReqResult("图片上传失败");
+//                        view.showReqResult("图片上传失败");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -218,7 +226,8 @@ public class DynamicCreateNormalPresenter implements DynamicCreateNormalContract
                                     ApiResponse<DynamicPostEntity> apiResponse) {
                     if (view.isActive()) {
                         view.dismissLoading();
-                        view.showReqResult("发布失败");
+//                        view.showReqResult("发布失败");
+                        view.showReqResult(error);
                     }
                 }
 

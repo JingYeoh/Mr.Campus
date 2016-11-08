@@ -39,12 +39,10 @@ public class CircleListUserPayAttentionFragment extends BaseFragment
 
 
     public static CircleListUserPayAttentionFragment newInstance(int user_id) {
-        if (INSTANCE == null || user_id != -1) {
-            INSTANCE = new CircleListUserPayAttentionFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new CircleListUserPayAttentionFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -215,7 +213,7 @@ public class CircleListUserPayAttentionFragment extends BaseFragment
 
     @Override
     public void showLoading(String value) {
-        circleListActivity.showLoading(value);
+        if (!isHidden()) circleListActivity.showLoading(value);
     }
 
     @Override

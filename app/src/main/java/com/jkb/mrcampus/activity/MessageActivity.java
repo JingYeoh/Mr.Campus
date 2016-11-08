@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.jkb.core.presenter.message.MessageDynamicPresenter;
+import com.jkb.core.presenter.message.MessageSubscribePresenter;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
@@ -36,7 +37,7 @@ public class MessageActivity extends BaseActivity {
     public static final int MESSAGE_TYPE_CIRCLE = 1005;
     public static final int MESSAGE_TYPE_SYSTEM = 1006;
 
-    //评论
+    //動態
     private MessageDynamicFragment messageDynamicFragment;
     private MessageDynamicPresenter messageDynamicPresenter;
 
@@ -45,6 +46,7 @@ public class MessageActivity extends BaseActivity {
 
     //订阅
     private MessageSubscribeFragment messageSubscribeFragment;
+    private MessageSubscribePresenter messageSubscribePresenter;
 
     //圈子
     private MessageCircleFragment messageCircleFragment;
@@ -152,6 +154,7 @@ public class MessageActivity extends BaseActivity {
             messageFansFragment = (MessageFansFragment) fm.findFragmentByTag(fragmentTAG);
         } else if (ClassUtils.isNameEquals(fragmentTAG, MessageSubscribeFragment.class)) {
             messageSubscribeFragment = (MessageSubscribeFragment) fm.findFragmentByTag(fragmentTAG);
+            messageSubscribePresenter = new MessageSubscribePresenter(messageSubscribeFragment);
         } else if (ClassUtils.isNameEquals(fragmentTAG, MessageCircleFragment.class)) {
             messageCircleFragment = (MessageCircleFragment) fm.findFragmentByTag(fragmentTAG);
         } else if (ClassUtils.isNameEquals(fragmentTAG, MessageSystemFragment.class)) {
@@ -203,6 +206,7 @@ public class MessageActivity extends BaseActivity {
             messageSubscribeFragment = MessageSubscribeFragment.newInstance();
             ActivityUtils.addFragmentToActivity(fm, messageSubscribeFragment, contentView);
         }
+        messageSubscribePresenter = new MessageSubscribePresenter(messageSubscribeFragment);
     }
 
     /**

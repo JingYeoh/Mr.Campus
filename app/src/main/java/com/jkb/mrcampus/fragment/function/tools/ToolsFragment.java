@@ -22,9 +22,7 @@ public class ToolsFragment extends BaseFragment {
     private static ToolsFragment INSTANCE = null;
 
     public static ToolsFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ToolsFragment();
-        }
+        INSTANCE = new ToolsFragment();
         return INSTANCE;
     }
 

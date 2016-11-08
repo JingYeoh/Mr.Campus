@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
-import com.jkb.core.data.dynamic.hot.HotDynamic;
+import com.jkb.core.data.index.hot.HotDynamic;
 
 import java.util.List;
 

@@ -162,6 +162,100 @@ public class MessagesDbLocalDataSource implements MessagesDbDataSource {
     }
 
     @Override
+    public void getAllUnReadSubscribeMessageCount(int user_id, MessagesDataCallback<Integer> callback) {
+        MessagesDao messagesDao = daoSession.getMessagesDao();
+        QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
+        messagesQueryBuilder.where(
+                MessagesDao.Properties.User_id.eq(user_id),
+                MessagesDao.Properties.Is_read.eq(false),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBSCRIBE));
+        List<Messages> messages = messagesQueryBuilder.list();
+        if (messages == null) {
+            callback.onDataNotAvailable();
+        } else {
+            callback.onSuccess(messages.size());
+        }
+    }
+
+    @Override
+    public void getAllSubscribeMessageCount(int user_id, MessagesDataCallback<Integer> callback) {
+        MessagesDao messagesDao = daoSession.getMessagesDao();
+        QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
+        messagesQueryBuilder.where(
+                MessagesDao.Properties.User_id.eq(user_id),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBSCRIBE));
+        List<Messages> messages = messagesQueryBuilder.list();
+        if (messages == null) {
+            callback.onDataNotAvailable();
+        } else {
+            callback.onSuccess(messages.size());
+        }
+    }
+
+    @Override
+    public void getAllUnReadSubscribeMessage(int user_id, MessagesDataCallback<List<Messages>> callback) {
+        MessagesDao messagesDao = daoSession.getMessagesDao();
+        QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
+        messagesQueryBuilder.where(
+                MessagesDao.Properties.User_id.eq(user_id),
+                MessagesDao.Properties.Is_read.eq(false),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBSCRIBE));
+        List<Messages> messages = messagesQueryBuilder.list();
+        if (messages == null) {
+            callback.onDataNotAvailable();
+        } else {
+            callback.onSuccess(messages);
+        }
+    }
+
+    @Override
+    public void getAllSubscribeMessage(int user_id, MessagesDataCallback<List<Messages>> callback) {
+        MessagesDao messagesDao = daoSession.getMessagesDao();
+        QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
+        messagesQueryBuilder.where(
+                MessagesDao.Properties.User_id.eq(user_id),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBSCRIBE));
+        List<Messages> messages = messagesQueryBuilder.list();
+        if (messages == null) {
+            callback.onDataNotAvailable();
+        } else {
+            callback.onSuccess(messages);
+        }
+    }
+
+    @Override
+    public void getAllUnReadFansMessageCount(int user_id, MessagesDataCallback<Integer> callback) {
+        MessagesDao messagesDao = daoSession.getMessagesDao();
+        QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
+        messagesQueryBuilder.where(
+                MessagesDao.Properties.User_id.eq(user_id),
+                MessagesDao.Properties.Is_read.eq(false),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_PAYATTENTION));
+        List<Messages> messages = messagesQueryBuilder.list();
+        if (messages == null) {
+            callback.onDataNotAvailable();
+        } else {
+            callback.onSuccess(messages.size());
+        }
+    }
+
+    @Override
+    public void getAllUnReadFansMessage(int user_id, MessagesDataCallback<List<Messages>> callback) {
+        MessagesDao messagesDao = daoSession.getMessagesDao();
+        QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
+        messagesQueryBuilder.where(
+                MessagesDao.Properties.User_id.eq(user_id),
+                MessagesDao.Properties.Is_read.eq(false),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_PAYATTENTION));
+        List<Messages> messages = messagesQueryBuilder.list();
+        if (messages == null) {
+            callback.onDataNotAvailable();
+        } else {
+            callback.onSuccess(messages);
+        }
+    }
+
+    @Override
     public void getAllSystemMessageCount(MessagesDataCallback<Integer> callback) {
         MessagesDao messagesDao = daoSession.getMessagesDao();
         QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();

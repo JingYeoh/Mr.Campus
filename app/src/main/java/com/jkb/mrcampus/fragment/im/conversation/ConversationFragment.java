@@ -64,14 +64,12 @@ public class ConversationFragment extends BaseFragment implements
 
     public static ConversationFragment newInstance(
             String mTargetId, String mTargetIds, Conversation.ConversationType mConversationType) {
-        if (INSTANCE == null || StringUtils.isEmpty(mTargetId) || StringUtils.isEmpty(mTargetIds)) {
-            INSTANCE = new ConversationFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString(Config.INTENT_KEY_TARGETID, mTargetId);
-            bundle.putString(Config.INTENT_KEY_TARGETIDS, mTargetIds);
-            bundle.putSerializable(Config.INTENT_KEY_CONVERSATION_TYPE, mConversationType);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new ConversationFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Config.INTENT_KEY_TARGETID, mTargetId);
+        bundle.putString(Config.INTENT_KEY_TARGETIDS, mTargetIds);
+        bundle.putSerializable(Config.INTENT_KEY_CONVERSATION_TYPE, mConversationType);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -253,7 +251,7 @@ public class ConversationFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        conversationActivity.showLoading(value);
+        if (!isHidden()) conversationActivity.showLoading(value);
     }
 
     @Override

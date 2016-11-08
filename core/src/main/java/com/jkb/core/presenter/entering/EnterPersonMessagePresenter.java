@@ -156,7 +156,7 @@ public class EnterPersonMessagePresenter implements EnterPersonMessageContract.P
                         ApiResponse<RegisterEntity> apiResponse) {
         if (personView.isActive()) {
             personView.dismissLoading();
-            String errorMsg = null;
+           /* String errorMsg = null;
             //显示错误信息
             RegisterEntity registerEntity = apiResponse.getMsg();
             if (registerEntity != null) {
@@ -169,7 +169,8 @@ public class EnterPersonMessagePresenter implements EnterPersonMessageContract.P
                 personView.showReqResult("注册失败，宝宝好烦");
             } else {
                 personView.showReqResult(errorMsg);
-            }
+            }*/
+            personView.showReqResult(error);
         }
     }
 

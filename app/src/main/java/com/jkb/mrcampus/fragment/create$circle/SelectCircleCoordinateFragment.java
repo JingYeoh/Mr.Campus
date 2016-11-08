@@ -58,9 +58,7 @@ public class SelectCircleCoordinateFragment extends BlurDialogFragment
     }
 
     public static SelectCircleCoordinateFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new SelectCircleCoordinateFragment();
-        }
+        INSTANCE = new SelectCircleCoordinateFragment();
         return INSTANCE;
     }
 
@@ -350,7 +348,7 @@ public class SelectCircleCoordinateFragment extends BlurDialogFragment
 
     @Override
     public void showLoading(String value) {
-
+        if (!isHidden()) createCircleActivity.showLoading(value);
     }
 
     @Override

@@ -3,10 +3,10 @@
     android:id="@+id/dynamic_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/selecter_clearity_gravy"
+    android:background="@drawable/selector_white_general"
     android:orientation="vertical"
-    android:paddingBottom="30dp"
-    android:paddingTop="30dp"
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp"
     android:weightSum="5">
 
 
@@ -73,7 +73,8 @@
                 android:layout_height="wrap_content"
                 android:text="圈子动态名称"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/idc_tv_dynamicValue"
@@ -112,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_tag_article"
                 android:gravity="center"
-                android:text="文章"
+                android:text="普通"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
         </RelativeLayout>

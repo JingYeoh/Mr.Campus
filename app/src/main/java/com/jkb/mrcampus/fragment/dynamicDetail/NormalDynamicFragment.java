@@ -48,12 +48,10 @@ public class NormalDynamicFragment extends BaseFragment
     private static NormalDynamicFragment INSTANCE = null;
 
     public static NormalDynamicFragment newInstance(@NonNull int dynamic_id) {
-        if (INSTANCE == null || dynamic_id >= 0) {
-            INSTANCE = new NormalDynamicFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new NormalDynamicFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -400,7 +398,7 @@ public class NormalDynamicFragment extends BaseFragment
 
     @Override
     public void showLoading(String value) {
-        dynamicDetailActivity.showLoading(value);
+        if (!isHidden()) dynamicDetailActivity.showLoading(value);
     }
 
     @Override
@@ -422,6 +420,17 @@ public class NormalDynamicFragment extends BaseFragment
     public void onDestroy() {
         super.onDestroy();
         dynamicDetailActivity = null;
+        mPresenter = null;
+        refreshLayout = null;
+        commentRecyclerView = null;
+        dynamicCommentAdapter = null;
+        contentImgs = null;
+        tvCommentCount = null;
+        tvCommentRemainderCount = null;
+        ivSendComment = null;
+        linearLayoutManager = null;
+        dynamicCommentAdapter = null;
+        linearLayoutManager = null;
     }
 
     @Override

@@ -131,7 +131,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
                         ApiResponse<UserInfoEntity> apiResponse) {
                     if (view.isActive()) {
                         view.hideRefreshingView();
-                        view.showReqResult("请求失败");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -192,6 +192,9 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
                 public void onError(Response<ApiResponse<OperationActionEntity>> response,
                                     String error, ApiResponse<OperationActionEntity> apiResponse) {
                     getUserData();
+                    if (view.isActive()) {
+                        view.showReqResult(error);
+                    }
                 }
 
                 @Override
@@ -261,6 +264,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
                         Response<ApiResponse<UserActionCircleEntity>> response,
                         String error, ApiResponse<UserActionCircleEntity> apiResponse) {
                     if (view.isActive()) {
+                        view.showReqResult(error);
                         view.showCircleNonDataView();
                     }
                 }
@@ -310,7 +314,10 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
                 public void onError(
                         Response<ApiResponse<OperationVerifyPayAttentionEntity>> response,
                         String error, ApiResponse<OperationVerifyPayAttentionEntity> apiResponse) {
-                    view.showUnPayAttentionView();
+                    if (view.isActive()) {
+                        view.showReqResult(error);
+                        view.showUnPayAttentionView();
+                    }
                 }
 
                 @Override
@@ -336,6 +343,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
                         Response<ApiResponse<OperationActionEntity>> response,
                         String error, ApiResponse<OperationActionEntity> apiResponse) {
                     if (view.isActive()) {
+                        view.showReqResult(error);
                         verifyIfPayAttention();
                     }
                 }

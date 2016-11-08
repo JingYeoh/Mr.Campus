@@ -76,7 +76,8 @@ public class SelectCircleCoordinatePresenter implements SelectCircleCoordinateCo
                     @Override
                     public void onError(Response<ReverseGeocodingEntity> response, String error, ReverseGeocodingEntity apiResponse) {
                         if(view.isActive()){
-                            view.setAddressName("地址查询错误...");
+//                            view.setAddressName("地址查询错误...");
+                            view.showReqResult(error);
                         }
                     }
 

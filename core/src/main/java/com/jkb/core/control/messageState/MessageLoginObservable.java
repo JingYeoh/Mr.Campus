@@ -115,6 +115,79 @@ public class MessageLoginObservable implements MessageObservableAction {
     }
 
     @Override
+    public int getAllUnReadSubscribeMessageCount() {
+        final int count[] = new int[1];
+        dataSource.getAllUnReadSubscribeMessageCount(user_id, new MessagesDataCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer messageObj) {
+                count[0] = messageObj;
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                count[0] = 0;
+            }
+        });
+        return count[0];
+    }
+
+    @Override
+    public int getAllSubscribeMessageCount() {
+        final int count[] = new int[1];
+        dataSource.getAllSubscribeMessageCount(user_id, new MessagesDataCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer messageObj) {
+                count[0] = messageObj;
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                count[0] = 0;
+            }
+        });
+        return count[0];
+    }
+
+    @Override
+    public List<Messages> getAllSubscribeMessage() {
+        final Object messages[] = new Object[1];
+        dataSource.getAllSubscribeMessage(user_id, new MessagesDataCallback<List<Messages>>() {
+            @Override
+            public void onSuccess(List<Messages> messageObj) {
+                messages[0] = messageObj;
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                messages[0] = new ArrayList<>();
+            }
+        });
+        return (List<Messages>) messages[0];
+    }
+
+    @Override
+    public List<Messages> getAllUnReadSubscribeMessage() {
+        return null;
+    }
+
+    @Override
+    public int getAllUnReadFansMessageCount() {
+        final int count[] = new int[1];
+        dataSource.getAllUnReadFansMessageCount(user_id, new MessagesDataCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer messageObj) {
+                count[0] = messageObj;
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                count[0] = 0;
+            }
+        });
+        return count[0];
+    }
+
+    @Override
     public void readMessage(Messages messages) {
         //设置消息已被读取
         messages.setIs_read(true);
@@ -127,6 +200,42 @@ public class MessageLoginObservable implements MessageObservableAction {
             @Override
             public void onSuccess(Messages messageObj) {
                 readMessage(messageObj);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+            }
+        });
+    }
+
+    @Override
+    public void readAllSubscribeMessage() {
+        dataSource.getAllUnReadSubscribeMessage(user_id, new MessagesDataCallback<List<Messages>>() {
+            @Override
+            public void onSuccess(List<Messages> messageObj) {
+                for (Messages message :
+                        messageObj) {
+                    message.setIs_read(true);
+                    saveMessage(message);
+                }
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+            }
+        });
+    }
+
+    @Override
+    public void readAllFansMessage() {
+        dataSource.getAllUnReadFansMessage(user_id, new MessagesDataCallback<List<Messages>>() {
+            @Override
+            public void onSuccess(List<Messages> messageObj) {
+                for (Messages message :
+                        messageObj) {
+                    message.setIs_read(true);
+                    saveMessage(message);
+                }
             }
 
             @Override

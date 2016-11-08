@@ -151,6 +151,10 @@ public class GuideFragment extends BaseFragment implements View.OnClickListener 
         firstActivity = null;
         guidePagerAdapter = null;
         onPageChangeListener = null;
+        if(viewList!=null){
+            viewList.clear();
+            viewList=null;
+        }
     }
 
     /**

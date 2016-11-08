@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +40,10 @@ public class CircleUserSettingFragment extends BaseFragment implements
     private static CircleUserSettingFragment INSTANCE = null;
 
     public static CircleUserSettingFragment newInstance(int circle_id) {
-        if (INSTANCE == null) {
-            INSTANCE = new CircleUserSettingFragment();
-            Bundle args = new Bundle();
-            args.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
-            INSTANCE.setArguments(args);
-        }
+        INSTANCE = new CircleUserSettingFragment();
+        Bundle args = new Bundle();
+        args.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
+        INSTANCE.setArguments(args);
         return INSTANCE;
     }
 
@@ -96,6 +93,10 @@ public class CircleUserSettingFragment extends BaseFragment implements
         rootView.findViewById(R.id.fcsu_ll_circleName).setOnClickListener(this);
         rootView.findViewById(R.id.fcsu_ll_bref).setOnClickListener(this);
         rootView.findViewById(R.id.fcsu_ll_tag).setOnClickListener(this);
+        rootView.findViewById(R.id.fcsu_iv_switch_inCommonUse).setOnClickListener(this);
+        rootView.findViewById(R.id.fcsu_ll_userList).setOnClickListener(this);
+        rootView.findViewById(R.id.fcsu_ll_userInBlackList).setOnClickListener(this);
+        rootView.findViewById(R.id.fcsu_ll_dynamicInBlackList).setOnClickListener(this);
     }
 
     @Override
@@ -131,6 +132,18 @@ public class CircleUserSettingFragment extends BaseFragment implements
             case R.id.fcsu_ll_tag://标签
                 showInputTextView(INPUT_TYPE_TAG);
                 break;
+            case R.id.fcsu_iv_switch_inCommonUse://设置为常用圈子开关
+                mPresenter.onInCommonUseSwitchClick();
+                break;
+            case R.id.fcsu_ll_userList://用户列表
+                showAttentionCircleUserList(mPresenter.isCircleCreator());
+                break;
+            case R.id.fcsu_ll_userInBlackList://用户黑名单
+                showUserInCircleBlackList();
+                break;
+            case R.id.fcsu_ll_dynamicInBlackList://动态黑名单
+                showDynamicInCircleBlackList();
+                break;
         }
     }
 
@@ -165,6 +178,12 @@ public class CircleUserSettingFragment extends BaseFragment implements
     public void setCircleTag(String circleTag) {
         TextView textView = (TextView) rootView.findViewById(R.id.fcsu_tv_tag);
         textView.setText(circleTag);
+    }
+
+    @Override
+    public void setInCommonUseStatus(boolean inCommonUseStatus) {
+        ImageView imageView = (ImageView) rootView.findViewById(R.id.fcsu_iv_switch_inCommonUse);
+        imageView.setSelected(inCommonUseStatus);
     }
 
     @Override
@@ -240,13 +259,29 @@ public class CircleUserSettingFragment extends BaseFragment implements
     }
 
     @Override
+    public void showAttentionCircleUserList(boolean isCircleCreator) {
+        circleActivity.showAttentionUserList(isCircleCreator);
+    }
+
+    @Override
+    public void showUserInCircleBlackList() {
+        circleActivity.showUserInCircleBlackList();
+    }
+
+    @Override
+    public void showDynamicInCircleBlackList() {
+        circleActivity.showDynamicInBlackList();
+    }
+
+    @Override
     public void setPresenter(CircleSettingUserContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
     @Override
     public void showLoading(String value) {
-        circleActivity.showLoading(value);
+        if (!isHidden())
+            circleActivity.showLoading(value);
     }
 
     @Override
@@ -262,6 +297,18 @@ public class CircleUserSettingFragment extends BaseFragment implements
     @Override
     public boolean isActive() {
         return isAdded();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        circleActivity = null;
     }
 
     ////////////////////////////////////////////图片裁剪start------------------->>>>>>>>>>>>>>>>>

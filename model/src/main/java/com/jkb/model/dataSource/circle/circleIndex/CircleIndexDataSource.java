@@ -4,8 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
+import com.jkb.api.entity.circle.CircleActionEntity;
 import com.jkb.api.entity.circle.CircleInfoEntity;
 import com.jkb.api.entity.circle.DynamicInCircleListEntity;
+import com.jkb.api.entity.dynamic.DynamicActionEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.model.intfc.BitmapLoadedCallback;
 
@@ -68,4 +70,16 @@ public interface CircleIndexDataSource {
     void favorite(
             @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
             @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback);
+
+    /**
+     * 拉黑圈子动态
+     *
+     * @param Authorization 头
+     * @param dynamic_id    动态id
+     * @param user_id       用户id
+     * @param apiCallback   回调
+     */
+    void putDynamicInBlackList(
+            @NonNull String Authorization, @NonNull int dynamic_id, @NonNull int user_id,
+            @NonNull ApiCallback<ApiResponse<CircleActionEntity>> apiCallback);
 }

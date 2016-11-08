@@ -1,6 +1,5 @@
 package com.jkb.core.contract.menu;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
 
@@ -18,80 +17,52 @@ public interface MenuContract {
         /**
          * 显示左滑菜单视图
          */
-        void showLeftMenu();
+        void showLeftMenuView();
 
         /**
          * 显示右滑菜单视图
          */
-        void showRightMenu();
+        void showRightMenuView();
 
         /**
          * 隐藏菜单视图
          */
-        void hideMenu();
-
-        /**
-         * 设置侧滑菜单的关闭时候的监听器
-         *
-         * @param onClosedListener
-         */
-        void setMenuOnCloseListener(SlidingMenu.OnCloseListener onClosedListener);
-
-        /**
-         * 设置侧滑菜单关闭后的监听器
-         *
-         * @param onClosedListener
-         */
-        void setMenuOnClosedListener(SlidingMenu.OnClosedListener onClosedListener);
-
-        /**
-         * 设置侧滑菜单打开时候的监听器
-         *
-         * @param openListener
-         */
-        void setMenuOpenListener(SlidingMenu.OnOpenListener openListener);
-
-        /**
-         * 设置侧滑菜单打开后的监听器
-         *
-         * @param openedListener
-         */
-        void setMenuOpenedListener(SlidingMenu.OnOpenedListener openedListener);
+        void hideMenuView();
 
         /**
          * 显示首页
          */
-        void showIndex();
+        void showIndexView();
 
         /**
          * 显示地图
          */
-        void startMap();
+        void startMapView();
 
         /**
          * 显示专题模块
          */
-        void showSpecialModel();
+        void showSpecialModelView();
 
         /**
          * 显示工具模块
          */
-        void showTools();
+        void showToolsView();
 
         /**
          * 打开消息页面
          */
-        void startMessage();
+        void startMessageView();
 
         /**
          * 显示设置页面
          */
-        void showSetting();
+        void showSettingView();
 
         /**
          * 打开选择学校页面
          */
-        void startChooseSchools();
+        void startChooseSchoolsView();
 
         /**
          * 打开登录页面

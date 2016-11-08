@@ -193,7 +193,7 @@ public class MyFavoriteDynamicPresenter implements MyFavoriteDynamicContract.Pre
                                         String error, ApiResponse<OperationActionEntity> apiResponse) {
                         if (view.isActive()) {
                             bindDataToView();
-                            view.showReqResult("操作失败");
+                            view.showReqResult(error);
                         }
                     }
 
@@ -344,7 +344,7 @@ public class MyFavoriteDynamicPresenter implements MyFavoriteDynamicContract.Pre
                 public void onError(Response<ApiResponse<DynamicMyFavoriteEntity>> response,
                                     String error, ApiResponse<DynamicMyFavoriteEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showReqResult("请求错误");
+                        view.showReqResult(error);
                         bindDataToView();
                     }
                 }

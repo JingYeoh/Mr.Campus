@@ -5,6 +5,7 @@ import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.circle.CircleActionEntity;
 import com.jkb.api.entity.circle.CircleInfoEntity;
+import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.core.contract.circle.CircleSettingUserContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.model.dataSource.circle.circleSetting.user.CircleSettingUserDataRepertory;
@@ -57,6 +58,7 @@ public class CircleSettingUserPresenter implements CircleSettingUserContract.Pre
         view.setCircleBref(circleIndexData.getCircleIntroducton());
         view.setCirclePicture(circleIndexData.getPicture());
         view.setCircleTag(circleIndexData.getCircleType());
+        view.setInCommonUseStatus(circleIndexData.isHasInCommonUse());
     }
 
     @Override
@@ -130,6 +132,34 @@ public class CircleSettingUserPresenter implements CircleSettingUserContract.Pre
     }
 
     @Override
+    public void onInCommonUseSwitchClick() {
+        if (!LoginContext.getInstance().isLogined()) {
+            return;
+        }
+        UserAuths userAuths = getUserAuths();
+        String Authorization = Config.HEADER_BEARER + userAuths.getToken();
+        Integer user_id = userAuths.getUser_id();
+        view.showLoading("");
+        repertory.setInCommonUseCircleOrCancel(Authorization, user_id, circle_id,
+                inCommonUseApiCallback);
+    }
+
+    @Override
+    public boolean isCircleCreator() {
+        boolean isCircleCreator;
+        if (LoginContext.getInstance().isLogined()) {
+            if (getUserAuths().getUser_id() == circleIndexData.getUser_id()) {
+                isCircleCreator = true;
+            } else {
+                isCircleCreator = false;
+            }
+        } else {
+            isCircleCreator = false;
+        }
+        return isCircleCreator;
+    }
+
+    @Override
     public void start() {
         initCircleId();
         initCircleData();
@@ -196,6 +226,12 @@ public class CircleSettingUserPresenter implements CircleSettingUserContract.Pre
                     circleIndexData.setCircleIntroducton(bean.getIntroduction());
                     circleIndexData.setDynamicsCount(bean.getDynamics_count());
                     circleIndexData.setSubsribeCount(bean.getSubscribe_count());
+                    int hasInCommonUse = bean.getHasInCommonUse();
+                    if (hasInCommonUse == 0) {
+                        circleIndexData.setHasInCommonUse(false);
+                    } else {
+                        circleIndexData.setHasInCommonUse(true);
+                    }
                     if (bean.getHasSubscribe() == 0) {
                         circleIndexData.setHasSubscribe(false);
                     } else {
@@ -212,8 +248,9 @@ public class CircleSettingUserPresenter implements CircleSettingUserContract.Pre
                 public void onError(Response<ApiResponse<CircleInfoEntity>> response,
                                     String error, ApiResponse<CircleInfoEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showReqResult("请求错误，请重试");
-                        bindDataToView();
+                        view.showReqResult(error);
+                        isCached = false;
+                        view.dismissLoading();
                     }
                 }
 
@@ -221,7 +258,8 @@ public class CircleSettingUserPresenter implements CircleSettingUserContract.Pre
                 public void onFail() {
                     if (view.isActive()) {
                         view.showReqResult("请求失败");
-                        bindDataToView();
+                        isCached = false;
+                        view.dismissLoading();
                     }
                 }
             };
@@ -245,7 +283,8 @@ public class CircleSettingUserPresenter implements CircleSettingUserContract.Pre
                                     ApiResponse<CircleActionEntity> apiResponse) {
                     if (view.isActive()) {
                         view.dismissLoading();
-                        view.showReqResult("操作失败");
+                        view.showReqResult(error);
+                        isCached = false;
                     }
                 }
 
@@ -254,6 +293,42 @@ public class CircleSettingUserPresenter implements CircleSettingUserContract.Pre
                     if (view.isActive()) {
                         view.dismissLoading();
                         view.showReqResult("请求失败");
+                        isCached = false;
+                    }
+                }
+            };
+    /**
+     * 设置为常用圈子的数据回调
+     */
+    private ApiCallback<ApiResponse<OperationActionEntity>> inCommonUseApiCallback =
+            new ApiCallback<ApiResponse<OperationActionEntity>>() {
+                @Override
+                public void onSuccess(Response<ApiResponse<OperationActionEntity>> response) {
+                    if (view.isActive()) {
+                        view.showReqResult("操作成功");
+                        boolean hasInCommonUse = circleIndexData.isHasInCommonUse();
+                        hasInCommonUse = !hasInCommonUse;
+                        circleIndexData.setHasInCommonUse(hasInCommonUse);
+                        bindDataToView();
+                    }
+                }
+
+                @Override
+                public void onError(Response<ApiResponse<OperationActionEntity>> response,
+                                    String error, ApiResponse<OperationActionEntity> apiResponse) {
+                    if (view.isActive()) {
+                        view.showReqResult(error);
+                        isCached = false;
+                        view.dismissLoading();
+                    }
+                }
+
+                @Override
+                public void onFail() {
+                    if (view.isActive()) {
+                        view.showReqResult("操作失败");
+                        isCached = false;
+                        view.dismissLoading();
                     }
                 }
             };

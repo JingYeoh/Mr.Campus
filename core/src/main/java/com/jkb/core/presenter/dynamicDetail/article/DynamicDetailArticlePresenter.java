@@ -266,7 +266,7 @@ public class DynamicDetailArticlePresenter implements DynamicDetailArticleContra
                     public void onError(Response<ApiResponse<OperationActionEntity>> response,
                                         String error, ApiResponse<OperationActionEntity> apiResponse) {
                         if (view.isActive()) {
-                            view.showReqResult("操作失败");
+                            view.showReqResult(error);
                         }
                     }
 
@@ -439,7 +439,7 @@ public class DynamicDetailArticlePresenter implements DynamicDetailArticleContra
                         ApiResponse<DynamicArticleEntity> apiResponse) {
                     if (view.isActive()) {
                         view.hideRefreshView();
-                        view.showReqResult("请求错误");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -548,7 +548,7 @@ public class DynamicDetailArticlePresenter implements DynamicDetailArticleContra
                 @Override
                 public void onError(Response<ApiResponse<CommentListEntity>> response,
                                     String error, ApiResponse<CommentListEntity> apiResponse) {
-
+                    view.showReqResult(error);
                 }
 
                 @Override
@@ -583,7 +583,7 @@ public class DynamicDetailArticlePresenter implements DynamicDetailArticleContra
                 public void onError(Response<ApiResponse<OperationActionEntity>> response,
                                     String error, ApiResponse<OperationActionEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showReqResult("操作失败");
+                        view.showReqResult(error);
                     }
                 }
 

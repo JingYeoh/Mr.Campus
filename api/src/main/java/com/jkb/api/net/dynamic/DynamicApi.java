@@ -84,18 +84,20 @@ public interface DynamicApi {
     /**
      * 创建动态
      *
-     * @param user_id      发布动态的用户id.
-     * @param dynamic_type 动态标签.
-     *                     允许值: "topic", "normal", "article"
-     * @param title        动态标题.
-     * @param dcontent     动态内容.
-     * @param tag          主题标签（仅发表话题动态时需要此项）.
-     * @param circle_id    动态所属圈子id.
+     * @param Authorization 头，必选
+     * @param user_id       发布动态的用户id.
+     * @param dynamic_type  动态标签.
+     *                      允许值: "topic", "normal", "article"
+     * @param title         动态标题.
+     * @param dcontent      动态内容.
+     * @param tag           主题标签（仅发表话题动态时需要此项）.
+     * @param circle_id     动态所属圈子id.
      * @return Call
      */
     @Multipart
     @POST(Config.URL_DYNAMIC_POST)
     Call<ApiResponse<DynamicPostEntity>> postDynamic(
+            @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
             @Part(Config.KEY_USER_ID) int user_id,
             @Part(Config.KEY_DYNAMIC_TYPE) String dynamic_type,
             @Part(Config.KEY_TITLE) String title,

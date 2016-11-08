@@ -133,7 +133,8 @@ public class MyDynamicArticlePresenter implements MyDynamicArticleContract.Prese
                     public void onError(Response<ApiResponse<DynamicActionEntity>> response, String error,
                                         ApiResponse<DynamicActionEntity> apiResponse) {
                         if (view.isActive()) {
-                            view.showReqResult("删除失败");
+//                            view.showReqResult("删除失败");
+                            view.showReqResult(error);
                             bindDataToView();
                         }
                     }
@@ -194,7 +195,7 @@ public class MyDynamicArticlePresenter implements MyDynamicArticleContract.Prese
                                         String error, ApiResponse<OperationActionEntity> apiResponse) {
                         if (view.isActive()) {
                             bindDataToView();
-                            view.showReqResult("操作失败");
+                            view.showReqResult(error);
                         }
                     }
 
@@ -373,7 +374,7 @@ public class MyDynamicArticlePresenter implements MyDynamicArticleContract.Prese
                 public void onError(Response<ApiResponse<DynamicArticleListEntity>> response, String error,
                                     ApiResponse<DynamicArticleListEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showReqResult("请求错误");
+                        view.showReqResult(error);
                         bindDataToView();
                     }
                 }

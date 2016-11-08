@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.jkb.core.contract.menu.SwitchFunctionContract;
 import com.jkb.core.control.messageState.MessageObservable;
 import com.jkb.core.control.userstate.LoginContext;
-import com.jkb.core.control.userstate.UserState;
 import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.LogUtils;
@@ -58,10 +57,6 @@ public class SwitchFunctionFragment extends BaseFragment
     //头像是否加载
     private boolean isHeadImgLoaded = false;
 
-
-    public SwitchFunctionFragment() {
-    }
-
     /**
      * 获得一个实例化的SwitchFunctionFragment对象
      */
@@ -71,7 +66,8 @@ public class SwitchFunctionFragment extends BaseFragment
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setRootView(R.layout.frg_menu_switchfunction);
         super.onCreateView(inflater, container, savedInstanceState);
         init(savedInstanceState);
@@ -111,8 +107,7 @@ public class SwitchFunctionFragment extends BaseFragment
         rootView.findViewById(R.id.fms_iv_topCircle).setOnClickListener(topMenuClickListener);
 
         //设置选择学校的监听器
-        SchoolInfoSingleton.getInstance().setOnSchoolSelectedChangedListener(
-                onSchoolSelectedChangedListener);
+        SchoolInfoSingleton.getInstance().addObserver(schoolSelectedObserver);
         LoginContext.getInstance().addObserver(loginObserver);
         //设置其为消息的观察者
         MessageObservable.newInstance().addObserver(this);
@@ -169,14 +164,14 @@ public class SwitchFunctionFragment extends BaseFragment
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.fms_content_menuMap:
-                    mainActivity.startMap();
+                    mainActivity.startMapView();
                     break;
                 case R.id.fms_content_menuMessage:
-                    mainActivity.startMessage();
+                    mainActivity.startMessageView();
                     break;
                 case R.id.fms_ll_school:
                 case R.id.fms_ll_selectSchool:
-                    mainActivity.startChooseSchools();
+                    mainActivity.startChooseSchoolsView();
                     break;
             }
         }
@@ -188,24 +183,24 @@ public class SwitchFunctionFragment extends BaseFragment
     private View.OnClickListener showClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mainActivity.hideMenu();//隐藏侧滑菜单
+            mainActivity.hideMenuView();//隐藏侧滑菜单
             mainActivity.hideAllView();//隐藏其余的页面视图
             switch (v.getId()) {
                 case R.id.fms_content_menuIndex:
                     setItemSelected(0);
-                    mainActivity.showIndex();
+                    mainActivity.showIndexView();
                     break;
                 case R.id.fms_content_menuSetting:
                     setItemSelected(5);
-                    mainActivity.showSetting();
+                    mainActivity.showSettingView();
                     break;
                 case R.id.fms_content_menuTools:
                     setItemSelected(3);
-                    mainActivity.showTools();
+                    mainActivity.showToolsView();
                     break;
                 case R.id.fms_content_menuTopic:
                     setItemSelected(2);
-                    mainActivity.showSpecialModel();
+                    mainActivity.showSpecialModelView();
                     break;
             }
         }
@@ -308,7 +303,7 @@ public class SwitchFunctionFragment extends BaseFragment
 
     @Override
     public void showLoading(String value) {
-        mainActivity.showLoading(value);
+        if (!isHidden()) mainActivity.showLoading(value);
     }
 
     @Override
@@ -330,8 +325,11 @@ public class SwitchFunctionFragment extends BaseFragment
     public void onDestroy() {
         super.onDestroy();
         mainActivity = null;
+        tvItems = null;
+        ivHeadImg = null;
         MessageObservable.newInstance().deleteObserver(this);
         LoginContext.getInstance().deleteObserver(loginObserver);
+        SchoolInfoSingleton.getInstance().deleteObserver(schoolSelectedObserver);
     }
 
     @Override
@@ -339,27 +337,6 @@ public class SwitchFunctionFragment extends BaseFragment
         outState.putInt(SAVED_ITEMS_SELECTER, itemSelector);
     }
 
-    /**
-     * 选择的学校的状态改变的监听器
-     */
-    private SchoolInfoSingleton.OnSchoolSelectedChangedListener onSchoolSelectedChangedListener = new
-            SchoolInfoSingleton.OnSchoolSelectedChangedListener() {
-                @Override
-                public void onSchoolSelected(Schools schools) {
-                    LogUtils.i(TAG, "school_id=" + schools.getSchool_id());
-                    LogUtils.i(TAG, "school_name=" + schools.getSchool_name());
-                    LogUtils.i(TAG, "school_badge=" + schools.getBadge());
-                    String badge = schools.getBadge();
-                    String school_name = schools.getSchool_name();
-                    String summary = schools.getSummary();
-                    showSchoolView(school_name, badge, summary);
-                }
-
-                @Override
-                public void onSchoolNotSelected() {
-                    hideSchoolView();
-                }
-            };
     /**
      * 登录状态的更新回调方法
      */
@@ -371,6 +348,27 @@ public class SwitchFunctionFragment extends BaseFragment
                 showLoginView();
             } else {
                 showLogoutView();
+            }
+        }
+    };
+    /**
+     * 选择学校的通知方法
+     */
+    private Observer schoolSelectedObserver = new Observer() {
+        @Override
+        public void update(Observable o, Object arg) {
+            boolean selectedSchool = SchoolInfoSingleton.getInstance().isSelectedSchool();
+            Schools schools = SchoolInfoSingleton.getInstance().getSchool();
+            if (selectedSchool) {
+                LogUtils.i(TAG, "school_id=" + schools.getSchool_id());
+                LogUtils.i(TAG, "school_name=" + schools.getSchool_name());
+                LogUtils.i(TAG, "school_badge=" + schools.getBadge());
+                String badge = schools.getBadge();
+                String school_name = schools.getSchool_name();
+                String summary = schools.getSummary();
+                showSchoolView(school_name, badge, summary);
+            } else {
+                hideSchoolView();
             }
         }
     };

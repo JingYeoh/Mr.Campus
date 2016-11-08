@@ -46,12 +46,10 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     }
 
     public static PersonCenterFragment newInstance(int user_id) {
-        if (INSTANCE == null || user_id != -1) {
-            INSTANCE = new PersonCenterFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new PersonCenterFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -471,7 +469,8 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void showLoading(String value) {
-        personCenterActivity.showLoading(value);
+        if (!isHidden())
+            personCenterActivity.showLoading(value);
     }
 
     @Override
@@ -499,6 +498,11 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     public void onDestroy() {
         super.onDestroy();
         personCenterActivity = null;
+        mPresenter = null;
+        recyclerView = null;
+        refreshLayout = null;
+        ivHeadImg = null;
+        circleAdapter = null;
     }
 
     @Override
@@ -514,19 +518,19 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
                 @Override
                 public void onTopicClick() {
                     personCenterActivity.startDynamicCreateActivity
-                            (DynamicCreateActivity.DYNAMIC_CREATE_TYPE_TOPIC);
+                            (DynamicCreateActivity.DYNAMIC_CREATE_TYPE_TOPIC, 0);
                 }
 
                 @Override
                 public void onArticleClick() {
                     personCenterActivity.startDynamicCreateActivity
-                            (DynamicCreateActivity.DYNAMIC_CREATE_TYPE_ARTICLE);
+                            (DynamicCreateActivity.DYNAMIC_CREATE_TYPE_ARTICLE, 0);
                 }
 
                 @Override
                 public void onNormalClick() {
                     personCenterActivity.startDynamicCreateActivity
-                            (DynamicCreateActivity.DYNAMIC_CREATE_TYPE_NORMAL);
+                            (DynamicCreateActivity.DYNAMIC_CREATE_TYPE_NORMAL, 0);
                 }
             };
 }

@@ -6,6 +6,7 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.circle.CircleActionEntity;
 import com.jkb.api.entity.circle.CircleInfoEntity;
+import com.jkb.api.entity.operation.OperationActionEntity;
 
 import okhttp3.MultipartBody;
 
@@ -56,4 +57,17 @@ public interface CircleSettingUserDataSource {
             @NonNull String Authorization, @NonNull int id,
             @NonNull MultipartBody.Part image, @NonNull int user_id,
             @NonNull ApiCallback<ApiResponse<CircleActionEntity>> apiCallback);
+
+    /**
+     * 设置为常用圈子
+     *
+     * @param Authorization 头
+     * @param user_id       用户id
+     * @param target_id     圈子id
+     * @param apiCallback   回调
+     */
+    void setInCommonUseCircleOrCancel(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback
+    );
 }

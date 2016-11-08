@@ -39,12 +39,10 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
     public static AttentionFragment INSTANCE = null;
 
     public static AttentionFragment newInstance(int user_id) {
-        if (INSTANCE == null || user_id != -1) {
-            INSTANCE = new AttentionFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(SAVED_USER_ID, user_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new AttentionFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(SAVED_USER_ID, user_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -163,7 +161,8 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
 
     @Override
     public void showLoading(String value) {
-        usersListActivity.showLoading(value);
+        if (!isHidden())
+            usersListActivity.showLoading(value);
     }
 
     @Override

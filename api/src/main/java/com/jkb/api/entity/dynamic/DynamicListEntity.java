@@ -136,36 +136,7 @@ public class DynamicListEntity {
         private String creator_nickname;
         private String creator_avatar;
 
-
-        /**
-         * id : 227
-         * dtype : normal
-         * title : Quod praesentium vitae ad.
-         * content : {"normal":{"doc":"Ut et eaque ratione nihil...","img":[]}}
-         * tag : null
-         * created_at : 2016-09-07 18:13:09
-         * comments_count : 25
-         * operation_count : 19
-         * hasFavorite : false
-         * user : {"id":195,"nickname":"maverick.langworth","avatar":"http://lorempixel.com/640/480/?56911"}
-         */
-
         private DynamicBean dynamic;
-        /**
-         * id : 174
-         * name : Enrico Cole
-         * type : 日志
-         * picture : http://lorempixel.com/640/480/?75034
-         * introduction : Adipisci dolore et itaque voluptas at reprehenderit non. Cumque quae saepe et voluptatem dolor sed officia ad.
-         * longitude : -85.057115
-         * latitude : 15.205842
-         * created_at : 2016-08-03 16:24:12
-         * dynamics_count : 0
-         * operation_count : 30
-         * hasSubscribe : false
-         * user : {"id":165,"circle_owner_nickname":"oreichert","circle_owner_avatar":"http://lorempixel.com/640/480/?17079"}
-         * school : {"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg"}
-         */
 
         private CircleBean circle;
 
@@ -255,9 +226,6 @@ public class DynamicListEntity {
             private int id;
             private String dtype;
             private String title;
-            /**
-             * normal : {"doc":"Ut et eaque ratione nihil...","img":[]}
-             */
 
             private ContentBean content;
             private String tag;
@@ -279,21 +247,29 @@ public class DynamicListEntity {
              */
 
             private int participation;
-            /**
-             * id : 217
-             * name : Adam Zboncak
-             * type : 娱乐
-             * picture : http://lorempixel.com/640/480/?76432
-             * introduction : Est quia ea sunt quidem ex et ex. Alias adipisci hic cupiditate qui.
-             * Optio et quia corporis similique. Ducimus esse iusto est et suscipit at. Quo cum et aperiam est error minus.
-             * longitude : -166.49387
-             * latitude : 78.510009
-             * created_at : 2016-08-03 16:24:13
-             * user : {"id":118,"circle_owner_nickname":"cartwright.trey","circle_owner_avatar":"http://lorempixel.com/640/480/?81509"}
-             * school : {"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg"}
-             */
 
             private CircleBean circle;
+            /**
+             * user_id : 3
+             */
+
+            private int user_id;
+            /**
+             * updated_at : 2016-11-02 14:28:56
+             */
+
+            private String updated_at;
+            /**
+             * circle_id : 182
+             * count_of_comment : 0
+             * count_of_favorite : 1
+             * count_of_participation : 0
+             */
+
+            private int circle_id;
+            private int count_of_comment;
+            private int count_of_favorite;
+            private int count_of_participation;
 
             public int getId() {
                 return id;
@@ -389,6 +365,54 @@ public class DynamicListEntity {
 
             public void setCircle(CircleBean circle) {
                 this.circle = circle;
+            }
+
+            public int getUser_id() {
+                return user_id;
+            }
+
+            public void setUser_id(int user_id) {
+                this.user_id = user_id;
+            }
+
+            public String getUpdated_at() {
+                return updated_at;
+            }
+
+            public void setUpdated_at(String updated_at) {
+                this.updated_at = updated_at;
+            }
+
+            public int getCircle_id() {
+                return circle_id;
+            }
+
+            public void setCircle_id(int circle_id) {
+                this.circle_id = circle_id;
+            }
+
+            public int getCount_of_comment() {
+                return count_of_comment;
+            }
+
+            public void setCount_of_comment(int count_of_comment) {
+                this.count_of_comment = count_of_comment;
+            }
+
+            public int getCount_of_favorite() {
+                return count_of_favorite;
+            }
+
+            public void setCount_of_favorite(int count_of_favorite) {
+                this.count_of_favorite = count_of_favorite;
+            }
+
+            public int getCount_of_participation() {
+                return count_of_participation;
+            }
+
+            public void setCount_of_participation(int count_of_participation) {
+                this.count_of_participation = count_of_participation;
             }
 
             public static class ContentBean {
@@ -539,6 +563,8 @@ public class DynamicListEntity {
                 private double longitude;
                 private double latitude;
                 private String created_at;
+
+
                 /**
                  * id : 118
                  * circle_owner_nickname : cartwright.trey
@@ -553,6 +579,17 @@ public class DynamicListEntity {
                  */
 
                 private SchoolBean school;
+                /**
+                 * user_id : 2
+                 * school_id : 1
+                 * count_of_dynamic : 3
+                 * count_of_subscription : 2
+                 */
+
+                private int user_id;
+                private String school_id;
+                private int count_of_dynamic;
+                private int count_of_subscription;
 
                 public int getId() {
                     return id;
@@ -632,6 +669,38 @@ public class DynamicListEntity {
 
                 public void setSchool(SchoolBean school) {
                     this.school = school;
+                }
+
+                public int getUser_id() {
+                    return user_id;
+                }
+
+                public void setUser_id(int user_id) {
+                    this.user_id = user_id;
+                }
+
+                public String getSchool_id() {
+                    return school_id;
+                }
+
+                public void setSchool_id(String school_id) {
+                    this.school_id = school_id;
+                }
+
+                public int getCount_of_dynamic() {
+                    return count_of_dynamic;
+                }
+
+                public void setCount_of_dynamic(int count_of_dynamic) {
+                    this.count_of_dynamic = count_of_dynamic;
+                }
+
+                public int getCount_of_subscription() {
+                    return count_of_subscription;
+                }
+
+                public void setCount_of_subscription(int count_of_subscription) {
+                    this.count_of_subscription = count_of_subscription;
                 }
 
                 public static class UserBean {

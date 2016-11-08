@@ -184,7 +184,7 @@ public class AttentionPresenter implements AttentionContract.Presenter {
                                     String error, ApiResponse<OperationActionEntity> apiResponse) {
                     if (view.isActive()) {
                         view.dismissLoading();
-                        view.showReqResult("请求错误，请重试");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -267,7 +267,7 @@ public class AttentionPresenter implements AttentionContract.Presenter {
                     isLoading = false;
                     if (view.isActive()) {
                         view.dismissRefresh$Loaded();
-                        view.showReqResult("请求错误，请重试");
+                        view.showReqResult(error);
                         pageControl.setCurrent_page(pageControl.getCurrent_page() - 1);
                     }
                 }

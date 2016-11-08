@@ -16,6 +16,13 @@ public interface DynamicCreateArticleContract {
 
     interface View extends BaseView<Presenter> {
         /**
+         * 得到圈子id
+         *
+         * @return 圈子id
+         */
+        int getCircleId();
+
+        /**
          * 发布成功后执行的动作
          */
         void postSuccess();

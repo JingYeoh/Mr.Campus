@@ -136,7 +136,8 @@ public class MyDynamicCirclePresenter implements MyDynamicCircleContract.Present
                     public void onError(Response<ApiResponse<DynamicActionEntity>> response, String error,
                                         ApiResponse<DynamicActionEntity> apiResponse) {
                         if (view.isActive()) {
-                            view.showReqResult("删除失败");
+//                            view.showReqResult("删除失败");
+                            view.showReqResult(error);
                             bindDataToView();
                         }
                     }
@@ -203,7 +204,7 @@ public class MyDynamicCirclePresenter implements MyDynamicCircleContract.Present
                                         String error, ApiResponse<OperationActionEntity> apiResponse) {
                         if (view.isActive()) {
                             bindDataToView();
-                            view.showReqResult("操作失败");
+                            view.showReqResult(error);
                         }
                     }
 
@@ -374,7 +375,7 @@ public class MyDynamicCirclePresenter implements MyDynamicCircleContract.Present
                         Response<ApiResponse<DynamicCircleListEntity>> response,
                         String error, ApiResponse<DynamicCircleListEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showReqResult("请求错误");
+                        view.showReqResult(error);
                         bindDataToView();
                     }
                 }

@@ -68,8 +68,7 @@ public class MessageObservable extends Observable implements MessageObservableAc
     public void setUser_id(int user_id) {
         this.user_id = user_id;
         loginState.setUser_id(user_id);
-        setChanged();
-        notifyObservers();
+        onDataChanged();
     }
 
     /**
@@ -82,8 +81,7 @@ public class MessageObservable extends Observable implements MessageObservableAc
         } else {
             messageUserState = loginState;
         }
-        setChanged();
-        notifyObservers();
+        onDataChanged();
     }
 
 
@@ -93,6 +91,13 @@ public class MessageObservable extends Observable implements MessageObservableAc
         //目的在于给推送通知给新加入的成员
         LogUtils.d(MessageObservable.class, "我接收到了新的订阅成员,我将会发送全体消息");
         super.addObserver(o);
+        onDataChanged();
+    }
+
+    /**
+     * 数据变化调用
+     */
+    private void onDataChanged() {
         setChanged();
         notifyObservers();
     }
@@ -125,24 +130,60 @@ public class MessageObservable extends Observable implements MessageObservableAc
     }
 
     @Override
+    public int getAllUnReadSubscribeMessageCount() {
+        return messageUserState.getAllUnReadSubscribeMessageCount();
+    }
+
+    @Override
+    public int getAllSubscribeMessageCount() {
+        return messageUserState.getAllSubscribeMessageCount();
+    }
+
+    @Override
+    public List<Messages> getAllSubscribeMessage() {
+        return messageUserState.getAllSubscribeMessage();
+    }
+
+    @Override
+    public List<Messages> getAllUnReadSubscribeMessage() {
+        return messageUserState.getAllUnReadSubscribeMessage();
+    }
+
+    @Override
+    public int getAllUnReadFansMessageCount() {
+        return messageUserState.getAllUnReadFansMessageCount();
+    }
+
+    @Override
     public void readMessage(Messages messages) {
         messageUserState.readMessage(messages);
         //读取消息
-        setChanged();
-        notifyObservers();
+        onDataChanged();
     }
 
     @Override
     public void readMessage(int messageId) {
         //得到消息体
         messageUserState.readMessage(messageId);
+        onDataChanged();
+    }
+
+    @Override
+    public void readAllSubscribeMessage() {
+        messageUserState.readAllSubscribeMessage();
+        onDataChanged();
+    }
+
+    @Override
+    public void readAllFansMessage() {
+        messageUserState.readAllFansMessage();
+        onDataChanged();
     }
 
     @Override
     public void saveMessage(Messages messages) {
         messageUserState.saveMessage(messages);
         //设置数据更新
-        setChanged();
-        notifyObservers();
+        onDataChanged();
     }
 }

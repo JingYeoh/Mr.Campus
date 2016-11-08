@@ -44,12 +44,10 @@ public class MyFavoriteDynamicFragment extends BaseFragment implements
     private static MyFavoriteDynamicFragment INSTANCE;
 
     public static MyFavoriteDynamicFragment newInstance(@NonNull int user_id) {
-        if (INSTANCE == null || user_id > 0) {
-            INSTANCE = new MyFavoriteDynamicFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new MyFavoriteDynamicFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -227,7 +225,8 @@ public class MyFavoriteDynamicFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        myUnOriginalDynamicActivity.showLoading(value);
+        if (!isHidden())
+            myUnOriginalDynamicActivity.showLoading(value);
     }
 
     @Override

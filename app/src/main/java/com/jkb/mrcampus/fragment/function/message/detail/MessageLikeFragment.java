@@ -25,9 +25,7 @@ public class MessageLikeFragment extends BaseFragment implements View.OnClickLis
     private static MessageLikeFragment INSTANCE = null;
 
     public static MessageLikeFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new MessageLikeFragment();
-        }
+        INSTANCE = new MessageLikeFragment();
         return INSTANCE;
     }
 

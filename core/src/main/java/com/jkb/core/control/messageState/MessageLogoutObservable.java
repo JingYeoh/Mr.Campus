@@ -3,6 +3,7 @@ package com.jkb.core.control.messageState;
 import com.jkb.core.control.messageState.dataSource.MessagesDataCallback;
 import com.jkb.core.control.messageState.dataSource.MessagesDbLocalDataSource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jkb.mrcampus.db.entity.Messages;
@@ -70,6 +71,31 @@ public class MessageLogoutObservable implements MessageObservableAction {
     }
 
     @Override
+    public int getAllUnReadSubscribeMessageCount() {
+        return 0;
+    }
+
+    @Override
+    public int getAllSubscribeMessageCount() {
+        return 0;
+    }
+
+    @Override
+    public List<Messages> getAllSubscribeMessage() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Messages> getAllUnReadSubscribeMessage() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public int getAllUnReadFansMessageCount() {
+        return 0;
+    }
+
+    @Override
     public void readMessage(Messages messages) {
         messages.setIs_read(true);
         dataSource.saveMessagesToDb(messages);
@@ -87,6 +113,15 @@ public class MessageLogoutObservable implements MessageObservableAction {
             public void onDataNotAvailable() {
             }
         });
+    }
+
+    @Override
+    public void readAllSubscribeMessage() {
+    }
+
+    @Override
+    public void readAllFansMessage() {
+
     }
 
     @Override

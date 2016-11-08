@@ -57,6 +57,23 @@ public class DynamicCreateArticleRemoteDataSource implements DynamicCreateArticl
     }
 
     @Override
+    public void postDynamic(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull String dynamic_type,
+            @NonNull String title, @NonNull String dcontent, String tag, @NonNull int circle_id,
+            @NonNull ApiCallback<ApiResponse<DynamicPostEntity>> apiCallback) {
+        ApiFactoryImpl apiFactory = ApiFactoryImpl.newInstance();
+        apiFactory.setHttpClient(apiFactory.genericClient());
+        apiFactory.initRetrofit();
+        DynamicApi dynamicApi = apiFactory.createApi(DynamicApi.class);
+        Call<ApiResponse<DynamicPostEntity>> call;
+        call = dynamicApi.postDynamic(Authorization, user_id, dynamic_type, title,
+                dcontent, tag, circle_id);
+        Type type = new TypeToken<ApiResponse<DynamicPostEntity>>() {
+        }.getType();
+        new ApiEngine<ApiResponse<DynamicPostEntity>>(apiCallback, call, type);
+    }
+
+    @Override
     public void uploadImage(
             @NonNull MultipartBody.Part image,
             @NonNull ApiCallback<ApiResponse<ImageUploadEntity>> apiCallback) {

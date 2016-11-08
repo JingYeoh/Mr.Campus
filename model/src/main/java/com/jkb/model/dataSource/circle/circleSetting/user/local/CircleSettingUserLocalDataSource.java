@@ -7,6 +7,7 @@ import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.circle.CircleActionEntity;
 import com.jkb.api.entity.circle.CircleInfoEntity;
+import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.model.dataSource.circle.circleSetting.user.CircleSettingUserDataSource;
 
 import okhttp3.MultipartBody;
@@ -54,5 +55,11 @@ public class CircleSettingUserLocalDataSource implements CircleSettingUserDataSo
             @NonNull MultipartBody.Part image, @NonNull int user_id,
             @NonNull ApiCallback<ApiResponse<CircleActionEntity>> apiCallback) {
 
+    }
+
+    @Override
+    public void setInCommonUseCircleOrCancel(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
     }
 }

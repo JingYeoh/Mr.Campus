@@ -6,6 +6,7 @@ import android.util.Log;
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
+import com.jkb.api.entity.circle.CircleActionEntity;
 import com.jkb.api.entity.circle.CircleInfoEntity;
 import com.jkb.api.entity.circle.DynamicInCircleListEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
@@ -147,7 +148,7 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
         view.setSubscribeStatus(circleIndexData.isHasSubscribe());//设置是否有状态
 
         //设置圈子中动态
-        view.setDynamicInCircle(dynamicInCircles);
+        view.setDynamicInCircle(dynamicInCircles, isCircleCreator());
     }
 
     @Override
@@ -162,6 +163,11 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
             return;
         }
         int userId = auths.getUser_id();
+        int user_id = circleIndexData.getUser_id();
+        if (userId == user_id) {
+            view.showReqResult("自己创建的圈子不可以取消订阅哦~");
+            return;
+        }
         String Authorization = Config.HEADER_BEARER + auths.getToken();
         view.showLoading("");
         //订阅或者取消订阅的操作
@@ -233,7 +239,7 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                     public void onError(Response<ApiResponse<OperationActionEntity>> response,
                                         String error, ApiResponse<OperationActionEntity> apiResponse) {
                         if (view.isActive()) {
-                            view.showReqResult("操作失败");
+                            view.showReqResult(error);
                         }
                     }
 
@@ -290,6 +296,47 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
         } else {
             view.showVisitorCircleSetting();
         }
+    }
+
+    @Override
+    public void putDynamicInBlackList(final int position) {
+        //拉黑动态
+        if (!LoginContext.getInstance().isLogined()) {
+            view.showReqResult("请您先登录再进行操作");
+            return;
+        }
+        DynamicInCircle dynamicInCircle = dynamicInCircles.get(position);
+        int dynamic_id = dynamicInCircle.getDynamic_id();
+        String Authorization = Config.HEADER_BEARER + getUserAuths().getToken();
+        view.showLoading("");
+        repertory.putDynamicInBlackList(Authorization, dynamic_id, getUserAuths().getUser_id(),
+                new ApiCallback<ApiResponse<CircleActionEntity>>() {
+                    @Override
+                    public void onSuccess(Response<ApiResponse<CircleActionEntity>> response) {
+                        if (view.isActive()) {
+                            dynamicInCircles.remove(position);
+                            view.showReqResult("操作成功");
+                            bindData();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<ApiResponse<CircleActionEntity>> response,
+                                        String error, ApiResponse<CircleActionEntity> apiResponse) {
+                        if (view.isActive()) {
+                            view.dismissLoading();
+                            view.showReqResult(error);
+                        }
+                    }
+
+                    @Override
+                    public void onFail() {
+                        if (view.isActive()) {
+                            view.dismissLoading();
+                            view.showReqResult("请求失败");
+                        }
+                    }
+                });
     }
 
     /**
@@ -359,7 +406,7 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                 public void onError(Response<ApiResponse<CircleInfoEntity>> response, String error,
                                     ApiResponse<CircleInfoEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showReqResult("获取失败");
+                        view.showReqResult(error);
                         bindData();
                     }
                 }
@@ -393,7 +440,7 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                                     String error, ApiResponse<OperationActionEntity> apiResponse) {
                     if (view.isActive()) {
                         view.dismissLoading();
-                        view.showReqResult("操作失败");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -467,7 +514,7 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                 public void onError(Response<ApiResponse<DynamicInCircleListEntity>> response,
                                     String error, ApiResponse<DynamicInCircleListEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showReqResult("得到圈子内动态失败");
+                        view.showReqResult(error);
                         bindData();
                     }
                 }
@@ -505,5 +552,20 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
             view.showReqResult("登录过期，请重新登录~");
         }
         return auths;
+    }
+
+    /**
+     * 是否是圈子创建者
+     */
+    private boolean isCircleCreator() {
+        boolean isCircleCreator = false;
+        if (!LoginContext.getInstance().isLogined()) {
+            isCircleCreator = false;
+        } else {
+            int creator_id = circleIndexData.getUser_id();
+            Integer user_id = getUserAuths().getUser_id();
+            isCircleCreator = (creator_id == user_id);
+        }
+        return isCircleCreator;
     }
 }

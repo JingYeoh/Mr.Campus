@@ -37,36 +37,6 @@ public class MenuPresenter implements MenuContract.Presenter {
 
     private String identity_type, userName, passWord;
 
-    /**
-     * 展示的视图
-     */
-    public enum SHOW_VIEW implements Serializable {
-        /**
-         * 首页
-         */
-        HOMEPAGE,
-        /**
-         * 设置
-         */
-        SETTING,
-        /**
-         * 工具
-         */
-        TOOLS,
-        /**
-         * 专题
-         */
-        FEATURE
-    }
-
-    /**
-     * 展示的视图
-     */
-    private SHOW_VIEW currentView = SHOW_VIEW.HOMEPAGE;
-
-//    public SHOW_VIEW getCurrentView() {
-//        return currentView;
-//    }
 
     public MenuPresenter(MenuContract.View menuView, LoginResponsitory loginResponsitory) {
         this.menuView = menuView;
@@ -216,7 +186,7 @@ public class MenuPresenter implements MenuContract.Presenter {
                         ApiResponse<LoginEntity> apiResponse) {
                     //设置为登录失败，切换身份
                     if (menuView.isActive()) {
-                        menuView.showReqResult("登录过期，请重新登录");
+                        menuView.showReqResult(error);
                     }
                     changeStatusToLogout();
                 }
@@ -272,13 +242,7 @@ public class MenuPresenter implements MenuContract.Presenter {
                 @Override
                 public void onBitmapDataLoaded(Bitmap bitmap) {
                     Log.d(TAG, "bitmapDataCallback-------->获取头像成功！");
-//            UserInfoSingleton.getInstance().setUserAvatar(bitmap);
-                    String UID = UserInfoSingleton.getInstance().getUsers().getUID();
-
                     LoginContext.getInstance().setUserState(new LoginState());//更新回调接口数据
-                    //缓存并且设置到本地
-//                    loginResponsitory.cacheBitmapToFile(Config.PATH_ROOT_IMAGE, UID, bitmap,
-//                            bitmapToFileDataCallback);
                 }
 
                 @Override
@@ -286,26 +250,6 @@ public class MenuPresenter implements MenuContract.Presenter {
                     Log.d(TAG, "bitmapDataCallback-------->获取头像失败！");
                 }
             };
-    /**
-     * 转换bitmap为file并得到path的回调
-     */
-    private LoginDataSource.BitmapToFileDataCallback bitmapToFileDataCallback = new
-            LoginDataSource.BitmapToFileDataCallback() {
-                @Override
-                public void onBitmapDataLoaded(String path) {
-                    Log.d(TAG, "bitmapToFileDataCallback-------->存储头像成功！");
-                    Users users = UserInfoSingleton.getInstance().getUsers();
-                    users.setAvatarLocalPath(path);
-                    loginResponsitory.saveUserToDb(users);
-                    UserInfoSingleton.getInstance().setUsers(users);
-                }
-
-                @Override
-                public void onDataNotAvailable(Bitmap bitmap) {
-                    Log.d(TAG, "bitmapToFileDataCallback-------->存储头像失败！");
-                }
-            };
-
 
     /**
      * 保存Status数据到数据库表中
@@ -396,7 +340,6 @@ public class MenuPresenter implements MenuContract.Presenter {
 
     @Override
     public void start() {
-//        showFragment();
         ReqLogin();
     }
 

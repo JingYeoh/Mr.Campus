@@ -2,6 +2,10 @@ package com.jkb.model.utils;
 
 import android.util.Log;
 
+import com.orhanobut.logger.Logger;
+
+import org.json.JSONObject;
+
 /**
  * Log的工具类
  * Created by JustKiddingBaby on 2016/10/18.
@@ -17,6 +21,7 @@ public class LogUtils {
         }
         if (isAllowToPrint) {
             Log.i(TAG, value);
+//            Logger.i(TAG, value);
         }
     }
 
@@ -26,6 +31,7 @@ public class LogUtils {
         }
         if (isAllowToPrint) {
             Log.v(TAG, value);
+//            Logger.v(TAG, value);
         }
     }
 
@@ -35,6 +41,7 @@ public class LogUtils {
         }
         if (isAllowToPrint) {
             Log.w(TAG, value);
+//            Logger.w(TAG, value);
         }
     }
 
@@ -44,6 +51,7 @@ public class LogUtils {
         }
         if (isAllowToPrint) {
             Log.e(TAG, value);
+//            Logger.e(TAG, value);
         }
     }
 
@@ -53,6 +61,7 @@ public class LogUtils {
         }
         if (isAllowToPrint) {
             Log.d(TAG, value);
+//            Logger.d(TAG, value);
         }
     }
 
@@ -62,6 +71,7 @@ public class LogUtils {
         }
         if (isAllowToPrint) {
             Log.wtf(TAG, value);
+//            Logger.wtf(TAG, value);
         }
     }
 
@@ -93,5 +103,14 @@ public class LogUtils {
     public static void wtf(Class<?> clz, String value) {
         String TAG = clz.getSimpleName();
         wtf(TAG, value);
+    }
+
+    /**
+     * 打印Json数据
+     */
+    public static void json(JSONObject json) {
+        if (isAllowToPrint) {
+            Logger.json(json.toString());
+        }
     }
 }

@@ -6,12 +6,18 @@ import android.support.annotation.NonNull;
 import com.jkb.model.dataSource.baidu.map.webService.BaiduMapWebServiceResponsitory;
 import com.jkb.model.dataSource.baidu.map.webService.local.BaiduMapWebServiceLocalDataSource;
 import com.jkb.model.dataSource.baidu.map.webService.remote.BaiduMapWebServiceRemoteDataSource;
+import com.jkb.model.dataSource.circle.attentionUserList.CircleAttentionUserListRepertory;
+import com.jkb.model.dataSource.circle.attentionUserList.local.CircleAttentionUserListLocalDataSource;
+import com.jkb.model.dataSource.circle.attentionUserList.remote.CircleAttentionUserListRemoteDataSource;
 import com.jkb.model.dataSource.circle.circleIndex.CircleIndexDataRepertory;
 import com.jkb.model.dataSource.circle.circleIndex.local.CircleIndexLocalDataSource;
 import com.jkb.model.dataSource.circle.circleIndex.remote.CircleIndexRemoteDataSource;
 import com.jkb.model.dataSource.circle.circleSetting.user.CircleSettingUserDataRepertory;
 import com.jkb.model.dataSource.circle.circleSetting.user.local.CircleSettingUserLocalDataSource;
 import com.jkb.model.dataSource.circle.circleSetting.user.remote.CircleSettingUserRemoteDataSource;
+import com.jkb.model.dataSource.circle.dynamiInBlackList.CircleDynamicInCircleBlackListRepertory;
+import com.jkb.model.dataSource.circle.dynamiInBlackList.local.CircleDynamicInCircleBlackListLocalDataSource;
+import com.jkb.model.dataSource.circle.dynamiInBlackList.remote.CircleDynamicInCircleBlackListRemoteDataSource;
 import com.jkb.model.dataSource.circleList.CircleListDataResponsitory;
 import com.jkb.model.dataSource.circleList.local.CircleListLocalDatasource;
 import com.jkb.model.dataSource.circleList.remote.CircleListRemoteDatasource;
@@ -135,8 +141,9 @@ public class Injection {
      * 得到WelcomeDataResponsitory的实例
      */
     public static WelcomeDataResponsitory provideWelcomeResponsitory(Context context) {
-        WelcomeDataResponsitory welcomeDataResponsitory = WelcomeDataResponsitory.getInstance(WelcomeLocalDataSource.getInstance(context),
-                WelcomeRemoteDataSource.getInstance());
+        WelcomeDataResponsitory welcomeDataResponsitory =
+                WelcomeDataResponsitory.getInstance(WelcomeLocalDataSource.getInstance(context),
+                        WelcomeRemoteDataSource.getInstance());
         return welcomeDataResponsitory;
     }
 
@@ -145,7 +152,8 @@ public class Injection {
      */
     public static IdentifyCodeResponsitory provideIdentifyCodeResponsitory() {
         IdentifyCodeResponsitory responsitory = IdentifyCodeResponsitory.getInstance(
-                IdentifyCodeLocalDataSource.getInstance(), IdentifyCodeRemoteDataSource.getInstance()
+                IdentifyCodeLocalDataSource.getInstance(),
+                IdentifyCodeRemoteDataSource.getInstance()
         );
         return responsitory;
     }
@@ -155,7 +163,8 @@ public class Injection {
      */
     public static PersonMessageResponsitory providePersonMessageResponsotory(Context context) {
         PersonMessageResponsitory responsitory = PersonMessageResponsitory.getInstance(
-                PersonMessageLocalDataSource.getInstance(context), PersonMessageRemoteDataSource.getInstance()
+                PersonMessageLocalDataSource.getInstance(context),
+                PersonMessageRemoteDataSource.getInstance()
         );
         return responsitory;
     }
@@ -558,4 +567,28 @@ public class Injection {
         return repertory;
     }
 
+    /**
+     * 得到CircleAttentionUserListRepertory對象
+     */
+    public static CircleAttentionUserListRepertory provideCircleAttentionUserListRepertory(
+            @NonNull Context applicationContext) {
+        CircleAttentionUserListRepertory repertory = CircleAttentionUserListRepertory.newInstance(
+                CircleAttentionUserListLocalDataSource.newInstance(applicationContext),
+                CircleAttentionUserListRemoteDataSource.newInstance()
+        );
+        return repertory;
+    }
+
+    /**
+     * 得到CircleDynamicInCircleBlackListRepertory對象
+     */
+    public static CircleDynamicInCircleBlackListRepertory
+    provideCircleDynamicInCircleBlackListRepertory(@NonNull Context applicationContext) {
+        CircleDynamicInCircleBlackListRepertory repertory =
+                CircleDynamicInCircleBlackListRepertory.newInstance(
+                        CircleDynamicInCircleBlackListLocalDataSource.newInstance(applicationContext),
+                        CircleDynamicInCircleBlackListRemoteDataSource.newInstance()
+                );
+        return repertory;
+    }
 }

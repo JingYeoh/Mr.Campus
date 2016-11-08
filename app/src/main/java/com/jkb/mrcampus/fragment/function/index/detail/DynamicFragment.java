@@ -17,7 +17,6 @@ import com.jkb.core.Injection;
 import com.jkb.core.contract.function.index.DynamicContract;
 import com.jkb.core.control.messageState.MessageObservable;
 import com.jkb.core.control.userstate.LoginContext;
-import com.jkb.core.control.userstate.UserState;
 import com.jkb.core.data.dynamic.dynamic.DynamicBaseData;
 import com.jkb.core.presenter.function.index.dynamic.DynamicPresenter;
 import com.jkb.model.utils.LogUtils;
@@ -51,9 +50,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
     private static DynamicFragment INSTANCE = null;
 
     public static DynamicFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new DynamicFragment();
-        }
+        INSTANCE = new DynamicFragment();
         return INSTANCE;
     }
 
@@ -433,17 +430,25 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         mainActivity = null;
         MessageObservable.newInstance().deleteObserver(this);
         LoginContext.getInstance().deleteObserver(loginObserver);
+        refreshLayout = null;
+        INSTANCE = null;
+        linearLayoutManager = null;
+        recyclerView = null;
+        onScrollListener = null;
+        mPresenter = null;
+        dynamicAdapter = null;
     }
+
     /**
      * 登录状态改变时候的监听器
      */
-    private Observer loginObserver= new Observer() {
+    private Observer loginObserver = new Observer() {
         @Override
         public void update(Observable o, Object arg) {
             boolean logined = LoginContext.getInstance().isLogined();
-            if(logined){
+            if (logined) {
                 showLoginedView();
-            }else{
+            } else {
                 showUnLoginView();
                 mPresenter.setCacheExpired();
             }
@@ -456,17 +461,20 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
             = new WriteDynamicDialogFragment.OnWriteDynamicClickListener() {
         @Override
         public void onTopicClick() {
-            mainActivity.startDynamicCreateActivity(DynamicCreateActivity.DYNAMIC_CREATE_TYPE_TOPIC);
+            mainActivity.startDynamicCreateActivity(
+                    DynamicCreateActivity.DYNAMIC_CREATE_TYPE_TOPIC, 0);
         }
 
         @Override
         public void onArticleClick() {
-            mainActivity.startDynamicCreateActivity(DynamicCreateActivity.DYNAMIC_CREATE_TYPE_ARTICLE);
+            mainActivity.startDynamicCreateActivity(
+                    DynamicCreateActivity.DYNAMIC_CREATE_TYPE_ARTICLE, 0);
         }
 
         @Override
         public void onNormalClick() {
-            mainActivity.startDynamicCreateActivity(DynamicCreateActivity.DYNAMIC_CREATE_TYPE_NORMAL);
+            mainActivity.startDynamicCreateActivity(
+                    DynamicCreateActivity.DYNAMIC_CREATE_TYPE_NORMAL, 0);
         }
     };
 
@@ -474,7 +482,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
     public void update(Observable o, Object arg) {
         //订阅消息数目
         int count = MessageObservable.newInstance().getAllUnReadDynamicMessageCount();
-        LogUtils.d(TAG,"functionMenu---unReadMessageCount->"+count);
+        LogUtils.d(TAG, "functionMenu---unReadMessageCount->" + count);
         if (count > 0) {
             rootView.findViewById(R.id.fhd_content_unReadMessage).setVisibility(View.VISIBLE);
             ((TextView) rootView.findViewById(R.id.fhd_tv_unReadMessageCount)).setText(count + "");

@@ -31,9 +31,7 @@ public class ChatFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     public static ChatFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ChatFragment();
-        }
+        INSTANCE = new ChatFragment();
         return INSTANCE;
     }
 

@@ -241,6 +241,7 @@ public class CircleListPresenter implements CircleListContract.Presenter {
                 public void onError(
                         Response<ApiResponse<UserActionCircleEntity>> response,
                         String error, ApiResponse<UserActionCircleEntity> apiResponse) {
+                    view.showReqResult(error);
                     bindData();
                 }
 

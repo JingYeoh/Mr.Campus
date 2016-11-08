@@ -25,11 +25,15 @@ public class MessageCenterPresenter implements MessageCenterContract.Presenter {
     @Override
     public void initMessageData() {
         initUserId();
+        onRefresh();
     }
 
     @Override
     public void onRefresh() {
-
+        if(!view.isActive()){
+            return;
+        }
+        view.initMessages();
     }
 
     @Override

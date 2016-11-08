@@ -97,8 +97,9 @@ public interface CircleIndexContract {
          * 设置圈子东动态数据
          *
          * @param dynamicInCircle 圈子动态数据
+         * @param isCircleCreator 是否是圈子创建者
          */
-        void setDynamicInCircle(List<DynamicInCircle> dynamicInCircle);
+        void setDynamicInCircle(List<DynamicInCircle> dynamicInCircle, boolean isCircleCreator);
 
         /**
          * 返回
@@ -124,6 +125,11 @@ public interface CircleIndexContract {
          * 显示大图视图
          */
         void showBigPictureView();
+
+        /**
+         * 显示发表动态的视图
+         */
+        void showWriteDynamicView();
 
         /**
          * 显示关注圈子的提示
@@ -175,6 +181,11 @@ public interface CircleIndexContract {
          * 显示访客圈子设置
          */
         void showVisitorCircleSetting();
+
+        /**
+         * 显示是否拉黑动态的提示框
+         */
+        void showHintForPutDynamicToBlackList(int position);
     }
 
     interface Presenter extends BasePresenter {
@@ -251,5 +262,12 @@ public interface CircleIndexContract {
          * 当圈子设置按钮被点击的时候
          */
         void onCircleSettingClick();
+
+        /**
+         * 拉黑动态
+         *
+         * @param position 条目数
+         */
+        void putDynamicInBlackList(int position);
     }
 }

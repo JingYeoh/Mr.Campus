@@ -25,9 +25,7 @@ public class MessageSystemFragment extends BaseFragment implements View.OnClickL
     private static MessageSystemFragment INSTANCE = null;
 
     public static MessageSystemFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new MessageSystemFragment();
-        }
+        INSTANCE = new MessageSystemFragment();
         return INSTANCE;
     }
 

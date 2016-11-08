@@ -44,6 +44,14 @@ public class DynamicCreateNormalLocalDataSource implements DynamicCreateNormalDa
     }
 
     @Override
+    public void postDynamic(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull String dynamic_type,
+            @NonNull String title, @NonNull String dcontent, String tag, @NonNull int circle_id,
+            @NonNull ApiCallback<ApiResponse<DynamicPostEntity>> apiCallback) {
+
+    }
+
+    @Override
     public void uploadImage(
             @NonNull MultipartBody.Part image,
             @NonNull ApiCallback<ApiResponse<ImageUploadEntity>> apiCallback) {

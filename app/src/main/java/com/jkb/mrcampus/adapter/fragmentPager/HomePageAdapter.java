@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.jkb.mrcampus.fragment.function.index.detail.DynamicFragment;
+import com.jkb.mrcampus.fragment.function.index.detail.DynamicFragment2;
 import com.jkb.mrcampus.fragment.function.index.detail.HotFragment;
 
 /**
@@ -24,7 +25,7 @@ public class HomePageAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             return HotFragment.newInstance();
         } else if (position == 1) {
-            return DynamicFragment.newInstance();
+            return DynamicFragment2.newInstance();
         } else {
             return HotFragment.newInstance();
         }

@@ -29,6 +29,7 @@ public class DynamicCreateActivity extends BaseActivity {
     //data
     private int content_id = R.id.dynamicCreate_content;
     private String dynamicCreateType;//创建动态的类型
+    private int circle_id = 0;
 
     //常量
     public static final String DYNAMIC_CREATE_TYPE_NORMAL = "dynamicCreate.type.normal";
@@ -65,6 +66,7 @@ public class DynamicCreateActivity extends BaseActivity {
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             dynamicCreateType = intent.getStringExtra(Config.INTENT_KEY_DYNAMIC_CREATE_TYPE);
+            circle_id = intent.getIntExtra(Config.INTENT_KEY_CIRCLE_ID, 0);
             filterDynamicCreateType();//筛选动态创建的类型
         } else {
             dynamicCreateType = savedInstanceState.getString(Config.INTENT_KEY_DYNAMIC_CREATE_TYPE);
@@ -158,13 +160,11 @@ public class DynamicCreateActivity extends BaseActivity {
      */
     private void initDynamicCreateArticle() {
         if (dynamicCreateArticleFragment == null) {
-            dynamicCreateArticleFragment = DynamicCreateArticleFragment.newInstance();
+            dynamicCreateArticleFragment = DynamicCreateArticleFragment.newInstance(circle_id);
             ActivityUtils.addFragmentToActivity(fm, dynamicCreateArticleFragment, content_id);
         }
-        if (dynamicCreateArticlePresenter == null) {
-            dynamicCreateArticlePresenter = new DynamicCreateArticlePresenter(dynamicCreateArticleFragment,
-                    Injection.provideDynamicCreateArticleDataRepertory(getApplicationContext()));
-        }
+        dynamicCreateArticlePresenter = new DynamicCreateArticlePresenter(dynamicCreateArticleFragment,
+                Injection.provideDynamicCreateArticleDataRepertory(getApplicationContext()));
     }
 
     /**
@@ -172,13 +172,11 @@ public class DynamicCreateActivity extends BaseActivity {
      */
     private void initDynamicCreateTopic() {
         if (dynamicCreateTopicFragment == null) {
-            dynamicCreateTopicFragment = DynamicCreateTopicFragment.newInstance();
+            dynamicCreateTopicFragment = DynamicCreateTopicFragment.newInstance(circle_id);
             ActivityUtils.addFragmentToActivity(fm, dynamicCreateTopicFragment, content_id);
         }
-        if (dynamicCreateTopicPresenter == null) {
-            dynamicCreateTopicPresenter = new DynamicCreateTopicPresenter(dynamicCreateTopicFragment,
-                    Injection.provideDynamicCreateTopicDataRepertory(getApplicationContext()));
-        }
+        dynamicCreateTopicPresenter = new DynamicCreateTopicPresenter(dynamicCreateTopicFragment,
+                Injection.provideDynamicCreateTopicDataRepertory(getApplicationContext()));
     }
 
     /**
@@ -186,14 +184,12 @@ public class DynamicCreateActivity extends BaseActivity {
      */
     private void initDynamicCreateNormal() {
         if (dynamicCreateNormalFragment == null) {
-            dynamicCreateNormalFragment = DynamicCreateNormalFragment.newInstance();
+            dynamicCreateNormalFragment = DynamicCreateNormalFragment.newInstance(circle_id);
             ActivityUtils.addFragmentToActivity(fm, dynamicCreateNormalFragment, content_id);
         }
-        if (dynamicCreateNormalPresenter == null) {
-            dynamicCreateNormalPresenter =
-                    new DynamicCreateNormalPresenter(dynamicCreateNormalFragment,
-                            Injection.provideDynamicCreateNormalDataRepertory(getApplicationContext()));
-        }
+        dynamicCreateNormalPresenter =
+                new DynamicCreateNormalPresenter(dynamicCreateNormalFragment,
+                        Injection.provideDynamicCreateNormalDataRepertory(getApplicationContext()));
     }
 
     /**
@@ -218,8 +214,17 @@ public class DynamicCreateActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dynamicCreateArticlePresenter = null;
+        dynamicCreateNormalPresenter = null;
+        dynamicCreateTopicPresenter = null;
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(Config.INTENT_KEY_DYNAMIC_CREATE_TYPE, dynamicCreateType);
+        outState.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
     }
 }

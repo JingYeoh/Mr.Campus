@@ -139,8 +139,9 @@ public interface BaseActivityAction {
      * 打开创建动态的Activity
      *
      * @param dynamicCreateType 动态创建类型
+     * @param circle_id         圈子id
      */
-    void startDynamicCreateActivity(@NonNull String dynamicCreateType);
+    void startDynamicCreateActivity(@NonNull String dynamicCreateType, int circle_id);
 
     /**
      * 打开创建圈子的页面

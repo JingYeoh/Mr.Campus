@@ -3,10 +3,10 @@
     android:id="@+id/dynamic_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/selecter_clearity_gravy"
+    android:background="@drawable/selector_white_general"
     android:orientation="vertical"
-    android:paddingBottom="30dp"
-    android:paddingTop="30dp"
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp"
     android:weightSum="5">
 
 

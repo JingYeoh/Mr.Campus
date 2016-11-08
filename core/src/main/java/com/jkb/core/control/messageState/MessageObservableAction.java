@@ -1,5 +1,7 @@
 package com.jkb.core.control.messageState;
 
+import android.os.Message;
+
 import java.util.List;
 
 import jkb.mrcampus.db.entity.Messages;
@@ -37,6 +39,31 @@ public interface MessageObservableAction {
     int getAllUnReadDynamicMessageCount();
 
     /**
+     * 得到所有的未读的订阅消息数
+     */
+    int getAllUnReadSubscribeMessageCount();
+
+    /**
+     * 得到所有的订阅消息数
+     */
+    int getAllSubscribeMessageCount();
+
+    /**
+     * 得到所有的订阅的消息数
+     */
+    List<Messages> getAllSubscribeMessage();
+
+    /**
+     * 得到所有未读的消息数
+     */
+    List<Messages> getAllUnReadSubscribeMessage();
+
+    /**
+     * 得到所有的未读的粉丝消息数
+     */
+    int getAllUnReadFansMessageCount();
+
+    /**
      * 读取消息
      */
     void readMessage(Messages messages);
@@ -45,6 +72,16 @@ public interface MessageObservableAction {
      * 读取消息
      */
     void readMessage(int messageId);
+
+    /**
+     * 读取所有的订阅消息
+     */
+    void readAllSubscribeMessage();
+
+    /**
+     * 读取所有的粉丝消息
+     */
+    void readAllFansMessage();
 
     /**
      * 存储消息

@@ -151,7 +151,7 @@ public class EnteringCircleMessagePresenter implements EnteringCircleMessageCont
                             String error, ApiResponse<CircleCreateEntity> apiResponse) {
             if (view.isActive()) {
                 view.dismissLoading();
-                view.showReqResult("创建失败~");
+                view.showReqResult(error);
             }
         }
 

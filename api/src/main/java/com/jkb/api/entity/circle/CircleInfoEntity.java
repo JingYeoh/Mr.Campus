@@ -286,7 +286,7 @@ public class CircleInfoEntity {
             private double latitude;
             private String created_at;
             private String email;
-            private Object phone;
+            private String phone;
             private int attentionCount;
             private int attentionUserCount;
             private int fansCount;
@@ -398,11 +398,11 @@ public class CircleInfoEntity {
                 this.email = email;
             }
 
-            public Object getPhone() {
+            public String getPhone() {
                 return phone;
             }
 
-            public void setPhone(Object phone) {
+            public void setPhone(String phone) {
                 this.phone = phone;
             }
 

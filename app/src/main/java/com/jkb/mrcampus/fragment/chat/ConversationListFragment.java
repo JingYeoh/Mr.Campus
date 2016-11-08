@@ -41,11 +41,9 @@ public class ConversationListFragment extends BaseFragment implements
     private static ConversationListFragment INSTANCE;
 
     public static ConversationListFragment newInstance() {
-        if (INSTANCE == null) {
-            Bundle args = new Bundle();
-            INSTANCE = new ConversationListFragment();
-            INSTANCE.setArguments(args);
-        }
+        Bundle args = new Bundle();
+        INSTANCE = new ConversationListFragment();
+        INSTANCE.setArguments(args);
         return INSTANCE;
     }
 
@@ -204,7 +202,8 @@ public class ConversationListFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        mainActivity.showLoading(value);
+        if (!isHidden())
+            mainActivity.showLoading(value);
     }
 
     @Override

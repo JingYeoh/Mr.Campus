@@ -41,9 +41,7 @@ public class MessageDynamicFragment extends BaseFragment implements
     private static MessageDynamicFragment INSTANCE = null;
 
     public static MessageDynamicFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new MessageDynamicFragment();
-        }
+        INSTANCE = new MessageDynamicFragment();
         return INSTANCE;
     }
 
@@ -159,7 +157,7 @@ public class MessageDynamicFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        messageActivity.showLoading(value);
+        if (!isHidden()) messageActivity.showLoading(value);
     }
 
     @Override

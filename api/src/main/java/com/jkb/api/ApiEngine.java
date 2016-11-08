@@ -1,10 +1,10 @@
 package com.jkb.api;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +12,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Response;
 import rx.Observable;
@@ -78,8 +77,6 @@ public class ApiEngine<T> {
 
     /**
      * 处理数据
-     *
-     * @param response
      */
     private void handleResponse(Response<T> response) throws IOException {
         if (response == null) {
@@ -98,19 +95,24 @@ public class ApiEngine<T> {
         switch (code) {
             case 200://成功
                 Gson gson = new Gson();
-                Log.i(TAG, gson.toJson(response.body()));
+//                Log.i(TAG, gson.toJson(response.body()));
+                Logger.json(gson.toJson(response.body()));
                 apiCallback.onSuccess(response);
                 break;
             case 404:
             case 422:
             default:
                 String error = response.errorBody().string();
-                Log.i(TAG, error);
+                Logger.json(error);
                 //这一层主要为了放置返回的不是json数据
                 try {
                     JSONObject object = new JSONObject(error);
+                    String errorMsg = object.getString("error");
+                    if(errorMsg==null||errorMsg.isEmpty()){
+                        errorMsg="请求错误，请重试";
+                    }
                     T obj = new Gson().fromJson(error, mType);
-                    apiCallback.onError(response, error, obj);
+                    apiCallback.onError(response, errorMsg, obj);
                 } catch (JSONException e) {
                     apiCallback.onError(response, "服务器异常", null);
                     e.printStackTrace();

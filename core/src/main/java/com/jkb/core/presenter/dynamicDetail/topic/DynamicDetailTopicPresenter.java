@@ -239,7 +239,7 @@ public class DynamicDetailTopicPresenter implements DynamicDetailTopicContract.P
                     public void onError(Response<ApiResponse<OperationActionEntity>> response,
                                         String error, ApiResponse<OperationActionEntity> apiResponse) {
                         if (view.isActive()) {
-                            view.showReqResult("操作失败");
+                            view.showReqResult(error);
                         }
                     }
 
@@ -584,7 +584,7 @@ public class DynamicDetailTopicPresenter implements DynamicDetailTopicContract.P
                         ApiResponse<DynamicTopicEntity> apiResponse) {
                     if (view.isActive()) {
                         view.hideRefreshView();
-                        view.showReqResult("请求错误");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -710,7 +710,7 @@ public class DynamicDetailTopicPresenter implements DynamicDetailTopicContract.P
                 @Override
                 public void onError(Response<ApiResponse<CommentListEntity>> response,
                                     String error, ApiResponse<CommentListEntity> apiResponse) {
-
+                    view.showReqResult(error);
                 }
 
                 @Override
@@ -745,7 +745,7 @@ public class DynamicDetailTopicPresenter implements DynamicDetailTopicContract.P
                 public void onError(Response<ApiResponse<OperationActionEntity>> response,
                                     String error, ApiResponse<OperationActionEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showReqResult("操作失败");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -776,7 +776,8 @@ public class DynamicDetailTopicPresenter implements DynamicDetailTopicContract.P
                                     String error, ApiResponse<CommentSendEntity> apiResponse) {
                     if (view.isActive()) {
                         view.dismissLoading();
-                        view.showReqResult("发送失败");
+//                        view.showReqResult("发送失败");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -808,7 +809,8 @@ public class DynamicDetailTopicPresenter implements DynamicDetailTopicContract.P
                                     ApiResponse<CommentReplyEntity> apiResponse) {
                     if (view.isActive()) {
                         view.dismissLoading();
-                        view.showReqResult("回复错误");
+//                        view.showReqResult("回复错误");
+                        view.showReqResult(error);
                     }
                 }
 

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jkb.core.contract.usersList.FansContract;
+import com.jkb.core.control.messageState.MessageObservable;
 import com.jkb.core.presenter.usersList.data.UserData;
 import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.Config;
@@ -31,21 +32,17 @@ public class FansFragment extends BaseFragment implements FansContract.View,
         SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
         FansListAdapter.OnUserListItemsClickListener {
 
-
     public FansFragment() {
 
     }
 
-
     public static FansFragment INSTANCE = null;
 
     public static FansFragment newInstance(int user_id) {
-        if (INSTANCE == null || user_id != -1) {
-            INSTANCE = new FansFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new FansFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -140,6 +137,11 @@ public class FansFragment extends BaseFragment implements FansContract.View,
     }
 
     @Override
+    public void readAllUnReadFansMessage() {
+        MessageObservable.newInstance().readAllFansMessage();
+    }
+
+    @Override
     public void updataViewData(List<UserData> userDatas) {
         Log.d(TAG, "当前条目数目是：" + userDatas.size());
         //更新数据
@@ -165,7 +167,8 @@ public class FansFragment extends BaseFragment implements FansContract.View,
 
     @Override
     public void showLoading(String value) {
-        usersListActivity.showLoading(value);
+        if (!isHidden())
+            usersListActivity.showLoading(value);
     }
 
     @Override
@@ -232,7 +235,7 @@ public class FansFragment extends BaseFragment implements FansContract.View,
     @Override
     public void onDestroy() {
         super.onDestroy();
-        usersListActivity=null;
-        LogUtils.d(TAG,"onDestroy");
+        usersListActivity = null;
+        LogUtils.d(TAG, "onDestroy");
     }
 }

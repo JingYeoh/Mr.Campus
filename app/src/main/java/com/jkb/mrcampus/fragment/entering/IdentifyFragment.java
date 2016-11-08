@@ -82,8 +82,8 @@ public class IdentifyFragment extends BaseFragment implements IdentifyContract.V
 
     @Override
     public void showLoading(String value) {
-        Log.d(TAG, "loading----------->" + value);
-        enteringActivity.showLoading(value);
+        if (!isHidden())
+            enteringActivity.showLoading(value);
     }
 
     @Override

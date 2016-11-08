@@ -31,6 +31,13 @@ public class GifLoadingView2 extends BlurDialogFragment {
     private GifImageView mGifImageView;
     private int id;
 
+    public static GifLoadingView2 newInstance() {
+        Bundle args = new Bundle();
+        GifLoadingView2 fragment = new GifLoadingView2();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         if (mDialog == null) {

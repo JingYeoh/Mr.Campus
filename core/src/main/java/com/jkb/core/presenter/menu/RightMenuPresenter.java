@@ -62,7 +62,7 @@ public class RightMenuPresenter implements RightMenuContract.Presenter {
     public int getUser_id() {
         UserInfoSingleton info = UserInfoSingleton.getInstance();
         Users users = info.getUsers();
-        if(users==null){
+        if (users == null) {
             return 0;
         }
         return users.getUser_id();
@@ -74,8 +74,9 @@ public class RightMenuPresenter implements RightMenuContract.Presenter {
             return;
         }
         isRequesting = true;
-        //更新个人数据
-        repertory.getUserInfo(getUser_id(), userInfoApiCallback);
+        if (LoginContext.getInstance().isLogined()) {
+            repertory.getUserInfo(getUser_id(), userInfoApiCallback);
+        }
     }
 
     @Override
@@ -130,6 +131,9 @@ public class RightMenuPresenter implements RightMenuContract.Presenter {
                 public void onError(Response<ApiResponse<UserInfoEntity>> response,
                                     String error, ApiResponse<UserInfoEntity> apiResponse) {
                     isRequesting = false;
+                    if (view.isActive()) {
+                        view.showReqResult(error);
+                    }
                 }
 
                 @Override

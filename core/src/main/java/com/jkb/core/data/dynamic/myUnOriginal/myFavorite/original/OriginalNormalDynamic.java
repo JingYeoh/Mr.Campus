@@ -3,7 +3,7 @@ package com.jkb.core.data.dynamic.myUnOriginal.myFavorite.original;
 import android.support.annotation.NonNull;
 
 import com.jkb.api.entity.dynamic.DynamicMyFavoriteEntity;
-import com.jkb.core.data.dynamic.hot.dynamic.original.OriginalTopicDynamic;
+import com.jkb.core.data.index.hot.dynamic.original.OriginalTopicDynamic;
 import com.jkb.core.data.dynamic.myUnOriginal.myFavorite.MyFavoriteDynamicData;
 import com.jkb.core.data.info.user.UserInfo;
 

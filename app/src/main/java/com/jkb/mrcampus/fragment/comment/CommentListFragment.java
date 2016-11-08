@@ -45,12 +45,10 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
     private static CommentListFragment INSTANCE = null;
 
     public static CommentListFragment newInstance(int dynamic_id) {
-        if (INSTANCE == null || dynamic_id > 0) {
-            INSTANCE = new CommentListFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new CommentListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -300,7 +298,8 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
 
     @Override
     public void showLoading(String value) {
-        commentActivity.showLoading(value);
+        if (!isHidden())
+            commentActivity.showLoading(value);
     }
 
     @Override

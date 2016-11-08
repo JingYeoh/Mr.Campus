@@ -43,12 +43,10 @@ public class MyDynamicArticleFragment extends BaseFragment implements
     private static MyDynamicArticleFragment INSTANCE = null;
 
     public static MyDynamicArticleFragment newInstance(@NonNull int user_id) {
-        if (INSTANCE == null || user_id > 0) {
-            INSTANCE = new MyDynamicArticleFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID, user_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new MyDynamicArticleFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID, user_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -167,7 +165,8 @@ public class MyDynamicArticleFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        myDynamicActivity.showLoading(value);
+        if (!isHidden())
+            myDynamicActivity.showLoading(value);
     }
 
     @Override

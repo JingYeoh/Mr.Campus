@@ -61,6 +61,44 @@ public interface MessagesDbDataSource {
     void getAllUnReadMessageCount(MessagesDataCallback<Integer> callback);
 
     /**
+     * 得到所有未读的订阅消息数
+     *
+     * @param callback 回调
+     */
+    void getAllUnReadSubscribeMessageCount(int user_id, MessagesDataCallback<Integer> callback);
+
+    /**
+     * 得到所有的订阅消息数
+     *
+     * @param callback 回调
+     */
+    void getAllSubscribeMessageCount(int user_id, MessagesDataCallback<Integer> callback);
+
+    /**
+     * 得到所有未读的订阅消息
+     *
+     * @param callback 回调
+     */
+    void getAllUnReadSubscribeMessage(int user_id, MessagesDataCallback<List<Messages>> callback);
+
+    /**
+     * 得到所有订阅消息
+     *
+     * @param callback 回调
+     */
+    void getAllSubscribeMessage(int user_id, MessagesDataCallback<List<Messages>> callback);
+
+    /**
+     * 得到所有的未读粉丝数目
+     */
+    void getAllUnReadFansMessageCount(int user_id, MessagesDataCallback<Integer> callback);
+
+    /**
+     * 得到所有的未读粉丝消息
+     */
+    void getAllUnReadFansMessage(int user_id, MessagesDataCallback<List<Messages>> callback);
+
+    /**
      * 得带所以体验的系统消息的数目
      *
      * @param callback 回调

@@ -133,7 +133,8 @@ public class MyDynamicTopicPresenter implements MyDynamicTopicContract.Presenter
                     public void onError(Response<ApiResponse<DynamicActionEntity>> response, String error,
                                         ApiResponse<DynamicActionEntity> apiResponse) {
                         if (view.isActive()) {
-                            view.showReqResult("删除失败");
+//                            view.showReqResult("删除失败");
+                            view.showReqResult(error);
                             bindDataToView();
                         }
                     }
@@ -194,7 +195,7 @@ public class MyDynamicTopicPresenter implements MyDynamicTopicContract.Presenter
                                         String error, ApiResponse<OperationActionEntity> apiResponse) {
                         if (view.isActive()) {
                             bindDataToView();
-                            view.showReqResult("操作失败");
+                            view.showReqResult(error);
                         }
                     }
 
@@ -364,7 +365,7 @@ public class MyDynamicTopicPresenter implements MyDynamicTopicContract.Presenter
                 public void onError(Response<ApiResponse<DynamicTopicListEntity>> response, String error,
                                     ApiResponse<DynamicTopicListEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showReqResult("请求错误");
+                        view.showReqResult(error);
                         bindDataToView();
                     }
                 }

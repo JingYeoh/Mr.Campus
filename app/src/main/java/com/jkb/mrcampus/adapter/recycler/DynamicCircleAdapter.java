@@ -28,11 +28,13 @@ import java.util.List;
  * Created by JustKiddingBaby on 2016/8/31.
  */
 
-public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdapter.ViewHolder> {
+public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdapter.ViewHolder>
+        implements View.OnClickListener {
 
     private static final String TAG = "DynamicCircleAdapter";
     private Context context;
     public List<DynamicInCircle> dynamicInCircles;
+    public boolean isCircleCreaor;
 
     //常量
     private static final int DYNAMIC_TYPE_ARTICLE = 1001;
@@ -45,6 +47,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
     private OnCommentClickListener onCommentClickListener;
     private OnLikeClickListener onLikeClickListener;
     private OnShareClickListener onShareClickListener;
+    private OnCircleDynamicItemClickListener onCircleDynamicItemClickListener;
 
 
     public DynamicCircleAdapter(Context context, List<DynamicInCircle> dynamicInCircles) {
@@ -126,6 +129,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         //初始化id
         holder.dynamicContent = view.findViewById(R.id.dynamic_content);
         holder.original_article.tvTag = (TextView) view.findViewById(R.id.idc_tv_tag);
+        holder.original_article.tvPutInBlack = (TextView) view.findViewById(R.id.iidb_tv_delete);
         //作者
         holder.original_article.ivUserHeadImg =
                 (ImageView) view.findViewById(R.id.idc_iv_headImg);
@@ -133,6 +137,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         holder.original_article.tvUserName = (TextView) view.findViewById(R.id.idc_tv_authorName);
         //内容
         holder.original_article.tvTime = (TextView) view.findViewById(R.id.idc_tv_time);
+        holder.original_article.contentPic = view.findViewById(R.id.idc_ll_imageContent);
         holder.original_article.ivPic = (ImageView) view.findViewById(R.id.idc_iv_image);
         holder.original_article.tvDynamicTitle = (TextView) view.findViewById(R.id.idc_tv_dynamicName);
         holder.original_article.tvDynamicContent = (TextView) view.findViewById(R.id.idc_tv_dynamicValue);
@@ -149,6 +154,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         holder.original_article.ivLike.setOnClickListener(clickLikeListener);
         holder.original_article.ivComment.setOnClickListener(clickCommentListener);
         holder.original_article.ivShare.setOnClickListener(clickShareListener);
+        holder.original_article.tvPutInBlack.setOnClickListener(this);
         return holder;
     }
 
@@ -163,6 +169,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         //初始化id
         holder.dynamicContent = view.findViewById(R.id.dynamic_content);
         holder.original_topic.tvTag = (TextView) view.findViewById(R.id.idc_tv_tag);
+        holder.original_topic.tvPutInBlack = (TextView) view.findViewById(R.id.iidb_tv_delete);
         //作者
         holder.original_topic.ivUserHeadImg =
                 (ImageView) view.findViewById(R.id.idc_iv_headImg);
@@ -170,6 +177,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         holder.original_topic.tvUserName = (TextView) view.findViewById(R.id.idc_tv_authorName);
         //内容
         holder.original_topic.tvTime = (TextView) view.findViewById(R.id.idc_tv_time);
+        holder.original_topic.contentPic = view.findViewById(R.id.idc_ll_imageContent);
         holder.original_topic.ivPic = (ImageView) view.findViewById(R.id.idc_iv_image);
         holder.original_topic.tvDynamicTitle = (TextView) view.findViewById(R.id.idc_tv_dynamicName);
         holder.original_topic.tvDynamicContent = (TextView) view.findViewById(R.id.idc_tv_dynamicValue);
@@ -187,6 +195,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         holder.original_topic.ivLike.setOnClickListener(clickLikeListener);
         holder.original_topic.ivComment.setOnClickListener(clickCommentListener);
         holder.original_topic.ivShare.setOnClickListener(clickShareListener);
+        holder.original_topic.tvPutInBlack.setOnClickListener(this);
         return holder;
     }
 
@@ -201,6 +210,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         //初始化id
         holder.dynamicContent = view.findViewById(R.id.dynamic_content);
         holder.original_normal.tvTag = (TextView) view.findViewById(R.id.idc_tv_tag);
+        holder.original_normal.tvPutInBlack = (TextView) view.findViewById(R.id.iidb_tv_delete);
         //作者
         holder.original_normal.ivUserHeadImg =
                 (ImageView) view.findViewById(R.id.idc_iv_headImg);
@@ -208,6 +218,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         holder.original_normal.tvUserName = (TextView) view.findViewById(R.id.idc_tv_authorName);
         //内容
         holder.original_normal.tvTime = (TextView) view.findViewById(R.id.idc_tv_time);
+        holder.original_normal.contentPic = view.findViewById(R.id.idc_ll_imageContent);
         holder.original_normal.ivPic = (ImageView) view.findViewById(R.id.idc_iv_image);
         holder.original_normal.tvDynamicTitle = (TextView) view.findViewById(R.id.idc_tv_dynamicName);
         holder.original_normal.tvDynamicContent = (TextView) view.findViewById(R.id.idc_tv_dynamicValue);
@@ -224,6 +235,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         holder.original_normal.ivLike.setOnClickListener(clickLikeListener);
         holder.original_normal.ivComment.setOnClickListener(clickCommentListener);
         holder.original_normal.ivShare.setOnClickListener(clickShareListener);
+        holder.original_normal.tvPutInBlack.setOnClickListener(this);
         return holder;
     }
 
@@ -267,7 +279,8 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
                 holder.original_article.contentUserHeadImg,
                 holder.original_article.ivComment,
                 holder.original_article.ivLike,
-                holder.original_article.ivShare);
+                holder.original_article.ivShare,
+                holder.original_article.tvPutInBlack);
 
         if (article == null) {
             holder.dynamicContent.setVisibility(View.GONE);
@@ -277,6 +290,12 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         //设置标签
         holder.original_article.tvTag.setBackgroundResource(R.drawable.ic_tag_article);
         holder.original_article.tvTag.setText("文章");
+        holder.original_article.tvPutInBlack.setText("拉黑");
+        if (isCircleCreaor) {
+            holder.original_article.tvPutInBlack.setVisibility(View.VISIBLE);
+        } else {
+            holder.original_article.tvPutInBlack.setVisibility(View.GONE);
+        }
         //作者信息
         UserInfo user = article.getUser();
         if (user == null) {
@@ -312,8 +331,9 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
                 }
             }
             if (StringUtils.isEmpty(img)) {
-                holder.original_article.ivPic.setVisibility(View.GONE);
+                holder.original_article.contentPic.setVisibility(View.GONE);
             } else {
+                holder.original_article.contentPic.setVisibility(View.VISIBLE);
                 loadImageByUrl(holder.original_article.ivPic, img);
             }
             holder.original_article.tvDynamicContent.setText(doc);
@@ -341,7 +361,8 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
                 holder.original_normal.contentUserHeadImg,
                 holder.original_normal.ivComment,
                 holder.original_normal.ivLike,
-                holder.original_normal.ivShare);
+                holder.original_normal.ivShare,
+                holder.original_normal.tvPutInBlack);
 
         if (normal == null) {
             holder.dynamicContent.setVisibility(View.GONE);
@@ -351,6 +372,12 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         //设置标签
         holder.original_normal.tvTag.setBackgroundResource(R.drawable.ic_tag_essays);
         holder.original_normal.tvTag.setText("普通");
+        holder.original_normal.tvPutInBlack.setText("拉黑");
+        if (isCircleCreaor) {
+            holder.original_normal.tvPutInBlack.setVisibility(View.VISIBLE);
+        } else {
+            holder.original_normal.tvPutInBlack.setVisibility(View.GONE);
+        }
         //作者信息
         UserInfo user = normal.getUser();
         if (user == null) {
@@ -375,8 +402,9 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
             List<String> imgs = normalContent.getImg();
             String doc = normalContent.getDoc();
             if (imgs == null || imgs.size() == 0) {
-                holder.original_normal.ivPic.setVisibility(View.GONE);
+                holder.original_normal.contentPic.setVisibility(View.GONE);
             } else {
+                holder.original_normal.contentPic.setVisibility(View.VISIBLE);
                 loadImageByUrl(holder.original_normal.ivPic, imgs.get(0));
             }
             holder.original_normal.tvDynamicContent.setText(doc);
@@ -404,7 +432,8 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
                 holder.original_topic.contentUserHeadImg,
                 holder.original_topic.ivComment,
                 holder.original_topic.ivLike,
-                holder.original_topic.ivShare);
+                holder.original_topic.ivShare,
+                holder.original_topic.tvPutInBlack);
 
         if (topic == null) {
             holder.dynamicContent.setVisibility(View.GONE);
@@ -414,6 +443,12 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         //设置标签
         holder.original_topic.tvTag.setBackgroundResource(R.drawable.ic_tag_topic);
         holder.original_topic.tvTag.setText("话题");
+        holder.original_topic.tvPutInBlack.setText("拉黑");
+        if (isCircleCreaor) {
+            holder.original_topic.tvPutInBlack.setVisibility(View.VISIBLE);
+        } else {
+            holder.original_topic.tvPutInBlack.setVisibility(View.GONE);
+        }
         //作者信息
         UserInfo user = topic.getUser();
         if (user == null) {
@@ -438,8 +473,9 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
             String img = topicContent.getImg();
             String doc = topicContent.getDoc();
             if (StringUtils.isEmpty(img)) {
-                holder.original_topic.ivPic.setVisibility(View.GONE);
+                holder.original_topic.contentPic.setVisibility(View.GONE);
             } else {
+                holder.original_topic.contentPic.setVisibility(View.VISIBLE);
                 loadImageByUrl(holder.original_topic.ivPic, img);
             }
             holder.original_topic.tvDynamicContent.setText(doc);
@@ -486,12 +522,14 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
      */
     private class DynamicOriginal_Article {
         TextView tvTag;
+        TextView tvPutInBlack;
         //作者
         View contentUserHeadImg;
         TextView tvUserName;
         ImageView ivUserHeadImg;
         //时间
         TextView tvTime;
+        View contentPic;
         ImageView ivPic;
         TextView tvDynamicTitle;
         TextView tvDynamicContent;
@@ -508,12 +546,14 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
      */
     private class DynamicOriginal_Normal {
         TextView tvTag;
+        TextView tvPutInBlack;
         //作者
         View contentUserHeadImg;
         TextView tvUserName;
         ImageView ivUserHeadImg;
         //时间
         TextView tvTime;
+        View contentPic;
         ImageView ivPic;
         TextView tvDynamicTitle;
         TextView tvDynamicContent;
@@ -530,12 +570,14 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
      */
     private class DynamicOriginal_Topic {
         TextView tvTag;
+        TextView tvPutInBlack;
         //作者
         View contentUserHeadImg;
         TextView tvUserName;
         ImageView ivUserHeadImg;
         //时间
         TextView tvTime;
+        View contentPic;
         ImageView ivPic;
         TextView tvDynamicTitle;
         TextView tvDynamicContent;
@@ -615,6 +657,19 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
     }
 
     /**
+     * 圈子动态条目点击监听事件
+     */
+    public interface OnCircleDynamicItemClickListener {
+
+        /**
+         * 拉黑的点击事件回调方法
+         *
+         * @param position 条目数
+         */
+        void onPutInBlackListItemClick(int position);
+    }
+
+    /**
      * 设置圈子内动态的条目点击监听事件
      */
     public void setOnDynamicInCircleItemClickListener(
@@ -650,6 +705,13 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         this.onHeadImgClickListener = onHeadImgClickListener;
     }
 
+    /**
+     * 设置圈子动态的条目点击监听事件
+     */
+    public void setOnCircleDynamicItemClickListener(
+            OnCircleDynamicItemClickListener onCircleDynamicItemClickListener) {
+        this.onCircleDynamicItemClickListener = onCircleDynamicItemClickListener;
+    }
 
     /**
      * 条目点击的监听器
@@ -766,4 +828,23 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
             }
         }
     };
+
+    @Override
+    public void onClick(View v) {
+        if (onCircleDynamicItemClickListener == null) {
+            return;
+        }
+        //判断各种控件id
+        Bundle bundle = (Bundle) v.getTag();
+        if (bundle == null) {
+            return;
+        }
+        int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
+        int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
+        switch (viewId) {
+            case R.id.iidb_tv_delete:
+                onCircleDynamicItemClickListener.onPutInBlackListItemClick(position);
+                break;
+        }
+    }
 }

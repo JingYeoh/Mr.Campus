@@ -187,7 +187,7 @@ public class VisitorPresenter implements VisitorContract.Presenter {
                                     String error, ApiResponse<OperationActionEntity> apiResponse) {
                     if (view.isActive()) {
                         view.dismissLoading();
-                        view.showReqResult("请求错误，请重试");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -220,7 +220,7 @@ public class VisitorPresenter implements VisitorContract.Presenter {
                     isLoading = false;
                     if (view.isActive()) {
                         view.dismissRefresh$Loaded();
-                        view.showReqResult("请求错误，请重试");
+                        view.showReqResult(error);
                         pageControl.setCurrent_page(pageControl.getCurrent_page() - 1);
                     }
                 }
@@ -294,9 +294,9 @@ public class VisitorPresenter implements VisitorContract.Presenter {
             UserData data = new UserData();
             OperationVisitorEntity.UserBean.DataBean bean = users.get(i);
             //是否被关注
-            if(bean.getHasPayAttention()==0){
+            if (bean.getHasPayAttention() == 0) {
                 data.setAttentioned(false);
-            }else{
+            } else {
                 data.setAttentioned(true);
             }
             data.setAvatar(bean.getAvatar());

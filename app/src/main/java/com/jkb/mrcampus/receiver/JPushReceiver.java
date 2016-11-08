@@ -39,6 +39,13 @@ public class JPushReceiver extends BroadcastReceiver implements Observer {
 
     private NotificationManager nm;
 
+    //常量
+    private static final String MESSAGE_TYPE_DYNAMIC = "message.type.dynamic";
+    private static final String MESSAGE_TYPE_SUBSCRIBE = "message.type.subscribe";
+    private static final String MESSAGE_TYPE_FANS = "message.type.fans";
+    private static final String MESSAGE_TYPE_CIRCLE = "message.type.circle";
+    private static final String MESSAGE_TYPE_SYSTEM = "message.type.system";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         //添加为观察者
@@ -83,27 +90,68 @@ public class JPushReceiver extends BroadcastReceiver implements Observer {
             case Config.MESSAGE_ACTION_MAKECOMMENT:
             case Config.MESSAGE_ACTION_MAKEREPLY:
                 //跳转到动态页面
-                startDynamicMessage(context);
+                startMessage(context, MESSAGE_TYPE_DYNAMIC);
+                break;
+            case Config.MESSAGE_ACTION_SUBSCRIBE:
+                //跳转到订阅页面
+                startMessage(context, MESSAGE_TYPE_SUBSCRIBE);
+                break;
+            case Config.MESSAGE_ACTION_PAYATTENTION://粉丝列表
+//                startMessageView(context, MESSAGE_TYPE_FANS);
                 break;
         }
     }
 
     /**
-     * 打开动态的消息页面
+     * 打开消息页面
+     *
+     * @param messageType 消息类型
      */
-    private void startDynamicMessage(Context context) {
+    private void startMessage(Context context, String messageType) {
+        int flag;
+        String jumpActoin;
+        switch (messageType) {
+            case MESSAGE_TYPE_DYNAMIC:
+                flag = MessageActivity.MESSAGE_TYPE_DYNAMIC;
+                jumpActoin = com.jkb.mrcampus.Config.BUNDLE_JUMP_ACTION_MESSAGE_DYNAMIC;
+                break;
+            case MESSAGE_TYPE_FANS:
+                flag = MessageActivity.MESSAGE_TYPE_FANS;
+                jumpActoin = com.jkb.mrcampus.Config.BUNDLE_JUMP_ACTION_MESSAGE_FANS;
+                break;
+            case MESSAGE_TYPE_SUBSCRIBE:
+                flag = MessageActivity.MESSAGE_TYPE_SUBSCRIBE;
+                jumpActoin = com.jkb.mrcampus.Config.BUNDLE_JUMP_ACTION_MESSAGE_SUBSCRIBE;
+                break;
+            case MESSAGE_TYPE_CIRCLE:
+                flag = MessageActivity.MESSAGE_TYPE_CIRCLE;
+                jumpActoin = com.jkb.mrcampus.Config.BUNDLE_JUMP_ACTION_MESSAGE_CIRCLE;
+                break;
+            case MESSAGE_TYPE_SYSTEM:
+                flag = MessageActivity.MESSAGE_TYPE_SYSTEM;
+                jumpActoin = com.jkb.mrcampus.Config.BUNDLE_JUMP_ACTION_MESSAGE_SYSTEM;
+                break;
+            default:
+                flag = -1;
+                jumpActoin = null;
+                break;
+        }
+        if (flag == -1) {
+            return;
+        }
+        if (StringUtils.isEmpty(jumpActoin)) {
+            return;
+        }
         if (SystemUtils.isActivityRunning(MainActivity.class.getName(), context)) {
             Intent mainIntent = new Intent(context, MessageActivity.class);
             mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mainIntent.putExtra(com.jkb.mrcampus.Config.INTENT_KEY_MESSAGE_TYPE,
-                    MessageActivity.MESSAGE_TYPE_DYNAMIC);
+            mainIntent.putExtra(com.jkb.mrcampus.Config.INTENT_KEY_MESSAGE_TYPE, flag);
             context.startActivity(mainIntent);
         } else {
             //正常启动
             Bundle args = new Bundle();
-            args.putString(com.jkb.mrcampus.Config.BUNDLE_KEY_JUMP_ACTION,
-                    com.jkb.mrcampus.Config.BUNDLE_JUMP_ACTION_MESSAGE_DYNAMIC);
-            SystemUtils.launchApp(context,args);
+            args.putString(com.jkb.mrcampus.Config.BUNDLE_KEY_JUMP_ACTION, jumpActoin);
+            SystemUtils.launchApp(context, args);
         }
     }
 

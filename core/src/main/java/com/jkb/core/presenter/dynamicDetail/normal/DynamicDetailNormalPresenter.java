@@ -151,7 +151,7 @@ public class DynamicDetailNormalPresenter implements DynamicDetailNormalContract
                     public void onError(Response<ApiResponse<OperationActionEntity>> response,
                                         String error, ApiResponse<OperationActionEntity> apiResponse) {
                         if (view.isActive()) {
-                            view.showReqResult("操作失败");
+                            view.showReqResult(error);
                         }
                     }
 
@@ -324,7 +324,7 @@ public class DynamicDetailNormalPresenter implements DynamicDetailNormalContract
                         ApiResponse<DynamicNormalEntity> apiResponse) {
                     if (view.isActive()) {
                         view.hideRefreshView();
-                        view.showReqResult("请求错误");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -411,7 +411,7 @@ public class DynamicDetailNormalPresenter implements DynamicDetailNormalContract
                 @Override
                 public void onError(Response<ApiResponse<CommentListEntity>> response,
                                     String error, ApiResponse<CommentListEntity> apiResponse) {
-
+                    view.showReqResult(error);
                 }
 
                 @Override
@@ -446,7 +446,7 @@ public class DynamicDetailNormalPresenter implements DynamicDetailNormalContract
                 public void onError(Response<ApiResponse<OperationActionEntity>> response,
                                     String error, ApiResponse<OperationActionEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showReqResult("操作失败");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -477,7 +477,8 @@ public class DynamicDetailNormalPresenter implements DynamicDetailNormalContract
                                     String error, ApiResponse<CommentSendEntity> apiResponse) {
                     if (view.isActive()) {
                         view.dismissLoading();
-                        view.showReqResult("发送失败");
+//                        view.showReqResult("发送失败");
+                        view.showReqResult(error);
                     }
                 }
 

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.roger.gifloadinglibrary.GifLoadingView;
 
@@ -31,7 +32,6 @@ public abstract class BaseFragment extends Fragment {
     protected Activity mActivity;
     protected View rootView;
     private int rootViewId;
-    private Bundle mSavedInstanceState;
 
     //颜色
     protected int COLOR_MAIN_THEME_GREEN;
@@ -40,7 +40,6 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSavedInstanceState = savedInstanceState;
     }
 
     @Nullable
@@ -53,7 +52,6 @@ public abstract class BaseFragment extends Fragment {
         //处理页面是否隐藏的问题
         if (savedInstanceState != null) {
             boolean isSupportHidden = savedInstanceState.getBoolean(STATE_SAVE_IS_HIDDEN);
-
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             if (isSupportHidden) {
                 ft.hide(this);
@@ -89,7 +87,7 @@ public abstract class BaseFragment extends Fragment {
         super.onDestroy();
         this.mActivity = null;
         this.context = null;
-//        this.rootView = null;
+        this.rootView = null;
     }
 
     @Override

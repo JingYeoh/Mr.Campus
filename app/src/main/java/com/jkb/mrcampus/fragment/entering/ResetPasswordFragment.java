@@ -113,7 +113,7 @@ public class ResetPasswordFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        enteringActivity.showLoading(value);
+        if (!isHidden()) enteringActivity.showLoading(value);
     }
 
     @Override

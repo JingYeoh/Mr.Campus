@@ -4,8 +4,10 @@ import android.support.annotation.NonNull;
 
 import com.jkb.api.ApiCallback;
 import com.jkb.api.ApiResponse;
+import com.jkb.api.entity.circle.CircleActionEntity;
 import com.jkb.api.entity.circle.CircleInfoEntity;
 import com.jkb.api.entity.circle.DynamicInCircleListEntity;
+import com.jkb.api.entity.dynamic.DynamicActionEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.model.intfc.BitmapLoadedCallback;
 
@@ -67,5 +69,12 @@ public class CircleIndexDataRepertory implements CircleIndexDataSource {
             @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
             @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
         remoteDataSource.favorite(Authorization, user_id, target_id, apiCallback);
+    }
+
+    @Override
+    public void putDynamicInBlackList(
+            @NonNull String Authorization, @NonNull int dynamic_id, @NonNull int user_id,
+            @NonNull ApiCallback<ApiResponse<CircleActionEntity>> apiCallback) {
+        remoteDataSource.putDynamicInBlackList(Authorization, dynamic_id, user_id, apiCallback);
     }
 }

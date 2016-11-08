@@ -49,30 +49,32 @@ public class FunctionSettingPresenter implements FunctionSettingContract.Present
     @Override
     public void initCacheStatus() {
         //使用线程
-        if (view.isActive()) {
-            Observable.create(new Observable.OnSubscribe<Double>() {
-                @Override
-                public void call(Subscriber<? super Double> subscriber) {
-                    double deskCacheSize = ImageLoaderFactory.getInstance().getDeskCacheSize();
-                    subscriber.onNext(deskCacheSize);
-                }
-            }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<Double>() {
-                        @Override
-                        public void onCompleted() {
-                        }
+        Observable.create(new Observable.OnSubscribe<Double>() {
+            @Override
+            public void call(Subscriber<? super Double> subscriber) {
+                double deskCacheSize = ImageLoaderFactory.getInstance().getDeskCacheSize();
+                subscriber.onNext(deskCacheSize);
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Double>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
+                        if (view.isActive()) {
                             view.setCacheSize(0);
                         }
+                    }
 
-                        @Override
-                        public void onNext(Double aDouble) {
+                    @Override
+                    public void onNext(Double aDouble) {
+                        if (view.isActive()) {
                             view.setCacheSize(aDouble);
                         }
-                    });
-        }
+                    }
+                });
     }
 
     @Override
@@ -81,7 +83,9 @@ public class FunctionSettingPresenter implements FunctionSettingContract.Present
         if (isLogin) {
             //设置登出
             setLoginStatusToLogout();
-            view.showLogoutView();
+            if (view.isActive()) {
+                view.showLogoutView();
+            }
         } else {
             //设置登录
             setLoginStatusToLogin();

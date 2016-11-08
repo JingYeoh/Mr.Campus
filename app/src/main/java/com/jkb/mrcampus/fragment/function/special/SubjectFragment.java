@@ -22,9 +22,7 @@ public class SubjectFragment extends BaseFragment {
     private static SubjectFragment INSTANCE = null;
 
     public static SubjectFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new SubjectFragment();
-        }
+        INSTANCE = new SubjectFragment();
         return INSTANCE;
     }
 

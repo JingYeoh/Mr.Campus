@@ -47,12 +47,10 @@ public class MyDynamicCircleFragment extends BaseFragment implements
     private static MyDynamicCircleFragment INSTANCE = null;
 
     public static MyDynamicCircleFragment newInstance(@NonNull int user_id) {
-        if (INSTANCE == null || user_id > 0) {
-            INSTANCE = new MyDynamicCircleFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new MyDynamicCircleFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -255,7 +253,8 @@ public class MyDynamicCircleFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        myOriginalDynamicActivity.showLoading(value);
+        if (!isHidden())
+            myOriginalDynamicActivity.showLoading(value);
     }
 
     @Override

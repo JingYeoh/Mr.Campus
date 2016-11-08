@@ -38,6 +38,11 @@ public interface CircleSettingUserContract {
         void setCircleTag(String circleTag);
 
         /**
+         * 设置是否设置为常用圈子的状态
+         */
+        void setInCommonUseStatus(boolean inCommonUseStatus);
+
+        /**
          * 显示选取头像的视图
          */
         void showChoosePictureView();
@@ -64,6 +69,23 @@ public interface CircleSettingUserContract {
          * @param value 数据
          */
         void updateInputText(int type, String value);
+
+        /**
+         * 显示圈子用户列表
+         *
+         * @param isCircleCreator 是否是创建者
+         */
+        void showAttentionCircleUserList(boolean isCircleCreator);
+
+        /**
+         * 显示禁闭室页面
+         */
+        void showUserInCircleBlackList();
+
+        /**
+         * 显示圈子动态黑名单
+         */
+        void showDynamicInCircleBlackList();
     }
 
     interface Presenter extends BasePresenter {
@@ -101,5 +123,15 @@ public interface CircleSettingUserContract {
          * 更新圈子标签
          */
         void updateCircleTag(String circleTag);
+
+        /**
+         * 设置为常用圈子的点击事件
+         */
+        void onInCommonUseSwitchClick();
+
+        /**
+         * 是否是圈子创建者
+         */
+        boolean isCircleCreator();
     }
 }

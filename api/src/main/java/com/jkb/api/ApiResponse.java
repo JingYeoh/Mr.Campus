@@ -18,6 +18,8 @@ public class ApiResponse<T> {
      */
     private T msg;
 
+    private String error;
+
     public boolean isSuccess() {
         return success;
     }
@@ -32,5 +34,13 @@ public class ApiResponse<T> {
 
     public void setMsg(T msg) {
         this.msg = msg;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }

@@ -50,9 +50,7 @@ public class FriendsFragment extends BaseFragment implements
     }
 
     public static FriendsFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new FriendsFragment();
-        }
+        INSTANCE = new FriendsFragment();
         return INSTANCE;
     }
 
@@ -188,7 +186,8 @@ public class FriendsFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        mainActivity.showLoading(value);
+        if (!isHidden())
+            mainActivity.showLoading(value);
     }
 
     @Override

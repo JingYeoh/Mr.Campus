@@ -12,6 +12,12 @@ public interface DynamicCreateNormalContract {
 
 
     interface View extends BaseView<Presenter> {
+        /**
+         * 得到圈子id
+         *
+         * @return 圈子id
+         */
+        int getCircleId();
 
         /**
          * 设置包含的图片

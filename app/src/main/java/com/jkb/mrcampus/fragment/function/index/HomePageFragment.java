@@ -10,12 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jkb.core.contract.function.HomePageContract;
 import com.jkb.core.control.messageState.MessageObservable;
 import com.jkb.core.control.userstate.LoginContext;
-import com.jkb.core.control.userstate.UserState;
-import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.adapter.fragmentPager.HomePageAdapter;
@@ -23,8 +20,6 @@ import com.jkb.mrcampus.base.BaseFragment;
 
 import java.util.Observable;
 import java.util.Observer;
-
-import io.rong.imkit.RongIM;
 
 /**
  * 首页的页面视图
@@ -132,15 +127,15 @@ public class HomePageFragment extends BaseFragment implements
 
     @Override
     public void showLeftMenu() {
-        Log.v(TAG, "showLeftMenu");
-        mainActivity.showLeftMenu();
+        Log.v(TAG, "showLeftMenuView");
+        mainActivity.showLeftMenuView();
     }
 
 
     @Override
     public void showRightMenu() {
-        Log.v(TAG, "showRightMenu");
-        mainActivity.showRightMenu();
+        Log.v(TAG, "showRightMenuView");
+        mainActivity.showRightMenuView();
     }
 
     @Override
@@ -202,7 +197,8 @@ public class HomePageFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        mainActivity.showLoading(value);
+        if (!isHidden())
+            mainActivity.showLoading(value);
     }
 
     @Override

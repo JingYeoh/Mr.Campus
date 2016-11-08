@@ -162,7 +162,7 @@ public class MapFragment extends BaseFragment implements MapContract.View,
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mMapView.onDestroy();
-        mapActivity=null;
+        mapActivity = null;
     }
 
     @Override
@@ -314,7 +314,8 @@ public class MapFragment extends BaseFragment implements MapContract.View,
 
     @Override
     public void showLoading(String value) {
-        mapActivity.showLoading(value);
+        if (!isHidden())
+            mapActivity.showLoading(value);
     }
 
     @Override

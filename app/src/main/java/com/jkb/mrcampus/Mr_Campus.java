@@ -11,6 +11,8 @@ import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.Config;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
+import com.orhanobut.logger.LogLevel;
+import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
 
 import cn.jpush.android.api.JPushInterface;
@@ -100,6 +102,12 @@ public class Mr_Campus extends MultiDexApplication {
         //初始化激光推送
         JPushInterface.setDebugMode(true);
         JPushInterface.init(getApplicationContext());
+        //初始化Logger
+        Logger.init("com.jkb.mrcampus")
+                .methodCount(5)                 // default 2
+                .hideThreadInfo()               // default shown
+                .logLevel(LogLevel.FULL)        // default LogLevel.FULL
+                .methodOffset(2);               // default 0
     }
 
     /**

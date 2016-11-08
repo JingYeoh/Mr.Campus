@@ -47,6 +47,11 @@ public interface FansContract {
         void setUser_id(int user_id);
 
         /**
+         * 读取所有的粉丝消息
+         */
+        void readAllUnReadFansMessage();
+
+        /**
          * 更新显示的数据
          */
         void updataViewData(List<UserData> userDatas);
@@ -69,12 +74,16 @@ public interface FansContract {
     interface Presenter extends BasePresenter {
 
         /**
+         * 读取所有的粉丝消息
+         */
+        void readAllUnReadFansMessage();
+
+        /**
          * 关注或者取消关注
          *
          * @param position 条目数
          */
         void onPayAttentionCLicked(int position);
-
 
         /**
          * 头像点击的时候

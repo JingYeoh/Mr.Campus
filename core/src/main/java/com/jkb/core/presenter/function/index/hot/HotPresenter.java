@@ -5,17 +5,17 @@ import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.dynamic.DynamicPopularListEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
-import com.jkb.core.data.dynamic.hot.HotDynamic;
-import com.jkb.core.data.dynamic.hot.circle.CircleDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.circle.CircleArticleDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.circle.CircleNormalDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.circle.CircleTopicDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.circle.DynamicInCircleDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.original.OriginalArticleDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.original.OriginalDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.original.OriginalNormalDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.original.OriginalTopicDynamic;
-import com.jkb.core.data.dynamic.hot.user.UserDynamic;
+import com.jkb.core.data.index.hot.HotDynamic;
+import com.jkb.core.data.index.hot.circle.CircleDynamic;
+import com.jkb.core.data.index.hot.dynamic.circle.CircleArticleDynamic;
+import com.jkb.core.data.index.hot.dynamic.circle.CircleNormalDynamic;
+import com.jkb.core.data.index.hot.dynamic.circle.CircleTopicDynamic;
+import com.jkb.core.data.index.hot.dynamic.circle.DynamicInCircleDynamic;
+import com.jkb.core.data.index.hot.dynamic.original.OriginalArticleDynamic;
+import com.jkb.core.data.index.hot.dynamic.original.OriginalDynamic;
+import com.jkb.core.data.index.hot.dynamic.original.OriginalNormalDynamic;
+import com.jkb.core.data.index.hot.dynamic.original.OriginalTopicDynamic;
+import com.jkb.core.data.index.hot.user.UserDynamic;
 import com.jkb.core.contract.function.index.HotContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
@@ -174,7 +174,7 @@ public class HotPresenter implements HotContract.Presenter {
                     public void onError(Response<ApiResponse<OperationActionEntity>> response,
                                         String error, ApiResponse<OperationActionEntity> apiResponse) {
                         if (view.isActive()) {
-                            view.showReqResult("操作失败");
+                            view.showReqResult(error);
                         }
                     }
 
@@ -218,7 +218,7 @@ public class HotPresenter implements HotContract.Presenter {
                     public void onError(Response<ApiResponse<OperationActionEntity>> response,
                                         String error, ApiResponse<OperationActionEntity> apiResponse) {
                         if (view.isActive()) {
-                            view.showReqResult("操作失败");
+                            view.showReqResult(error);
                         }
                     }
 
@@ -306,7 +306,7 @@ public class HotPresenter implements HotContract.Presenter {
                     public void onError(Response<ApiResponse<OperationActionEntity>> response,
                                         String error, ApiResponse<OperationActionEntity> apiResponse) {
                         if (view.isActive()) {
-                            view.showReqResult("操作失败");
+                            view.showReqResult(error);
                         }
                     }
 
@@ -519,6 +519,7 @@ public class HotPresenter implements HotContract.Presenter {
                 public void onError(Response<ApiResponse<DynamicPopularListEntity>> response,
                                     String error, ApiResponse<DynamicPopularListEntity> apiResponse) {
                     if (view.isActive()) {
+                        view.showReqResult(error);
                         bindDataToView();
                     }
                 }

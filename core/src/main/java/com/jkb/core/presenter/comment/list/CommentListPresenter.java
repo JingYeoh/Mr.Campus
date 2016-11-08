@@ -183,7 +183,7 @@ public class CommentListPresenter implements CommentListContract.Presenter {
                     public void onError(Response<ApiResponse<OperationActionEntity>> response,
                                         String error, ApiResponse<OperationActionEntity> apiResponse) {
                         if (view.isActive()) {
-                            view.showReqResult("操作失败");
+                            view.showReqResult(error);
                         }
                     }
 
@@ -483,7 +483,7 @@ public class CommentListPresenter implements CommentListContract.Presenter {
                                     String error, ApiResponse<CommentListEntity> apiResponse) {
                     isLoading = false;
                     if (view.isActive()) {
-                        view.showReqResult("请求错误");
+                        view.showReqResult(error);
                         view.hideRefreshView();
                     }
                 }
@@ -518,7 +518,7 @@ public class CommentListPresenter implements CommentListContract.Presenter {
                                     String error, ApiResponse<CommentSendEntity> apiResponse) {
                     if (view.isActive()) {
                         view.dismissLoading();
-                        view.showReqResult("发送失败");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -550,7 +550,7 @@ public class CommentListPresenter implements CommentListContract.Presenter {
                                     ApiResponse<CommentReplyEntity> apiResponse) {
                     if (view.isActive()) {
                         view.dismissLoading();
-                        view.showReqResult("回复错误");
+                        view.showReqResult(error);
                     }
                 }
 

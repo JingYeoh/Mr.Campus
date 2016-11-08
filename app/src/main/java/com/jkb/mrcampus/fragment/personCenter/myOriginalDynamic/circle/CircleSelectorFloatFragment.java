@@ -69,12 +69,10 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
     private static CircleSelectorFloatFragment INSTANCE = null;
 
     public static CircleSelectorFloatFragment newInstance(@NonNull int user_id) {
-        if (INSTANCE == null || user_id > 0) {
-            INSTANCE = new CircleSelectorFloatFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new CircleSelectorFloatFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -218,7 +216,8 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
 
     @Override
     public void showLoading(String value) {
-        myOriginalDynamicActivity.showLoading(value);
+        if (!isHidden())
+            myOriginalDynamicActivity.showLoading(value);
     }
 
     @Override

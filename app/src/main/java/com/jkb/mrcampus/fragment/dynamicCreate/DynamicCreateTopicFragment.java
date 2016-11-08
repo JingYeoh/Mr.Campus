@@ -18,6 +18,7 @@ import com.jkb.core.contract.dynamicCreate.data.CategoryTypeData;
 import com.jkb.core.contract.dynamicCreate.topic.DynamicCreateTopicContract;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.StringUtils;
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.base.BaseFragment;
@@ -45,14 +46,18 @@ public class DynamicCreateTopicFragment extends BaseFragment
 
     private static DynamicCreateTopicFragment INSTANCE = null;
 
-    public static DynamicCreateTopicFragment newInstance() {
+    public static DynamicCreateTopicFragment newInstance(int circle_id) {
         INSTANCE = new DynamicCreateTopicFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
     //data
     private DynamicCreateActivity dynamicCreateActivity;
     private DynamicCreateTopicContract.Presenter mPresenter;
+    private int circle_id = 0;
 
     private CropParams mCropParams;
 
@@ -127,7 +132,12 @@ public class DynamicCreateTopicFragment extends BaseFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        if (savedInstanceState == null) {
+            Bundle args = getArguments();
+            circle_id = args.getInt(Config.INTENT_KEY_CIRCLE_ID, 0);
+        } else {
+            circle_id = savedInstanceState.getInt(Config.INTENT_KEY_CIRCLE_ID);
+        }
     }
 
     @Override
@@ -148,7 +158,7 @@ public class DynamicCreateTopicFragment extends BaseFragment
 
     @Override
     public void showLoading(String value) {
-        dynamicCreateActivity.showLoading(value);
+        if (!isHidden()) dynamicCreateActivity.showLoading(value);
     }
 
     @Override
@@ -174,6 +184,12 @@ public class DynamicCreateTopicFragment extends BaseFragment
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ts7_ib_left:
@@ -192,8 +208,13 @@ public class DynamicCreateTopicFragment extends BaseFragment
     }
 
     @Override
+    public int getCircleId() {
+        return circle_id;
+    }
+
+    @Override
     public void postSuccess() {
-//        dynamicCreateActivity.onBackPressed();
+        dynamicCreateActivity.onBackPressed();
     }
 
     @Override

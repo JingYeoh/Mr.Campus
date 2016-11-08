@@ -14,8 +14,7 @@ import com.jkb.api.config.Config;
 import com.jkb.core.Injection;
 import com.jkb.core.contract.function.index.HotContract;
 import com.jkb.core.control.userstate.LoginContext;
-import com.jkb.core.control.userstate.UserState;
-import com.jkb.core.data.dynamic.hot.HotDynamic;
+import com.jkb.core.data.index.hot.HotDynamic;
 import com.jkb.core.presenter.function.index.hot.HotPresenter;
 import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.mrcampus.R;
@@ -31,8 +30,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import jkb.mrcampus.db.entity.Schools;
-
 /**
  * 首页——热门的View层
  * Created by JustKiddingBaby on 2016/8/22.
@@ -44,12 +41,8 @@ public class HotFragment extends BaseFragment implements HotContract.View,
     public HotFragment() {
     }
 
-    private static HotFragment INSTANCE = null;
-
     public static HotFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new HotFragment();
-        }
+        HotFragment INSTANCE = new HotFragment();
         return INSTANCE;
     }
 
@@ -92,8 +85,7 @@ public class HotFragment extends BaseFragment implements HotContract.View,
     @Override
     protected void initListener() {
         //设置是否选择学校的监听事件
-        SchoolInfoSingleton.getInstance().setOnSchoolSelectedChangedListener(
-                onSchoolSelectedChangedListener);
+        SchoolInfoSingleton.getInstance().addObserver(schoolSelectedObserver);
         LoginContext.getInstance().addObserver(loginObserver);
         //刷新
         refreshLayout.setOnRefreshListener(this);
@@ -101,14 +93,7 @@ public class HotFragment extends BaseFragment implements HotContract.View,
         //设置下拉加载
         recyclerView.addOnScrollListener(onScrollListener);//设置滑动监听，设置是否下拉刷新
         //设置动态条目的点击监听事件
-        hotDynamicAdapter.setOnItemClickListener(onItemClickListener);
-        hotDynamicAdapter.setOnUserAttentionClickListener(onUserAttentionClickListener);
-        hotDynamicAdapter.setOnCircleSubscribeClickListener(onCircleSubscribeClickListener);
-        hotDynamicAdapter.setOnHeadImgClickListener(onHeadImgClickListener);
-        hotDynamicAdapter.setOnCommentClickListener(onCommentClickListener);
-        hotDynamicAdapter.setOnLikeClickListener(onLikeClickListener);
-        hotDynamicAdapter.setOnCreatorUserClickListener(onCreatorUserClickListener);
-        hotDynamicAdapter.setOnShareClickListener(onShareClickListener);
+        hotDynamicAdapter.setOnHotDynamicItemClickListener(onHotDynamicItemClickListener);
     }
 
     @Override
@@ -253,7 +238,8 @@ public class HotFragment extends BaseFragment implements HotContract.View,
 
     @Override
     public void showLoading(String value) {
-        mainActivity.showLoading(value);
+        if (!isHidden())
+            mainActivity.showLoading(value);
     }
 
     @Override
@@ -276,24 +262,15 @@ public class HotFragment extends BaseFragment implements HotContract.View,
         super.onDestroy();
         mainActivity = null;
         LoginContext.getInstance().deleteObserver(loginObserver);
+        SchoolInfoSingleton.getInstance().deleteObserver(schoolSelectedObserver);
+        mPresenter = null;
+        refreshLayout = null;
+        hotDynamicAdapter = null;
+        recyclerView = null;
+        linearLayoutManager = null;
+        onScrollListener = null;
+        onHotDynamicItemClickListener = null;
     }
-
-    /**
-     * 是否选择学校的监听器
-     */
-    private SchoolInfoSingleton.OnSchoolSelectedChangedListener onSchoolSelectedChangedListener =
-            new SchoolInfoSingleton.OnSchoolSelectedChangedListener() {
-
-                @Override
-                public void onSchoolSelected(Schools schools) {
-                    showHotView();
-                }
-
-                @Override
-                public void onSchoolNotSelected() {
-                    hideHotView();
-                }
-            };
 
     @Override
     public void onRefresh() {
@@ -319,85 +296,50 @@ public class HotFragment extends BaseFragment implements HotContract.View,
             }
         }
     };
+
     /**
-     * 热门动态条目的点击监听事件
+     * 热门动态的条目点击监听回调方法
      */
-    private HotDynamicAdapter.OnItemClickListener onItemClickListener =
-            new HotDynamicAdapter.OnItemClickListener() {
+    private HotDynamicAdapter.OnHotDynamicItemClickListener onHotDynamicItemClickListener =
+            new HotDynamicAdapter.OnHotDynamicItemClickListener() {
                 @Override
-                public void onItemClick(int position) {
+                public void onContentItemClick(int position) {
                     mPresenter.onHotDynamicItemClick(position);
                 }
-            };
-    /**
-     * 用户关注按钮的点击监听事件
-     */
-    private HotDynamicAdapter.OnUserAttentionClickListener onUserAttentionClickListener =
-            new HotDynamicAdapter.OnUserAttentionClickListener() {
+
+                @Override
+                public void onHeadImgItemClick(int position) {
+                    mPresenter.onHeadImgItemClick(position);
+                }
+
+                @Override
+                public void onCreatorItemClick(int position) {
+                    mPresenter.onCreatorUserClick(position);
+                }
+
                 @Override
                 public void onUserAttentionClick(int position) {
                     mPresenter.onUserAttentionItemClick(position);
                 }
-            };
-    /**
-     * 圈子订阅按钮的点击监听事件
-     */
-    private HotDynamicAdapter.OnCircleSubscribeClickListener onCircleSubscribeClickListener =
-            new HotDynamicAdapter.OnCircleSubscribeClickListener() {
+
                 @Override
                 public void onCircleSubscribeClick(int position) {
                     mPresenter.onCircleSubscribeItemClick(position);
                 }
-            };
-    /**
-     * 头像的点击监听事件
-     */
-    private HotDynamicAdapter.OnHeadImgClickListener onHeadImgClickListener =
-            new HotDynamicAdapter.OnHeadImgClickListener() {
+
                 @Override
-                public void onHeadImgClick(int position) {
-                    mPresenter.onHeadImgItemClick(position);
+                public void onShareItemClick(int position) {
+                    showShareView(position);
                 }
-            };
-    /**
-     * 评论的点击回调
-     */
-    private HotDynamicAdapter.OnCommentClickListener onCommentClickListener =
-            new HotDynamicAdapter.OnCommentClickListener() {
+
                 @Override
-                public void onCommentClick(int position) {
+                public void onCommentItemClick(int position) {
                     mPresenter.onCommentItemClick(position);
                 }
-            };
-    /**
-     * 喜欢动态的点击回调
-     */
-    private HotDynamicAdapter.OnLikeClickListener onLikeClickListener =
-            new HotDynamicAdapter.OnLikeClickListener() {
-                @Override
-                public void onLikeClick(int position) {
-                    mPresenter.onLikeItemClick(position);
-                }
-            };
-    /**
-     * 原作者的点击回调
-     */
-    private HotDynamicAdapter.OnCreatorUserClickListener onCreatorUserClickListener =
-            new HotDynamicAdapter.OnCreatorUserClickListener() {
-                @Override
-                public void onCreatorUserClick(int position) {
-                    mPresenter.onCreatorUserClick(position);
-                }
-            };
 
-    /**
-     * 分享的点击回调
-     */
-    private HotDynamicAdapter.OnShareClickListener onShareClickListener =
-            new HotDynamicAdapter.OnShareClickListener() {
                 @Override
-                public void onShareClick(int position) {
-                    showShareView(position);
+                public void onLikeItemClick(int position) {
+                    mPresenter.onLikeItemClick(position);
                 }
             };
 
@@ -417,6 +359,19 @@ public class HotFragment extends BaseFragment implements HotContract.View,
         @Override
         public void update(Observable o, Object arg) {
             mPresenter.setCacheExpired();
+        }
+    };
+    /**
+     * 选择学校的Observer监听
+     */
+    private Observer schoolSelectedObserver = new Observer() {
+        @Override
+        public void update(Observable o, Object arg) {
+            if (SchoolInfoSingleton.getInstance().isSelectedSchool()) {
+                showHotView();
+            } else {
+                hideHotView();
+            }
         }
     };
 }

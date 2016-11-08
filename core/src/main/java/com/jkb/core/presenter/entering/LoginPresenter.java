@@ -170,7 +170,8 @@ public class LoginPresenter implements LoginContract.Presenter {
                                     String error, ApiResponse<LoginEntity> apiResponse) {
                     if (loginView.isActive()) {
                         loginView.dismissLoading();
-                        loginView.showReqResult("帐号或密码错误");
+//                        loginView.showReqResult("帐号或密码错误");
+                        loginView.showReqResult(error);
                     }
                 }
 
@@ -246,7 +247,8 @@ public class LoginPresenter implements LoginContract.Presenter {
                     public void onError(Response<ApiResponse<LoginEntity>> response,
                                         String error, ApiResponse<LoginEntity> apiResponse) {
                         loginView.dismissLoading();
-                        loginView.showReqResult("登录失败");
+//                        loginView.showReqResult("登录失败");
+                        loginView.showReqResult(error);
                     }
 
                     @Override

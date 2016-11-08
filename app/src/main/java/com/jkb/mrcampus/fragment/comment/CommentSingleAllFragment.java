@@ -48,13 +48,11 @@ public class CommentSingleAllFragment extends BaseFragment implements CommentSin
     private static CommentSingleAllFragment INSTANCE = null;
 
     public static CommentSingleAllFragment newInstance(int dynamic_id, int comment_id) {
-        if (INSTANCE == null || dynamic_id > 0 || comment_id > 0) {
-            INSTANCE = new CommentSingleAllFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(Config.INTENT_KEY_COMMENT_ID, comment_id);
-            bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new CommentSingleAllFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.INTENT_KEY_COMMENT_ID, comment_id);
+        bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -350,7 +348,7 @@ public class CommentSingleAllFragment extends BaseFragment implements CommentSin
 
     @Override
     public void showLoading(String value) {
-        commentActivity.showLoading(value);
+        if (!isHidden()) commentActivity.showLoading(value);
     }
 
     @Override

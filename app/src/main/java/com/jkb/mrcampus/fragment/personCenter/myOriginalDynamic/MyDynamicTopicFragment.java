@@ -45,12 +45,10 @@ public class MyDynamicTopicFragment extends BaseFragment implements
     private static MyDynamicTopicFragment INSTANCE = null;
 
     public static MyDynamicTopicFragment newInstance(@NonNull int user_id) {
-        if (INSTANCE == null || user_id > 0) {
-            INSTANCE = new MyDynamicTopicFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID, user_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new MyDynamicTopicFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID, user_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -182,7 +180,8 @@ public class MyDynamicTopicFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        myDynamicActivity.showLoading(value);
+        if (!isHidden())
+            myDynamicActivity.showLoading(value);
     }
 
     @Override

@@ -169,7 +169,7 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
 
     @Override
     public void showLoading(String value) {
-        enteringActivity.showLoading(value);
+        if (!isHidden()) enteringActivity.showLoading(value);
     }
 
     @Override

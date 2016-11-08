@@ -85,9 +85,6 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
         rootView.findViewById(R.id.fmc_ll_watched).setOnClickListener(this);
         rootView.findViewById(R.id.fmc_ll_fans).setOnClickListener(this);
         rootView.findViewById(R.id.fmc_ll_visitors).setOnClickListener(this);
-
-        //设置菜单打开的监听器
-        mainActivity.setMenuOpenedListener(onOpenedListener);
         //设置其为登录的状态监听器
         LoginContext.getInstance().addObserver(this);
         MessageObservable.newInstance().addObserver(messageObserver);
@@ -133,16 +130,6 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
         }
     }
 
-    /**
-     * 右滑菜单打开时候的监听器
-     */
-    private SlidingMenu.OnOpenedListener onOpenedListener = new SlidingMenu.OnOpenedListener() {
-        @Override
-        public void onOpened() {
-            mPresenter.start();//初始化数据
-        }
-    };
-
     @Override
     public void setVisitorCount(int count) {
         ((TextView) rootView.findViewById(R.id.fmc_tv_visitorsNum)).setText(count + "");
@@ -186,7 +173,8 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
 
     @Override
     public void showLoading(String value) {
-        mainActivity.showLoading(value);
+        if (!isHidden())
+            mainActivity.showLoading(value);
     }
 
     @Override

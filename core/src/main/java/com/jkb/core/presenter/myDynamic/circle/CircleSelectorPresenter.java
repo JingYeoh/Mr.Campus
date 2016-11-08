@@ -196,7 +196,7 @@ public class CircleSelectorPresenter implements CircleSelectorContract.Presenter
                         Response<ApiResponse<UserActionCircleEntity>> response,
                         String error, ApiResponse<UserActionCircleEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showReqResult("请求错误");
+                        view.showReqResult(error);
                         bindDataToView();
                     }
                 }

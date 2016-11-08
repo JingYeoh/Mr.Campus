@@ -52,12 +52,10 @@ public class TopicDynamicFragment extends BaseFragment implements DynamicDetailT
     private static TopicDynamicFragment INSTANCE = null;
 
     public static TopicDynamicFragment newInstance(@NonNull int dynamic_id) {
-        if (INSTANCE == null || dynamic_id != -1) {
-            INSTANCE = new TopicDynamicFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new TopicDynamicFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -514,7 +512,7 @@ public class TopicDynamicFragment extends BaseFragment implements DynamicDetailT
 
     @Override
     public void showLoading(String value) {
-        dynamicDetailActivity.showLoading(value);
+        if (!isHidden()) dynamicDetailActivity.showLoading(value);
     }
 
     @Override

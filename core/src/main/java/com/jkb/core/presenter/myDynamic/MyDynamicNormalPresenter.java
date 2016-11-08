@@ -133,7 +133,8 @@ public class MyDynamicNormalPresenter implements MyDynamicNormalContract.Present
                     public void onError(Response<ApiResponse<DynamicActionEntity>> response, String error,
                                         ApiResponse<DynamicActionEntity> apiResponse) {
                         if (view.isActive()) {
-                            view.showReqResult("删除失败");
+//                            view.showReqResult("删除失败");
+                            view.showReqResult(error);
                             bindDataToView();
                         }
                     }
@@ -194,7 +195,7 @@ public class MyDynamicNormalPresenter implements MyDynamicNormalContract.Present
                                         String error, ApiResponse<OperationActionEntity> apiResponse) {
                         if (view.isActive()) {
                             bindDataToView();
-                            view.showReqResult("操作失败");
+                            view.showReqResult(error);
                         }
                     }
 
@@ -366,7 +367,7 @@ public class MyDynamicNormalPresenter implements MyDynamicNormalContract.Present
                 public void onError(Response<ApiResponse<DynamicNormalListEntity>> response, String error,
                                     ApiResponse<DynamicNormalListEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showReqResult("请求错误");
+                        view.showReqResult(error);
                         bindDataToView();
                     }
                 }

@@ -158,7 +158,7 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                             Response<ApiResponse<OperationActionEntity>> response,
                             String error, ApiResponse<OperationActionEntity> apiResponse) {
                         if (view.isActive()) {
-                            view.showReqResult("操作失败");
+                            view.showReqResult(error);
                         }
                     }
 
@@ -729,6 +729,7 @@ public class DynamicPresenter implements DynamicContract.Presenter {
                 public void onError(Response<ApiResponse<DynamicListEntity>> response,
                                     String error, ApiResponse<DynamicListEntity> apiResponse) {
                     if (view.isActive()) {
+                        view.showReqResult(error);
                         isLoading = false;
                         view.hideRefreshingView();
                         dynamicDatas.clear();

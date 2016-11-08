@@ -244,6 +244,7 @@ public class ConversationPresenter implements ConversationContract.Presenter {
                 public void onError(Response<ApiResponse<UserInfoEntity>> response, String error,
                                     ApiResponse<UserInfoEntity> apiResponse) {
                     if (view.isActive()) {
+                        view.showReqResult(error);
                         bindDataToView();
                     }
                 }
@@ -318,6 +319,7 @@ public class ConversationPresenter implements ConversationContract.Presenter {
                 public void onError(Response<ApiResponse<CircleInfoEntity>> response,
                                     String error, ApiResponse<CircleInfoEntity> apiResponse) {
                     if (view.isActive()) {
+                        view.showReqResult(error);
                         bindDataToView();
                     }
                 }

@@ -44,12 +44,10 @@ public class MyDynamicNormalFragment extends BaseFragment implements
     private static MyDynamicNormalFragment INSTANCE = null;
 
     public static MyDynamicNormalFragment newInstance(@NonNull int user_id) {
-        if (INSTANCE == null || user_id > 0) {
-            INSTANCE = new MyDynamicNormalFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID, user_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new MyDynamicNormalFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID, user_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -181,7 +179,8 @@ public class MyDynamicNormalFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        myDynamicActivity.showLoading(value);
+        if (!isHidden())
+            myDynamicActivity.showLoading(value);
     }
 
     @Override
@@ -202,7 +201,7 @@ public class MyDynamicNormalFragment extends BaseFragment implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        myDynamicActivity=null;
+        myDynamicActivity = null;
     }
 
     @Override

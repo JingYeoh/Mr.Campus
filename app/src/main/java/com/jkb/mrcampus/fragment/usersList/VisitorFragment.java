@@ -40,12 +40,10 @@ public class VisitorFragment extends BaseFragment implements VisitorContract.Vie
     public static VisitorFragment INSTANCE = null;
 
     public static VisitorFragment newInstance(int user_id) {
-        if (INSTANCE == null || user_id != -1) {
-            INSTANCE = new VisitorFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new VisitorFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -165,7 +163,8 @@ public class VisitorFragment extends BaseFragment implements VisitorContract.Vie
 
     @Override
     public void showLoading(String value) {
-        usersListActivity.showLoading(value);
+        if (!isHidden())
+            usersListActivity.showLoading(value);
     }
 
     @Override

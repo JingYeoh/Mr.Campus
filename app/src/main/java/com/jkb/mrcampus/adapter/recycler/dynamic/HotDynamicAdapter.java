@@ -10,17 +10,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jkb.core.data.dynamic.hot.HotDynamic;
-import com.jkb.core.data.dynamic.hot.circle.CircleDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.circle.CircleArticleDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.circle.CircleNormalDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.circle.CircleTopicDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.circle.DynamicInCircleDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.original.OriginalArticleDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.original.OriginalDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.original.OriginalNormalDynamic;
-import com.jkb.core.data.dynamic.hot.dynamic.original.OriginalTopicDynamic;
-import com.jkb.core.data.dynamic.hot.user.UserDynamic;
+import com.jkb.core.data.index.hot.HotDynamic;
+import com.jkb.core.data.index.hot.circle.CircleDynamic;
+import com.jkb.core.data.index.hot.dynamic.circle.CircleArticleDynamic;
+import com.jkb.core.data.index.hot.dynamic.circle.CircleNormalDynamic;
+import com.jkb.core.data.index.hot.dynamic.circle.CircleTopicDynamic;
+import com.jkb.core.data.index.hot.dynamic.circle.DynamicInCircleDynamic;
+import com.jkb.core.data.index.hot.dynamic.original.OriginalArticleDynamic;
+import com.jkb.core.data.index.hot.dynamic.original.OriginalDynamic;
+import com.jkb.core.data.index.hot.dynamic.original.OriginalNormalDynamic;
+import com.jkb.core.data.index.hot.dynamic.original.OriginalTopicDynamic;
+import com.jkb.core.data.index.hot.user.UserDynamic;
 import com.jkb.core.data.info.circle.CircleInfo;
 import com.jkb.core.data.info.user.UserInfo;
 import com.jkb.model.net.ImageLoaderFactory;
@@ -36,7 +36,8 @@ import java.util.List;
  * Created by JustKiddingBaby on 2016/10/2.
  */
 
-public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.ViewHolder> {
+public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.ViewHolder> implements
+        View.OnClickListener {
 
     private static final String TAG = "HotDynamicAdapter";
     private Context context;
@@ -53,14 +54,7 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
     private static final int HOT_TYPE_DYNAMIC_IN_CIRCLE_ARTICLE = 3003;
 
     //监听器
-    private OnItemClickListener onItemClickListener;
-    private OnUserAttentionClickListener onUserAttentionClickListener;
-    private OnCircleSubscribeClickListener onCircleSubscribeClickListener;
-    private OnHeadImgClickListener onHeadImgClickListener;
-    private OnCommentClickListener onCommentClickListener;
-    private OnLikeClickListener onLikeClickListener;
-    private OnCreatorUserClickListener onCreatorUserClickListener;
-    private OnShareClickListener onShareClickListener;
+    private OnHotDynamicItemClickListener onHotDynamicItemClickListener;
 
 
     public HotDynamicAdapter(Context context, List<HotDynamic> hotDynamics) {
@@ -184,8 +178,8 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
         holder.user.tvUserName = (TextView) view.findViewById(R.id.idou_tv_userName);
         holder.user.tvUserBref = (TextView) view.findViewById(R.id.idou_tv_userBref);
         //初始化点击事件的监听
-        holder.dynamicContent.setOnClickListener(clickItemListener);
-        holder.user.tvPayAttention.setOnClickListener(clickUserAttentionListener);
+        holder.dynamicContent.setOnClickListener(this);
+        holder.user.tvPayAttention.setOnClickListener(this);
         return holder;
     }
 
@@ -209,8 +203,8 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
         holder.circle.tvCircleBref = (TextView) view.findViewById(R.id.idoc_tv_circleBref);
         holder.circle.ivSubscribe = (ImageView) view.findViewById(R.id.idoc_iv_subscribe);
         //初始化点击事件的监听
-        holder.dynamicContent.setOnClickListener(clickItemListener);
-        holder.circle.ivSubscribe.setOnClickListener(clickCircleSubscribeListener);
+        holder.dynamicContent.setOnClickListener(this);
+        holder.circle.ivSubscribe.setOnClickListener(this);
         return holder;
     }
 
@@ -240,11 +234,11 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
         holder.dynamicArticle.ivComment = (ImageView) view.findViewById(R.id.idoa_iv_comment);
         holder.dynamicArticle.contentHeadImg = view.findViewById(R.id.idoa_contentHeadImg);
         //初始化点击事件的监听
-        holder.dynamicContent.setOnClickListener(clickItemListener);
-        holder.dynamicArticle.contentHeadImg.setOnClickListener(clickHeadImgListener);
-        holder.dynamicArticle.ivComment.setOnClickListener(clickCommentListener);
-        holder.dynamicArticle.ivHeart.setOnClickListener(clickLikeListener);
-        holder.dynamicArticle.ivShare.setOnClickListener(clickShareListener);
+        holder.dynamicContent.setOnClickListener(this);
+        holder.dynamicArticle.contentHeadImg.setOnClickListener(this);
+        holder.dynamicArticle.ivComment.setOnClickListener(this);
+        holder.dynamicArticle.ivHeart.setOnClickListener(this);
+        holder.dynamicArticle.ivShare.setOnClickListener(this);
         return holder;
     }
 
@@ -285,10 +279,10 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
         holder.dynamicNormal.contentHeadImg = view.findViewById(R.id.idon_contentHeadImg);
 
         //设置监听事件
-        holder.dynamicNormal.contentHeadImg.setOnClickListener(clickHeadImgListener);
-        holder.dynamicNormal.ivComment.setOnClickListener(clickCommentListener);
-        holder.dynamicNormal.ivHeart.setOnClickListener(clickLikeListener);
-        holder.dynamicNormal.ivShare.setOnClickListener(clickShareListener);
+        holder.dynamicNormal.contentHeadImg.setOnClickListener(this);
+        holder.dynamicNormal.ivComment.setOnClickListener(this);
+        holder.dynamicNormal.ivHeart.setOnClickListener(this);
+        holder.dynamicNormal.ivShare.setOnClickListener(this);
         return holder;
     }
 
@@ -317,10 +311,10 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
         holder.dynamicTopic.ivShare = (ImageView) view.findViewById(R.id.idot_iv_share);
         holder.dynamicTopic.contentHeadImg = view.findViewById(R.id.idot_contentHeadImg);
         //初始化监听器
-        holder.dynamicContent.setOnClickListener(clickItemListener);
-        holder.dynamicTopic.contentHeadImg.setOnClickListener(clickHeadImgListener);
-        holder.dynamicTopic.ivHeart.setOnClickListener(clickLikeListener);
-        holder.dynamicTopic.ivShare.setOnClickListener(clickShareListener);
+        holder.dynamicContent.setOnClickListener(this);
+        holder.dynamicTopic.contentHeadImg.setOnClickListener(this);
+        holder.dynamicTopic.ivHeart.setOnClickListener(this);
+        holder.dynamicTopic.ivShare.setOnClickListener(this);
         return holder;
     }
 
@@ -359,12 +353,12 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
         holder.dynamicInCircleNormal.content = view.findViewById(R.id.idcn_ll_content);
         holder.dynamicInCircleNormal.contentHeadImg = view.findViewById(R.id.iidc_contentHeadImg);
         //初始化监听事件
-        holder.dynamicInCircleNormal.content.setOnClickListener(clickItemListener);
-        holder.dynamicInCircleNormal.contentHeadImg.setOnClickListener(clickHeadImgListener);
-        holder.dynamicInCircleNormal.ivComment.setOnClickListener(clickCommentListener);
-        holder.dynamicInCircleNormal.ivHeart.setOnClickListener(clickLikeListener);
-        holder.dynamicInCircleNormal.tvOriginalNickName.setOnClickListener(clickCreatorUserListener);
-        holder.dynamicInCircleNormal.ivShare.setOnClickListener(clickShareListener);
+        holder.dynamicInCircleNormal.content.setOnClickListener(this);
+        holder.dynamicInCircleNormal.contentHeadImg.setOnClickListener(this);
+        holder.dynamicInCircleNormal.ivComment.setOnClickListener(this);
+        holder.dynamicInCircleNormal.ivHeart.setOnClickListener(this);
+        holder.dynamicInCircleNormal.tvOriginalNickName.setOnClickListener(this);
+        holder.dynamicInCircleNormal.ivShare.setOnClickListener(this);
         return holder;
     }
 
@@ -405,11 +399,11 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
         holder.dynamicInCircleTopic.contentHeadImg = view.findViewById(R.id.iidc_contentHeadImg);
 
         //设置监听事件
-        holder.dynamicInCircleTopic.content.setOnClickListener(clickItemListener);
-        holder.dynamicInCircleTopic.contentHeadImg.setOnClickListener(clickHeadImgListener);
-        holder.dynamicInCircleTopic.ivHeart.setOnClickListener(clickLikeListener);
-        holder.dynamicInCircleTopic.tvOriginalNickName.setOnClickListener(clickCreatorUserListener);
-        holder.dynamicInCircleTopic.ivShare.setOnClickListener(clickShareListener);
+        holder.dynamicInCircleTopic.content.setOnClickListener(this);
+        holder.dynamicInCircleTopic.contentHeadImg.setOnClickListener(this);
+        holder.dynamicInCircleTopic.ivHeart.setOnClickListener(this);
+        holder.dynamicInCircleTopic.tvOriginalNickName.setOnClickListener(this);
+        holder.dynamicInCircleTopic.ivShare.setOnClickListener(this);
         return holder;
     }
 
@@ -449,12 +443,12 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
         holder.dynamicInCircleArticle.contentHeadImg = view.findViewById(R.id.iidc_contentHeadImg);
 
         //设置监听事件
-        holder.dynamicInCircleArticle.content.setOnClickListener(clickItemListener);
-        holder.dynamicInCircleArticle.contentHeadImg.setOnClickListener(clickHeadImgListener);
-        holder.dynamicInCircleArticle.ivComment.setOnClickListener(clickCommentListener);
-        holder.dynamicInCircleArticle.ivHeart.setOnClickListener(clickLikeListener);
-        holder.dynamicInCircleArticle.tvOriginalNickName.setOnClickListener(clickCreatorUserListener);
-        holder.dynamicInCircleArticle.ivShare.setOnClickListener(clickShareListener);
+        holder.dynamicInCircleArticle.content.setOnClickListener(this);
+        holder.dynamicInCircleArticle.contentHeadImg.setOnClickListener(this);
+        holder.dynamicInCircleArticle.ivComment.setOnClickListener(this);
+        holder.dynamicInCircleArticle.ivHeart.setOnClickListener(this);
+        holder.dynamicInCircleArticle.tvOriginalNickName.setOnClickListener(this);
+        holder.dynamicInCircleArticle.ivShare.setOnClickListener(this);
         return holder;
     }
 
@@ -875,6 +869,7 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
         return hotDynamics.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ViewHolder(View itemView) {
@@ -1154,269 +1149,118 @@ public class HotDynamicAdapter extends RecyclerView.Adapter<HotDynamicAdapter.Vi
     }
 
     /**
-     * 设置条目点击的监听器
+     * 热门动态的条目点击监听回调接口
      */
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
+    public interface OnHotDynamicItemClickListener {
+
+        /**
+         * 当主体条目被点击的时候
+         */
+        void onContentItemClick(int position);
+
+        /**
+         * 用户条目被点击的时候
+         */
+        void onHeadImgItemClick(int position);
+
+        /**
+         * 当作者条目被点击的时候
+         */
+        void onCreatorItemClick(int position);
+
+        /**
+         * 当关注用户按钮被点击的时候
+         */
+        void onUserAttentionClick(int position);
+
+        /**
+         * 订阅圈子被点击的时候
+         */
+        void onCircleSubscribeClick(int position);
+
+        /**
+         * 当分享条目被点击的时候
+         */
+        void onShareItemClick(int position);
+
+        /**
+         * 当评论条目被点击的时候
+         */
+        void onCommentItemClick(int position);
+
+        /**
+         * 当喜欢条目被点击的时候
+         */
+        void onLikeItemClick(int position);
     }
 
     /**
-     * 设置用户关注按钮点击的监听器
+     * 设置热门动态的条目点击事件
      */
-    public void setOnUserAttentionClickListener(
-            OnUserAttentionClickListener onUserAttentionClickListener) {
-        this.onUserAttentionClickListener = onUserAttentionClickListener;
+    public void setOnHotDynamicItemClickListener(
+            OnHotDynamicItemClickListener onHotDynamicItemClickListener) {
+        this.onHotDynamicItemClickListener = onHotDynamicItemClickListener;
     }
 
-    /**
-     * 设置头像的点击监听器
-     */
-    public void setOnHeadImgClickListener(OnHeadImgClickListener onHeadImgClickListener) {
-        this.onHeadImgClickListener = onHeadImgClickListener;
+    @Override
+    public void onClick(View v) {
+        if (onHotDynamicItemClickListener == null) {
+            return;
+        }
+        //判断各种控件id
+        Bundle bundle = (Bundle) v.getTag();
+        if (bundle == null) {
+            return;
+        }
+        int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
+        int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
+        switch (viewId) {
+            case R.id.dynamic_content:
+            case R.id.idcn_ll_content:
+            case R.id.idct_ll_content:
+            case R.id.idca_ll_content:
+                onHotDynamicItemClickListener.onContentItemClick(position);//主体
+                break;
+            case R.id.idoa_contentHeadImg:
+            case R.id.idon_contentHeadImg:
+            case R.id.idot_contentHeadImg:
+            case R.id.iidc_contentHeadImg:
+                onHotDynamicItemClickListener.onHeadImgItemClick(position);//头像
+                break;
+            case R.id.idou_tv_patAttention:
+                onHotDynamicItemClickListener.onUserAttentionClick(position);//关注
+                break;
+            case R.id.idoc_iv_subscribe:
+                onHotDynamicItemClickListener.onCircleSubscribeClick(position);//订阅
+                break;
+            case R.id.idcn_tv_originator_nickname:
+            case R.id.idct_tv_originator_nickname:
+            case R.id.idca_tv_originator_nickname:
+                onHotDynamicItemClickListener.onCreatorItemClick(position);//原创作者
+                break;
+            case R.id.idoa_iv_comment:
+            case R.id.idon_iv_comment:
+            case R.id.idca_iv_comment:
+            case R.id.idcc_iv_comment:
+            case R.id.idct_iv_comment:
+                onHotDynamicItemClickListener.onCommentItemClick(position);//评论
+                break;
+            case R.id.idoa_iv_share:
+            case R.id.idon_iv_share:
+            case R.id.idot_iv_share:
+            case R.id.idca_iv_share:
+            case R.id.idcc_iv_share:
+            case R.id.idct_iv_share:
+                onHotDynamicItemClickListener.onShareItemClick(position);//分享
+                break;
+            case R.id.idoa_iv_heart:
+            case R.id.idot_iv_heart:
+            case R.id.idon_iv_heart:
+            case R.id.idca_iv_heart:
+            case R.id.idcn_iv_heart:
+            case R.id.idct_iv_heart:
+                onHotDynamicItemClickListener.onLikeItemClick(position);//喜欢
+                break;
+        }
     }
-
-    /**
-     * 设置圈子订阅按钮点击的监听器
-     */
-    public void setOnCircleSubscribeClickListener(
-            OnCircleSubscribeClickListener onCircleSubscribeClickListener) {
-        this.onCircleSubscribeClickListener = onCircleSubscribeClickListener;
-    }
-
-    /**
-     * 设置评论的点击回调
-     */
-    public void setOnCommentClickListener(OnCommentClickListener onCommentClickListener) {
-        this.onCommentClickListener = onCommentClickListener;
-    }
-
-    /**
-     * 设置喜欢的点击回调
-     */
-    public void setOnLikeClickListener(OnLikeClickListener onLikeClickListener) {
-        this.onLikeClickListener = onLikeClickListener;
-    }
-
-    /**
-     * 设置原创作者的点击监听
-     */
-    public void setOnCreatorUserClickListener(OnCreatorUserClickListener onCreatorUserClickListener) {
-        this.onCreatorUserClickListener = onCreatorUserClickListener;
-    }
-
-
-    /**
-     * 设置分享的点击监听
-     */
-    public void setOnShareClickListener(OnShareClickListener onShareClickListener) {
-        this.onShareClickListener = onShareClickListener;
-    }
-
-    /**
-     * 条目点击的监听器
-     */
-    private View.OnClickListener clickItemListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (onItemClickListener == null) {
-                return;
-            }
-            //判断各种控件id
-            Bundle bundle = (Bundle) view.getTag();
-            if (bundle == null) {
-                return;
-            }
-            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
-            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
-            switch (viewId) {
-                case R.id.dynamic_content:
-                case R.id.idcn_ll_content:
-                case R.id.idct_ll_content:
-                case R.id.idca_ll_content:
-                    onItemClickListener.onItemClick(position);
-                    break;
-            }
-        }
-    };
-
-    /**
-     * 用户关注按钮点击的监听器
-     */
-    private View.OnClickListener clickUserAttentionListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (onUserAttentionClickListener == null) {
-                return;
-            }
-            //判断各种控件id
-            Bundle bundle = (Bundle) view.getTag();
-            if (bundle == null) {
-                return;
-            }
-            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
-            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
-            switch (viewId) {
-                case R.id.idou_tv_patAttention:
-                    onUserAttentionClickListener.onUserAttentionClick(position);
-                    break;
-            }
-        }
-    };
-    /**
-     * 圈子订阅按钮点击的监听器
-     */
-    private View.OnClickListener clickCircleSubscribeListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (onCircleSubscribeClickListener == null) {
-                return;
-            }
-            //判断各种控件id
-            Bundle bundle = (Bundle) view.getTag();
-            if (bundle == null) {
-                return;
-            }
-            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
-            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
-            switch (viewId) {
-                case R.id.idoc_iv_subscribe:
-                    onCircleSubscribeClickListener.onCircleSubscribeClick(position);
-                    break;
-            }
-        }
-    };
-    /**
-     * 头像点击的监听器
-     */
-    private View.OnClickListener clickHeadImgListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (onHeadImgClickListener == null) {
-                return;
-            }
-            //判断各种控件id
-            Bundle bundle = (Bundle) view.getTag();
-            if (bundle == null) {
-                return;
-            }
-            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
-            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
-            switch (viewId) {
-                case R.id.idoa_contentHeadImg:
-                case R.id.idon_contentHeadImg:
-                case R.id.idot_contentHeadImg:
-                case R.id.iidc_contentHeadImg:
-                    onHeadImgClickListener.onHeadImgClick(position);
-                    break;
-            }
-        }
-    };
-    /**
-     * 评论点击的监听器
-     */
-    private View.OnClickListener clickCommentListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (onCommentClickListener == null) {
-                return;
-            }
-            //判断各种控件id
-            Bundle bundle = (Bundle) view.getTag();
-            if (bundle == null) {
-                return;
-            }
-            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
-            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
-            switch (viewId) {
-                case R.id.idoa_iv_comment:
-                case R.id.idon_iv_comment:
-                case R.id.idca_iv_comment:
-                case R.id.idcc_iv_comment:
-                case R.id.idct_iv_comment:
-                    onCommentClickListener.onCommentClick(position);
-                    break;
-            }
-        }
-    };
-    /**
-     * 喜欢点击的监听器
-     */
-    private View.OnClickListener clickLikeListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (onLikeClickListener == null) {
-                return;
-            }
-            //判断各种控件id
-            Bundle bundle = (Bundle) view.getTag();
-            if (bundle == null) {
-                return;
-            }
-            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
-            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
-            switch (viewId) {
-                case R.id.idoa_iv_heart:
-                case R.id.idot_iv_heart:
-                case R.id.idon_iv_heart:
-                case R.id.idca_iv_heart:
-                case R.id.idcn_iv_heart:
-                case R.id.idct_iv_heart:
-                    onLikeClickListener.onLikeClick(position);
-                    break;
-            }
-        }
-    };
-    /**
-     * 原创作者点击的监听器
-     */
-    private View.OnClickListener clickCreatorUserListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (onCreatorUserClickListener == null) {
-                return;
-            }
-            //判断各种控件id
-            Bundle bundle = (Bundle) view.getTag();
-            if (bundle == null) {
-                return;
-            }
-            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
-            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
-            switch (viewId) {
-                case R.id.idcn_tv_originator_nickname:
-                case R.id.idct_tv_originator_nickname:
-                case R.id.idca_tv_originator_nickname:
-                    onCreatorUserClickListener.onCreatorUserClick(position);
-                    break;
-            }
-        }
-    };
-    /**
-     * 喜欢点击的监听器
-     */
-    private View.OnClickListener clickShareListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if (onShareClickListener == null) {
-                return;
-            }
-            //判断各种控件id
-            Bundle bundle = (Bundle) view.getTag();
-            if (bundle == null) {
-                return;
-            }
-            int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
-            int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
-            switch (viewId) {
-                case R.id.idoa_iv_share:
-                case R.id.idon_iv_share:
-                case R.id.idot_iv_share:
-                case R.id.idca_iv_share:
-                case R.id.idcc_iv_share:
-                case R.id.idct_iv_share:
-                    onShareClickListener.onShareClick(position);
-                    break;
-            }
-        }
-    };
 }

@@ -5,16 +5,22 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.jkb.core.Injection;
+import com.jkb.core.presenter.circle.CircleAttentionUserListPresenter;
+import com.jkb.core.presenter.circle.CircleDynamicInCircleBlackListPresenter;
 import com.jkb.core.presenter.circle.CircleIndexPresenter;
 import com.jkb.core.presenter.circle.CircleSettingUserPresenter;
+import com.jkb.core.presenter.circle.CircleSettingVisitorPresenter;
+import com.jkb.core.presenter.circle.CircleUserInBlackListPresenter;
 import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
+import com.jkb.mrcampus.fragment.circle.CircleAttentionUserListFragment;
+import com.jkb.mrcampus.fragment.circle.CircleDynamicInCircleBlackListFragment;
 import com.jkb.mrcampus.fragment.circle.CircleIndexFragment;
 import com.jkb.mrcampus.fragment.circle.CircleUserSettingFragment;
 import com.jkb.mrcampus.fragment.circle.CircleVisitorSettingFragment;
-import com.jkb.mrcampus.fragment.entering.LoginFragment;
+import com.jkb.mrcampus.fragment.personCenter.CircleUserInCircleBlackListFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.helper.FragmentStack;
 import com.jkb.mrcampus.utils.ClassUtils;
@@ -39,6 +45,20 @@ public class CircleActivity extends BaseActivity {
 
     //访客圈子设置
     private CircleVisitorSettingFragment circleVisitorSettingFragment;
+    private CircleSettingVisitorPresenter circleSettingVisitorPresenter;
+
+    //圈子内成员
+    private CircleAttentionUserListFragment circleAttentionUserListFragment;
+    private CircleAttentionUserListPresenter circleAttentionUserListPresenter;
+    private boolean isCircleCreator;
+
+    //禁闭室
+    private CircleUserInCircleBlackListFragment circleUserInCircleBlackListFragment;
+    private CircleUserInBlackListPresenter circleUserInBlackListPresenter;
+
+    //小黑屋
+    private CircleDynamicInCircleBlackListFragment circleDynamicInCircleBlackListFragment;
+    private CircleDynamicInCircleBlackListPresenter circleDynamicInCircleBlackListPresenter;
 
     //data
     private int circleId = 0;//圈子id
@@ -112,11 +132,18 @@ public class CircleActivity extends BaseActivity {
                 showCircleSettingUser();
             } else if (ClassUtils.isNameEquals(fragmentName, CircleVisitorSettingFragment.class)) {
                 showCircleSettingVisitor();
+            } else if (ClassUtils.isNameEquals(fragmentName, CircleAttentionUserListFragment.class)) {
+                showCircleAttentionUserList();
+            } else if (ClassUtils.isNameEquals(fragmentName, CircleUserInCircleBlackListFragment.class)) {
+                showCircleUserInBlackList();
+            } else if (ClassUtils.isNameEquals(fragmentName, CircleDynamicInCircleBlackListFragment.class)) {
+                showCircleDynamicInBlackList();
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
+
 
     @Override
     protected void restoreFragments(String fragmentTAG) {
@@ -132,6 +159,26 @@ public class CircleActivity extends BaseActivity {
         } else if (ClassUtils.isNameEquals(fragmentTAG, CircleVisitorSettingFragment.class)) {
             circleVisitorSettingFragment = (CircleVisitorSettingFragment)
                     fm.findFragmentByTag(fragmentTAG);
+            circleSettingVisitorPresenter = new CircleSettingVisitorPresenter(circleVisitorSettingFragment,
+                    Injection.provideCircleSettingUserDataRepertory(getApplicationContext()));
+        } else if (ClassUtils.isNameEquals(fragmentTAG, CircleAttentionUserListFragment.class)) {
+            circleAttentionUserListFragment = (CircleAttentionUserListFragment)
+                    fm.findFragmentByTag(fragmentTAG);
+            circleAttentionUserListPresenter = new CircleAttentionUserListPresenter(
+                    circleAttentionUserListFragment,
+                    Injection.provideCircleAttentionUserListRepertory(getApplicationContext()));
+        } else if (ClassUtils.isNameEquals(fragmentTAG, CircleUserInCircleBlackListFragment.class)) {
+            circleUserInCircleBlackListFragment = (CircleUserInCircleBlackListFragment)
+                    fm.findFragmentByTag(fragmentTAG);
+            circleUserInBlackListPresenter = new
+                    CircleUserInBlackListPresenter(circleUserInCircleBlackListFragment,
+                    Injection.provideCircleAttentionUserListRepertory(getApplicationContext()));
+        } else if (ClassUtils.isNameEquals(fragmentTAG, CircleDynamicInCircleBlackListFragment.class)) {
+            circleDynamicInCircleBlackListFragment = (CircleDynamicInCircleBlackListFragment)
+                    fm.findFragmentByTag(fragmentTAG);
+            circleDynamicInCircleBlackListPresenter = new
+                    CircleDynamicInCircleBlackListPresenter(circleDynamicInCircleBlackListFragment,
+                    Injection.provideCircleDynamicInCircleBlackListRepertory(getApplicationContext()));
         }
     }
 
@@ -145,6 +192,12 @@ public class CircleActivity extends BaseActivity {
             initCircleSettingUser();
         } else if (ClassUtils.isNameEquals(fragmentTAG, CircleVisitorSettingFragment.class)) {
             initCircleSettingVisitor();
+        } else if (ClassUtils.isNameEquals(fragmentTAG, CircleAttentionUserListFragment.class)) {
+            initCircleAttentionUserList();
+        } else if (ClassUtils.isNameEquals(fragmentTAG, CircleUserInCircleBlackListFragment.class)) {
+            initCircleUserInBlackList();
+        } else if (ClassUtils.isNameEquals(fragmentTAG, CircleDynamicInCircleBlackListFragment.class)) {
+            initCircleDynamicInBlackList();
         }
     }
 
@@ -156,10 +209,8 @@ public class CircleActivity extends BaseActivity {
             circleIndexFragment = circleIndexFragment.newInstance(circleId);
             ActivityUtils.addFragmentToActivity(fm, circleIndexFragment, contentViewId);
         }
-        if (circleIndexPresenter == null) {
-            circleIndexPresenter = new CircleIndexPresenter(circleIndexFragment,
-                    Injection.provideCircleIndexDataResponsitiry(getApplicationContext()));
-        }
+        circleIndexPresenter = new CircleIndexPresenter(circleIndexFragment,
+                Injection.provideCircleIndexDataResponsitiry(getApplicationContext()));
     }
 
     /**
@@ -171,6 +222,8 @@ public class CircleActivity extends BaseActivity {
             circleVisitorSettingFragment = CircleVisitorSettingFragment.newInstance(circleId);
             ActivityUtils.addFragmentToActivity(fm, circleVisitorSettingFragment, contentViewId);
         }
+        circleSettingVisitorPresenter = new CircleSettingVisitorPresenter(circleVisitorSettingFragment,
+                Injection.provideCircleSettingUserDataRepertory(getApplicationContext()));
     }
 
     /**
@@ -182,10 +235,55 @@ public class CircleActivity extends BaseActivity {
             circleUserSettingFragment = CircleUserSettingFragment.newInstance(circleId);
             ActivityUtils.addFragmentToActivity(fm, circleUserSettingFragment, contentViewId);
         }
-        if (circleSettingUserPresenter == null) {
-            circleSettingUserPresenter = new CircleSettingUserPresenter(circleUserSettingFragment,
-                    Injection.provideCircleSettingUserDataRepertory(getApplicationContext()));
+        circleSettingUserPresenter = new CircleSettingUserPresenter(circleUserSettingFragment,
+                Injection.provideCircleSettingUserDataRepertory(getApplicationContext()));
+    }
+
+    /**
+     * 初始化圈子成员列表
+     */
+    private void initCircleAttentionUserList() {
+        LogUtils.d(TAG, "initCircleAttentionUserList");
+        if (circleAttentionUserListFragment == null) {
+            circleAttentionUserListFragment =
+                    CircleAttentionUserListFragment.newInstance(circleId, isCircleCreator);
+            ActivityUtils.addFragmentToActivity(fm, circleAttentionUserListFragment, contentViewId);
         }
+        circleAttentionUserListPresenter = new CircleAttentionUserListPresenter(
+                circleAttentionUserListFragment,
+                Injection.provideCircleAttentionUserListRepertory(getApplicationContext()));
+    }
+
+    /**
+     * 初始化圈子黑名单用户
+     */
+    private void initCircleUserInBlackList() {
+        LogUtils.d(TAG, "initCircleUserInBlackList");
+        if (circleUserInCircleBlackListFragment == null) {
+            circleUserInCircleBlackListFragment =
+                    CircleUserInCircleBlackListFragment.newInstance(circleId);
+            ActivityUtils.addFragmentToActivity(
+                    fm, circleUserInCircleBlackListFragment, contentViewId);
+        }
+        circleUserInBlackListPresenter = new
+                CircleUserInBlackListPresenter(circleUserInCircleBlackListFragment,
+                Injection.provideCircleAttentionUserListRepertory(getApplicationContext()));
+    }
+
+    /**
+     * 初始化圈子动态黑名单
+     */
+    private void initCircleDynamicInBlackList() {
+        LogUtils.d(TAG, "initCircleDynamicInBlackList");
+        if (circleDynamicInCircleBlackListFragment == null) {
+            circleDynamicInCircleBlackListFragment =
+                    CircleDynamicInCircleBlackListFragment.newInstance(circleId);
+            ActivityUtils.addFragmentToActivity(
+                    fm, circleDynamicInCircleBlackListFragment, contentViewId);
+        }
+        circleDynamicInCircleBlackListPresenter = new
+                CircleDynamicInCircleBlackListPresenter(circleDynamicInCircleBlackListFragment,
+                Injection.provideCircleDynamicInCircleBlackListRepertory(getApplicationContext()));
     }
 
     /**
@@ -210,6 +308,30 @@ public class CircleActivity extends BaseActivity {
     private void showCircleSettingUser() {
         Log.d(TAG, "showCircleSettingUser");
         ActivityUtils.showFragment(fm, circleUserSettingFragment);
+    }
+
+    /**
+     * 显示圈子内用户列表
+     */
+    private void showCircleAttentionUserList() {
+        Log.d(TAG, "showCircleAttentionUserList");
+        ActivityUtils.showFragment(fm, circleAttentionUserListFragment);
+    }
+
+    /**
+     * 显示圈子用户黑名单
+     */
+    private void showCircleUserInBlackList() {
+        Log.d(TAG, "showCircleUserInBlackList");
+        ActivityUtils.showFragment(fm, circleUserInCircleBlackListFragment);
+    }
+
+    /**
+     * 显示圈子动态黑名单
+     */
+    private void showCircleDynamicInBlackList() {
+        Log.d(TAG, "showCircleDynamicInBlackList");
+        ActivityUtils.showFragment(fm, circleDynamicInCircleBlackListFragment);
     }
 
     @Override
@@ -271,5 +393,27 @@ public class CircleActivity extends BaseActivity {
      */
     public void showVisitorCircleSetting() {
         showFragment(ClassUtils.getClassName(CircleVisitorSettingFragment.class));
+    }
+
+    /**
+     * 显示圈子成员
+     */
+    public void showAttentionUserList(boolean isCircleCreator) {
+        this.isCircleCreator = isCircleCreator;
+        showFragment(ClassUtils.getClassName(CircleAttentionUserListFragment.class));
+    }
+
+    /**
+     * 显示圈子内用户黑名单
+     */
+    public void showUserInCircleBlackList() {
+        showFragment(ClassUtils.getClassName(CircleUserInCircleBlackListFragment.class));
+    }
+
+    /**
+     * 显示圈子动态黑名单
+     */
+    public void showDynamicInBlackList() {
+        showFragment(ClassUtils.getClassName(CircleDynamicInCircleBlackListFragment.class));
     }
 }

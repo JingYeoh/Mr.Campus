@@ -89,8 +89,8 @@ public class IdentifyPresenter implements IdentifyContract.Presenter {
 
                     Log.d(TAG, "-----error--->" + error);
                     identifyView.dismissLoading();
-
-                    IdentifyCodeEntity identifyCodeEntity = apiResponse.getMsg();
+                    identifyView.showReqResult(error);
+                   /* IdentifyCodeEntity identifyCodeEntity = apiResponse.getMsg();
                     if (identifyCodeEntity != null) {
                         List<String> emailErrors = identifyCodeEntity.getEmail();
                         if (emailErrors != null && emailErrors.size() > 0) {
@@ -99,7 +99,7 @@ public class IdentifyPresenter implements IdentifyContract.Presenter {
                         }
                     } else {
                         identifyView.showReqResult("验证码发送失败");
-                    }
+                    }*/
                 }
 
                 @Override

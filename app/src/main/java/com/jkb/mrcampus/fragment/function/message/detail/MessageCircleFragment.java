@@ -25,9 +25,7 @@ public class MessageCircleFragment extends BaseFragment implements View.OnClickL
     private static MessageCircleFragment INSTANCE = null;
 
     public static MessageCircleFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new MessageCircleFragment();
-        }
+        INSTANCE = new MessageCircleFragment();
         return INSTANCE;
     }
 

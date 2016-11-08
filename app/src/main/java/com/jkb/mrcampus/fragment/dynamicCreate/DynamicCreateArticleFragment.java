@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.jkb.core.contract.dynamicCreate.article.DynamicCreateArticleContract;
 import com.jkb.core.contract.dynamicCreate.data.CategoryTypeData;
 import com.jkb.core.contract.dynamicCreate.data.DynamicCreateArticleData;
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.adapter.recycler.dynamicCreate.DynamicCreateArticleAdapter;
@@ -44,14 +45,18 @@ public class DynamicCreateArticleFragment extends BaseFragment
 
     private static DynamicCreateArticleFragment INSTANCE = null;
 
-    public static DynamicCreateArticleFragment newInstance() {
+    public static DynamicCreateArticleFragment newInstance(int circle_id) {
         INSTANCE = new DynamicCreateArticleFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
     //data
     private DynamicCreateArticleContract.Presenter mPresenter;
     private DynamicCreateActivity dynamicCreateActivity;
+    private int circle_id = 0;
 
     //关于图片
     private int replaceImgPosition = -1;
@@ -103,6 +108,12 @@ public class DynamicCreateArticleFragment extends BaseFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            Bundle args = getArguments();
+            circle_id = args.getInt(Config.INTENT_KEY_CIRCLE_ID, 0);
+        } else {
+            circle_id = savedInstanceState.getInt(Config.INTENT_KEY_CIRCLE_ID);
+        }
         dynamicCreateArticleAdapter = new DynamicCreateArticleAdapter(context, null);
         recyclerView.setAdapter(dynamicCreateArticleAdapter);
     }
@@ -120,8 +131,13 @@ public class DynamicCreateArticleFragment extends BaseFragment
     }
 
     @Override
-    public void postSuccess() {
+    public int getCircleId() {
+        return circle_id;
+    }
 
+    @Override
+    public void postSuccess() {
+        dynamicCreateActivity.onBackPressed();
     }
 
     @Override
@@ -197,7 +213,8 @@ public class DynamicCreateArticleFragment extends BaseFragment
 
     @Override
     public void showLoading(String value) {
-        dynamicCreateActivity.showLoading(value);
+        if (!isHidden())
+            dynamicCreateActivity.showLoading(value);
     }
 
     @Override
@@ -254,6 +271,12 @@ public class DynamicCreateArticleFragment extends BaseFragment
                 mPresenter.getAllTag();
                 break;
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
     }
 
     //////////////////////////////////////////////////图片裁剪区域start///////////////////////////

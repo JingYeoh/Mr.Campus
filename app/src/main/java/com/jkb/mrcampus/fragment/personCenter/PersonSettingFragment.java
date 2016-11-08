@@ -40,9 +40,7 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
     }
 
     public static PersonSettingFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new PersonSettingFragment();
-        }
+        INSTANCE = new PersonSettingFragment();
         return INSTANCE;
     }
 
@@ -319,7 +317,8 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
 
     @Override
     public void showLoading(String value) {
-        personCenterActivity.showLoading(value);
+        if (!isHidden())
+            personCenterActivity.showLoading(value);
     }
 
     @Override
@@ -341,6 +340,8 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
     public void onDestroy() {
         super.onDestroy();
         personCenterActivity = null;
+        mPresenter = null;
+        mCropParams = null;
     }
 
     ///////////////////////////////头像裁剪处理回调区////////////////////////////

@@ -13,6 +13,7 @@ public class Config {
     public static final String INTENT_KEY_DYNAMIC_ID = "intent.key.dynamic_id";//显示的动态id
     public static final String INTENT_KEY_DYNAMIC_CREATE_TYPE = "intent.key.dynamicCreateType";//显示的动态类型
     public static final String INTENT_KEY_CIRCLE_ID = "intent.key.cirle_id";//传递过去的圈子id
+    public static final String INTENT_KEY_IS_CIRCLE_CREATOR = "intent.key.isCircleCreator";//是否是圈子创建者
     public static final String INTENT_KEY_DYNAMIC_TYPE = "intent.key.dynamic_type";//传递过去的圈子id
     public static final String INTENT_KEY_TARGET_ID = "intent.key.target_id";//目标id
     public static final String INTENT_KEY_COMMENT_ID = "intent.key.comment_id";//目标id
@@ -28,6 +29,8 @@ public class Config {
     public static final String BUNDLE_KEY_VIEW_ID = "bundle.key.view.id";
     public static final String BUNDLE_KEY_IMAGE_URL = "bundle.key.image.url";
 
+    public static final String SAVED_BUNDLE_KEY_SHOW_VIEW = "saved.bundle.key.show.view";
+
     public static final String BUNDLE_KEY_JUMP_ACTION = "bundle.key.jump.action";
     //要跳转的页面
     public static final String BUNDLE_JUMP_ACTION_MESSAGE_DYNAMIC = "bundle_jump_action_message_dynamic";
@@ -35,6 +38,6 @@ public class Config {
     public static final String BUNDLE_JUMP_ACTION_MESSAGE_FANS = "bundle_jump_action_message_fans";
     public static final String BUNDLE_JUMP_ACTION_MESSAGE_SUBSCRIBE = "bundle_jump_action_message_subscribe";
     public static final String BUNDLE_JUMP_ACTION_MESSAGE_CIRCLE = "bundle_jump_action_message_circle";
-    public static final String BUNDLE_JUMP_ACTION_CONVERSATION_PRIVETE="bundle_jump_action_conversation_private";
-    public static final String BUNDLE_JUMP_ACTION_CONVERSATION_LIST="bundle_jump_action_conversation_list";
+    public static final String BUNDLE_JUMP_ACTION_CONVERSATION_PRIVETE = "bundle_jump_action_conversation_private";
+    public static final String BUNDLE_JUMP_ACTION_CONVERSATION_LIST = "bundle_jump_action_conversation_list";
 }

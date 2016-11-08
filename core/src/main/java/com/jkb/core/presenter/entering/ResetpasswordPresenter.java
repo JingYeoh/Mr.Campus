@@ -96,8 +96,9 @@ public class ResetpasswordPresenter implements ResetpasswordContract.Presenter {
         public void onError(Response<ApiResponse<ResetPasswordEntity>> response, String error, ApiResponse<ResetPasswordEntity> apiResponse) {
             if (resetPasswordView.isActive()) {
                 resetPasswordView.dismissLoading();
+                resetPasswordView.showReqResult(error);
                 //显示错误信息
-                ResetPasswordEntity resetPasswordEntity = apiResponse.getMsg();
+               /* ResetPasswordEntity resetPasswordEntity = apiResponse.getMsg();
                 if (resetPasswordEntity != null) {
                     List<String> errors = resetPasswordEntity.getIdentifier();
                     if (errors != null && errors.size() > 0) {
@@ -106,7 +107,7 @@ public class ResetpasswordPresenter implements ResetpasswordContract.Presenter {
                     }
                 } else {
                     resetPasswordView.showReqResult("失败了，宝宝好烦");
-                }
+                }*/
             }
         }
 

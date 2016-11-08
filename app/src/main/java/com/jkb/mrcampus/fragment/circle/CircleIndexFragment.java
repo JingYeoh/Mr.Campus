@@ -23,12 +23,15 @@ import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleActivity;
+import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.adapter.recycler.DynamicCircleAdapter;
+import com.jkb.mrcampus.adapter.recycler.itemDecoration.DividerItemDecoration;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
+import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
 import com.jkb.mrcampus.utils.SystemUtils;
 
 import java.util.List;
@@ -36,7 +39,6 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
 import io.rong.push.RongPushClient;
 
 /**
@@ -55,12 +57,10 @@ public class CircleIndexFragment extends BaseFragment
     }
 
     public static CircleIndexFragment newInstance(int circleId) {
-        if (INSTANCE == null || circleId >= 0) {
-            INSTANCE = new CircleIndexFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(SAVED_CIRCLE_ID, circleId);
-            INSTANCE.setArguments(bundle);
-        }
+        INSTANCE = new CircleIndexFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(SAVED_CIRCLE_ID, circleId);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
@@ -135,12 +135,15 @@ public class CircleIndexFragment extends BaseFragment
         recyclerView.addOnScrollListener(onScrollListener);//设置滑动监听，设置是否下拉刷新
         refreshLayout.setOnRefreshListener(this);
 
+        rootView.findViewById(R.id.fci_floatBt).setOnClickListener(this);
+
         //设置适配器的条目监听点击事件
         dynamicCircleAdapter.setOnDynamicInCircleItemClickListener(onDynamicInCircleItemClickListener);
         dynamicCircleAdapter.setOnShareClickListener(onShareClickListener);
         dynamicCircleAdapter.setOnCommentClickListener(onCommentClickListener);
         dynamicCircleAdapter.setOnHeadImgClickListener(onHeadImgClickListener);
         dynamicCircleAdapter.setOnLikeClickListener(onLikeClickListener);
+        dynamicCircleAdapter.setOnCircleDynamicItemClickListener(onCircleDynamicItemClickListener);
     }
 
     @Override
@@ -180,7 +183,9 @@ public class CircleIndexFragment extends BaseFragment
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setNestedScrollingEnabled(false);//为了解决滑动冲突的问题
         recyclerView.addItemDecoration(
-                new LineDecoration(context, LineDecoration.VERTICAL_LIST));//添加分割线
+                new DividerItemDecoration(context,
+                        LinearLayoutManager.VERTICAL,
+                        getResources().getColor(R.color.line), 1));//添加分割线
     }
 
     /**
@@ -253,6 +258,9 @@ public class CircleIndexFragment extends BaseFragment
                 break;
             case R.id.fci_iv_subscribe:
                 subscribeOrCancel();
+                break;
+            case R.id.fci_floatBt://发表动态
+                showWriteDynamicView();
                 break;
         }
     }
@@ -368,8 +376,9 @@ public class CircleIndexFragment extends BaseFragment
     }
 
     @Override
-    public void setDynamicInCircle(List<DynamicInCircle> dynamicInCircle) {
+    public void setDynamicInCircle(List<DynamicInCircle> dynamicInCircle, boolean isCircleCreator) {
         dynamicCircleAdapter.dynamicInCircles = dynamicInCircle;
+        dynamicCircleAdapter.isCircleCreaor = isCircleCreator;
         dynamicCircleAdapter.notifyDataSetChanged();
     }
 
@@ -397,6 +406,12 @@ public class CircleIndexFragment extends BaseFragment
     @Override
     public void showBigPictureView() {
 
+    }
+
+    @Override
+    public void showWriteDynamicView() {
+        //显示写动态
+        circleActivity.showWriteDynamicView(onWriteDynamicClickListener);
     }
 
     @Override
@@ -493,13 +508,35 @@ public class CircleIndexFragment extends BaseFragment
     }
 
     @Override
+    public void showHintForPutDynamicToBlackList(final int position) {
+        circleActivity.showHintDetermineFloatView("是否拉黑",
+                "（注：拉黑动态后，【圈子首页】中将不会出现该条动态，该动态可在【小黑屋】中看到和恢复）",
+                "确定", "取消",
+                new HintDetermineFloatFragment.OnDetermineItemClickListener() {
+                    @Override
+                    public void onFirstItemClick() {
+                        //拉黑动态并删除
+                        circleActivity.dismiss();
+                        mPresenter.putDynamicInBlackList(position);
+                    }
+
+                    @Override
+                    public void onSecondItemClick() {
+                        circleActivity.dismiss();
+                    }
+                });
+    }
+
+    @Override
     public void setPresenter(CircleIndexContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
     @Override
     public void showLoading(String value) {
-        circleActivity.showLoading(value);
+        if (!isHidden()) {
+            circleActivity.showLoading(value);
+        }
     }
 
     @Override
@@ -549,6 +586,30 @@ public class CircleIndexFragment extends BaseFragment
         //刷新数据
         mPresenter.onRefresh();//无用
     }
+
+    /**
+     * 发表动态的点击回调
+     */
+    private WriteDynamicDialogFragment.OnWriteDynamicClickListener onWriteDynamicClickListener =
+            new WriteDynamicDialogFragment.OnWriteDynamicClickListener() {
+                @Override
+                public void onTopicClick() {
+                    circleActivity.startDynamicCreateActivity(
+                            DynamicCreateActivity.DYNAMIC_CREATE_TYPE_TOPIC, circleId);
+                }
+
+                @Override
+                public void onArticleClick() {
+                    circleActivity.startDynamicCreateActivity(
+                            DynamicCreateActivity.DYNAMIC_CREATE_TYPE_ARTICLE, circleId);
+                }
+
+                @Override
+                public void onNormalClick() {
+                    circleActivity.startDynamicCreateActivity(
+                            DynamicCreateActivity.DYNAMIC_CREATE_TYPE_NORMAL, circleId);
+                }
+            };
 
     /**
      * 圈子内动态的条目点击事件
@@ -601,5 +662,14 @@ public class CircleIndexFragment extends BaseFragment
                     mPresenter.onLikeItemClick(position);
                 }
             };
-
+    /**
+     * 圈子动态的条目点击监听事件
+     */
+    private DynamicCircleAdapter.OnCircleDynamicItemClickListener onCircleDynamicItemClickListener =
+            new DynamicCircleAdapter.OnCircleDynamicItemClickListener() {
+                @Override
+                public void onPutInBlackListItemClick(int position) {
+                    showHintForPutDynamicToBlackList(position);
+                }
+            };
 }

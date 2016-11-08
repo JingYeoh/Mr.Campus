@@ -46,12 +46,10 @@ public class ArticleDynamicFragment extends BaseFragment implements
     private static ArticleDynamicFragment INSTANCE = null;
 
     public static ArticleDynamicFragment newInstance(@NonNull int dynamic_id) {
-        if (INSTANCE == null || dynamic_id != -1) {
-            Bundle args = new Bundle();
-            INSTANCE = new ArticleDynamicFragment();
-            args.putInt(SAVED_DYNAMIC_ID, dynamic_id);
-            INSTANCE.setArguments(args);
-        }
+        Bundle args = new Bundle();
+        INSTANCE = new ArticleDynamicFragment();
+        args.putInt(SAVED_DYNAMIC_ID, dynamic_id);
+        INSTANCE.setArguments(args);
         return INSTANCE;
     }
 
@@ -325,7 +323,8 @@ public class ArticleDynamicFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        dynamicDetailActivity.showLoading(value);
+        if (!isHidden())
+            dynamicDetailActivity.showLoading(value);
     }
 
     @Override

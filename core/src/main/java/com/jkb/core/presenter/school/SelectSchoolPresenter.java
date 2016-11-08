@@ -192,7 +192,7 @@ public class SelectSchoolPresenter implements SelectSchoolContract.Presenter {
                 public void onError(Response<ApiResponse<SchoolListEntity>> response, String error,
                                     ApiResponse<SchoolListEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showReqResult("得到学校数据错误");
+                        view.showReqResult(error);
                     }
                 }
 

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.jkb.core.contract.dynamicCreate.normal.DynamicCreateNormalContract;
 import com.jkb.model.net.ImageLoaderFactory;
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.base.BaseFragment;
@@ -40,14 +41,18 @@ public class DynamicCreateNormalFragment extends BaseFragment
 
     private static DynamicCreateNormalFragment INSTANCE = null;
 
-    public static DynamicCreateNormalFragment newInstance() {
+    public static DynamicCreateNormalFragment newInstance(int circle_id) {
         INSTANCE = new DynamicCreateNormalFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
+        INSTANCE.setArguments(bundle);
         return INSTANCE;
     }
 
     //data
     private DynamicCreateActivity dynamicCreateActivity;
     private DynamicCreateNormalContract.Presenter mPresenter;
+    private int circle_id = 0;
 
     private CropParams mCropParams;
 
@@ -99,7 +104,12 @@ public class DynamicCreateNormalFragment extends BaseFragment
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
+        if (savedInstanceState == null) {
+            Bundle args = getArguments();
+            circle_id = args.getInt(Config.INTENT_KEY_CIRCLE_ID, 0);
+        } else {
+            circle_id = savedInstanceState.getInt(Config.INTENT_KEY_CIRCLE_ID);
+        }
     }
 
     @Override
@@ -162,6 +172,11 @@ public class DynamicCreateNormalFragment extends BaseFragment
             showChoosePictureView();
         }
     };
+
+    @Override
+    public int getCircleId() {
+        return circle_id;
+    }
 
     @Override
     public void setContentImgs(String[] imgUrls) {
@@ -228,7 +243,7 @@ public class DynamicCreateNormalFragment extends BaseFragment
 
     @Override
     public void postSuccess() {
-
+        dynamicCreateActivity.onBackPressed();
     }
 
     @Override
@@ -264,7 +279,8 @@ public class DynamicCreateNormalFragment extends BaseFragment
 
     @Override
     public void showLoading(String value) {
-        dynamicCreateActivity.showLoading(value);
+        if (!isHidden())
+            dynamicCreateActivity.showLoading(value);
     }
 
     @Override
@@ -288,6 +304,12 @@ public class DynamicCreateNormalFragment extends BaseFragment
         dynamicCreateActivity = null;
         mPresenter = null;
         mCropParams = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
     }
 
     /**

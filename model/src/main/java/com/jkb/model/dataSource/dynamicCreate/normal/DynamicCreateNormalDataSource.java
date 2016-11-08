@@ -36,6 +36,25 @@ public interface DynamicCreateNormalDataSource {
             @NonNull ApiCallback<ApiResponse<DynamicPostEntity>> apiCallback);
 
     /**
+     * 发送动态
+     *
+     * @param Authorization 头
+     * @param user_id       用户id
+     * @param dynamic_type  动态标签类型
+     *                      允许值: "topic", "normal", "article"
+     * @param title         动态标题.
+     * @param dcontent      动态内容.
+     * @param tag           主题标签（仅发表话题动态时需要此项）.
+     * @param circle_id     圈子id
+     * @param apiCallback   回调
+     */
+    void postDynamic(
+            @NonNull String Authorization, @NonNull int user_id,
+            @NonNull String dynamic_type, @NonNull String title,
+            @NonNull String dcontent, String tag, @NonNull int circle_id,
+            @NonNull ApiCallback<ApiResponse<DynamicPostEntity>> apiCallback);
+
+    /**
      * 上传图片
      *
      * @param image       图片

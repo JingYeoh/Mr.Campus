@@ -87,6 +87,11 @@ public interface MessageCenterContract {
          * 显示喜欢的消息的页面
          */
         void showMessageSystemView();
+
+        /**
+         * 初始化消息
+         */
+        void initMessages();
     }
 
     interface Presenter extends BasePresenter {

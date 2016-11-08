@@ -31,6 +31,13 @@ public class Config {
     public static final String URL_CIRCLE_ALLDYNAMIC = "getDynamicsByCircle/{circleId}";
     public static final String URL_CIRCLE_UPDATE_INFO = "circle/{id}";
     public static final String URL_CIRCLE_UPDATE_IMAGE = "circle/updateImage/{id}";
+    public static final String URL_CIRCLE_USERS_IN_CIRCLE = "getUsersInCircle/{circleId}";
+    public static final String URL_CIRCLE_USERS_IN_CIRCLE_BLACKLIST = "black/user/{id}";
+    public static final String URL_CIRCLE_DYNAMICS_IN_CIRCLE_BLACKLIST = "black/dynamic/{id}";
+    public static final String URL_CIRCLE_PUT_USER_IN_BLACKLIST = "black/user";
+    public static final String URL_CIRCLE_PULL_USER_OUT_BLACKLIST = "black/user/{id}";
+    public static final String URL_CIRCLE_PUT_DYNAMIC_IN_BLACKLIST = "black/dynamic";
+    public static final String URL_CIRCLE_PULL_DYNAMIC_OUT_DTNAMIC = "black/dynamic/{id}";
     //user接口地址
     public static final String URL_USER_ACTION = "getOperation";
     public static final String URL_USER_INFO = "user/{id}";
@@ -191,7 +198,7 @@ public class Config {
     public static final String MESSAGE_ACTION_OUTBLACKLIST = "outBlacklist";
     public static final String MESSAGE_ACTION_SUBSCRIBE = "subscribe";
     public static final String MESSAGE_ACTION_FAVORITE = "favorite";
-    public static final String MESSAFGE_ACTION_PAYATTENTION = "payAttention";
+    public static final String MESSAGE_ACTION_PAYATTENTION = "payAttention";
     public static final String MESSAGE_ACTION_LIKE = "like";
     public static final String MESSAGE_ACTION_VISIT = "visit";
     public static final String MESSAGE_ACTION_MAKECOMMENT = "makeComment";

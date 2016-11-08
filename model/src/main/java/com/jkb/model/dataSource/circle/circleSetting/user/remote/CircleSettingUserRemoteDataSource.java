@@ -10,7 +10,9 @@ import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.circle.CircleActionEntity;
 import com.jkb.api.entity.circle.CircleInfoEntity;
+import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.net.circle.CircleInfoApi;
+import com.jkb.api.net.operation.OperationApi;
 import com.jkb.model.dataSource.circle.circleSetting.user.CircleSettingUserDataSource;
 
 import java.lang.reflect.Type;
@@ -83,5 +85,20 @@ public class CircleSettingUserRemoteDataSource implements CircleSettingUserDataS
         Type type = new TypeToken<ApiResponse<CircleActionEntity>>() {
         }.getType();
         new ApiEngine<ApiResponse<CircleActionEntity>>(apiCallback, call, type);
+    }
+
+    @Override
+    public void setInCommonUseCircleOrCancel(
+            @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
+            @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
+        ApiFactoryImpl factory = ApiFactoryImpl.newInstance();
+        factory.setHttpClient(factory.genericClient());
+        factory.initRetrofit();
+        OperationApi operationApi = factory.createApi(OperationApi.class);
+        Call<ApiResponse<OperationActionEntity>> call;
+        call = operationApi.inCommonUse(Authorization, Config.ACTION_INCOMMONUSE, user_id, target_id);
+        Type type = new TypeToken<ApiResponse<OperationActionEntity>>() {
+        }.getType();
+        new ApiEngine<ApiResponse<OperationActionEntity>>(apiCallback, call, type);
     }
 }

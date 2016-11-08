@@ -43,6 +43,7 @@ public class DynamicCreateArticlePresenter implements DynamicCreateArticleContra
     //data
     private List<CategoryTypeData> categoryTypeDatas;
     private List<DynamicCreateArticleData> dynamicCreateArticleDatas;
+    private int circle_id;
 
     private int replaceImgPosition = -1;
 
@@ -62,6 +63,7 @@ public class DynamicCreateArticlePresenter implements DynamicCreateArticleContra
 
     @Override
     public void start() {
+        circle_id = view.getCircleId();
         bindDataToView();
     }
 
@@ -125,8 +127,14 @@ public class DynamicCreateArticlePresenter implements DynamicCreateArticleContra
 
             Log.i(TAG, "发送的内容" + obj);
             //处理数据
-            repertory.postDynamic(Authorization, user_id,
-                    Config.DYNAMIC_TYPE_ARTICLE, title, obj.toString(), tag, postDynamicApiCallback);
+            if (circle_id > 0) {
+                repertory.postDynamic(Authorization, user_id,
+                        Config.DYNAMIC_TYPE_ARTICLE, title, obj.toString(), tag, circle_id,
+                        postDynamicApiCallback);
+            } else {
+                repertory.postDynamic(Authorization, user_id,
+                        Config.DYNAMIC_TYPE_ARTICLE, title, obj.toString(), tag, postDynamicApiCallback);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -238,7 +246,8 @@ public class DynamicCreateArticlePresenter implements DynamicCreateArticleContra
                                     String error, ApiResponse<ImageUploadEntity> apiResponse) {
                     if (view.isActive()) {
                         view.dismissLoading();
-                        view.showReqResult("图片上传失败");
+//                        view.showReqResult("图片上传失败");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -269,7 +278,8 @@ public class DynamicCreateArticlePresenter implements DynamicCreateArticleContra
                                     ApiResponse<DynamicPostEntity> apiResponse) {
                     if (view.isActive()) {
                         view.dismissLoading();
-                        view.showReqResult("发布失败");
+//                        view.showReqResult("发布失败");
+                        view.showReqResult(error);
                     }
                 }
 
@@ -330,7 +340,7 @@ public class DynamicCreateArticlePresenter implements DynamicCreateArticleContra
                 public void onError(Response<ApiResponse<CategoryTypeEntity>> response,
                                     String error, ApiResponse<CategoryTypeEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showReqResult("请求失败");
+                        view.showReqResult(error);
                     }
                 }
 

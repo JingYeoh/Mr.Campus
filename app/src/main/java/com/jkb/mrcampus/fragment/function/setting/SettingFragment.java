@@ -101,7 +101,7 @@ public class SettingFragment extends BaseFragment implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ts4_ib_left://返回
-                mainActivity.showLeftMenu();
+                mainActivity.showLeftMenuView();
                 break;
             case R.id.ffs_tv_push://推送
                 break;
@@ -145,7 +145,6 @@ public class SettingFragment extends BaseFragment implements
 
     @Override
     public void showAboutSoftwareView() {
-
     }
 
     @Override
@@ -180,7 +179,8 @@ public class SettingFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        mainActivity.showLoading(value);
+        if (!isHidden())
+            mainActivity.showLoading(value);
     }
 
     @Override

@@ -10,8 +10,10 @@ import com.jkb.api.ApiEngine;
 import com.jkb.api.ApiFactoryImpl;
 import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
+import com.jkb.api.entity.circle.CircleActionEntity;
 import com.jkb.api.entity.circle.CircleInfoEntity;
 import com.jkb.api.entity.circle.DynamicInCircleListEntity;
+import com.jkb.api.entity.dynamic.DynamicActionEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.api.net.circle.CircleInfoApi;
 import com.jkb.api.net.operation.OperationApi;
@@ -132,5 +134,20 @@ public class CircleIndexRemoteDataSource implements CircleIndexDataSource {
         Type type = new TypeToken<ApiResponse<OperationActionEntity>>() {
         }.getType();
         new ApiEngine<ApiResponse<OperationActionEntity>>(apiCallback, call, type);
+    }
+
+    @Override
+    public void putDynamicInBlackList(
+            @NonNull String Authorization, @NonNull int dynamic_id, @NonNull int user_id,
+            @NonNull ApiCallback<ApiResponse<CircleActionEntity>> apiCallback) {
+        ApiFactoryImpl factory = ApiFactoryImpl.newInstance();
+        factory.setHttpClient(factory.genericClient());
+        factory.initRetrofit();
+        CircleInfoApi circleInfoApi = factory.createApi(CircleInfoApi.class);
+        Call<ApiResponse<CircleActionEntity>> call;
+        call = circleInfoApi.putDynamicInBlackList(Authorization, dynamic_id, user_id);
+        Type type = new TypeToken<ApiResponse<CircleActionEntity>>() {
+        }.getType();
+        new ApiEngine<ApiResponse<CircleActionEntity>>(apiCallback, call, type);
     }
 }

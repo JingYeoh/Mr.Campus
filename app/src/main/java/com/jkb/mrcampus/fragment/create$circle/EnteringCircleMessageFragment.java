@@ -40,9 +40,7 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
     }
 
     public static EnteringCircleMessageFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new EnteringCircleMessageFragment();
-        }
+        INSTANCE = new EnteringCircleMessageFragment();
         return INSTANCE;
     }
 
@@ -173,7 +171,7 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
 
     @Override
     public void showLoading(String value) {
-        createCircleActivity.showLoading(value);
+        if (!isHidden()) createCircleActivity.showLoading(value);
     }
 
     @Override

@@ -10,10 +10,15 @@ import android.widget.TextView;
 
 import com.jkb.core.contract.message.MessageCenterContract;
 import com.jkb.core.control.messageState.MessageObservable;
+import com.jkb.core.control.userstate.LoginContext;
+import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MessageActivity;
 import com.jkb.mrcampus.activity.MessageCenterActivity;
+import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.fragment.usersList.FansFragment;
+import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -34,9 +39,7 @@ public class MessageCenterFragment extends BaseFragment implements
     private static MessageCenterFragment INSTANCE = null;
 
     public static MessageCenterFragment newInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new MessageCenterFragment();
-        }
+        INSTANCE = new MessageCenterFragment();
         return INSTANCE;
     }
 
@@ -142,45 +145,53 @@ public class MessageCenterFragment extends BaseFragment implements
 
     @Override
     public void setFansMessageCount(int unReadCount, int allCount) {
-        ((TextView) rootView.findViewById(R.id.fmsgc_tv_allCount_fans)).setText(allCount);
+        ((TextView) rootView.findViewById(R.id.fmsgc_tv_allCount_fans))
+                .setText(allCount + "");
         if (unReadCount == 0) {
             rootView.findViewById(R.id.fmsgc_tv_unReadCount_fans).setVisibility(View.GONE);
         } else {
             rootView.findViewById(R.id.fmsgc_tv_unReadCount_fans).setVisibility(View.VISIBLE);
-            ((TextView) rootView.findViewById(R.id.fmsgc_tv_unReadCount_fans)).setText(unReadCount);
+            ((TextView) rootView.findViewById(R.id.fmsgc_tv_unReadCount_fans))
+                    .setText(unReadCount + "");
         }
     }
 
     @Override
     public void setSubscribeMessageCount(int unReadCount, int allCount) {
-        ((TextView) rootView.findViewById(R.id.fmsgc_tv_allCount_subscribe)).setText(allCount);
+        ((TextView) rootView.findViewById(R.id.fmsgc_tv_allCount_subscribe))
+                .setText(allCount + "");
         if (unReadCount == 0) {
             rootView.findViewById(R.id.fmsgc_tv_unReadCount_subscribe).setVisibility(View.GONE);
         } else {
             rootView.findViewById(R.id.fmsgc_tv_unReadCount_subscribe).setVisibility(View.VISIBLE);
-            ((TextView) rootView.findViewById(R.id.fmsgc_tv_unReadCount_subscribe)).setText(unReadCount);
+            ((TextView) rootView.findViewById(R.id.fmsgc_tv_unReadCount_subscribe))
+                    .setText(unReadCount + "");
         }
     }
 
     @Override
     public void setCircleMessageCount(int unReadCount, int allCount) {
-        ((TextView) rootView.findViewById(R.id.fmsgc_tv_allCount_circle)).setText(allCount);
+        ((TextView) rootView.findViewById(R.id.fmsgc_tv_allCount_circle))
+                .setText(allCount + "");
         if (unReadCount == 0) {
             rootView.findViewById(R.id.fmsgc_tv_unReadCount_circle).setVisibility(View.GONE);
         } else {
             rootView.findViewById(R.id.fmsgc_tv_unReadCount_circle).setVisibility(View.VISIBLE);
-            ((TextView) rootView.findViewById(R.id.fmsgc_tv_unReadCount_circle)).setText(unReadCount);
+            ((TextView) rootView.findViewById(R.id.fmsgc_tv_unReadCount_circle))
+                    .setText(unReadCount + "");
         }
     }
 
     @Override
     public void setSystemMessageCount(int unReadCount, int allCount) {
-        ((TextView) rootView.findViewById(R.id.fmsgc_tv_allCount_system)).setText(allCount);
+        ((TextView) rootView.findViewById(R.id.fmsgc_tv_allCount_system))
+                .setText(allCount + "");
         if (unReadCount == 0) {
             rootView.findViewById(R.id.fmsgc_tv_unReadCount_system).setVisibility(View.GONE);
         } else {
             rootView.findViewById(R.id.fmsgc_tv_unReadCount_system).setVisibility(View.VISIBLE);
-            ((TextView) rootView.findViewById(R.id.fmsgc_tv_unReadCount_system)).setText(unReadCount);
+            ((TextView) rootView.findViewById(R.id.fmsgc_tv_unReadCount_system))
+                    .setText(unReadCount + "");
         }
     }
 
@@ -201,7 +212,14 @@ public class MessageCenterFragment extends BaseFragment implements
 
     @Override
     public void showMessageFansView() {
-        messageCenterActivity.startMessageActivity(MessageActivity.MESSAGE_TYPE_FANS);
+//        messageCenterActivity.startMessageActivity(MessageActivity.MESSAGE_TYPE_FANS);
+        if (LoginContext.getInstance().isLogined()) {
+            String action = ClassUtils.getClassName(FansFragment.class);
+            int user_id = UserInfoSingleton.getInstance().getUserAuths().getUser_id();
+            messageCenterActivity.startUsersListActivity(user_id, action);
+        } else {
+            showReqResult("请先登录再进行操作");
+        }
     }
 
     @Override
@@ -226,7 +244,8 @@ public class MessageCenterFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        messageCenterActivity.showLoading(value);
+        if (!isHidden())
+            messageCenterActivity.showLoading(value);
     }
 
     @Override
@@ -260,9 +279,12 @@ public class MessageCenterFragment extends BaseFragment implements
     /**
      * 初始化消息
      */
-    private void initMessages() {
+    @Override
+    public void initMessages() {
         hideRefreshingView();
         initDynamicMessage();
+        initSubscribeMessage();
+        initFansMessage();
     }
 
     /**
@@ -272,6 +294,27 @@ public class MessageCenterFragment extends BaseFragment implements
         int unReadCount = MessageObservable.newInstance().getAllUnReadDynamicMessageCount();
         int dynamicCount = MessageObservable.newInstance().getAllDynamicMessageCount();
         setDynamicMessageCount(unReadCount, dynamicCount);
+    }
+
+    /**
+     * 初始化订阅的消息
+     */
+    private void initSubscribeMessage() {
+        int unReadCount = MessageObservable.newInstance().getAllUnReadSubscribeMessageCount();
+        int allCount = MessageObservable.newInstance().getAllSubscribeMessageCount();
+        setSubscribeMessageCount(unReadCount, allCount);
+    }
+
+    /**
+     * 初始化粉丝消息
+     */
+    private void initFansMessage() {
+        int unReadCount = MessageObservable.newInstance().getAllUnReadFansMessageCount();
+        int AllCount = 0;
+        if (LoginContext.getInstance().isLogined()) {
+            AllCount = UserInfoSingleton.getInstance().getUsers().getFansCount();
+        }
+        setFansMessageCount(unReadCount, AllCount);
     }
 
 }
