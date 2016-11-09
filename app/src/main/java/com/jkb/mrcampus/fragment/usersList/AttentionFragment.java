@@ -231,5 +231,9 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
         super.onDestroy();
         usersListActivity = null;
         LogUtils.d(TAG, "onDestroy");
+        rv=null;
+        linearLayoutManager=null;
+        refreshLayout=null;
+        attentionListAdapter=null;
     }
 }

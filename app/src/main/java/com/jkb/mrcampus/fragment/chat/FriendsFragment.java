@@ -210,6 +210,10 @@ public class FriendsFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         mainActivity = null;
+        lvFriends = null;
+        refreshLayout = null;
+        linearLayoutManager = null;
+        friendsAdapter = null;
         LoginContext.getInstance().deleteObserver(loginObserver);
     }
 

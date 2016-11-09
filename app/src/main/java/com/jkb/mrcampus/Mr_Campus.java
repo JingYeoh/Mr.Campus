@@ -17,6 +17,7 @@ import com.squareup.leakcanary.LeakCanary;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.sharesdk.framework.ShareSDK;
+import im.fir.sdk.FIR;
 import io.rong.imkit.RongIM;
 import jkb.mrcampus.db.MrCampusDB;
 
@@ -93,6 +94,8 @@ public class Mr_Campus extends MultiDexApplication {
      * 初始化SDK
      */
     private void initSDK() {
+        //Crash监测初始化
+        FIR.init(this);
         //初始化百度地图
         SDKInitializer.initialize(getApplicationContext());
         //初始化ShareSDK

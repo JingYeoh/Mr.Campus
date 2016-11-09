@@ -51,14 +51,8 @@ public class SelectCircleCoordinateFragment extends BlurDialogFragment
         MyOrientationListener.OnOrientationListener,
         BaiduMap.OnMapStatusChangeListener {
 
-
-    private static SelectCircleCoordinateFragment INSTANCE = null;
-
-    public SelectCircleCoordinateFragment() {
-    }
-
     public static SelectCircleCoordinateFragment newInstance() {
-        INSTANCE = new SelectCircleCoordinateFragment();
+        SelectCircleCoordinateFragment INSTANCE = new SelectCircleCoordinateFragment();
         return INSTANCE;
     }
 
@@ -177,11 +171,15 @@ public class SelectCircleCoordinateFragment extends BlurDialogFragment
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mMapView.onDestroy();
+        mBaiduMap = null;
         createCircleActivity = null;
+        mDialog = null;
         context = null;
         mActivity = null;
         bitmapDescriptor.recycle();//回收资源
         bitmapDescriptor = null;
+        myOrientationListener = null;
+        tvPopDetermine = null;
     }
 
     /**

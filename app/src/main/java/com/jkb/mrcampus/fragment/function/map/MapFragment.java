@@ -162,7 +162,11 @@ public class MapFragment extends BaseFragment implements MapContract.View,
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mMapView.onDestroy();
+        centerLatLng=null;
+        mBaiduMap=null;
+        myOrientationListener=null;
         mapActivity = null;
+        bitmapDescriptor=null;
     }
 
     @Override

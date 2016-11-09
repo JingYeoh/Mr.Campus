@@ -55,10 +55,8 @@ public class GuideFragment extends BaseFragment implements View.OnClickListener 
     };
     private int[] colors;
 
-
     @Nullable
     @Override
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         firstActivity = (FirstActivity) mActivity;
         setRootView(R.layout.frg_first_guide);
@@ -78,7 +76,7 @@ public class GuideFragment extends BaseFragment implements View.OnClickListener 
         initBgColors();
         initPager();
         guideContent.setBackgroundColor(colors[0]);
-        guidePagerAdapter = new GuidePagerAdapter(viewList);
+        guidePagerAdapter = new GuidePagerAdapter(viewList, images);
         viewPager.setAdapter(guidePagerAdapter);
     }
 
@@ -113,19 +111,10 @@ public class GuideFragment extends BaseFragment implements View.OnClickListener 
     private void initPager() {
         viewList = new ArrayList<>();
         for (int i = 0; i < images.length; i++) {
-            viewList.add(initView(images[i]));
+            ImageView img = new ImageView(mActivity);
+            viewList.add(img);
         }
         initDots(images.length);
-    }
-
-    /**
-     * 初始化view
-     */
-    private View initView(int res) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_guide, null);
-        ImageView imageView = (ImageView) view.findViewById(R.id.iguide_img);
-        imageView.setImageResource(res);
-        return view;
     }
 
     /**
@@ -151,9 +140,25 @@ public class GuideFragment extends BaseFragment implements View.OnClickListener 
         firstActivity = null;
         guidePagerAdapter = null;
         onPageChangeListener = null;
-        if(viewList!=null){
+        mDotsLayout = null;
+        guideContent = null;
+        mBtn = null;
+        if (viewList != null) {
             viewList.clear();
-            viewList=null;
+            viewList = null;
+        }
+    }
+
+    /**
+     * 改变导航点的状态
+     */
+    private void changeDotState(final int position) {
+        for (int i = 0; i < mDotsLayout.getChildCount(); i++) {
+            if (i == position) {
+                mDotsLayout.getChildAt(i).setSelected(true);
+            } else {
+                mDotsLayout.getChildAt(i).setSelected(false);
+            }
         }
     }
 
@@ -166,13 +171,7 @@ public class GuideFragment extends BaseFragment implements View.OnClickListener 
                 @Override
                 public void onPageSelected(int arg0) {
                     // TODO Auto-generated method stub
-                    for (int i = 0; i < mDotsLayout.getChildCount(); i++) {
-                        if (i == arg0) {
-                            mDotsLayout.getChildAt(i).setSelected(true);
-                        } else {
-                            mDotsLayout.getChildAt(i).setSelected(false);
-                        }
-                    }
+                    changeDotState(arg0);
                     if (arg0 == mDotsLayout.getChildCount() - 1) {
                         mBtn.setVisibility(View.VISIBLE);
                     } else {

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.jkb.core.presenter.message.MessageCirclePresenter;
 import com.jkb.core.presenter.message.MessageDynamicPresenter;
 import com.jkb.core.presenter.message.MessageSubscribePresenter;
 import com.jkb.model.utils.StringUtils;
@@ -50,6 +51,7 @@ public class MessageActivity extends BaseActivity {
 
     //圈子
     private MessageCircleFragment messageCircleFragment;
+    private MessageCirclePresenter messageCirclePresenter;
 
     //系统
     private MessageSystemFragment messageSystemFragment;
@@ -157,6 +159,7 @@ public class MessageActivity extends BaseActivity {
             messageSubscribePresenter = new MessageSubscribePresenter(messageSubscribeFragment);
         } else if (ClassUtils.isNameEquals(fragmentTAG, MessageCircleFragment.class)) {
             messageCircleFragment = (MessageCircleFragment) fm.findFragmentByTag(fragmentTAG);
+            messageCirclePresenter = new MessageCirclePresenter(messageCircleFragment);
         } else if (ClassUtils.isNameEquals(fragmentTAG, MessageSystemFragment.class)) {
             messageSystemFragment = (MessageSystemFragment) fm.findFragmentByTag(fragmentTAG);
         }
@@ -196,6 +199,7 @@ public class MessageActivity extends BaseActivity {
             messageCircleFragment = MessageCircleFragment.newInstance();
             ActivityUtils.addFragmentToActivity(fm, messageCircleFragment, contentView);
         }
+        messageCirclePresenter = new MessageCirclePresenter(messageCircleFragment);
     }
 
     /**

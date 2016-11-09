@@ -40,14 +40,8 @@ public class DynamicCreateTopicFragment extends BaseFragment
         CropHandler,
         ChoosePictureFragment.PictureChooseWayListener {
 
-
-    public DynamicCreateTopicFragment() {
-    }
-
-    private static DynamicCreateTopicFragment INSTANCE = null;
-
     public static DynamicCreateTopicFragment newInstance(int circle_id) {
-        INSTANCE = new DynamicCreateTopicFragment();
+        DynamicCreateTopicFragment INSTANCE = new DynamicCreateTopicFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
         INSTANCE.setArguments(bundle);
@@ -181,6 +175,9 @@ public class DynamicCreateTopicFragment extends BaseFragment
         super.onDestroy();
         dynamicCreateActivity = null;
         mCropParams = null;
+        etTitle = null;
+        etInputTag = null;
+        etContent = null;
     }
 
     @Override

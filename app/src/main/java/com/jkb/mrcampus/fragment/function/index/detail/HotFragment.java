@@ -263,7 +263,6 @@ public class HotFragment extends BaseFragment implements HotContract.View,
         mainActivity = null;
         LoginContext.getInstance().deleteObserver(loginObserver);
         SchoolInfoSingleton.getInstance().deleteObserver(schoolSelectedObserver);
-        mPresenter = null;
         refreshLayout = null;
         hotDynamicAdapter = null;
         recyclerView = null;

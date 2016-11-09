@@ -30,11 +30,9 @@ public class CircleUserInCircleBlackListFragment extends BaseFragment implements
         CircleUserInCircleBlackListContract.View,
         View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private static CircleUserInCircleBlackListFragment INSTANCE = null;
-
     public static CircleUserInCircleBlackListFragment newInstance(
             @NonNull int circle_id) {
-        INSTANCE = new CircleUserInCircleBlackListFragment();
+        CircleUserInCircleBlackListFragment INSTANCE = new CircleUserInCircleBlackListFragment();
         Bundle args = new Bundle();
         args.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
         INSTANCE.setArguments(args);
@@ -184,6 +182,15 @@ public class CircleUserInCircleBlackListFragment extends BaseFragment implements
         return isAdded();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        recyclerView = null;
+        circleActivity = null;
+        linearLayoutManager = null;
+        refreshLayout = null;
+        usersInCircleAdapter = null;
+    }
 
     /**
      * 圈子成员的条目点击回调接口

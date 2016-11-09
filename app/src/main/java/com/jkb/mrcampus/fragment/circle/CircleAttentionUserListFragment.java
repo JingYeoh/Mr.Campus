@@ -192,6 +192,15 @@ public class CircleAttentionUserListFragment extends BaseFragment implements
         return isAdded();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        recyclerView = null;
+        circleActivity = null;
+        linearLayoutManager = null;
+        refreshLayout = null;
+        usersInCircleAdapter = null;
+    }
 
     /**
      * 圈子成员的条目点击回调接口

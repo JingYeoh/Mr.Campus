@@ -225,6 +225,8 @@ public class ConversationListFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         mainActivity = null;
+        refreshLayout = null;
+        myConversationListAdapter = null;
         LoginContext.getInstance().deleteObserver(loginObserver);
     }
 

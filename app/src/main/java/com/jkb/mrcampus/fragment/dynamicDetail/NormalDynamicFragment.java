@@ -42,13 +42,8 @@ public class NormalDynamicFragment extends BaseFragment
     //data
     private int dynamic_id = -1;
 
-    public NormalDynamicFragment() {
-    }
-
-    private static NormalDynamicFragment INSTANCE = null;
-
     public static NormalDynamicFragment newInstance(@NonNull int dynamic_id) {
-        INSTANCE = new NormalDynamicFragment();
+        NormalDynamicFragment INSTANCE = new NormalDynamicFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
         INSTANCE.setArguments(bundle);
@@ -420,7 +415,6 @@ public class NormalDynamicFragment extends BaseFragment
     public void onDestroy() {
         super.onDestroy();
         dynamicDetailActivity = null;
-        mPresenter = null;
         refreshLayout = null;
         commentRecyclerView = null;
         dynamicCommentAdapter = null;

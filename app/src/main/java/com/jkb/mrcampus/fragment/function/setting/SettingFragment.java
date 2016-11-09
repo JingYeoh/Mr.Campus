@@ -39,7 +39,6 @@ public class SettingFragment extends BaseFragment implements
     private MainActivity mainActivity;
     private FunctionSettingContract.Presenter mPresenter;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

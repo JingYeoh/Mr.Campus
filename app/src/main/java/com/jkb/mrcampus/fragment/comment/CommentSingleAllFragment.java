@@ -42,13 +42,8 @@ public class CommentSingleAllFragment extends BaseFragment implements CommentSin
     private int dynamic_id = -1;
     private CommentActivity commentActivity;
 
-    public CommentSingleAllFragment() {
-    }
-
-    private static CommentSingleAllFragment INSTANCE = null;
-
     public static CommentSingleAllFragment newInstance(int dynamic_id, int comment_id) {
-        INSTANCE = new CommentSingleAllFragment();
+        CommentSingleAllFragment INSTANCE = new CommentSingleAllFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.INTENT_KEY_COMMENT_ID, comment_id);
         bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
@@ -370,6 +365,16 @@ public class CommentSingleAllFragment extends BaseFragment implements CommentSin
     public void onDestroy() {
         super.onDestroy();
         commentActivity = null;
+        recyclerView = null;
+        refreshLayout = null;
+        linearLayoutManager = null;
+        keyboardLayout = null;
+        etCommentInput = null;
+        tvCommentCount = null;
+        tvCommentRemainderCount = null;
+        ivSendComment = null;
+        commentReplyAdapter = null;
+        comment$ReplyStatusController = null;
     }
 
     @Override

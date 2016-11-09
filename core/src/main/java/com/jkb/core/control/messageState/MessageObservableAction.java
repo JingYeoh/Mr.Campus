@@ -64,6 +64,21 @@ public interface MessageObservableAction {
     int getAllUnReadFansMessageCount();
 
     /**
+     * 得到所有圈子的消息
+     */
+    List<Messages> getAllCircleMessage();
+
+    /**
+     * 得到所有的圈子消息数目
+     */
+    int getAllCircleMessageCount();
+
+    /**
+     * 得到所有未读的圈子消息数目
+     */
+    int getAllUnReadCircleMessageCount();
+
+    /**
      * 读取消息
      */
     void readMessage(Messages messages);

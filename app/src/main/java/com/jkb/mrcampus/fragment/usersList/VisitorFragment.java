@@ -233,5 +233,9 @@ public class VisitorFragment extends BaseFragment implements VisitorContract.Vie
         super.onDestroy();
         usersListActivity = null;
         LogUtils.d(TAG, "onDestroy");
+        rv=null;
+        linearLayoutManager=null;
+        refreshLayout=null;
+        visitorListAdapter=null;
     }
 }

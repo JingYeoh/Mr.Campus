@@ -37,10 +37,8 @@ public class CircleUserSettingFragment extends BaseFragment implements
 
     private int circle_id;//圈子id
 
-    private static CircleUserSettingFragment INSTANCE = null;
-
     public static CircleUserSettingFragment newInstance(int circle_id) {
-        INSTANCE = new CircleUserSettingFragment();
+        CircleUserSettingFragment INSTANCE = new CircleUserSettingFragment();
         Bundle args = new Bundle();
         args.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
         INSTANCE.setArguments(args);
@@ -309,6 +307,7 @@ public class CircleUserSettingFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         circleActivity = null;
+        mCropParams = null;
     }
 
     ////////////////////////////////////////////图片裁剪start------------------->>>>>>>>>>>>>>>>>

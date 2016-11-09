@@ -45,14 +45,8 @@ public class TopicDynamicFragment extends BaseFragment implements DynamicDetailT
     //data
     private int dynamic_id = -1;
 
-    public TopicDynamicFragment() {
-    }
-
-
-    private static TopicDynamicFragment INSTANCE = null;
-
     public static TopicDynamicFragment newInstance(@NonNull int dynamic_id) {
-        INSTANCE = new TopicDynamicFragment();
+        TopicDynamicFragment INSTANCE = new TopicDynamicFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
         INSTANCE.setArguments(bundle);
@@ -534,6 +528,16 @@ public class TopicDynamicFragment extends BaseFragment implements DynamicDetailT
     public void onDestroy() {
         super.onDestroy();
         dynamicDetailActivity = null;
+        linearLayoutManager = null;
+        comment$ReplyStatusController = null;
+        commentListAdapter = null;
+        commentRecyclerView = null;
+        refreshLayout = null;
+        keyboardLayout = null;
+        etCommentInput = null;
+        tvCommentCount = null;
+        tvCommentRemainderCount = null;
+        ivSendComment = null;
     }
 
     @Override

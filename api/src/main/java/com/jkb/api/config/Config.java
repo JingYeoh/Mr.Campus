@@ -196,6 +196,10 @@ public class Config {
 
     public static final String MESSAGE_ACTION_INBLACKLIST = "inBlacklist";
     public static final String MESSAGE_ACTION_OUTBLACKLIST = "outBlacklist";
+    public static final String MESSAGE_ACTION_IN_BLACK_LIST_DYNAMIC = "dynamicInBlacklist";
+    public static final String MESSAGE_ACTION_IN_BLACK_LIST_USER = "userInBlacklist";
+    public static final String MESSAGE_ACTION_OUT_BLACK_LIST_DYNAMIC = "dynamicOutBlacklist";
+    public static final String MESSAGE_ACTION_OUT_BLACK_LIST_USER = "userOutBlacklist";
     public static final String MESSAGE_ACTION_SUBSCRIBE = "subscribe";
     public static final String MESSAGE_ACTION_FAVORITE = "favorite";
     public static final String MESSAGE_ACTION_PAYATTENTION = "payAttention";

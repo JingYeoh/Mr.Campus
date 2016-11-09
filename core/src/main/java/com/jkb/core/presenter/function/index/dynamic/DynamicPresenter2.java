@@ -391,7 +391,7 @@ public class DynamicPresenter2 implements DynamicContract2.Presenter {
                 public void onError(Response<ApiResponse<DynamicListEntity>> response, String
                         error, ApiResponse<DynamicListEntity> apiResponse) {
                     if (view.isActive()) {
-                        view.showLoading(error);
+                        view.showReqResult(error);
                         bindDataToView();
                     }
                 }
@@ -399,7 +399,7 @@ public class DynamicPresenter2 implements DynamicContract2.Presenter {
                 @Override
                 public void onFail() {
                     if (view.isActive()) {
-                        view.showLoading("请求失败，请检查您的网络连接");
+                        view.showReqResult("请求失败，请检查您的网络连接");
                         bindDataToView();
                     }
                 }

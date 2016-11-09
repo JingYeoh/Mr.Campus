@@ -346,6 +346,13 @@ public class ArticleDynamicFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         dynamicDetailActivity = null;
+        articleContentShowAdapter = null;
+        refreshLayout = null;
+        articleContentRecyclerView = null;
+        commentRecyclerView = null;
+        articleContentLinearLayoutManager = null;
+        commentLinearLayoutManager = null;
+        commentListAdapter = null;
     }
 
     @Override

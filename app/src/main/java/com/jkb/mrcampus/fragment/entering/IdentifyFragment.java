@@ -143,6 +143,8 @@ public class IdentifyFragment extends BaseFragment implements IdentifyContract.V
     public void onDestroy() {
         super.onDestroy();
         enteringActivity = null;
+        tvCount = null;
+        countView = null;
     }
 
     @Override

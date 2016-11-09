@@ -267,6 +267,7 @@ public class MessageCenterFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         messageCenterActivity = null;
+        refreshLayout = null;
         MessageObservable.newInstance().deleteObserver(this);
     }
 
@@ -285,6 +286,7 @@ public class MessageCenterFragment extends BaseFragment implements
         initDynamicMessage();
         initSubscribeMessage();
         initFansMessage();
+        initCircleMessage();
     }
 
     /**
@@ -315,6 +317,15 @@ public class MessageCenterFragment extends BaseFragment implements
             AllCount = UserInfoSingleton.getInstance().getUsers().getFansCount();
         }
         setFansMessageCount(unReadCount, AllCount);
+    }
+
+    /**
+     * 初始化圈子消息
+     */
+    private void initCircleMessage() {
+        int unReadCount = MessageObservable.newInstance().getAllUnReadCircleMessageCount();
+        int AllCount = MessageObservable.newInstance().getAllCircleMessageCount();
+        setCircleMessageCount(unReadCount, AllCount);
     }
 
 }

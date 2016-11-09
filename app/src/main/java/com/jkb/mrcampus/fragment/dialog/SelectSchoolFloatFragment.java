@@ -210,6 +210,10 @@ public class SelectSchoolFloatFragment extends DialogFragment implements
         super.onDestroy();
         mActivity = null;
         context = null;
+        mDialog = null;
+        listView = null;
+        selectSchoolAdapter = null;
+        rootView = null;
     }
 
     /**

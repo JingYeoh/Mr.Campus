@@ -35,14 +35,8 @@ public class DynamicCreateNormalFragment extends BaseFragment
         CropHandler,
         View.OnClickListener {
 
-
-    public DynamicCreateNormalFragment() {
-    }
-
-    private static DynamicCreateNormalFragment INSTANCE = null;
-
     public static DynamicCreateNormalFragment newInstance(int circle_id) {
-        INSTANCE = new DynamicCreateNormalFragment();
+        DynamicCreateNormalFragment INSTANCE = new DynamicCreateNormalFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
         INSTANCE.setArguments(bundle);
@@ -304,6 +298,8 @@ public class DynamicCreateNormalFragment extends BaseFragment
         dynamicCreateActivity = null;
         mPresenter = null;
         mCropParams = null;
+        etInput = null;
+        contentImgs = null;
     }
 
     @Override

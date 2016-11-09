@@ -31,15 +31,8 @@ public class CircleListUserPayAttentionFragment extends BaseFragment
         SwipeRefreshLayout.OnRefreshListener,
         View.OnClickListener {
 
-
-    private static CircleListUserPayAttentionFragment INSTANCE = null;
-
-    public CircleListUserPayAttentionFragment() {
-    }
-
-
     public static CircleListUserPayAttentionFragment newInstance(int user_id) {
-        INSTANCE = new CircleListUserPayAttentionFragment();
+        CircleListUserPayAttentionFragment INSTANCE = new CircleListUserPayAttentionFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
         INSTANCE.setArguments(bundle);
@@ -235,6 +228,10 @@ public class CircleListUserPayAttentionFragment extends BaseFragment
     public void onDestroy() {
         super.onDestroy();
         circleListActivity = null;
+        circleListAdapter = null;
+        recyclerView = null;
+        refreshLayout = null;
+        staggeredGridLayoutManager = null;
     }
 
     @Override

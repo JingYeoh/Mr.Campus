@@ -27,10 +27,6 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
 
     private EnteringActivity enteringActivity;
 
-
-    public LoginFragment() {
-    }
-
     /**
      * 获得一个实例化的HomePageFragment对象
      */

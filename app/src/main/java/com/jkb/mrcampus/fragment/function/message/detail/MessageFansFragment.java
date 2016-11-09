@@ -19,7 +19,8 @@ import com.jkb.mrcampus.base.BaseFragment;
  * Created by JustKiddingBaby on 2016/10/10.
  */
 
-public class MessageFansFragment extends BaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class MessageFansFragment extends BaseFragment implements
+        View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
 
     public MessageFansFragment() {

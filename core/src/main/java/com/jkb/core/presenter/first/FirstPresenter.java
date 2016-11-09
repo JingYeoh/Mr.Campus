@@ -66,6 +66,7 @@ public class FirstPresenter implements FirstContract.Presenter {
             String currentVersion = firstDataResponsitory.getCurrentVersion();
             if (cacheVersion.equals(currentVersion)) {
                 showWelcome();
+//                showGuide();
             } else {
                 firstDataResponsitory.cacheStatus(currentVersion, isLogin,
                         isSelectedSchool, status.getSchool_id(), status.getUser_id(),

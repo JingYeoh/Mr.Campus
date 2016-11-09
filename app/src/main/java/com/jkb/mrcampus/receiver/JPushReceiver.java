@@ -99,6 +99,12 @@ public class JPushReceiver extends BroadcastReceiver implements Observer {
             case Config.MESSAGE_ACTION_PAYATTENTION://粉丝列表
 //                startMessageView(context, MESSAGE_TYPE_FANS);
                 break;
+            case Config.MESSAGE_ACTION_IN_BLACK_LIST_DYNAMIC:
+            case Config.MESSAGE_ACTION_OUT_BLACK_LIST_DYNAMIC:
+            case Config.MESSAGE_ACTION_IN_BLACK_LIST_USER:
+            case Config.MESSAGE_ACTION_OUT_BLACK_LIST_USER:
+                startMessage(context, MESSAGE_TYPE_CIRCLE);
+                break;
         }
     }
 

@@ -17,18 +17,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class WelcomePresenter implements WelcomeContract.Presenter {
 
 
-    private final WelcomeContract.View welcomeView;
-
+    private WelcomeContract.View welcomeView;
     private WelcomeDataResponsitory welcomeDataResponsitory;
 
     /**
      * 初始化Presenter，并且绑定View
-     *
-     * @param welcomeView
      */
-    public WelcomePresenter(@NonNull WelcomeDataResponsitory welcomeDataResponsitory, @NonNull WelcomeContract.View welcomeView) {
-        this.welcomeView = checkNotNull(welcomeView, "welcomeView不能为空");
-        this.welcomeDataResponsitory = checkNotNull(welcomeDataResponsitory, "welcomeDataResponsitory不能为空");
+    public WelcomePresenter(
+            @NonNull WelcomeDataResponsitory welcomeDataResponsitory,
+            @NonNull WelcomeContract.View welcomeView) {
+        this.welcomeView = welcomeView;
+        this.welcomeDataResponsitory = welcomeDataResponsitory;
 
         this.welcomeView.setPresenter(this);
     }

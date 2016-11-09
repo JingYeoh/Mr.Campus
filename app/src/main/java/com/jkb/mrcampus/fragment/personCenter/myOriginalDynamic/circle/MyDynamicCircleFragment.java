@@ -41,13 +41,8 @@ public class MyDynamicCircleFragment extends BaseFragment implements
     //用户id
     private int user_id = -1;
 
-    public MyDynamicCircleFragment() {
-    }
-
-    private static MyDynamicCircleFragment INSTANCE = null;
-
     public static MyDynamicCircleFragment newInstance(@NonNull int user_id) {
-        INSTANCE = new MyDynamicCircleFragment();
+        MyDynamicCircleFragment INSTANCE = new MyDynamicCircleFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
         INSTANCE.setArguments(bundle);
@@ -276,6 +271,10 @@ public class MyDynamicCircleFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         myOriginalDynamicActivity = null;
+        refreshLayout=null;
+        recyclerView=null;
+        linearLayoutManager=null;
+        myDynamicCircleAdapter=null;
     }
 
     @Override

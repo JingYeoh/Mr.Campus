@@ -22,14 +22,14 @@ import retrofit2.Response;
  * Created by JustKiddingBaby on 2016/8/5.
  */
 
-public class ResetpasswordPresenter implements ResetpasswordContract.Presenter {
+public class ResetPasswordPresenter implements ResetpasswordContract.Presenter {
 
     private ResetpasswordContract.View resetPasswordView;
     private ResetPasswordResponsitory responsitory;
 
     private String identity_type, credential, identifier;//账户类型，密码，帐号
 
-    public ResetpasswordPresenter(@NonNull ResetpasswordContract.View resetPasswordView,
+    public ResetPasswordPresenter(@NonNull ResetpasswordContract.View resetPasswordView,
                                   @NonNull ResetPasswordResponsitory responsitory) {
         this.resetPasswordView = resetPasswordView;
         this.responsitory = responsitory;

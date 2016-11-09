@@ -32,7 +32,6 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
 
     //有关First本页面的逻辑
     private FirstContract.Presenter mPresenter;
-    private FirstPresenter firstPresenter;
 
     //引导页面
     private GuideFragment guideFragment;
@@ -73,8 +72,8 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
      * 初始化Presenter层
      */
     private void initFirstPresenter() {
-        if (firstPresenter == null) {
-            firstPresenter = new FirstPresenter(
+        if (mPresenter == null) {
+            mPresenter = new FirstPresenter(
                     Injection.provideFirstResponsitory(getApplicationContext()), this);
         }
     }

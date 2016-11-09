@@ -51,13 +51,8 @@ public class CircleIndexFragment extends BaseFragment
         View.OnClickListener,
         SwipeRefreshLayout.OnRefreshListener {
 
-    private static CircleIndexFragment INSTANCE = null;
-
-    public CircleIndexFragment() {
-    }
-
     public static CircleIndexFragment newInstance(int circleId) {
-        INSTANCE = new CircleIndexFragment();
+        CircleIndexFragment INSTANCE = new CircleIndexFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(SAVED_CIRCLE_ID, circleId);
         INSTANCE.setArguments(bundle);
@@ -558,6 +553,15 @@ public class CircleIndexFragment extends BaseFragment
     public void onDestroy() {
         super.onDestroy();
         circleActivity = null;
+        ivBg = null;
+        ivHeadImg = null;
+        appBarLayout = null;
+        toolbar = null;
+        collapsingToolbarLayout = null;
+        refreshLayout = null;
+        dynamicCircleAdapter = null;
+        recyclerView = null;
+        linearLayoutManager = null;
     }
 
     @Override

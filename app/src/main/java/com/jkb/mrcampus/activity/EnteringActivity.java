@@ -7,8 +7,7 @@ import com.jkb.core.Injection;
 import com.jkb.core.presenter.entering.EnterPersonMessagePresenter;
 import com.jkb.core.presenter.entering.IdentifyPresenter;
 import com.jkb.core.presenter.entering.LoginPresenter;
-import com.jkb.core.presenter.entering.ResetpasswordPresenter;
-import com.jkb.model.utils.StringUtils;
+import com.jkb.core.presenter.entering.ResetPasswordPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
 import com.jkb.mrcampus.fragment.entering.EnteringPersonMessageFragment;
@@ -49,9 +48,8 @@ public class EnteringActivity extends BaseActivity {
     private EnterPersonMessagePresenter personMessagePresenter;
 
     //重置密码
-    private ResetpasswordPresenter resetpasswordPresenter;
+    private ResetPasswordPresenter resetpasswordPresenter;
     private ResetPasswordFragment resetPasswordFragment;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +57,6 @@ public class EnteringActivity extends BaseActivity {
         setRootView(R.layout.aty_entering);
         init(savedInstanceState);
     }
-
 
     @Override
     protected void initListener() {
@@ -133,7 +130,7 @@ public class EnteringActivity extends BaseActivity {
                     Injection.providePersonMessageResponsotory(getApplicationContext()));
         } else if (ClassUtils.isNameEquals(fragmentTAG, ResetPasswordFragment.class)) {
             resetPasswordFragment = (ResetPasswordFragment) fm.findFragmentByTag(fragmentTAG);
-            resetpasswordPresenter = new ResetpasswordPresenter(resetPasswordFragment,
+            resetpasswordPresenter = new ResetPasswordPresenter(resetPasswordFragment,
                     Injection.provideResetPasswordResponsitory(getApplicationContext()));
         }
     }
@@ -164,10 +161,8 @@ public class EnteringActivity extends BaseActivity {
             resetPasswordFragment = ResetPasswordFragment.newInstance();
             ActivityUtils.addFragmentToActivity(fm, resetPasswordFragment, R.id.enteringContent);
         }
-        if (resetpasswordPresenter == null) {
-            resetpasswordPresenter = new ResetpasswordPresenter(resetPasswordFragment,
-                    Injection.provideResetPasswordResponsitory(getApplicationContext()));
-        }
+        resetpasswordPresenter = new ResetPasswordPresenter(resetPasswordFragment,
+                Injection.provideResetPasswordResponsitory(getApplicationContext()));
     }
 
     /**
@@ -179,10 +174,8 @@ public class EnteringActivity extends BaseActivity {
             personMessageFragment = EnteringPersonMessageFragment.newInstance();
             ActivityUtils.addFragmentToActivity(fm, personMessageFragment, R.id.enteringContent);
         }
-        if (personMessagePresenter == null) {
-            personMessagePresenter = new EnterPersonMessagePresenter(personMessageFragment,
-                    Injection.providePersonMessageResponsotory(getApplicationContext()));
-        }
+        personMessagePresenter = new EnterPersonMessagePresenter(personMessageFragment,
+                Injection.providePersonMessageResponsotory(getApplicationContext()));
     }
 
     /**

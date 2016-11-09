@@ -112,6 +112,10 @@ public class MessageDynamicFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         messageActivity = null;
+        refreshLayout=null;
+        recyclerView=null;
+        linearLayoutManager=null;
+        messageDynamicAdapter=null;
         MessageObservable.newInstance().deleteObserver(this);
     }
 

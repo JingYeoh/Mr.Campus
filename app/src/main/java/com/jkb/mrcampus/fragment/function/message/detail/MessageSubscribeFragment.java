@@ -124,6 +124,8 @@ public class MessageSubscribeFragment extends BaseFragment implements
         MessageObservable.newInstance().deleteObserver(this);
         recyclerView = null;
         refreshLayout = null;
+        messageSubscribeAdapter=null;
+        linearLayoutManager=null;
         mPresenter = null;
     }
 

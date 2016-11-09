@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jkb.core.contract.entering.ResetpasswordContract;
-import com.jkb.core.presenter.entering.ResetpasswordPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.EnteringActivity;
 import com.jkb.mrcampus.base.BaseFragment;
@@ -135,5 +134,7 @@ public class ResetPasswordFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         enteringActivity = null;
+        etIdentifyCode = null;
+        etPassword = null;
     }
 }

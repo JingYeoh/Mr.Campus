@@ -435,7 +435,6 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         linearLayoutManager = null;
         recyclerView = null;
         onScrollListener = null;
-        mPresenter = null;
         dynamicAdapter = null;
     }
 

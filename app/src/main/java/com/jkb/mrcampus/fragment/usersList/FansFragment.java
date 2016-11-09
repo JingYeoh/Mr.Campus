@@ -237,5 +237,9 @@ public class FansFragment extends BaseFragment implements FansContract.View,
         super.onDestroy();
         usersListActivity = null;
         LogUtils.d(TAG, "onDestroy");
+        rv=null;
+        linearLayoutManager=null;
+        refreshLayout=null;
+        fansListAdapter=null;
     }
 }

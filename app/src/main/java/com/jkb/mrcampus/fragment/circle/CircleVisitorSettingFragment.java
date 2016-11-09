@@ -24,10 +24,8 @@ public class CircleVisitorSettingFragment extends BaseFragment implements
         CircleSettingVisitorContract.View,
         View.OnClickListener {
 
-    private static CircleVisitorSettingFragment INSTANCE = null;
-
     public static CircleVisitorSettingFragment newInstance(int circle_id) {
-        INSTANCE = new CircleVisitorSettingFragment();
+        CircleVisitorSettingFragment INSTANCE = new CircleVisitorSettingFragment();
         Bundle args = new Bundle();
         args.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
         INSTANCE.setArguments(args);
@@ -107,7 +105,6 @@ public class CircleVisitorSettingFragment extends BaseFragment implements
         super.onDestroy();
         circleActivity = null;
         mPresenter = null;
-        INSTANCE = null;
     }
 
     @Override

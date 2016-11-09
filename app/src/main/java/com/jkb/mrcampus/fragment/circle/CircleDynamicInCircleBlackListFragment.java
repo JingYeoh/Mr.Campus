@@ -121,7 +121,6 @@ public class CircleDynamicInCircleBlackListFragment extends BaseFragment impleme
     public void onDestroy() {
         super.onDestroy();
         circleActivity = null;
-        mPresenter = null;
         recyclerView = null;
         linearLayoutManager = null;
         refreshLayout = null;

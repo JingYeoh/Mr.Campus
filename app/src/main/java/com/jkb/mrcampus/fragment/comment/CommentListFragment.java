@@ -39,13 +39,8 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
 
     private int dynamic_id = -1;
 
-    public CommentListFragment() {
-    }
-
-    private static CommentListFragment INSTANCE = null;
-
     public static CommentListFragment newInstance(int dynamic_id) {
-        INSTANCE = new CommentListFragment();
+        CommentListFragment INSTANCE = new CommentListFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.INTENT_KEY_DYNAMIC_ID, dynamic_id);
         INSTANCE.setArguments(bundle);
@@ -321,6 +316,16 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
     public void onDestroy() {
         super.onDestroy();
         commentActivity = null;
+        recyclerView = null;
+        refreshLayout = null;
+        linearLayoutManager = null;
+        keyboardLayout = null;
+        etCommentInput = null;
+        tvCommentCount = null;
+        tvCommentRemainderCount = null;
+        ivSendComment = null;
+        commentListAdapter = null;
+        comment$ReplyStatusController = null;
     }
 
     @Override

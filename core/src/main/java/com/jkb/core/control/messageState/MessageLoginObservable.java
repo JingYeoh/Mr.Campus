@@ -66,7 +66,7 @@ public class MessageLoginObservable implements MessageObservableAction {
     @Override
     public int getAllUnReadMessageCount() {
         final int count[] = new int[1];
-        dataSource.getAllUnReadMessageCount(new MessagesDataCallback<Integer>() {
+        dataSource.getAllUnReadMessageCount(user_id, new MessagesDataCallback<Integer>() {
             @Override
             public void onSuccess(Integer messageObj) {
                 count[0] = messageObj;
@@ -174,6 +174,57 @@ public class MessageLoginObservable implements MessageObservableAction {
     public int getAllUnReadFansMessageCount() {
         final int count[] = new int[1];
         dataSource.getAllUnReadFansMessageCount(user_id, new MessagesDataCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer messageObj) {
+                count[0] = messageObj;
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                count[0] = 0;
+            }
+        });
+        return count[0];
+    }
+
+    @Override
+    public List<Messages> getAllCircleMessage() {
+        final Object messages[] = new Object[1];
+        dataSource.getAllCircleMessages(user_id, new MessagesDataCallback<List<Messages>>() {
+            @Override
+            public void onSuccess(List<Messages> messageObj) {
+                messages[0] = messageObj;
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                messages[0] = new ArrayList<>();
+            }
+        });
+        return (List<Messages>) messages[0];
+    }
+
+    @Override
+    public int getAllCircleMessageCount() {
+        final int count[] = new int[1];
+        dataSource.getAllCircleMessagesCount(user_id, new MessagesDataCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer messageObj) {
+                count[0] = messageObj;
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                count[0] = 0;
+            }
+        });
+        return count[0];
+    }
+
+    @Override
+    public int getAllUnReadCircleMessageCount() {
+        final int count[] = new int[1];
+        dataSource.getAllUnReadCircleMessagesCount(user_id, new MessagesDataCallback<Integer>() {
             @Override
             public void onSuccess(Integer messageObj) {
                 count[0] = messageObj;

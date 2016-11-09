@@ -48,7 +48,6 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
     private Context context;
     private Dialog mDialog;
 
-
     //数据
     private int user_id = -1;
     private MyOriginalDynamicActivity myOriginalDynamicActivity;
@@ -62,14 +61,8 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
     private CircleSelectorAdapter circleSelectorAdapter;
     private CircleSelectorAdapter.OnCircleSelectorListener onCircleSelectorListener;
 
-    public CircleSelectorFloatFragment() {
-    }
-
-
-    private static CircleSelectorFloatFragment INSTANCE = null;
-
     public static CircleSelectorFloatFragment newInstance(@NonNull int user_id) {
-        INSTANCE = new CircleSelectorFloatFragment();
+        CircleSelectorFloatFragment INSTANCE = new CircleSelectorFloatFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
         INSTANCE.setArguments(bundle);
@@ -240,6 +233,15 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
     public void onDestroy() {
         super.onDestroy();
         myOriginalDynamicActivity = null;
+        mActivity = null;
+        mDialog = null;
+        refreshLayout = null;
+        recyclerView = null;
+        linearLayoutManager = null;
+        mOnCircleSelectorListener = null;
+        circleSelectorAdapter = null;
+        context = null;
+        rootView = null;
     }
 
     @Override

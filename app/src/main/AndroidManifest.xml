@@ -40,6 +40,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
+        //Crash监测配置
+        <meta-data
+            android:name="BUG_HD_SDK_GENERAL_KEY"
+            android:value="6ddf2c73ce17aba8a7fcbb56003cbc6d" />
+
         //Glide的配置
         <meta-data
             android:name="com.jkb.model.net.glide.CampusGlideModule"

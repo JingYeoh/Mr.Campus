@@ -31,7 +31,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * 录入个人信息的View视图
  * Created by JustKiddingBaby on 2016/7/30.
  */
-public class EnteringPersonMessageFragment extends BaseFragment implements EnterPersonMessageContract.View,
+public class EnteringPersonMessageFragment extends BaseFragment implements
+        EnterPersonMessageContract.View,
         View.OnClickListener, ChoosePictureFragment.PictureChooseWayListener, CropHandler {
 
     private EnterPersonMessagePresenter mPresenter;
@@ -44,10 +45,6 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
 
 
     private CropParams mCropParams;
-
-
-    public EnteringPersonMessageFragment() {
-    }
 
     /**
      * 获得一个实例化的MrCampusAgreementFragment对象
@@ -152,6 +149,10 @@ public class EnteringPersonMessageFragment extends BaseFragment implements Enter
         super.onDestroy();
         enteringActivity = null;
         mCropParams = null;
+        ivHeadImg = null;
+        etIdentifyCode = null;
+        etNickName = null;
+        etPassWord = null;
     }
 
     @Override

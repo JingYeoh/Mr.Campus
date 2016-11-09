@@ -56,15 +56,9 @@ public class ConversationFragment extends BaseFragment implements
     private static final String SAVED_TARGETIDS = "saved_targetIds";
     private static final String SAVED_CONVERSATIONTYPE = "saved_conversationType";
 
-    public ConversationFragment() {
-    }
-
-    private static ConversationFragment INSTANCE = null;
-
-
     public static ConversationFragment newInstance(
             String mTargetId, String mTargetIds, Conversation.ConversationType mConversationType) {
-        INSTANCE = new ConversationFragment();
+        ConversationFragment INSTANCE = new ConversationFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Config.INTENT_KEY_TARGETID, mTargetId);
         bundle.putString(Config.INTENT_KEY_TARGETIDS, mTargetIds);
@@ -273,6 +267,9 @@ public class ConversationFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         conversationActivity = null;
+        mConversationType = null;
+        uri = null;
+        userInfos = null;
     }
 
     @Override

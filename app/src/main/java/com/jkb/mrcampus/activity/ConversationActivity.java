@@ -52,7 +52,6 @@ public class ConversationActivity extends BaseActivity {
     private static final String SAVED_TARGETIDS = "saved_targetIds";
     private static final String SAVED_CONVERSATIONTYPE = "saved_conversationType";
 
-
     //data
     private int contentView = R.id.conversation_content;
 

@@ -39,14 +39,8 @@ public class DynamicCreateArticleFragment extends BaseFragment
         CropHandler,
         View.OnClickListener {
 
-
-    public DynamicCreateArticleFragment() {
-    }
-
-    private static DynamicCreateArticleFragment INSTANCE = null;
-
     public static DynamicCreateArticleFragment newInstance(int circle_id) {
-        INSTANCE = new DynamicCreateArticleFragment();
+        DynamicCreateArticleFragment INSTANCE = new DynamicCreateArticleFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.INTENT_KEY_CIRCLE_ID, circle_id);
         INSTANCE.setArguments(bundle);
@@ -237,6 +231,11 @@ public class DynamicCreateArticleFragment extends BaseFragment
         super.onDestroy();
         dynamicCreateActivity = null;
         mCropParams = null;
+        etTitle = null;
+        etInputTag = null;
+        recyclerView = null;
+        linearLayoutManager = null;
+        dynamicCreateArticleAdapter = null;
     }
 
     /**

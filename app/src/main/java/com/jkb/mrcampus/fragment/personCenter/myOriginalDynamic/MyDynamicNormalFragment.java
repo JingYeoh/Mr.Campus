@@ -38,13 +38,8 @@ public class MyDynamicNormalFragment extends BaseFragment implements
     //用户id
     private int user_id = -1;
 
-    public MyDynamicNormalFragment() {
-    }
-
-    private static MyDynamicNormalFragment INSTANCE = null;
-
     public static MyDynamicNormalFragment newInstance(@NonNull int user_id) {
-        INSTANCE = new MyDynamicNormalFragment();
+        MyDynamicNormalFragment   INSTANCE = new MyDynamicNormalFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID, user_id);
         INSTANCE.setArguments(bundle);
@@ -202,6 +197,10 @@ public class MyDynamicNormalFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         myDynamicActivity = null;
+        refreshLayout=null;
+        recyclerView=null;
+        linearLayoutManager=null;
+        myDynamicNormalAdapter=null;
     }
 
     @Override

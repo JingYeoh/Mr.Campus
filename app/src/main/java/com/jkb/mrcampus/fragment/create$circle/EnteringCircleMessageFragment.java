@@ -34,16 +34,10 @@ import com.jkb.mrcampus.utils.ClassUtils;
 public class EnteringCircleMessageFragment extends BaseFragment implements View.OnClickListener,
         EnteringCircleMessageContract.View, CropHandler {
 
-    private static EnteringCircleMessageFragment INSTANCE;
-
-    public EnteringCircleMessageFragment() {
-    }
-
     public static EnteringCircleMessageFragment newInstance() {
-        INSTANCE = new EnteringCircleMessageFragment();
+        EnteringCircleMessageFragment INSTANCE = new EnteringCircleMessageFragment();
         return INSTANCE;
     }
-
 
     private static final String TAG = "EnteringCircleMessage";
     //本页面相关
@@ -193,6 +187,8 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
     public void onDestroy() {
         super.onDestroy();
         createCircleActivity = null;
+        mCropParams = null;
+        determineLatLng = null;
     }
 
     @Override

@@ -37,13 +37,8 @@ public class MyDynamicArticleFragment extends BaseFragment implements
     //用户id
     private int user_id = -1;
 
-    public MyDynamicArticleFragment() {
-    }
-
-    private static MyDynamicArticleFragment INSTANCE = null;
-
     public static MyDynamicArticleFragment newInstance(@NonNull int user_id) {
-        INSTANCE = new MyDynamicArticleFragment();
+        MyDynamicArticleFragment INSTANCE = new MyDynamicArticleFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID, user_id);
         INSTANCE.setArguments(bundle);
@@ -188,6 +183,10 @@ public class MyDynamicArticleFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         myDynamicActivity = null;
+        refreshLayout=null;
+        recyclerView=null;
+        linearLayoutManager=null;
+        myDynamicArticleAdapter=null;
     }
 
     @Override

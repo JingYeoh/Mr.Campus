@@ -155,6 +155,21 @@ public class MessageObservable extends Observable implements MessageObservableAc
     }
 
     @Override
+    public List<Messages> getAllCircleMessage() {
+        return messageUserState.getAllCircleMessage();
+    }
+
+    @Override
+    public int getAllCircleMessageCount() {
+        return messageUserState.getAllCircleMessageCount();
+    }
+
+    @Override
+    public int getAllUnReadCircleMessageCount() {
+        return messageUserState.getAllUnReadCircleMessageCount();
+    }
+
+    @Override
     public void readMessage(Messages messages) {
         messageUserState.readMessage(messages);
         //读取消息

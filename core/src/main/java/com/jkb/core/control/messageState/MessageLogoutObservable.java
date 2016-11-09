@@ -96,6 +96,21 @@ public class MessageLogoutObservable implements MessageObservableAction {
     }
 
     @Override
+    public List<Messages> getAllCircleMessage() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public int getAllCircleMessageCount() {
+        return 0;
+    }
+
+    @Override
+    public int getAllUnReadCircleMessageCount() {
+        return 0;
+    }
+
+    @Override
     public void readMessage(Messages messages) {
         messages.setIs_read(true);
         dataSource.saveMessagesToDb(messages);

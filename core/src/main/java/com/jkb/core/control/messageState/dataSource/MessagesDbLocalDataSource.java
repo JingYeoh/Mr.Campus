@@ -132,7 +132,8 @@ public class MessagesDbLocalDataSource implements MessagesDbDataSource {
         MessagesDao messagesDao = daoSession.getMessagesDao();
         QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
         LogUtils.d(MessagesDbLocalDataSource.class, "我要查询的user_id=" + user_id);
-        messagesQueryBuilder.where(MessagesDao.Properties.User_id.eq(user_id),
+        messagesQueryBuilder.where(
+                MessagesDao.Properties.User_id.eq(user_id),
                 MessagesDao.Properties.Is_read.eq(false));
         messagesQueryBuilder.whereOr(
                 MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_LIKE),
@@ -148,16 +149,40 @@ public class MessagesDbLocalDataSource implements MessagesDbDataSource {
     }
 
     @Override
-    public void getAllUnReadMessageCount(MessagesDataCallback<Integer> callback) {
+    public void getAllUnReadMessageCount(int user_id, MessagesDataCallback<Integer> callback) {
         MessagesDao messagesDao = daoSession.getMessagesDao();
-        QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
-        messagesQueryBuilder.where(
+        QueryBuilder<Messages> qb = messagesDao.queryBuilder();
+        QueryBuilder<Messages> qb2 = messagesDao.queryBuilder();
+        qb2.where(MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SYSTEM),
                 MessagesDao.Properties.Is_read.eq(false));
-        List<Messages> messages = messagesQueryBuilder.list();
-        if (messages == null) {
+        qb.where(
+                MessagesDao.Properties.User_id.eq(user_id),
+                MessagesDao.Properties.Is_read.eq(false));
+        qb.whereOr(
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_IN_BLACK_LIST_USER),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_IN_BLACK_LIST_DYNAMIC),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_OUT_BLACK_LIST_DYNAMIC),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_OUT_BLACK_LIST_USER),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBSCRIBE),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_FAVORITE),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_PAYATTENTION),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_LIKE),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_MAKECOMMENT),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_MAKEREPLY)
+        );
+        List<Messages> messages = qb.list();
+        List<Messages> messages2 = qb2.list();
+        if (messages == null && messages2 == null) {
             callback.onDataNotAvailable();
         } else {
-            callback.onSuccess(messages.size());
+            int sum = 0;
+            if (messages2 != null) {
+                sum += messages2.size();
+            }
+            if (messages != null) {
+                sum += messages.size();
+            }
+            callback.onSuccess(sum);
         }
     }
 
@@ -215,7 +240,7 @@ public class MessagesDbLocalDataSource implements MessagesDbDataSource {
         messagesQueryBuilder.where(
                 MessagesDao.Properties.User_id.eq(user_id),
                 MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBSCRIBE));
-        List<Messages> messages = messagesQueryBuilder.list();
+        List<Messages> messages = messagesQueryBuilder.orderDesc(MessagesDao.Properties.Id).list();
         if (messages == null) {
             callback.onDataNotAvailable();
         } else {
@@ -252,6 +277,88 @@ public class MessagesDbLocalDataSource implements MessagesDbDataSource {
             callback.onDataNotAvailable();
         } else {
             callback.onSuccess(messages);
+        }
+    }
+
+    @Override
+    public void getAllCircleMessages(int user_id, MessagesDataCallback<List<Messages>> callback) {
+        MessagesDao messagesDao = daoSession.getMessagesDao();
+        QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
+        messagesQueryBuilder.where(
+                MessagesDao.Properties.User_id.eq(user_id));
+        messagesQueryBuilder.whereOr(
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_IN_BLACK_LIST_USER),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_IN_BLACK_LIST_DYNAMIC),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_OUT_BLACK_LIST_DYNAMIC),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_OUT_BLACK_LIST_USER)
+        );
+        List<Messages> messages = messagesQueryBuilder.orderDesc(MessagesDao.Properties.Id).list();
+        if (messages == null) {
+            callback.onDataNotAvailable();
+        } else {
+            callback.onSuccess(messages);
+        }
+    }
+
+    @Override
+    public void getAllUnReadCircleMessages(int user_id, MessagesDataCallback<List<Messages>> callback) {
+        MessagesDao messagesDao = daoSession.getMessagesDao();
+        QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
+        messagesQueryBuilder.where(
+                MessagesDao.Properties.User_id.eq(user_id),
+                MessagesDao.Properties.Is_read.eq(false));
+        messagesQueryBuilder.whereOr(
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_IN_BLACK_LIST_USER),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_IN_BLACK_LIST_DYNAMIC),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_OUT_BLACK_LIST_DYNAMIC),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_OUT_BLACK_LIST_USER)
+        );
+        List<Messages> messages = messagesQueryBuilder.list();
+        if (messages == null) {
+            callback.onDataNotAvailable();
+        } else {
+            callback.onSuccess(messages);
+        }
+    }
+
+    @Override
+    public void getAllUnReadCircleMessagesCount(int user_id, MessagesDataCallback<Integer> callback) {
+        MessagesDao messagesDao = daoSession.getMessagesDao();
+        QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
+        messagesQueryBuilder.where(
+                MessagesDao.Properties.User_id.eq(user_id),
+                MessagesDao.Properties.Is_read.eq(false));
+        messagesQueryBuilder.whereOr(
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_IN_BLACK_LIST_USER),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_IN_BLACK_LIST_DYNAMIC),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_OUT_BLACK_LIST_DYNAMIC),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_OUT_BLACK_LIST_USER)
+        );
+        List<Messages> messages = messagesQueryBuilder.list();
+        if (messages == null) {
+            callback.onDataNotAvailable();
+        } else {
+            callback.onSuccess(messages.size());
+        }
+    }
+
+    @Override
+    public void getAllCircleMessagesCount(int user_id, MessagesDataCallback<Integer> callback) {
+        MessagesDao messagesDao = daoSession.getMessagesDao();
+        QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
+        messagesQueryBuilder.where(
+                MessagesDao.Properties.User_id.eq(user_id));
+        messagesQueryBuilder.whereOr(
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_IN_BLACK_LIST_USER),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_IN_BLACK_LIST_DYNAMIC),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_OUT_BLACK_LIST_DYNAMIC),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_OUT_BLACK_LIST_USER)
+        );
+        List<Messages> messages = messagesQueryBuilder.list();
+        if (messages == null) {
+            callback.onDataNotAvailable();
+        } else {
+            callback.onSuccess(messages.size());
         }
     }
 
