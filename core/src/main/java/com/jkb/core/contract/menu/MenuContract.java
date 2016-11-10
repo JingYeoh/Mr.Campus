@@ -73,30 +73,6 @@ public interface MenuContract {
          * 隐藏所有的View视图
          */
         void hideAllView();
-
-        /**
-         * 链接融云的服务器
-         *
-         * @param token 融云的Token
-         */
-        void connectRongIM(String token);
-
-        /**
-         * 登出融云聊天
-         */
-        void breakConnectRongIM();
-
-        /**
-         * 设置极光推送的别名
-         *
-         * @param user_id 用户id
-         */
-        void setJPushAlias(int user_id);
-
-        /**
-         * 退出激光推送
-         */
-        void quitJPush();
     }
 
 
@@ -114,30 +90,5 @@ public interface MenuContract {
          * 请求登录接口
          */
         void ReqLogin();
-
-        /**
-         * 连接融云聊天的服务
-         */
-        void connectRongIM();
-
-        /**
-         * 登出融云的聊天服务
-         */
-        void logoutRongIM();
-
-        /**
-         * 融云Token过期
-         */
-        void rongIMTokenIncorrect();
-
-        /**
-         * 设置极光推送别名
-         */
-        void initJPushAlias();
-
-        /**
-         * 退出极光推送
-         */
-        void quitJPush();
     }
 }

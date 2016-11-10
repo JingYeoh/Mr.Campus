@@ -10,4 +10,9 @@ public class LogoutState implements UserState {
     public boolean isLogined() {
         return false;
     }
+
+    @Override
+    public void connectIMSuccess() {
+
+    }
 }

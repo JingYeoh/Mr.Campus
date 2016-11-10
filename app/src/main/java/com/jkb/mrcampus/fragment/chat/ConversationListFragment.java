@@ -38,11 +38,9 @@ public class ConversationListFragment extends BaseFragment implements
 
     private int contentView = R.id.fc_conversationListContent;
 
-    private static ConversationListFragment INSTANCE;
-
     public static ConversationListFragment newInstance() {
         Bundle args = new Bundle();
-        INSTANCE = new ConversationListFragment();
+        ConversationListFragment INSTANCE = new ConversationListFragment();
         INSTANCE.setArguments(args);
         return INSTANCE;
     }
@@ -74,7 +72,6 @@ public class ConversationListFragment extends BaseFragment implements
     protected void initListener() {
         //设置是否退出登录的状态监听
         LoginContext.getInstance().addObserver(loginObserver);
-        mainActivity.setRongIMConnectCallBack(rongIMConnectCallBack);
         refreshLayout.setOnRefreshListener(this);
     }
 
@@ -150,29 +147,6 @@ public class ConversationListFragment extends BaseFragment implements
                 refreshConversationList();
             } else {
             }
-        }
-    };
-    /**
-     * 连接聊天服务器的回调
-     */
-    private RongIMConnectCallBack rongIMConnectCallBack = new RongIMConnectCallBack() {
-        @Override
-        public void onTokenIncorrect() {
-//            rootView.findViewById(contentView).setVisibility(View.GONE);
-        }
-
-        @Override
-        public void onSuccess(int user_id) {
-//            rootView.findViewById(contentView).setVisibility(View.VISIBLE);
-            myConversationListAdapter =
-                    new MyConversationListAdapter(RongContext.getInstance());
-            conversationListFragment.setAdapter(myConversationListAdapter);
-            conversationListFragment.setUri(uri);
-        }
-
-        @Override
-        public void onError(RongIMClient.ErrorCode errorCode) {
-//            rootView.findViewById(contentView).setVisibility(View.GONE);
         }
     };
 

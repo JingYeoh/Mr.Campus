@@ -2,6 +2,7 @@ package com.jkb.mrcampus;
 
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
+import android.view.View;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.jkb.api.ApiFactoryImpl;
@@ -11,6 +12,7 @@ import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.Config;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
+import com.jkb.mrcampus.utils.SystemUtils;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.squareup.leakcanary.LeakCanary;
@@ -19,6 +21,9 @@ import cn.jpush.android.api.JPushInterface;
 import cn.sharesdk.framework.ShareSDK;
 import im.fir.sdk.FIR;
 import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
+import io.rong.imlib.model.UserInfo;
 import jkb.mrcampus.db.MrCampusDB;
 
 /**
@@ -102,6 +107,7 @@ public class Mr_Campus extends MultiDexApplication {
         ShareSDK.initSDK(getApplicationContext(), SHARE_SDK_APP_KEY);
         //初始化融云SDK
         RongIM.init(this);
+        RongIM.setConversationBehaviorListener(behaviorListener);
         //初始化激光推送
         JPushInterface.setDebugMode(true);
         JPushInterface.init(getApplicationContext());
@@ -131,4 +137,54 @@ public class Mr_Campus extends MultiDexApplication {
         return "com.jkb.mrcampus";
     }
 
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        System.gc();
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        //程序终止的时候
+        behaviorListener = null;
+    }
+
+    /**
+     * 融云点击的监听器
+     */
+    private RongIM.ConversationBehaviorListener behaviorListener =
+            new RongIM.ConversationBehaviorListener() {
+                @Override
+                public boolean onUserPortraitClick(
+                        Context context, Conversation.ConversationType conversationType,
+                        UserInfo userInfo) {
+                    String userId = userInfo.getUserId();
+                    int user_id = Integer.parseInt(userId);
+                    SystemUtils.startPersonCenterActivity(getApplicationContext(), user_id);
+                    return true;
+                }
+
+                @Override
+                public boolean onUserPortraitLongClick(
+                        Context context, Conversation.ConversationType conversationType,
+                        UserInfo userInfo) {
+                    return false;
+                }
+
+                @Override
+                public boolean onMessageClick(Context context, View view, Message message) {
+                    return false;
+                }
+
+                @Override
+                public boolean onMessageLinkClick(Context context, String s) {
+                    return false;
+                }
+
+                @Override
+                public boolean onMessageLongClick(Context context, View view, Message message) {
+                    return false;
+                }
+            };
 }

@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.jkb.mrcampus.Config;
+import com.jkb.mrcampus.activity.PersonCenterActivity;
+
 import java.util.List;
 
 import io.rong.push.RongPushClient;
@@ -122,6 +125,18 @@ public class SystemUtils {
                 .appendQueryParameter("title", targetName);
         Uri uri = builder.build();
         conversationIntent.setData(uri);
+        context.startActivity(conversationIntent);
+    }
+
+    /**
+     * 打开个人中心页面
+     */
+    public static void startPersonCenterActivity(
+            Context context, int user_id) {
+        Intent conversationIntent = new Intent();
+        conversationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        conversationIntent.setClass(context, PersonCenterActivity.class);
+        conversationIntent.putExtra(Config.INTENT_KEY_USER_ID, user_id);
         context.startActivity(conversationIntent);
     }
 }

@@ -13,7 +13,6 @@ import com.jkb.api.config.Config;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
-import com.jkb.mrcampus.adapter.recycler.message.dynamic.MessageDynamicAdapter;
 import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.ArrayList;

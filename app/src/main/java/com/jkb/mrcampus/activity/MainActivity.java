@@ -1,10 +1,8 @@
 package com.jkb.mrcampus.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jkb.core.Injection;
@@ -15,10 +13,8 @@ import com.jkb.core.presenter.function.setting.FunctionSettingPresenter;
 import com.jkb.core.presenter.menu.MenuPresenter;
 import com.jkb.core.presenter.menu.RightMenuPresenter;
 import com.jkb.core.presenter.menu.SwitchFunctionPresenter;
-import com.jkb.model.utils.LogUtils;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
-import com.jkb.mrcampus.Mr_Campus;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.callback.RongIMConnectCallBack;
 import com.jkb.mrcampus.base.BaseSlideMenuActivity;
@@ -29,21 +25,13 @@ import com.jkb.mrcampus.fragment.function.tools.ToolsFragment;
 import com.jkb.mrcampus.fragment.menu.RightMenuFragment;
 import com.jkb.mrcampus.fragment.menu.SwitchFunctionFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
-import com.jkb.mrcampus.service.LocationService;
+import com.jkb.mrcampus.service.MrCampusService;
 import com.jkb.mrcampus.utils.ClassUtils;
 import com.jkb.mrcampus.utils.SystemUtils;
 
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Set;
 
-import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.TagAliasCallback;
-import io.rong.imkit.RongIM;
-import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
-import io.rong.imlib.model.Message;
-import io.rong.imlib.model.UserInfo;
 import io.rong.push.RongPushClient;
 
 /**
@@ -97,7 +85,6 @@ public class MainActivity extends BaseSlideMenuActivity implements
     protected void initListener() {
         LoginContext.getInstance().addObserver(loginObserver);
         //设置融云聊天的点击事件
-        RongIM.setConversationBehaviorListener(behaviorListener);
     }
 
     @Override
@@ -252,9 +239,9 @@ public class MainActivity extends BaseSlideMenuActivity implements
      */
     private void startLocationService() {
         System.out.println("提示信息:我在绑定service");
-        if (!ActivityUtils.isServiceWorked(LocationService.class.getName(),
+        if (!ActivityUtils.isServiceWorked(MrCampusService.class.getName(),
                 getApplicationContext())) {
-            Intent intent = new Intent(context, LocationService.class);
+            Intent intent = new Intent(context, MrCampusService.class);
             startService(intent);
         }
     }
@@ -464,88 +451,6 @@ public class MainActivity extends BaseSlideMenuActivity implements
     }
 
     @Override
-    public void connectRongIM(String token) {
-        if (getApplicationInfo().packageName.
-                equals(Mr_Campus.getCurProcessName(getApplicationContext()))) {
-            LogUtils.d(TAG, "我要开始连接融云服务了");
-            RongIM.connect(token, rongImConnectCallback);
-        } else {
-            showReqResult("应用包名不同，不能启动聊天服务");
-        }
-    }
-
-    /**
-     * 融云连接的回调
-     */
-    private RongIMClient.ConnectCallback rongImConnectCallback =
-            new RongIMClient.ConnectCallback() {
-                /**
-                 * Token 错误，在线上环境下主要是因为 Token 已经过期，
-                 * 您需要向 App Server 重新请求一个新的 Token
-                 */
-                @Override
-                public void onTokenIncorrect() {
-                    LogUtils.d(TAG, "--onTokenIncorrect");
-                    //设置登录失败状态
-                    mPresenter.rongIMTokenIncorrect();
-                    if (rongIMConnectCallBack != null) {
-                        rongIMConnectCallBack.onTokenIncorrect();
-                    }
-                }
-
-                @Override
-                public void onSuccess(String user_id) {
-                    LogUtils.d(TAG, "--onSuccess" + user_id);
-                    if (rongIMConnectCallBack != null) {
-                        rongIMConnectCallBack.onSuccess(Integer.parseInt(user_id));
-                    }
-                }
-
-                @Override
-                public void onError(RongIMClient.ErrorCode errorCode) {
-                    LogUtils.d(TAG, "--onError" + errorCode.getValue());
-                    if (rongIMConnectCallBack != null) {
-                        rongIMConnectCallBack.onError(errorCode);
-                    }
-                }
-            };
-
-
-    @Override
-    public void breakConnectRongIM() {
-        LogUtils.d(TAG, "我要开始断开聊天了");
-        RongIM.getInstance().logout();
-    }
-
-    @Override
-    public void setJPushAlias(int user_id) {
-        LogUtils.d(TAG, "我收到的user_id=" + user_id);
-        JPushInterface.setAlias(getApplicationContext(), user_id + "", tagAliasCallback);
-    }
-
-    @Override
-    public void quitJPush() {
-        JPushInterface.setAlias(getApplicationContext(), "", tagAliasCallback);
-    }
-
-    /**
-     * 设置别名的回调方法
-     */
-    private TagAliasCallback tagAliasCallback = new TagAliasCallback() {
-        @Override
-        public void gotResult(int i, String s, Set<String> set) {
-            switch (i) {
-                case 0:
-                    LogUtils.d(TAG, "-----设置的别名成功");
-                    break;
-                default:
-                    LogUtils.w(TAG, "-----设置别名失败，错误Code是" + i);
-                    break;
-            }
-        }
-    };
-
-    @Override
     public void setPresenter(MenuContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -563,9 +468,7 @@ public class MainActivity extends BaseSlideMenuActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        rongImConnectCallback = null;
         LoginContext.getInstance().deleteObserver(loginObserver);
-        behaviorListener = null;
         mPresenter = null;
         slidingMenu = null;
     }
@@ -586,13 +489,6 @@ public class MainActivity extends BaseSlideMenuActivity implements
     }
 
     /**
-     * 设置聊天连接状态的监听器
-     */
-    public void setRongIMConnectCallBack(RongIMConnectCallBack rongIMConnectCallBack) {
-        this.rongIMConnectCallBack = rongIMConnectCallBack;
-    }
-
-    /**
      * 聊天的Observer监听
      */
     private Observer loginObserver = new Observer() {
@@ -601,50 +497,9 @@ public class MainActivity extends BaseSlideMenuActivity implements
             boolean logined = LoginContext.getInstance().isLogined();
             if (logined) {
                 slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);//设置为两侧滑动
-                mPresenter.connectRongIM();
-                mPresenter.initJPushAlias();
             } else {
                 slidingMenu.setMode(SlidingMenu.LEFT);//设置为只有左侧滑动
-                mPresenter.logoutRongIM();
-                mPresenter.quitJPush();
             }
         }
     };
-    /**
-     * 设置用户聊天IM的各个点击事件
-     */
-    private RongIM.ConversationBehaviorListener behaviorListener =
-            new RongIM.ConversationBehaviorListener() {
-                @Override
-                public boolean onUserPortraitClick(
-                        Context context, Conversation.ConversationType conversationType,
-                        UserInfo userInfo) {
-                    String userId = userInfo.getUserId();
-                    int user_id = Integer.parseInt(userId);
-                    startPersonalCenterActivity(user_id);
-                    return true;
-                }
-
-                @Override
-                public boolean onUserPortraitLongClick(
-                        Context context, Conversation.ConversationType conversationType,
-                        UserInfo userInfo) {
-                    return false;
-                }
-
-                @Override
-                public boolean onMessageClick(Context context, View view, Message message) {
-                    return false;
-                }
-
-                @Override
-                public boolean onMessageLinkClick(Context context, String s) {
-                    return false;
-                }
-
-                @Override
-                public boolean onMessageLongClick(Context context, View view, Message message) {
-                    return false;
-                }
-            };
 }

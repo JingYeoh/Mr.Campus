@@ -14,4 +14,9 @@ public interface UserState {
      * @return 是否登录
      */
     boolean isLogined();
+
+    /**
+     * 连接融云成功
+     */
+    void connectIMSuccess();
 }

@@ -40,13 +40,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PersonCenterFragment extends BaseFragment implements PersonCenterContract.View,
         View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private static PersonCenterFragment INSTANCE = null;
-
-    public PersonCenterFragment() {
-    }
-
     public static PersonCenterFragment newInstance(int user_id) {
-        INSTANCE = new PersonCenterFragment();
+        PersonCenterFragment INSTANCE = new PersonCenterFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
         INSTANCE.setArguments(bundle);

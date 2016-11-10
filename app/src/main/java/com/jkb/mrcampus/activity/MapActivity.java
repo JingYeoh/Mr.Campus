@@ -3,6 +3,7 @@ package com.jkb.mrcampus.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.baidu.mapapi.radar.RadarSearchManager;
 import com.jkb.core.contract.map.MapAtyContract;
 import com.jkb.core.presenter.map.MapAtyPresenter;
 import com.jkb.core.presenter.map.MapPresenter;
@@ -42,7 +43,6 @@ public class MapActivity extends BaseActivity implements MapAtyContract.View {
 
     @Override
     protected void initListener() {
-
     }
 
     @Override

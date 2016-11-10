@@ -146,7 +146,7 @@
         </activity>
 
         //用于定位的服务
-        <service android:name=".service.LocationService" />
+        <service android:name=".service.MrCampusService" />
 
         //融云的消息通知的广播接收器
         <receiver

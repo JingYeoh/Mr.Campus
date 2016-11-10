@@ -55,6 +55,11 @@ public class LoginContext extends Observable implements UserState {
     }
 
     @Override
+    public void connectIMSuccess() {
+        update();
+    }
+
+    @Override
     public synchronized void addObserver(Observer o) {
         super.addObserver(o);
         update();

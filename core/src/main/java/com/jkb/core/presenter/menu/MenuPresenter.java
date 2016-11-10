@@ -15,10 +15,7 @@ import com.jkb.model.dataSource.entering.login.LoginDataSource;
 import com.jkb.model.dataSource.entering.login.LoginResponsitory;
 import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.model.info.UserInfoSingleton;
-import com.jkb.model.utils.LogUtils;
 import com.jkb.model.utils.StringUtils;
-
-import java.io.Serializable;
 
 import jkb.mrcampus.db.entity.Status;
 import jkb.mrcampus.db.entity.UserAuths;
@@ -76,70 +73,6 @@ public class MenuPresenter implements MenuContract.Presenter {
             //请求登录接口
             login(identity_type, identifier, credential, nickName);
         }
-    }
-
-    @Override
-    public void connectRongIM() {
-//        LogUtils.d(TAG, "connectRongIM");
-        if (!menuView.isActive()) {
-            return;
-        }
-        if (LoginContext.getInstance().isLogined()) {
-            UserAuths userAuths = UserInfoSingleton.getInstance().getUserAuths();
-            if (userAuths == null) {
-                changeToLogout();
-            } else {
-                String rong_im_token = userAuths.getRong_im_token();
-//                LogUtils.d(TAG, "rong_im_token=" + rong_im_token);
-                if (StringUtils.isEmpty(rong_im_token)) {
-                    changeToLogout();
-                } else {
-                    menuView.connectRongIM(rong_im_token);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void logoutRongIM() {
-        LogUtils.d(TAG, "logoutRongIM");
-        if (!menuView.isActive()) {
-            return;
-        }
-        if (!LoginContext.getInstance().isLogined()) {
-            menuView.breakConnectRongIM();
-        }
-    }
-
-    @Override
-    public void rongIMTokenIncorrect() {
-        changeToLogout();
-    }
-
-    @Override
-    public void initJPushAlias() {
-        if (!menuView.isActive()) {
-            return;
-        }
-        if (LoginContext.getInstance().isLogined()) {
-            UserAuths userAuths = UserInfoSingleton.getInstance().getUserAuths();
-            if (userAuths == null) {
-                changeToLogout();
-            } else {
-                Integer user_id = userAuths.getUser_id();
-                if (user_id > 0) {
-                    menuView.setJPushAlias(user_id);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void quitJPush() {
-        if (!menuView.isActive()) {
-            return;
-        }
-        menuView.quitJPush();
     }
 
     /**

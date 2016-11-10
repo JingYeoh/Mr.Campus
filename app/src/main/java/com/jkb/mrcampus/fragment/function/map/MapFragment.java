@@ -40,9 +40,6 @@ public class MapFragment extends BaseFragment implements MapContract.View,
         BaiduMap.OnMapStatusChangeListener,
         MyOrientationListener.OnOrientationListener {
 
-    public MapFragment() {
-    }
-
     /**
      * 获得一个实例化的MapFragment对象
      */
@@ -162,11 +159,11 @@ public class MapFragment extends BaseFragment implements MapContract.View,
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mMapView.onDestroy();
-        centerLatLng=null;
-        mBaiduMap=null;
-        myOrientationListener=null;
+        centerLatLng = null;
+        mBaiduMap = null;
+        myOrientationListener = null;
         mapActivity = null;
-        bitmapDescriptor=null;
+        bitmapDescriptor = null;
     }
 
     @Override

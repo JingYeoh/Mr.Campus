@@ -38,13 +38,8 @@ public class MyFavoriteDynamicFragment extends BaseFragment implements
     //data
     private int user_id = -1;
 
-    public MyFavoriteDynamicFragment() {
-    }
-
-    private static MyFavoriteDynamicFragment INSTANCE;
-
     public static MyFavoriteDynamicFragment newInstance(@NonNull int user_id) {
-        INSTANCE = new MyFavoriteDynamicFragment();
+        MyFavoriteDynamicFragment INSTANCE = new MyFavoriteDynamicFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
         INSTANCE.setArguments(bundle);
@@ -248,6 +243,10 @@ public class MyFavoriteDynamicFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         myUnOriginalDynamicActivity = null;
+        refreshLayout = null;
+        recyclerView = null;
+        linearLayoutManager = null;
+        myFavoriteDynamicAdapter = null;
     }
 
     /**
