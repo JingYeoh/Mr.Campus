@@ -43,15 +43,8 @@ public class FriendsFragment extends BaseFragment implements
     private FriendsAdapter friendsAdapter;
     private FriendsContract.Presenter mPresenter;
 
-
-    private static FriendsFragment INSTANCE = null;
-
-    public FriendsFragment() {
-    }
-
     public static FriendsFragment newInstance() {
-        INSTANCE = new FriendsFragment();
-        return INSTANCE;
+        return new FriendsFragment();
     }
 
     @Nullable
@@ -92,11 +85,6 @@ public class FriendsFragment extends BaseFragment implements
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-
-        } else {
-
-        }
         //初始化P层
         initPresenter();
         friendsAdapter = new FriendsAdapter(context, null);
@@ -204,7 +192,6 @@ public class FriendsFragment extends BaseFragment implements
     public boolean isActive() {
         return isAdded();
     }
-
 
     @Override
     public void onDestroy() {

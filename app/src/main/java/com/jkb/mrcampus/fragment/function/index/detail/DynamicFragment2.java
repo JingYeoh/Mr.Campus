@@ -1,7 +1,6 @@
 package com.jkb.mrcampus.fragment.function.index.detail;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +18,7 @@ import com.jkb.core.data.index.dynamic.IndexDynamicData;
 import com.jkb.core.presenter.function.index.dynamic.DynamicPresenter2;
 import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.R;
+import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.activity.MessageActivity;
@@ -26,6 +26,7 @@ import com.jkb.mrcampus.adapter.recycler.NoAlphaItemAnimator;
 import com.jkb.mrcampus.adapter.recycler.dynamic.DynamicAdapter2;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.DividerItemDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
+import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
 
 import java.util.List;
 import java.util.Observable;
@@ -41,8 +42,7 @@ public class DynamicFragment2 extends BaseFragment implements
         SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Observer {
 
     public static DynamicFragment2 newInstance() {
-        DynamicFragment2 INSTANCE = new DynamicFragment2();
-        return INSTANCE;
+        return new DynamicFragment2();
     }
 
     //View
@@ -131,7 +131,7 @@ public class DynamicFragment2 extends BaseFragment implements
     }
 
     @Override
-    public void setUnReadDynamicMessageCount(@NonNull int count) {
+    public void setUnReadDynamicMessageCount(int count) {
         if (count > 0) {
             rootView.findViewById(R.id.fhd_content_unReadMessage).setVisibility(View.VISIBLE);
             ((TextView) rootView.findViewById(R.id.fhd_tv_unReadMessageCount)).setText(count + "");
@@ -172,7 +172,7 @@ public class DynamicFragment2 extends BaseFragment implements
 
     @Override
     public void showWriteDynamicView() {
-
+        mainActivity.showWriteDynamicView(onWriteDynamicClickListener);
     }
 
     @Override
@@ -192,22 +192,22 @@ public class DynamicFragment2 extends BaseFragment implements
     }
 
     @Override
-    public void startArticleDynamicDetail(@NonNull int dynamic_id) {
+    public void startArticleDynamicDetail(int dynamic_id) {
         mainActivity.startDynamicActivity(dynamic_id, DynamicDetailActivity.SHOW_DYNAMIC_TYPE_ARTICLE);
     }
 
     @Override
-    public void startNormalDynamicDetail(@NonNull int dynamic_id) {
+    public void startNormalDynamicDetail(int dynamic_id) {
         mainActivity.startDynamicActivity(dynamic_id, DynamicDetailActivity.SHOW_DYNAMIC_TYPE_NORMAL);
     }
 
     @Override
-    public void startTopicDynamicDetail(@NonNull int dynamic_id) {
+    public void startTopicDynamicDetail(int dynamic_id) {
         mainActivity.startDynamicActivity(dynamic_id, DynamicDetailActivity.SHOW_DYNAMIC_TYPE_TOPIC);
     }
 
     @Override
-    public void startCommentActivity(@NonNull int dynamic_id) {
+    public void startCommentActivity(int dynamic_id) {
         mainActivity.startCommentListActivity(dynamic_id);
     }
 
@@ -217,12 +217,12 @@ public class DynamicFragment2 extends BaseFragment implements
     }
 
     @Override
-    public void startPersonCenter(@NonNull int user_id) {
+    public void startPersonCenter(int user_id) {
         mainActivity.startPersonalCenterActivity(user_id);
     }
 
     @Override
-    public void startCircleIndex(@NonNull int circle_id) {
+    public void startCircleIndex(int circle_id) {
         mainActivity.startCircleActivity(circle_id);
     }
 
@@ -340,7 +340,29 @@ public class DynamicFragment2 extends BaseFragment implements
                     mPresenter.onLikeItemClick(position);
                 }
             };
+    /**
+     * 写动态的监听器
+     */
+    private WriteDynamicDialogFragment.OnWriteDynamicClickListener onWriteDynamicClickListener
+            = new WriteDynamicDialogFragment.OnWriteDynamicClickListener() {
+        @Override
+        public void onTopicClick() {
+            mainActivity.startDynamicCreateActivity(
+                    DynamicCreateActivity.DYNAMIC_CREATE_TYPE_TOPIC, 0);
+        }
 
+        @Override
+        public void onArticleClick() {
+            mainActivity.startDynamicCreateActivity(
+                    DynamicCreateActivity.DYNAMIC_CREATE_TYPE_ARTICLE, 0);
+        }
+
+        @Override
+        public void onNormalClick() {
+            mainActivity.startDynamicCreateActivity(
+                    DynamicCreateActivity.DYNAMIC_CREATE_TYPE_NORMAL, 0);
+        }
+    };
     /**
      * 登录状态改变时候的监听器
      */

@@ -198,6 +198,8 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
         mainActivity = null;
         LoginContext.getInstance().deleteObserver(this);
         MessageObservable.newInstance().deleteObserver(messageObserver);
+        mTab = null;
+        mViewPager = null;
     }
 
     @Override

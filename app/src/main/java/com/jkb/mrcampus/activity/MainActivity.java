@@ -84,7 +84,6 @@ public class MainActivity extends BaseSlideMenuActivity implements
     @Override
     protected void initListener() {
         LoginContext.getInstance().addObserver(loginObserver);
-        //设置融云聊天的点击事件
     }
 
     @Override
@@ -116,6 +115,10 @@ public class MainActivity extends BaseSlideMenuActivity implements
         if (StringUtils.isEmpty(jumpAction)) {
             return;
         }
+        if(StringUtils.isEmpty(jumpAction)){
+            return;
+        }
+        assert jumpAction != null;
         switch (jumpAction) {
             case Config.BUNDLE_JUMP_ACTION_MESSAGE_DYNAMIC:
                 startMessageActivity(MessageActivity.MESSAGE_TYPE_DYNAMIC);

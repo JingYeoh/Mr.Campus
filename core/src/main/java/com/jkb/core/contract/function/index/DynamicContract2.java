@@ -21,7 +21,7 @@ public interface DynamicContract2 {
         /**
          * 设置未读的消息数目
          */
-        void setUnReadDynamicMessageCount(@NonNull int messageCount);
+        void setUnReadDynamicMessageCount( int messageCount);
 
         /**
          * 滚动到顶部
@@ -73,25 +73,25 @@ public interface DynamicContract2 {
          *
          * @param dynamic_id 动态id
          */
-        void startArticleDynamicDetail(@NonNull int dynamic_id);
+        void startArticleDynamicDetail(int dynamic_id);
 
 
         /**
          * 打开普通的动态详情页面
          */
-        void startNormalDynamicDetail(@NonNull int dynamic_id);
+        void startNormalDynamicDetail(int dynamic_id);
 
         /**
          * 打开话题的动态详情页面
          */
-        void startTopicDynamicDetail(@NonNull int dynamic_id);
+        void startTopicDynamicDetail( int dynamic_id);
 
         /**
          * 打开评论页面
          *
          * @param dynamic_id 动态id
          */
-        void startCommentActivity(@NonNull int dynamic_id);
+        void startCommentActivity( int dynamic_id);
 
         /**
          * 打开动态消息的页面
@@ -101,12 +101,12 @@ public interface DynamicContract2 {
         /**
          * 打开个人中心
          */
-        void startPersonCenter(@NonNull int user_id);
+        void startPersonCenter( int user_id);
 
         /**
          * 打开圈子首页
          */
-        void startCircleIndex(@NonNull int circle_id);
+        void startCircleIndex( int circle_id);
     }
 
     interface Presenter extends BasePresenter {
