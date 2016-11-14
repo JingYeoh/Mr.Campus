@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -108,7 +107,7 @@ public class SelectCircleCoordinateFragment extends BlurDialogFragment
         //设置动画
         Window window = mDialog.getWindow();
         window.setGravity(Gravity.CENTER);
-        window.setWindowAnimations(R.style.animate_dialog);
+        window.setWindowAnimations(R.style.animate_dialog_bottomIn);
         //设置宽度和高度为全屏
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));//注意此处
     }

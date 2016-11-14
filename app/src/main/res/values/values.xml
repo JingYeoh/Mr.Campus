@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--上下转场的动画-->
-    <style name="animate_dialog">
+    <style name="animate_dialog_bottomIn">
         <item name="android:windowEnterAnimation">@anim/dialog_enter</item>
         <item name="android:windowExitAnimation">@anim/dialog_out</item>
+    </style>
+    <!--上下转场的动画-->
+    <style name="animate_dialog_topIn">
+        <item name="android:windowEnterAnimation">@anim/dialog_top_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_top_out</item>
     </style>
     <!--标题栏样式-->
     <style name="titleStyle">

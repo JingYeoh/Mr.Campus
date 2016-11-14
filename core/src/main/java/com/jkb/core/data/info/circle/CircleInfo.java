@@ -18,6 +18,7 @@ public class CircleInfo {
     private double latitude;
     private String circleType;
     private String introduction;
+    private boolean isSubscribe;
 
     private UserInfo user;//作者信息
 
@@ -100,5 +101,13 @@ public class CircleInfo {
 
     public void setUser(UserInfo user) {
         this.user = user;
+    }
+
+    public boolean isSubscribe() {
+        return isSubscribe;
+    }
+
+    public void setSubscribe(boolean subscribe) {
+        isSubscribe = subscribe;
     }
 }

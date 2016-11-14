@@ -218,9 +218,9 @@ public class LoginPresenter implements LoginContract.Presenter {
         String sex = data.getGender();
         if (sex != null) {
             if (sex.equals(Config.GENDER_M)) {
-                sex = Config.SEX_MAN;
+                sex = Config.SEX_MALE;
             } else if (sex.equals(Config.GENDER_F)) {
-                sex = Config.SEX_FEMAN;
+                sex = Config.SEX_FEMALE;
             }
         }
         String token = data.getToken();

@@ -2,31 +2,37 @@ package com.jkb.mrcampus.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
-import com.baidu.mapapi.radar.RadarSearchManager;
-import com.jkb.core.contract.map.MapAtyContract;
-import com.jkb.core.presenter.map.MapAtyPresenter;
+import com.jkb.core.Injection;
+import com.jkb.core.presenter.map.MapListPresenter;
 import com.jkb.core.presenter.map.MapPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
-import com.jkb.mrcampus.fragment.function.setting.SettingFragment;
 import com.jkb.mrcampus.fragment.function.map.MapFragment;
+import com.jkb.mrcampus.fragment.function.map.MapListFragment;
+import com.jkb.mrcampus.fragment.function.map.list.MapListFragment2;
 import com.jkb.mrcampus.helper.ActivityUtils;
+import com.jkb.mrcampus.helper.FragmentStack;
+import com.jkb.mrcampus.utils.ClassUtils;
 
 /**
  * 地图的Activity
  * Created by JustKiddingBaby on 2016/7/26.
  */
-public class MapActivity extends BaseActivity implements MapAtyContract.View {
+public class MapActivity extends BaseActivity {
 
     //该页面逻辑
-    private MapAtyContract.Presenter mPresenter;
+    private int contentId = R.id.map_content;
+    //保存入栈的Fragment顺序
+    private FragmentStack fragmentStack;
 
     //地图视图
     private MapFragment mapFragment;
     private MapPresenter mapPresenter;
 
     //列表视图
+    private MapListFragment2 mapListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,27 +42,19 @@ public class MapActivity extends BaseActivity implements MapAtyContract.View {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mPresenter.start();
-    }
-
-    @Override
     protected void initListener() {
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         fm = getSupportFragmentManager();
-        //初始化本页面的逻辑数据
-        if (mPresenter == null) {
-            mPresenter = new MapAtyPresenter(this);
-        }
-
+        fragmentStack = new FragmentStack();
         //第一次进入时调用显示首页视图
         if (!savedInstanceStateValued) {
-            showMapView();
+            showFragment(ClassUtils.getClassName(MapFragment.class));
         } else {
+            fragmentStack.setFragmetStackNames(
+                    savedInstanceState.getStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK));
             restoreFragments();
         }
     }
@@ -69,7 +67,24 @@ public class MapActivity extends BaseActivity implements MapAtyContract.View {
 
     @Override
     public void showFragment(String fragmentName) {
+        Log.d(TAG, "showFragment------->" + fragmentName);
+        try {
+            Class<?> clzFragment = Class.forName(fragmentName);
+            //初始化Fragment
+            initFragmentStep1(clzFragment);
+            //隐藏掉所有的视图
+            ActivityUtils.hideAllFragments(fm);
+            //添加到回退栈中
+            fragmentStack.addFragmentToStack(fragmentName);
 
+            if (ClassUtils.isNameEquals(fragmentName, MapFragment.class)) {
+                showMap();
+            } else if (ClassUtils.isNameEquals(fragmentName, MapListFragment.class)) {
+                showMapList();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -78,16 +93,28 @@ public class MapActivity extends BaseActivity implements MapAtyContract.View {
         if (MapFragment.class.getName().equals(fragmentTAG)) {
             mapFragment = (MapFragment) fm.findFragmentByTag(fragmentTAG);
             mapPresenter = new MapPresenter(mapFragment);
+        } else if (ClassUtils.isNameEquals(fragmentTAG, MapListFragment.class)) {
+            mapListFragment = (MapListFragment2) fm.findFragmentByTag(fragmentTAG);
         }
     }
 
     @Override
     protected void initFragmentStep2(Class<?> fragmentClass) {
         String fragmentTAG = fragmentClass.getName();
-        if (MapFragment.class.getName().equals(fragmentTAG)) {
+        if (ClassUtils.isNameEquals(fragmentTAG, MapFragment.class)) {
             initMapFragment();
-        } else if (SettingFragment.class.getName().equals(fragmentTAG)) {
-            initMapFragment();
+        } else if (ClassUtils.isNameEquals(fragmentTAG, MapListFragment.class)) {
+            initMapList();
+        }
+    }
+
+    /**
+     * 初始化地图列表相关
+     */
+    private void initMapList() {
+        if (mapListFragment == null) {
+            mapListFragment = MapListFragment2.newInstance();
+            ActivityUtils.addFragmentToActivity(fm, mapListFragment, contentId);
         }
     }
 
@@ -97,11 +124,25 @@ public class MapActivity extends BaseActivity implements MapAtyContract.View {
     private void initMapFragment() {
         if (mapFragment == null) {
             mapFragment = MapFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(fm, mapFragment, R.id.map_content);
+            ActivityUtils.addFragmentToActivity(fm, mapFragment, contentId);
         }
         if (mapPresenter == null) {
             mapPresenter = new MapPresenter(mapFragment);
         }
+    }
+
+    /**
+     * 显示地图
+     */
+    private void showMap() {
+        ActivityUtils.showFragment(fm, mapFragment);
+    }
+
+    /**
+     * 显示地图列表
+     */
+    private void showMapList() {
+        ActivityUtils.showFragment(fm, mapListFragment);
     }
 
     /**
@@ -113,55 +154,54 @@ public class MapActivity extends BaseActivity implements MapAtyContract.View {
         activitySwithPushRightAnim();
     }
 
+    /**
+     * 返回到上级页面
+     */
+    public void backToLastView() {
+        //如果当前页面就是登录页面的时候
+        if (ClassUtils.isNameEquals(fragmentStack.getCurrentFragmentName(), MapFragment.class)) {
+            startMainActivity();
+            return;
+        }
+        //先销毁使用过后的Fragment
+        removeCurrentFragment();
+        String fragmentName = fragmentStack.getCurrentFragmentName();
+        //如果到最顶层栈或者到了登录页面的时候，再次回退就直接销毁当前页面
+        if (fragmentName == null) {
+            //返回上级页面
+            startMainActivity();
+        } else {
+            //先回退一级栈保存的类信息，避免重复添加
+            fragmentStack.removePopFragmentStack();
+            //根据类名显示Fragment视图
+            showFragment(fragmentName);
+        }
+    }
+
+    /**
+     * 销毁使用过后的Fragment
+     */
+    private void removeCurrentFragment() {
+        //销毁的Fragment出栈
+        fragmentStack.removePopFragmentStack();
+    }
 
     @Override
     public void onBackPressed() {
-        startMainActivity();
+        backToLastView();
     }
 
     @Override
-    public void showMapView() {
-        initFragmentStep1(MapFragment.class);
-        ActivityUtils.showFragment(fm, mapFragment);
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK,
+                fragmentStack.getFragmetStackNames());
     }
 
-    @Override
-    public void showListView() {
-
-    }
-
-    @Override
-    public void hideCurrent() {
-        startMainActivity();
-    }
-
-    @Override
-    public void showFragment(int position) {
-
-    }
-
-    @Override
-    public void setPresenter(MapAtyContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
-
-    @Override
-    public void showLoading(String value) {
-
-    }
-
-    @Override
-    public void dismissLoading() {
-
-    }
-
-    @Override
-    public void showReqResult(String value) {
-
-    }
-
-    @Override
-    public boolean isActive() {
-        return false;
+    /**
+     * 显示地图列表页面
+     */
+    public void showMapListFragment() {
+        showFragment(ClassUtils.getClassName(MapListFragment.class));
     }
 }

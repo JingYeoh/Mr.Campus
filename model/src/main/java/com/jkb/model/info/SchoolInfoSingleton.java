@@ -3,6 +3,7 @@ package com.jkb.model.info;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 
 import jkb.mrcampus.db.entity.Schools;
 
@@ -46,7 +47,20 @@ public class SchoolInfoSingleton extends Observable {
 
     public void setSelectedSchool(boolean selectedSchool) {
         isSelectedSchool = selectedSchool;
+        update();
+    }
+
+    @Override
+    public synchronized void addObserver(Observer o) {
+        super.addObserver(o);
+        update();
+    }
+
+    /**
+     * 更新
+     */
+    private void update(){
         setChanged();
-        notifyObservers(selectedSchool);
+        notifyObservers(isSelectedSchool);
     }
 }

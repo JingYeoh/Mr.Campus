@@ -47,11 +47,8 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
     public DynamicFragment() {
     }
 
-    private static DynamicFragment INSTANCE = null;
-
     public static DynamicFragment newInstance() {
-        INSTANCE = new DynamicFragment();
-        return INSTANCE;
+        return new DynamicFragment();
     }
 
     //View
@@ -431,7 +428,6 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
         MessageObservable.newInstance().deleteObserver(this);
         LoginContext.getInstance().deleteObserver(loginObserver);
         refreshLayout = null;
-        INSTANCE = null;
         linearLayoutManager = null;
         recyclerView = null;
         onScrollListener = null;

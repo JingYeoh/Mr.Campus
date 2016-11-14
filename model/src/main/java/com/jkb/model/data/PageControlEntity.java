@@ -48,9 +48,6 @@ public class PageControlEntity {
     }
 
     public void setCurrent_page(int current_page) {
-        if (current_page <= 0) {
-            current_page = 1;
-        }
         this.current_page = current_page;
     }
 
@@ -96,15 +93,15 @@ public class PageControlEntity {
 
     @Override
     public String toString() {
-        return "PageControlEntity{" +"\n"+
-                "total=" + total +"\n"+
-                ", per_page=" + per_page +"\n"+
-                ", current_page=" + current_page +"\n"+
-                ", last_page=" + last_page +"\n"+
-                ", next_page_url='" + next_page_url + '\'' +"\n"+
-                ", prev_page_url='" + prev_page_url + '\'' +"\n"+
-                ", from=" + from +"\n"+
-                ", to=" + to +"\n"+
-                "}"+"\n";
+        return "PageControlEntity{" + "\n" +
+                "total=" + total + "\n" +
+                ", per_page=" + per_page + "\n" +
+                ", current_page=" + current_page + "\n" +
+                ", last_page=" + last_page + "\n" +
+                ", next_page_url='" + next_page_url + '\'' + "\n" +
+                ", prev_page_url='" + prev_page_url + '\'' + "\n" +
+                ", from=" + from + "\n" +
+                ", to=" + to + "\n" +
+                "}" + "\n";
     }
 }

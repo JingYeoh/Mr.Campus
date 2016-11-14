@@ -35,8 +35,7 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
         EnteringCircleMessageContract.View, CropHandler {
 
     public static EnteringCircleMessageFragment newInstance() {
-        EnteringCircleMessageFragment INSTANCE = new EnteringCircleMessageFragment();
-        return INSTANCE;
+        return new EnteringCircleMessageFragment();
     }
 
     private static final String TAG = "EnteringCircleMessage";

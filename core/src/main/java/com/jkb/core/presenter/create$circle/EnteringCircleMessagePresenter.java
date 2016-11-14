@@ -81,13 +81,13 @@ public class EnteringCircleMessagePresenter implements EnteringCircleMessageCont
         view.showLoading("");
         if (StringUtils.isEmpty(imagePath)) {
             responsitory.createCircle(
-                    user_id, school_id, name, introduction, tag, longitude, longitude,
+                    user_id, school_id, name, introduction, tag, latitude, longitude,
                     authorization, null, null, circleCreateApiCallback);
         } else {
             //设置头像
             MultipartBody.Part part = FileUtils.getPartFromFile(imagePath, Config.KEY_IMAGE);
             responsitory.createCircle(
-                    user_id, school_id, name, introduction, tag, longitude, longitude
+                    user_id, school_id, name, introduction, tag, latitude, longitude
                     , authorization, part, Config.FLAG_CIRCLE, circleCreateApiCallback);
         }
     }

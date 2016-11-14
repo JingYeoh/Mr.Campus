@@ -33,6 +33,7 @@ import com.jkb.mrcampus.activity.MyUnOriginalDynamicActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
+import com.jkb.mrcampus.fragment.dialog.CircleFilterFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.InputTextFloatFragment;
@@ -82,6 +83,7 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
     private SelectSchoolFloatFragment selectSchoolFloatFragment;
     private HintDetermineFloatFragment hintDetermineFloatFragment;
     private HintDetermineFloatFragment newHintDetermineFloatFragment;
+    private CircleFilterFloatFragment circleFilterFloatFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -607,6 +609,9 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
         if (newHintDetermineFloatFragment != null && newHintDetermineFloatFragment.isAdded()) {
             newHintDetermineFloatFragment.dismiss();
         }
+        if (circleFilterFloatFragment != null && circleFilterFloatFragment.isAdded()) {
+            circleFilterFloatFragment.dismiss();
+        }
         dismissLoading();
     }
 
@@ -741,6 +746,18 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
         if (!newHintDetermineFloatFragment.isAdded()) {
             newHintDetermineFloatFragment.show(getFragmentManager(),
                     ClassUtils.getClassName(HintDetermineFloatFragment.class));
+        }
+    }
+
+    @Override
+    public void showCircleFilterFloatView(
+            CircleFilterFloatFragment.OnCircleFilterItemClickListener listener) {
+        if (circleFilterFloatFragment == null) {
+            circleFilterFloatFragment = CircleFilterFloatFragment.newInstance(listener);
+        }
+        if (!circleFilterFloatFragment.isAdded()) {
+            circleFilterFloatFragment.show(getFragmentManager(),
+                    ClassUtils.getClassName(CircleFilterFloatFragment.class));
         }
     }
 }

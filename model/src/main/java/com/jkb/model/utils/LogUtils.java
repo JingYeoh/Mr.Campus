@@ -113,4 +113,13 @@ public class LogUtils {
             Logger.json(json.toString());
         }
     }
+
+    /**
+     * 打印Json数据
+     */
+    public static void json(String jsonObj) {
+        if (isAllowToPrint) {
+            Logger.json(jsonObj);
+        }
+    }
 }

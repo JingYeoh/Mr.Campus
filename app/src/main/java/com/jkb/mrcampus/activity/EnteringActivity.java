@@ -265,8 +265,6 @@ public class EnteringActivity extends BaseActivity {
 
     /**
      * 设置要发送的帐号
-     *
-     * @param identifier
      */
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
@@ -277,8 +275,6 @@ public class EnteringActivity extends BaseActivity {
 
     /**
      * 得到验证的帐号
-     *
-     * @return
      */
     public String getIdentifier() {
         return identifier;

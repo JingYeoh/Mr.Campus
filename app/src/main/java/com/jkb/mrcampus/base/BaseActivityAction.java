@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.jkb.core.contract.dynamicCreate.data.CategoryTypeData;
+import com.jkb.mrcampus.fragment.dialog.CircleFilterFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.TagFloatFragment;
@@ -68,6 +69,11 @@ public interface BaseActivityAction {
     void showNewHintDetermineFloatView(
             String title, String content, String bt1Content, String bt2Content,
             HintDetermineFloatFragment.OnDetermineItemClickListener onDetermineItemClickListener);
+
+    /**
+     * 设置圈子筛选的视图
+     */
+    void showCircleFilterFloatView(CircleFilterFloatFragment.OnCircleFilterItemClickListener listener);
 
     /**
      * 分享

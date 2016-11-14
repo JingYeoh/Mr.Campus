@@ -6,6 +6,7 @@ import com.jkb.api.entity.circle.CircleActionEntity;
 import com.jkb.api.entity.circle.CircleAttentionUserListEntity;
 import com.jkb.api.entity.circle.CircleDynamicInBlackListEntity;
 import com.jkb.api.entity.circle.CircleInfoEntity;
+import com.jkb.api.entity.circle.CircleListInSchoolEntity;
 import com.jkb.api.entity.circle.DynamicInCircleListEntity;
 
 import okhttp3.MultipartBody;
@@ -43,7 +44,7 @@ public interface CircleInfoApi {
      * @param page          分页
      * @return Call
      */
-    @GET(Config.URL_CIRCLE_ALLDYNAMIC)
+    @GET(Config.URL_CIRCLE_DYNAMIC_ALL)
     Call<ApiResponse<DynamicInCircleListEntity>> getAllDynamicInCircle(
             @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
             @Path(Config.KEY_CIRCLEID) int circleId,
@@ -195,10 +196,25 @@ public interface CircleInfoApi {
      * @param user_id       用户id
      * @return Call
      */
-    @DELETE(Config.URL_CIRCLE_PULL_DYNAMIC_OUT_DTNAMIC)
+    @DELETE(Config.URL_CIRCLE_PULL_DYNAMIC_OUT_DYNAMIC)
     Call<ApiResponse<CircleActionEntity>> pullDynamicOutBlackList(
             @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
             @Path(Config.KEY_ID) int id,
             @Query(Config.KEY_USER_ID) int user_id
+    );
+
+    /**
+     * 得到学校中的圈子列表
+     *
+     * @param Authorization 头
+     * @param schoolId      学校id
+     * @param page          分页
+     * @return Call
+     */
+    @GET(Config.URL_CIRCLE_CIRCLE_LIST_IN_SCHOOL)
+    Call<ApiResponse<CircleListInSchoolEntity>> getCircleListInSchool(
+            @Header(Config.HEADER_KEY_AUTHORIZATION) String Authorization,
+            @Path(Config.KEY_SCHOOLID) int schoolId,
+            @Query(Config.KEY_PAGE) int page
     );
 }

@@ -44,6 +44,11 @@ public interface MapContract {
         void showSchoolSelectorView();
 
         /**
+         * 设置是否允许周边雷达的视图
+         */
+        void setNearSearchSwitchView(boolean isAble);
+
+        /**
          * 显示学校的视图
          *
          * @param schoolBadge 学校校徽Url
@@ -78,6 +83,21 @@ public interface MapContract {
          * @param mapMarkUsers 地图标记：用户的数据集合类
          */
         void setMapMarkUsers(MapMarkUserInfo mapMarkUsers);
+
+        /**
+         * 开始搜索附近的用户信息
+         */
+        void startSearchNearUserInfo();
+
+        /**
+         * 停止搜索附近的用户信息
+         */
+        void stopSearchNearUserInfo();
+
+        /**
+         * 清除周边雷达相关
+         */
+        void clearRadarSearch();
     }
 
     interface Presenter extends BasePresenter {

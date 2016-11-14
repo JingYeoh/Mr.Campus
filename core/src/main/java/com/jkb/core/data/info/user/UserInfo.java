@@ -1,5 +1,7 @@
 package com.jkb.core.data.info.user;
 
+import com.jkb.core.data.info.school.SchoolInfo;
+
 /**
  * 用户的信息类
  * Created by JustKiddingBaby on 2016/10/4.
@@ -17,6 +19,9 @@ public class UserInfo {
     private int count_of_fan;
     private int count_of_visitor;
     private boolean has_attention;
+    private double latitude;
+    private double longitude;
+    private SchoolInfo school;
 
     public int getId() {
         return id;
@@ -104,5 +109,29 @@ public class UserInfo {
 
     public void setHas_attention(boolean has_attention) {
         this.has_attention = has_attention;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public SchoolInfo getSchool() {
+        return school;
+    }
+
+    public void setSchool(SchoolInfo school) {
+        this.school = school;
     }
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ts9_content"
+    style="@style/titleStyle"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/ts9_ib_left"
+        style="@style/titleContentImage"
+        android:background="@drawable/selecter_clearity_gravy"
+        android:src="@drawable/ic_back_black" />
+
+
+    <TextView
+        android:id="@+id/ts9_tv_name"
+        style="@style/titleNameStyle"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1"
+        android:gravity="center|left"
+        android:singleLine="true"
+        android:textColor="@color/black" />
+
+
+    <ImageButton
+        android:id="@+id/ts9_ib_right"
+        style="@style/titleContentImage"
+        android:background="@drawable/general_item_selector2"
+        android:src="@drawable/ic_draft_delete" />
+</LinearLayout>

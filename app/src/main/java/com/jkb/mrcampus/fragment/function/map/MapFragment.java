@@ -18,17 +18,31 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.radar.RadarNearbyInfo;
+import com.baidu.mapapi.radar.RadarNearbyResult;
+import com.baidu.mapapi.radar.RadarNearbySearchOption;
+import com.baidu.mapapi.radar.RadarSearchError;
+import com.baidu.mapapi.radar.RadarSearchListener;
+import com.baidu.mapapi.radar.RadarSearchManager;
 import com.jkb.core.contract.map.MapContract;
 import com.jkb.core.data.info.map.MapMarkCircleInfo;
 import com.jkb.core.data.info.map.MapMarkUserInfo;
+import com.jkb.model.data.PageControlEntity;
 import com.jkb.model.info.LocationInfoSingleton;
 import com.jkb.model.net.ImageLoaderFactory;
+import com.jkb.model.utils.LogUtils;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MapActivity;
 import com.jkb.mrcampus.adapter.custom.map.MapMarkCircleAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.helper.map.MyOrientationListener;
+import com.jkb.mrcampus.manager.MapManagerSingleton;
+import com.jkb.mrcampus.service.data.NearUserInfo;
+
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -37,8 +51,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by JustKiddingBaby on 2016/7/26.
  */
 public class MapFragment extends BaseFragment implements MapContract.View,
-        BaiduMap.OnMapStatusChangeListener,
-        MyOrientationListener.OnOrientationListener {
+        MyOrientationListener.OnOrientationListener, Observer {
 
     /**
      * 获得一个实例化的MapFragment对象
@@ -56,7 +69,11 @@ public class MapFragment extends BaseFragment implements MapContract.View,
 
     //百度地图数据
     private BaiduMap mBaiduMap = null;
+    //屏幕中心点的坐标
     private LatLng centerLatLng;
+    //周边雷达相关
+    private RadarSearchManager radarSearchManager;
+    private PageControlEntity radarSearchPageControl;//周边雷达搜索的分页控制器
 
     //与自己相关的视图,自己的位置以及其他
     private BitmapDescriptor bitmapDescriptor;//自定义图标
@@ -81,22 +98,27 @@ public class MapFragment extends BaseFragment implements MapContract.View,
         rootView.findViewById(R.id.tm_iv_left).setOnClickListener(titleClickListener);
         rootView.findViewById(R.id.tm_iv_right).setOnClickListener(titleClickListener);
 
-        rootView.findViewById(R.id.fm_fb_chooseSchool).setOnClickListener(floatButtonCliclListener);
-        rootView.findViewById(R.id.fm_fb_filterSex).setOnClickListener(floatButtonCliclListener);
-        rootView.findViewById(R.id.fm_fb_location).setOnClickListener(floatButtonCliclListener);
-        rootView.findViewById(R.id.fm_fb_locationSwitch).setOnClickListener(floatButtonCliclListener);
-        rootView.findViewById(R.id.fm_fb_nearUserSwitch).setOnClickListener(floatButtonCliclListener);
-
+        rootView.findViewById(R.id.fm_fb_chooseSchool).setOnClickListener(floatButtonClickListener);
+        rootView.findViewById(R.id.fm_fb_filterSex).setOnClickListener(floatButtonClickListener);
+        rootView.findViewById(R.id.fm_fb_location).setOnClickListener(floatButtonClickListener);
+        rootView.findViewById(R.id.fm_fb_locationSwitch).setOnClickListener(floatButtonClickListener);
+        rootView.findViewById(R.id.fm_fb_nearUserSwitch).setOnClickListener(floatButtonClickListener);
         //百度地图
         //设置地图的移动监听器
-        mBaiduMap.setOnMapStatusChangeListener(this);
+        mBaiduMap.setOnMapStatusChangeListener(onMapStatusChangeListener);
         initOritationListener();//初始化方向传感器变化
+        //设置为地图管理这的观察者
+        MapManagerSingleton.getInstance().addObserver(this);
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
         initBaiDuMap();
         mapMarkCircleAdapter = new MapMarkCircleAdapter(context, mBaiduMap, null);
+        //初始化周边雷达
+        radarSearchManager = RadarSearchManager.getInstance();
+        radarSearchManager.addNearbyInfoListener(radarSearchListener);
+        radarSearchPageControl = new PageControlEntity();
     }
 
     /**
@@ -157,6 +179,7 @@ public class MapFragment extends BaseFragment implements MapContract.View,
     public void onDestroy() {
         Log.d(TAG, "onDestroy");
         super.onDestroy();
+        MapManagerSingleton.getInstance().deleteObserver(this);
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mMapView.onDestroy();
         centerLatLng = null;
@@ -164,6 +187,13 @@ public class MapFragment extends BaseFragment implements MapContract.View,
         myOrientationListener = null;
         mapActivity = null;
         bitmapDescriptor = null;
+        onMapStatusChangeListener = null;
+        //清除周边雷达相关
+        radarSearchManager.removeNearbyInfoListener(radarSearchListener);//移除监听
+        radarSearchManager.clearUserInfo();
+        radarSearchManager.destroy();
+        radarSearchManager = null;
+        radarSearchListener = null;
     }
 
     @Override
@@ -187,10 +217,10 @@ public class MapFragment extends BaseFragment implements MapContract.View,
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.tm_iv_left:
-                    mapActivity.hideCurrent();
+                    mapActivity.onBackPressed();
                     break;
                 case R.id.tm_iv_right:
-                    mapActivity.showListView();
+                    mapActivity.showMapListFragment();
                     break;
             }
         }
@@ -199,7 +229,7 @@ public class MapFragment extends BaseFragment implements MapContract.View,
     /**
      * 浮动按钮的点击时间的监听器
      */
-    private View.OnClickListener floatButtonCliclListener = new View.OnClickListener() {
+    private View.OnClickListener floatButtonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -234,11 +264,12 @@ public class MapFragment extends BaseFragment implements MapContract.View,
 
     @Override
     public void locationSwitch() {
-        showShortToash("locationSwitch");
+        showReqResult("切换是否允许定位");
     }
 
     @Override
     public void nearUserSwitch() {
+        MapManagerSingleton.getInstance().switchNearSearchAbleStatus();
         showShortToash("nearUserSwitch");
     }
 
@@ -250,6 +281,16 @@ public class MapFragment extends BaseFragment implements MapContract.View,
     @Override
     public void showSchoolSelectorView() {
         mapActivity.showSelectSchoolView();
+    }
+
+    @Override
+    public void setNearSearchSwitchView(boolean isAble) {
+        ImageView imageView = (ImageView) rootView.findViewById(R.id.fm_fb_nearUserSwitch);
+        if (!isAble) {
+            imageView.setImageResource(R.drawable.ic_draft_delete);
+        } else {
+            imageView.setImageResource(R.drawable.ssdk_oks_classic_wechat);
+        }
     }
 
     @Override
@@ -304,6 +345,38 @@ public class MapFragment extends BaseFragment implements MapContract.View,
     }
 
     @Override
+    public void startSearchNearUserInfo() {
+        //开始搜索附近的用户
+        reqRadarSearch(radarSearchPageControl.getCurrent_page());
+    }
+
+    /**
+     * 请求周边雷达
+     */
+    private void reqRadarSearch(int current_page) {
+        if (radarSearchPageControl.getCurrent_page() >= radarSearchPageControl.getLast_page()) {
+            return;
+        }
+        RadarNearbySearchOption option = new RadarNearbySearchOption()
+                .pageCapacity(MapManagerSingleton.RADAR_SEARCH_PAGECAPACITY)
+                .radius(MapManagerSingleton.RADAR_SEARCH_RADIUS)
+                .centerPt(centerLatLng)
+                .pageNum(current_page);
+        radarSearchManager.nearbyInfoRequest(option);
+    }
+
+    @Override
+    public void stopSearchNearUserInfo() {
+        //停止搜索附近的用户
+        clearRadarSearch();
+    }
+
+    @Override
+    public void clearRadarSearch() {
+        radarSearchManager.clearUserInfo();//清除用户信息
+    }
+
+    @Override
     public boolean isActive() {
         return isAdded();
     }
@@ -327,21 +400,6 @@ public class MapFragment extends BaseFragment implements MapContract.View,
     @Override
     public void showReqResult(String value) {
         mapActivity.showShortToast(value);
-    }
-
-    @Override
-    public void onMapStatusChangeStart(MapStatus mapStatus) {
-
-    }
-
-    @Override
-    public void onMapStatusChange(MapStatus mapStatus) {
-
-    }
-
-    @Override
-    public void onMapStatusChangeFinish(MapStatus mapStatus) {
-        centerLatLng = mapStatus.target;
     }
 
     //重力感应变化
@@ -374,4 +432,69 @@ public class MapFragment extends BaseFragment implements MapContract.View,
                 MyLocationConfiguration.LocationMode.NORMAL, true, bitmapDescriptor);
         mBaiduMap.setMyLocationConfigeration(config);
     }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        //搜索附近的用户
+        if (MapManagerSingleton.getInstance().isAbleRadarSearch()) {
+//            startSearchNearUserInfo();
+            setNearSearchSwitchView(true);
+        } else {
+//            stopSearchNearUserInfo();
+            setNearSearchSwitchView(false);
+        }
+    }
+
+    /**
+     * 当地图状态变化时候的监听器
+     */
+    private BaiduMap.OnMapStatusChangeListener onMapStatusChangeListener =
+            new BaiduMap.OnMapStatusChangeListener() {
+                @Override
+                public void onMapStatusChangeStart(MapStatus mapStatus) {
+                }
+
+                @Override
+                public void onMapStatusChange(MapStatus mapStatus) {
+                }
+
+                @Override
+                public void onMapStatusChangeFinish(MapStatus mapStatus) {
+                    centerLatLng = mapStatus.target;  //得到地图操作的中心点
+                }
+            };
+    /**
+     * 周边雷达的监听器
+     */
+    private RadarSearchListener radarSearchListener = new RadarSearchListener() {
+        @Override
+        public void onGetNearbyInfoList(RadarNearbyResult radarNearbyResult,
+                                        RadarSearchError radarSearchError) {
+            if (radarSearchError == RadarSearchError.RADAR_NO_ERROR) {
+                //获取成功，处理数据
+                List<RadarNearbyInfo> radarNearbyInfos = radarNearbyResult.infoList;
+                if (radarNearbyInfos == null || radarNearbyInfos.size() == 0) {
+                    return;
+                }
+                for (RadarNearbyInfo info : radarNearbyInfos) {
+                    NearUserInfo userInfo = new NearUserInfo();
+                    userInfo.setLatitude(info.pt.latitude);
+                    userInfo.setLongitude(info.pt.longitude);
+                    String conmments = info.comments;
+                    //转换
+
+                }
+            } else {
+                LogUtils.d(TAG, "getNearList failed：" + radarSearchError);
+            }
+        }
+
+        @Override
+        public void onGetUploadState(RadarSearchError radarSearchError) {
+        }
+
+        @Override
+        public void onGetClearInfoState(RadarSearchError radarSearchError) {
+        }
+    };
 }

@@ -11,7 +11,7 @@ public class Config {
     public static final String APP_BAIDU_MAP_AK = "MQBdW7A7mBr9NWp8IIjckVBMGqFjSiG4";
     public static final String APP_BAIDU_MAP_MCODE = "06:01:F7:13:E8:17:0F:6A:C9:EF:C7:B3:37:00:53:1F:D1:93:2C:9F;com.jkb.mrcampus";
 
-    public static final String API_HOST = "http://bsapi.lyfsmile.cn/api/v1/";
+    public static final String API_HOST = "https://www.leeyf.cc/api/v1/";
     //百度地图的host
     public static final String API_HOST_BAIDU_MAP = "http://api.map.baidu.com/";
 
@@ -28,7 +28,7 @@ public class Config {
     //circle的接口地址
     public static final String URL_CIRCLE_CREATE = "circle";
     public static final String URL_CIRCLE_INFO = "circle/{userId}/{id}";
-    public static final String URL_CIRCLE_ALLDYNAMIC = "getDynamicsByCircle/{circleId}";
+    public static final String URL_CIRCLE_DYNAMIC_ALL = "getDynamicsByCircle/{circleId}";
     public static final String URL_CIRCLE_UPDATE_INFO = "circle/{id}";
     public static final String URL_CIRCLE_UPDATE_IMAGE = "circle/updateImage/{id}";
     public static final String URL_CIRCLE_USERS_IN_CIRCLE = "getUsersInCircle/{circleId}";
@@ -37,10 +37,12 @@ public class Config {
     public static final String URL_CIRCLE_PUT_USER_IN_BLACKLIST = "black/user";
     public static final String URL_CIRCLE_PULL_USER_OUT_BLACKLIST = "black/user/{id}";
     public static final String URL_CIRCLE_PUT_DYNAMIC_IN_BLACKLIST = "black/dynamic";
-    public static final String URL_CIRCLE_PULL_DYNAMIC_OUT_DTNAMIC = "black/dynamic/{id}";
+    public static final String URL_CIRCLE_PULL_DYNAMIC_OUT_DYNAMIC = "black/dynamic/{id}";
+    public static final String URL_CIRCLE_CIRCLE_LIST_IN_SCHOOL = "getCirclesBySchool/{schoolId}";
     //user接口地址
     public static final String URL_USER_ACTION = "getOperation";
     public static final String URL_USER_INFO = "user/{id}";
+    public static final String URL_USER_LIST_INFO = "users";
     public static final String URL_USER_UPDATE_IMAGE = "user/image/{id}";
     public static final String URL_USER_UPDATE_INFO = "user/{id}";
     //operation的接口地址
@@ -117,6 +119,7 @@ public class Config {
     public static final String KEY_OWNERID = "ownerId";
     public static final String KEY_ID = "id";
     public static final String KEY_PAGE = "page";
+    public static final String KEY_IDARR = "idArr";
     public static final String KEY_ORDER = "order";
     public static final String KEY_TARGET_ID = "target_id";
     public static final String KEY_TARGETID = "targetId";
@@ -138,8 +141,8 @@ public class Config {
 
     public static final String GENDER_M = "m";
     public static final String GENDER_F = "f";
-    public static final String SEX_MAN = "男";
-    public static final String SEX_FEMAN = "女";
+    public static final String SEX_MALE = "男";
+    public static final String SEX_FEMALE = "女";
 
     public static final String API_OUTPUT = "json";
     public static final String COORDTYPE_BAIDU = "bd09ll";

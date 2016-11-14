@@ -10,7 +10,15 @@ import android.util.Log;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.radar.RadarNearbyResult;
+import com.baidu.mapapi.radar.RadarSearchError;
+import com.baidu.mapapi.radar.RadarSearchListener;
+import com.baidu.mapapi.radar.RadarSearchManager;
+import com.baidu.mapapi.radar.RadarUploadInfo;
+import com.baidu.mapapi.radar.RadarUploadInfoCallback;
 import com.jkb.core.control.userstate.LoginContext;
+import com.jkb.model.info.LocationInfoSingleton;
 import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.Mr_Campus;
@@ -25,6 +33,7 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import jkb.mrcampus.db.entity.Users;
 
 /**
  * 菌菌的服务
@@ -56,6 +65,10 @@ public class MrCampusService extends Service implements MrCampusServiceAction, O
     //百度地图相关
     private MapManagerSingleton mapManager;
 
+    //周边雷达
+    private RadarSearchManager radarSearchManager;
+    private boolean isStartedRadarSearch = false;//是否开始了周边雷达
+
     private LocationClient mLocationClient = null;
     private BDLocationListener myListener = null;
 
@@ -65,7 +78,7 @@ public class MrCampusService extends Service implements MrCampusServiceAction, O
         mapManager = MapManagerSingleton.getInstance();
         //设置为登录的观察者
         LoginContext.getInstance().addObserver(this);
-        initBaiduLocation();
+        MapManagerSingleton.getInstance().addObserver(locationObserver);
         startBaiDuLocation();//开始定位
     }
 
@@ -79,7 +92,16 @@ public class MrCampusService extends Service implements MrCampusServiceAction, O
         super.onDestroy();
         mLocationClient = null;
         LoginContext.getInstance().deleteObserver(this);
+        MapManagerSingleton.getInstance().deleteObserver(locationObserver);
         myListener = null;
+        tagAliasCallback = null;
+        //清除位置信息
+        //移除监听
+        radarSearchManager.removeNearbyInfoListener(radarSearchListener);
+        radarSearchManager.clearUserInfo();//清除用户信息
+        radarSearchManager.destroy();//释放资源
+        radarSearchManager = null;
+        radarSearchListener = null;
     }
 
     /**
@@ -118,6 +140,7 @@ public class MrCampusService extends Service implements MrCampusServiceAction, O
      * 开始百度地图定位
      */
     private void startBaiDuLocation() {
+        initBaiduLocation();
         Log.d(TAG, "startBaiDuLocation");
         if (mapManager.isAbleLocation()) {
             // 开始定位
@@ -131,6 +154,7 @@ public class MrCampusService extends Service implements MrCampusServiceAction, O
      * 停止百度地图定位
      */
     private void stopBaiDuLocation() {
+        initBaiduLocation();
         Log.d(TAG, "stopBaiDuLocation");
         // 停止定位
         if (mLocationClient.isStarted()) {
@@ -147,6 +171,17 @@ public class MrCampusService extends Service implements MrCampusServiceAction, O
         }
     }
 
+    /**
+     * 定位的观察者回调方法
+     */
+    private Observer locationObserver = new Observer() {
+        @Override
+        public void update(Observable o, Object arg) {
+            startBaiDuLocation();//开始百度地图定位，其中包括了停止定位的逻辑
+            updateRadarSearch();
+        }
+    };
+
     @Override
     public void onLogin() {
         connectIM();
@@ -157,6 +192,19 @@ public class MrCampusService extends Service implements MrCampusServiceAction, O
     public void onLogout() {
         breakIMConnect();
         clearJPushAlias();
+    }
+
+    @Override
+    public void updateRadarSearch() {
+        if (radarSearchManager == null) {
+            radarSearchManager = RadarSearchManager.getInstance();
+            radarSearchManager.addNearbyInfoListener(radarSearchListener);
+        }
+        if (mapManager.isAbleRadarSearch()) {
+            uploadRadarInfoAuto();
+        } else {
+            clearRadarInfo();
+        }
     }
 
     @Override
@@ -206,6 +254,50 @@ public class MrCampusService extends Service implements MrCampusServiceAction, O
         JPushInterface.setAlias(getApplicationContext(), "", tagAliasCallback);
     }
 
+    @Override
+    public void uploadRadarInfoAuto() {
+        if (!LoginContext.getInstance().isLogined()) {
+            return;
+        }
+        if (isStartedRadarSearch) {//已经开启了上传
+            return;
+        }
+        //得到用户id并且设置信息
+        final Integer user_id = UserInfoSingleton.getInstance().getUserAuths().getUser_id();
+        radarSearchManager.setUserID(user_id + "");
+        //上传位置
+        radarSearchManager.startUploadAuto(new RadarUploadInfoCallback() {
+
+            public String getRadarSearchUserInfo() {
+                Users users = UserInfoSingleton.getInstance().getUsers();
+                if (users == null) {
+                    return null;
+                }
+                return String.valueOf(user_id);
+            }
+
+            @Override
+            public RadarUploadInfo onUploadInfoCallback() {
+                RadarUploadInfo info = new RadarUploadInfo();
+                LatLng pt = new LatLng(
+                        LocationInfoSingleton.getInstence().latitude,
+                        LocationInfoSingleton.getInstence().longitude);
+                //得到用户信息
+                info.comments = getRadarSearchUserInfo();
+                info.pt = pt;
+                return info;
+            }
+        }, MapManagerSingleton.TIME_UPLOAD_RADAR);
+    }
+
+    @Override
+    public void clearRadarInfo() {
+        if (radarSearchManager != null) {
+            radarSearchManager.clearUserInfo();
+            radarSearchManager.stopUploadAuto();
+        }
+    }
+
     /**
      * JPush的设置别名回调
      */
@@ -216,6 +308,40 @@ public class MrCampusService extends Service implements MrCampusServiceAction, O
                 LogUtils.d(TAG, "-----设置的别名成功");
             } else {
                 LogUtils.w(TAG, "-----设置别名失败，错误Code是" + i);
+            }
+        }
+    };
+    /**
+     * 周边雷达的监听器
+     */
+    private RadarSearchListener radarSearchListener = new RadarSearchListener() {
+        @Override
+        public void onGetNearbyInfoList(RadarNearbyResult radarNearbyResult,
+                                        RadarSearchError radarSearchError) {
+            LogUtils.d(TAG, "onGetNearbyInfoList:" + radarSearchError);
+        }
+
+        @Override
+        public void onGetUploadState(RadarSearchError radarSearchError) {
+            isStartedRadarSearch = true;
+            if (radarSearchError == RadarSearchError.RADAR_NO_ERROR) {
+                //上传成功
+                LogUtils.d(TAG, "uploadRadarSearchInfo success");
+            } else {
+                //上传失败
+                LogUtils.w(TAG, "uploadRadarSearchInfo failed:" + radarSearchError);
+            }
+        }
+
+        @Override
+        public void onGetClearInfoState(RadarSearchError radarSearchError) {
+            isStartedRadarSearch = false;
+            if (radarSearchError == RadarSearchError.RADAR_NO_ERROR) {
+                //清除成功
+                LogUtils.d(TAG, "clearRadarSearch success");
+            } else {
+                //清除失败
+                LogUtils.w(TAG, "clearRadarSearch failed:" + radarSearchError);
             }
         }
     };

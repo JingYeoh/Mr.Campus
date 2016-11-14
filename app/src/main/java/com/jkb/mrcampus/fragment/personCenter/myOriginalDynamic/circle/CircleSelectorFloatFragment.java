@@ -107,7 +107,7 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
         //设置动画
         Window window = mDialog.getWindow();
         window.setGravity(Gravity.CENTER);
-        window.setWindowAnimations(R.style.animate_dialog);
+        window.setWindowAnimations(R.style.animate_dialog_bottomIn);
         //设置宽度和高度为全屏
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));//注意此处
     }

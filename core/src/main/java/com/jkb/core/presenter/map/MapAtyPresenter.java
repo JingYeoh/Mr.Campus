@@ -27,8 +27,6 @@ public class MapAtyPresenter implements MapAtyContract.Presenter {
 
     /**
      * 选择合适的控制器
-     *
-     * @param position
      */
     private void switchShowView(int position) {
         if (position == 0) {

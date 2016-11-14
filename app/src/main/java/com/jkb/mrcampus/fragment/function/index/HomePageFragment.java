@@ -93,10 +93,8 @@ public class HomePageFragment extends BaseFragment implements
     private void initTabView() {
         mTab = (TabLayout) rootView.findViewById(R.id.fi_tab);
         mViewPager = (ViewPager) rootView.findViewById(R.id.fi_vp);
-
         mTab.addTab(mTab.newTab());
         mTab.addTab(mTab.newTab());
-
         mViewPager.setAdapter(new HomePageAdapter(getChildFragmentManager()));
         mTab.setupWithViewPager(mViewPager);
     }

@@ -33,6 +33,7 @@ import com.jkb.mrcampus.activity.MyUnOriginalDynamicActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
+import com.jkb.mrcampus.fragment.dialog.CircleFilterFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.InputTextFloatFragment;
@@ -42,10 +43,9 @@ import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.TagFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.TextFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
-import com.jkb.mrcampus.fragment.personCenter.unOriginalDynamic.MyFavoriteDynamicFragment;
+import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.net.ShareFactory;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
-import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.List;
@@ -81,6 +81,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     private SelectSchoolFloatFragment selectSchoolFloatFragment;
     private HintDetermineFloatFragment hintDetermineFloatFragment;
     private HintDetermineFloatFragment newHintDetermineFloatFragment;
+    private CircleFilterFloatFragment circleFilterFloatFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -584,6 +585,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         if (newHintDetermineFloatFragment != null && newHintDetermineFloatFragment.isAdded()) {
             newHintDetermineFloatFragment.dismiss();
         }
+        if (circleFilterFloatFragment != null && circleFilterFloatFragment.isAdded()) {
+            circleFilterFloatFragment.dismiss();
+        }
         dismissLoading();
     }
 
@@ -718,6 +722,18 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         if (!newHintDetermineFloatFragment.isAdded()) {
             newHintDetermineFloatFragment.show(getFragmentManager(),
                     ClassUtils.getClassName(HintDetermineFloatFragment.class));
+        }
+    }
+
+    @Override
+    public void showCircleFilterFloatView(
+            CircleFilterFloatFragment.OnCircleFilterItemClickListener listener) {
+        if (circleFilterFloatFragment == null) {
+            circleFilterFloatFragment = CircleFilterFloatFragment.newInstance(listener);
+        }
+        if (!circleFilterFloatFragment.isAdded()) {
+            circleFilterFloatFragment.show(getFragmentManager(),
+                    ClassUtils.getClassName(CircleFilterFloatFragment.class));
         }
     }
 }

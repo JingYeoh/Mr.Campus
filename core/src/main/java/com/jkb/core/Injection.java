@@ -78,6 +78,9 @@ import com.jkb.model.dataSource.function.setting.remote.FunctionSettingRemoteDat
 import com.jkb.model.dataSource.im.conversation.ConversationRepertory;
 import com.jkb.model.dataSource.im.conversation.local.ConversationLocalDataSource;
 import com.jkb.model.dataSource.im.conversation.remote.ConversationRemoteDataSource;
+import com.jkb.model.dataSource.map.mapList.MapListRepertory;
+import com.jkb.model.dataSource.map.mapList.local.MapListLocalDataSource;
+import com.jkb.model.dataSource.map.mapList.remote.MapListRemoteDataSource;
 import com.jkb.model.dataSource.menuRight.friends.FriendsRepertory;
 import com.jkb.model.dataSource.menuRight.friends.local.FriendsLocalDataSource;
 import com.jkb.model.dataSource.menuRight.friends.remote.FriendsRemoteDataSource;
@@ -588,6 +591,18 @@ public class Injection {
                 CircleDynamicInCircleBlackListRepertory.newInstance(
                         CircleDynamicInCircleBlackListLocalDataSource.newInstance(applicationContext),
                         CircleDynamicInCircleBlackListRemoteDataSource.newInstance()
+                );
+        return repertory;
+    }
+
+    /**
+     * 得到MapListRepertory對象
+     */
+    public static MapListRepertory provideMapListRepertory(@NonNull Context applicationContext) {
+        MapListRepertory repertory =
+                MapListRepertory.newInstance(
+                        MapListLocalDataSource.newInstance(applicationContext),
+                        MapListRemoteDataSource.newInstance()
                 );
         return repertory;
     }
