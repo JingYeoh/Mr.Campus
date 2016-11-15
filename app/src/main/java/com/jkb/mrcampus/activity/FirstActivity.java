@@ -205,7 +205,7 @@ public class FirstActivity extends BaseActivity implements FirstContract.View {
     }
 
     @Override
-    public void showLoading(String value) {
+    public void showGifLoadingView(String value) {
 
     }
 

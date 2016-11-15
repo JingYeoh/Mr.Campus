@@ -388,8 +388,7 @@ public class MapFragment extends BaseFragment implements MapContract.View,
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            mapActivity.showLoading(value);
+        mapActivity.showLoading(value, this);
     }
 
     @Override

@@ -189,7 +189,7 @@ public class CircleDynamicInCircleBlackListFragment extends BaseFragment impleme
 
     @Override
     public void showLoading(String value) {
-        circleActivity.showLoading(value);
+        circleActivity.showLoading(value, this);
     }
 
     @Override

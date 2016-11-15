@@ -164,7 +164,7 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) createCircleActivity.showLoading(value);
+        createCircleActivity.showLoading(value, this);
     }
 
     @Override

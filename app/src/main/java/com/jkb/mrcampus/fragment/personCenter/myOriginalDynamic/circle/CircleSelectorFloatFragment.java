@@ -209,8 +209,7 @@ public class CircleSelectorFloatFragment extends DialogFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            myOriginalDynamicActivity.showLoading(value);
+        myOriginalDynamicActivity.showLoading(value, this);
     }
 
     @Override

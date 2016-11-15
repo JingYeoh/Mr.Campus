@@ -32,14 +32,8 @@ public class FansFragment extends BaseFragment implements FansContract.View,
         SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
         FansListAdapter.OnUserListItemsClickListener {
 
-    public FansFragment() {
-
-    }
-
-    public static FansFragment INSTANCE = null;
-
     public static FansFragment newInstance(int user_id) {
-        INSTANCE = new FansFragment();
+        FansFragment INSTANCE = new FansFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
         INSTANCE.setArguments(bundle);
@@ -167,8 +161,7 @@ public class FansFragment extends BaseFragment implements FansContract.View,
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            usersListActivity.showLoading(value);
+        usersListActivity.showLoading(value, this);
     }
 
     @Override
@@ -237,9 +230,9 @@ public class FansFragment extends BaseFragment implements FansContract.View,
         super.onDestroy();
         usersListActivity = null;
         LogUtils.d(TAG, "onDestroy");
-        rv=null;
-        linearLayoutManager=null;
-        refreshLayout=null;
-        fansListAdapter=null;
+        rv = null;
+        linearLayoutManager = null;
+        refreshLayout = null;
+        fansListAdapter = null;
     }
 }

@@ -160,8 +160,7 @@ public class MyDynamicArticleFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            myDynamicActivity.showLoading(value);
+        myDynamicActivity.showLoading(value, this);
     }
 
     @Override

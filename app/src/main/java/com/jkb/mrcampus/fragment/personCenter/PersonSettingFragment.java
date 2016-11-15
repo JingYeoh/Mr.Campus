@@ -1,7 +1,6 @@
 package com.jkb.mrcampus.fragment.personCenter;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,14 +33,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PersonSettingFragment extends BaseFragment implements PersonSettingContract.View,
         View.OnClickListener, CropHandler, ChoosePictureFragment.PictureChooseWayListener {
 
-    private static PersonSettingFragment INSTANCE = null;
-
-    public PersonSettingFragment() {
-    }
-
     public static PersonSettingFragment newInstance() {
-        INSTANCE = new PersonSettingFragment();
-        return INSTANCE;
+        return new PersonSettingFragment();
     }
 
     //data
@@ -317,8 +310,7 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            personCenterActivity.showLoading(value);
+        personCenterActivity.showLoading(value, this);
     }
 
     @Override

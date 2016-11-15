@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 
+import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.R;
 
 /**
@@ -20,21 +21,26 @@ import com.jkb.mrcampus.R;
  * Created by JustKiddingBaby on 2016/11/12.
  */
 
-public class CircleFilterFloatFragment extends DialogFragment implements View.OnClickListener {
+public class MapFilterFloatFragment extends DialogFragment implements View.OnClickListener {
 
     //data
     private View rootView;
     private Activity mActivity;
     private Dialog mDialog;
+    private int currentFilterType = FILTER_NONE;
+
+    //常量
+    public static final int FILTER_NONE = 1001;
+    public static final int FILTER_SEX = 1002;
+    private static final String SAVED_KEY_FILTER = "saved_key_filter";
 
     //监听
     private OnCircleFilterItemClickListener onCircleFilterItemClickListener;
 
-    public static CircleFilterFloatFragment newInstance(
-            OnCircleFilterItemClickListener onCircleFilterItemClickListener) {
+    public static MapFilterFloatFragment newInstance(int filterType) {
         Bundle args = new Bundle();
-        CircleFilterFloatFragment fragment = new CircleFilterFloatFragment();
-        fragment.setOnCircleFilterItemClickListener(onCircleFilterItemClickListener);
+        args.putInt(SAVED_KEY_FILTER, filterType);
+        MapFilterFloatFragment fragment = new MapFilterFloatFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,7 +72,24 @@ public class CircleFilterFloatFragment extends DialogFragment implements View.On
      * 初始化
      */
     private void init(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            currentFilterType = savedInstanceState.getInt(SAVED_KEY_FILTER);
+        } else {
+            Bundle args = getArguments();
+            currentFilterType = args.getInt(SAVED_KEY_FILTER);
+        }
+        initFilterView();
         initListener();
+    }
+
+    /**
+     * 初始化筛选的视图
+     */
+    private void initFilterView() {
+        if (currentFilterType == FILTER_SEX) {
+            rootView.findViewById(R.id.fdffm_all).setVisibility(View.GONE);
+            rootView.findViewById(R.id.fdffm_circle).setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -127,6 +150,7 @@ public class CircleFilterFloatFragment extends DialogFragment implements View.On
      */
     private void onClickFilter(int position) {
         dismiss();
+        LogUtils.d(MapFilterFloatFragment.class, "listener=" + onCircleFilterItemClickListener);
         if (onCircleFilterItemClickListener == null) {
             return;
         }
@@ -191,5 +215,11 @@ public class CircleFilterFloatFragment extends DialogFragment implements View.On
         mDialog = null;
         rootView = null;
         onCircleFilterItemClickListener = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SAVED_KEY_FILTER, currentFilterType);
     }
 }

@@ -159,7 +159,7 @@ public class MessageCircleFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        messageActivity.showLoading(value);
+        messageActivity.showLoading(value, this);
     }
 
     @Override

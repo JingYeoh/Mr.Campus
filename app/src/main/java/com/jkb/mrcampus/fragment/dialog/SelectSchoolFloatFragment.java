@@ -172,7 +172,6 @@ public class SelectSchoolFloatFragment extends DialogFragment implements
 
     @Override
     public void showLoadingView() {
-
     }
 
     @Override

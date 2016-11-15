@@ -1,6 +1,5 @@
 package com.jkb.core.presenter.personCenter;
 
-import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -18,7 +17,6 @@ import com.jkb.core.presenter.personCenter.data.CircleData;
 import com.jkb.core.presenter.personCenter.data.UserData;
 import com.jkb.model.dataSource.personCenter.PersonCenterDataResponsitory;
 import com.jkb.model.info.UserInfoSingleton;
-import com.jkb.model.intfc.BitmapLoadedCallback;
 import com.jkb.model.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -59,6 +57,9 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
     @Override
     public void getUserData() {
         Log.d(TAG, "getUserData----overDue=" + isOverdue);
+        if (!view.isActive()) {
+            return;
+        }
         //设置缓存的数据
         if (userData != null && !isOverdue) {
             bindDataToView();
@@ -143,40 +144,6 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
                     }
                 }
             };
-    /**
-     * 头像加载的回调
-     */
-    @Deprecated
-    private BitmapLoadedCallback bitmapLoadedCallback = new BitmapLoadedCallback() {
-        @Override
-        public void onBitmapDataLoaded(Bitmap bitmap) {
-            if (view.isActive()) {
-//                userData.setHeadImg(bitmap);
-                bindDataToView();
-            }
-        }
-
-        @Override
-        public void onDataNotAvailable(String url) {
-        }
-    };
-    /**
-     * 背景图片的回调
-     */
-    @Deprecated
-    private BitmapLoadedCallback backGroundBitmapCallback = new BitmapLoadedCallback() {
-        @Override
-        public void onBitmapDataLoaded(Bitmap bitmap) {
-            if (view.isActive()) {
-//                userData.setBackGround(bitmap);
-                bindDataToView();
-            }
-        }
-
-        @Override
-        public void onDataNotAvailable(String url) {
-        }
-    };
     /**
      * 访客的回调接口
      */

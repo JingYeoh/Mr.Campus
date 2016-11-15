@@ -12,6 +12,7 @@ import com.jkb.model.dataSource.map.mapList.MapListDataSource;
 import com.jkb.model.utils.LogUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Response;
@@ -70,25 +71,36 @@ public class MapListNearUserPresenter implements MapListNearUserContract.Present
     /**
      * 筛选用户性别
      */
-    private void filterUserBySex() {
+    private List<UserInfo> filterUserBySex() {
         String sexFilter;
         switch (currentUserType) {
             case CIRCLE_FILTER_USER_ALL:
-                return;
+                view.setSexNoneFilterView();
+                return mUserInfo;
             case CIRCLE_FILTER_USER_MALE:
+                view.setSexFilterMaleView();
                 sexFilter = Config.SEX_MALE;
                 break;
             case CIRCLE_FILTER_USER_FEMALE:
+                view.setSexFilterFemaleView();
                 sexFilter = Config.SEX_FEMALE;
                 break;
             default:
-                return;
+                return mUserInfo;
         }
-        for (UserInfo info : mUserInfo) {
-            if (sexFilter.equals(info.getSex())) {
-                mUserInfo.remove(info);
+        LogUtils.d(MapListNearUserPresenter.class, "filterSex-->sex=" + sexFilter);
+        if (mUserInfo.size() == 0) {
+            return mUserInfo;
+        }
+        List<UserInfo> copyUserInfo = new ArrayList<>();
+        for (Iterator<UserInfo> it = mUserInfo.iterator(); it.hasNext(); ) {
+            UserInfo userInfo = it.next();
+            if (!sexFilter.equals(userInfo.getSex())) {
+                copyUserInfo.add(userInfo);
             }
         }
+        mUserInfo.removeAll(copyUserInfo);//要删除的数据
+        return copyUserInfo;
     }
 
     @Override
@@ -102,6 +114,9 @@ public class MapListNearUserPresenter implements MapListNearUserContract.Present
 
     @Override
     public void onRefresh() {
+        if (!view.isAbleSearchNearUser()) {
+            return;
+        }
         isCached = false;
         if (isRefreshing) {
             return;
@@ -115,6 +130,9 @@ public class MapListNearUserPresenter implements MapListNearUserContract.Present
 
     @Override
     public void onLoadMore() {
+        if (!view.isAbleSearchNearUser()) {
+            return;
+        }
         if (pageControl.getCurrent_page() < pageControl.getLast_page()) {
             return;
         }
@@ -153,6 +171,7 @@ public class MapListNearUserPresenter implements MapListNearUserContract.Present
         if (!view.isActive()) {
             return;
         }
+        view.hideRefreshing();
         pageControl.setCurrent_page(currentPage);
         pageControl.setLast_page(lastPage);
         if (nearUserInfo == null || nearUserInfo.size() == 0) {

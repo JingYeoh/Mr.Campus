@@ -14,9 +14,6 @@ import com.jkb.mrcampus.activity.EnteringActivity;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.utils.ClassUtils;
 
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.onekeyshare.OnekeyShare;
-
 /**
  * 登录页面View视图
  * Created by JustKiddingBaby on 2016/7/30.
@@ -181,7 +178,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) enteringActivity.showLoading(value);
+        enteringActivity.showLoading(value, this);
     }
 
     @Override

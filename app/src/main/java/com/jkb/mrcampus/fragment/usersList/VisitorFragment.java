@@ -31,16 +31,8 @@ public class VisitorFragment extends BaseFragment implements VisitorContract.Vie
         SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
         VisitorListAdapter.OnUserListItemsClickListener {
 
-
-    public VisitorFragment() {
-
-    }
-
-
-    public static VisitorFragment INSTANCE = null;
-
     public static VisitorFragment newInstance(int user_id) {
-        INSTANCE = new VisitorFragment();
+        VisitorFragment INSTANCE = new VisitorFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Config.INTENT_KEY_USER_ID, user_id);
         INSTANCE.setArguments(bundle);
@@ -163,8 +155,7 @@ public class VisitorFragment extends BaseFragment implements VisitorContract.Vie
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            usersListActivity.showLoading(value);
+        usersListActivity.showLoading(value, this);
     }
 
     @Override
@@ -233,9 +224,9 @@ public class VisitorFragment extends BaseFragment implements VisitorContract.Vie
         super.onDestroy();
         usersListActivity = null;
         LogUtils.d(TAG, "onDestroy");
-        rv=null;
-        linearLayoutManager=null;
-        refreshLayout=null;
-        visitorListAdapter=null;
+        rv = null;
+        linearLayoutManager = null;
+        refreshLayout = null;
+        visitorListAdapter = null;
     }
 }

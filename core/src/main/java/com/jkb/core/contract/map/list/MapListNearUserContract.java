@@ -16,6 +16,11 @@ public interface MapListNearUserContract {
     interface View extends BaseView<Presenter> {
 
         /**
+         * 是否允许搜索附近的人
+         */
+        boolean isAbleSearchNearUser();
+
+        /**
          * 显示刷新视图
          */
         void showRefreshing();
@@ -24,6 +29,26 @@ public interface MapListNearUserContract {
          * 隐藏刷新视图
          */
         void hideRefreshing();
+
+        /**
+         * 显示筛选性别的View
+         */
+        void showSexFilterView();
+
+        /**
+         * 设置无性别筛选的View
+         */
+        void setSexNoneFilterView();
+
+        /**
+         * 设置筛选为男生的视图
+         */
+        void setSexFilterMaleView();
+
+        /**
+         * 设置性别筛选为女的视图
+         */
+        void setSexFilterFemaleView();
 
         /**
          * 请求附近的人的数据

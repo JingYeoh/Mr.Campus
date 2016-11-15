@@ -2,12 +2,14 @@ package com.jkb.mrcampus.fragment.function.map.list;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.radar.RadarNearbyInfo;
@@ -27,6 +29,7 @@ import com.jkb.mrcampus.activity.MapActivity;
 import com.jkb.mrcampus.adapter.recycler.map.MapListNearUserAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
+import com.jkb.mrcampus.fragment.dialog.MapFilterFloatFragment;
 import com.jkb.mrcampus.manager.MapManagerSingleton;
 
 import java.util.ArrayList;
@@ -40,7 +43,8 @@ import java.util.Observer;
  */
 
 public class MapListNearUserFragment extends BaseFragment implements
-        MapListNearUserContract.View, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Observer {
+        MapListNearUserContract.View, SwipeRefreshLayout.OnRefreshListener,
+        View.OnClickListener, Observer {
 
     public static MapListNearUserFragment newInstance() {
         Bundle args = new Bundle();
@@ -55,6 +59,11 @@ public class MapListNearUserFragment extends BaseFragment implements
 
     //view
     private SwipeRefreshLayout refreshLayout;
+    private int[] sexFilterResource = new int[]{
+            R.drawable.ic_user_head,
+            R.drawable.ic_write,
+            R.drawable.ic_top
+    };
 
     //列表
     private RecyclerView recyclerView;
@@ -93,6 +102,8 @@ public class MapListNearUserFragment extends BaseFragment implements
     protected void initListener() {
         refreshLayout.setOnRefreshListener(this);
         rootView.findViewById(R.id.fmlnu_bt_openNearUser).setOnClickListener(this);
+        rootView.findViewById(R.id.fmlnu_iv_secFilter).setOnClickListener(this);
+
         recyclerView.addOnScrollListener(onScrollListener);
         mapListNearUserAdapter.setOnNearUserItemClickListener(onNearUserItemClickListener);
 
@@ -122,6 +133,11 @@ public class MapListNearUserFragment extends BaseFragment implements
     }
 
     @Override
+    public boolean isAbleSearchNearUser() {
+        return MapManagerSingleton.getInstance().isAbleRadarSearch();
+    }
+
+    @Override
     public void showRefreshing() {
         refreshLayout.setRefreshing(true);
     }
@@ -129,6 +145,31 @@ public class MapListNearUserFragment extends BaseFragment implements
     @Override
     public void hideRefreshing() {
         refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showSexFilterView() {
+        //显示性别筛选视图
+        mapActivity.showMapFilterFloatView(MapFilterFloatFragment.FILTER_SEX,
+                onCircleFilterItemClickListener);
+    }
+
+    @Override
+    public void setSexNoneFilterView() {
+        ((ImageView) rootView.findViewById(R.id.fmlnu_iv_secFilter)).
+                setImageResource(sexFilterResource[0]);
+    }
+
+    @Override
+    public void setSexFilterMaleView() {
+        ((ImageView) rootView.findViewById(R.id.fmlnu_iv_secFilter)).
+                setImageResource(sexFilterResource[1]);
+    }
+
+    @Override
+    public void setSexFilterFemaleView() {
+        ((ImageView) rootView.findViewById(R.id.fmlnu_iv_secFilter)).
+                setImageResource(sexFilterResource[2]);
     }
 
     @Override
@@ -154,14 +195,14 @@ public class MapListNearUserFragment extends BaseFragment implements
         if (radarSearchManager != null) {
             radarSearchManager.clearUserInfo();//清除用户信息
         }
-        recyclerView.setVisibility(View.GONE);
+        rootView.findViewById(R.id.fmlnu_content_open).setVisibility(View.GONE);
         rootView.findViewById(R.id.fmlnu_content_closeHint).setVisibility(View.VISIBLE);
     }
 
     @Override
     public void openNearUserSearch() {
-        recyclerView.setVisibility(View.VISIBLE);
         rootView.findViewById(R.id.fmlnu_content_closeHint).setVisibility(View.GONE);
+        rootView.findViewById(R.id.fmlnu_content_open).setVisibility(View.VISIBLE);
         mPresenter.onRefresh();
     }
 
@@ -201,7 +242,7 @@ public class MapListNearUserFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) mapActivity.showLoading(value);
+        mapActivity.showLoading(value, this);
     }
 
     @Override
@@ -231,6 +272,7 @@ public class MapListNearUserFragment extends BaseFragment implements
         //监听器
         onScrollListener = null;
         onNearUserItemClickListener = null;
+        onCircleFilterItemClickListener = null;
         //释放周边雷达
         MapManagerSingleton.getInstance().deleteObserver(this);
         radarSearchManager.removeNearbyInfoListener(radarSearchListener);        //移除监听
@@ -304,6 +346,11 @@ public class MapListNearUserFragment extends BaseFragment implements
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
+           /* int topRowVerticalPosition =
+                    (recyclerView == null || recyclerView.getChildCount() == 0) ? 0
+                            : recyclerView.getChildAt(0).getTop();
+            refreshLayout.setEnabled(topRowVerticalPosition >= 0);*/
+
             int lastVisibleItem = (linearLayoutManager).findLastVisibleItemPosition();
             int totalItemCount = linearLayoutManager.getItemCount();
             if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
@@ -318,6 +365,9 @@ public class MapListNearUserFragment extends BaseFragment implements
             case R.id.fmlnu_bt_openNearUser:
                 showHintForOpenNearUser();
                 break;
+            case R.id.fmlnu_iv_secFilter:
+                showSexFilterView();
+                break;
         }
     }
 
@@ -329,4 +379,34 @@ public class MapListNearUserFragment extends BaseFragment implements
             closeNearUserSearch();
         }
     }
+
+    /**
+     * 地图的筛选的条目监听器
+     */
+    private MapFilterFloatFragment.OnCircleFilterItemClickListener onCircleFilterItemClickListener =
+            new MapFilterFloatFragment.OnCircleFilterItemClickListener() {
+                @Override
+                public void onNoFilterSelected() {
+                }
+
+                @Override
+                public void onCircleSelected() {
+
+                }
+
+                @Override
+                public void onUserSelected() {
+                    mPresenter.onNoFilterSelected();
+                }
+
+                @Override
+                public void onUserMaleSelected() {
+                    mPresenter.onMaleSelected();
+                }
+
+                @Override
+                public void onUserFemaleSelected() {
+                    mPresenter.onFeMaleSelected();
+                }
+            };
 }

@@ -15,7 +15,6 @@ import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MessageActivity;
 import com.jkb.mrcampus.activity.MessageCenterActivity;
-import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.usersList.FansFragment;
 import com.jkb.mrcampus.utils.ClassUtils;
@@ -244,8 +243,7 @@ public class MessageCenterFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            messageCenterActivity.showLoading(value);
+        messageCenterActivity.showLoading(value, this);
     }
 
     @Override

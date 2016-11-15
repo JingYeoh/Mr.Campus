@@ -161,7 +161,7 @@ public class MessageDynamicFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) messageActivity.showLoading(value);
+        messageActivity.showLoading(value, this);
     }
 
     @Override

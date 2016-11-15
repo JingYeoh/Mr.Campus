@@ -178,8 +178,7 @@ public class SettingFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            mainActivity.showLoading(value);
+        mainActivity.showLoading(value, this);
     }
 
     @Override

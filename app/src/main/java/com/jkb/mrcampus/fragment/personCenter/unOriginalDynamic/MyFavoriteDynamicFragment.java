@@ -220,8 +220,7 @@ public class MyFavoriteDynamicFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            myUnOriginalDynamicActivity.showLoading(value);
+        myUnOriginalDynamicActivity.showLoading(value, this);
     }
 
     @Override

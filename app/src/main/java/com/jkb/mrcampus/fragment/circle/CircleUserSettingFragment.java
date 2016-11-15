@@ -278,8 +278,7 @@ public class CircleUserSettingFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            circleActivity.showLoading(value);
+        circleActivity.showLoading(value, this);
     }
 
     @Override

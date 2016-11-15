@@ -50,7 +50,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile project(':core')
-    compile 'com.android.support:design:24.1.1'
+    compile 'com.android.support:design:24.2.1'
     //View相关
     compile 'com.roger.gifloadinglibrary:gifloadinglibrary:1.0.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'

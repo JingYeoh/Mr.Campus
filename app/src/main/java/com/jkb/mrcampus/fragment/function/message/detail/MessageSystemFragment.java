@@ -18,14 +18,8 @@ import com.jkb.mrcampus.base.BaseFragment;
 
 public class MessageSystemFragment extends BaseFragment implements View.OnClickListener {
 
-
-    public MessageSystemFragment() {
-    }
-
-    private static MessageSystemFragment INSTANCE = null;
-
     public static MessageSystemFragment newInstance() {
-        INSTANCE = new MessageSystemFragment();
+        MessageSystemFragment INSTANCE = new MessageSystemFragment();
         return INSTANCE;
     }
 

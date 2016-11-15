@@ -1,11 +1,11 @@
 package com.jkb.mrcampus.base;
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.view.View;
-import android.widget.TextView;
 
 import com.jkb.core.contract.dynamicCreate.data.CategoryTypeData;
-import com.jkb.mrcampus.fragment.dialog.CircleFilterFloatFragment;
+import com.jkb.mrcampus.fragment.dialog.MapFilterFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.TagFloatFragment;
@@ -71,9 +71,11 @@ public interface BaseActivityAction {
             HintDetermineFloatFragment.OnDetermineItemClickListener onDetermineItemClickListener);
 
     /**
-     * 设置圈子筛选的视图
+     * 设置地图筛选的视图
      */
-    void showCircleFilterFloatView(CircleFilterFloatFragment.OnCircleFilterItemClickListener listener);
+    void showMapFilterFloatView(
+            int filterType,
+            MapFilterFloatFragment.OnCircleFilterItemClickListener listener);
 
     /**
      * 分享
@@ -234,6 +236,21 @@ public interface BaseActivityAction {
      * 判断软键盘是否开启
      */
     boolean isKeyboardShown(View view);
+
+    /**
+     * 显示加载视图
+     */
+    void showLoading(String value, @NonNull Fragment fragment);
+
+    /**
+     * 显示加载视图
+     */
+    void showLoading(String value, @NonNull android.app.Fragment fragment);
+
+    /**
+     * 显示加载视图
+     */
+    void showLoading(String value);
 
     /**
      * 取消显示所有视图

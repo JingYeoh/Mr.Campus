@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
-
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/fmlnu_srl"
@@ -12,14 +12,28 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="visible">
 
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/fmlnu_rv"
+            <RelativeLayout
+                android:id="@+id/fmlnu_content_open"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent">
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/fmlnu_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/fmlnu_iv_secFilter"
+                    style="@style/FunctionSetIcStyle"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="50dp"
+                    android:src="@drawable/ic_write" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/fmlnu_content_closeHint"
@@ -40,6 +54,8 @@
                     android:layout_height="wrap_content"
                     android:text="打开" />
             </LinearLayout>
+
+
         </RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
-</RelativeLayout>
+</LinearLayout>

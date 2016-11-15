@@ -79,9 +79,8 @@
         </activity>
 
         //地图的页面控制器，采用单实例模式
-        <activity
-            android:name=".activity.MapActivity"
-            android:launchMode="singleInstance" />
+        <activity android:name=".activity.MapActivity" />
+        //android:launchMode="singleInstance"
 
         //登录注册模块的页面控制器
         <activity android:name=".activity.EnteringActivity" />

@@ -248,8 +248,7 @@ public class MyDynamicCircleFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            myOriginalDynamicActivity.showLoading(value);
+        myOriginalDynamicActivity.showLoading(value, this);
     }
 
     @Override

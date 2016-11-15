@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +12,6 @@ import android.widget.TextView;
 
 import com.jkb.core.contract.im.conversation.ConversationContract;
 import com.jkb.core.data.info.user.UserInfo;
-import com.jkb.model.utils.LogUtils;
-import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.ConversationActivity;
@@ -245,7 +242,7 @@ public class ConversationFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) conversationActivity.showLoading(value);
+        conversationActivity.showLoading(value, this);
     }
 
     @Override

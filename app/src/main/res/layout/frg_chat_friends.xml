@@ -19,7 +19,8 @@
                 android:layout_height="match_parent"
                 android:divider="@color/line_deep"
                 android:dividerHeight="0.5dp"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/fcf_contentNonFriends"

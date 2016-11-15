@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.jkb.core.Injection;
-import com.jkb.core.presenter.map.MapListPresenter;
 import com.jkb.core.presenter.map.MapPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;

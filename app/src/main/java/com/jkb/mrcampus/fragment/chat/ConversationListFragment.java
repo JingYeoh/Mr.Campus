@@ -11,11 +11,9 @@ import android.view.ViewGroup;
 
 import com.jkb.core.contract.im.conversationList.ConversationListContract;
 import com.jkb.core.control.userstate.LoginContext;
-import com.jkb.core.control.userstate.UserState;
 import com.jkb.model.utils.LogUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
-import com.jkb.mrcampus.activity.callback.RongIMConnectCallBack;
 import com.jkb.mrcampus.adapter.conversation.MyConversationListAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
@@ -25,7 +23,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import io.rong.imkit.RongContext;
-import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 
 /**
@@ -176,8 +173,7 @@ public class ConversationListFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            mainActivity.showLoading(value);
+        mainActivity.showLoading(value, this);
     }
 
     @Override

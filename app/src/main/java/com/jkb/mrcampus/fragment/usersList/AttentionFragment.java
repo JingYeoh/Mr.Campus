@@ -30,16 +30,8 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
         SwipeRefreshLayout.OnRefreshListener, View.OnClickListener,
         AttentionListAdapter.OnUserListItemsClickListener {
 
-
-    public AttentionFragment() {
-
-    }
-
-
-    public static AttentionFragment INSTANCE = null;
-
     public static AttentionFragment newInstance(int user_id) {
-        INSTANCE = new AttentionFragment();
+        AttentionFragment INSTANCE = new AttentionFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(SAVED_USER_ID, user_id);
         INSTANCE.setArguments(bundle);
@@ -161,8 +153,7 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            usersListActivity.showLoading(value);
+        usersListActivity.showLoading(value, this);
     }
 
     @Override
@@ -231,9 +222,9 @@ public class AttentionFragment extends BaseFragment implements AttentionContract
         super.onDestroy();
         usersListActivity = null;
         LogUtils.d(TAG, "onDestroy");
-        rv=null;
-        linearLayoutManager=null;
-        refreshLayout=null;
-        attentionListAdapter=null;
+        rv = null;
+        linearLayoutManager = null;
+        refreshLayout = null;
+        attentionListAdapter = null;
     }
 }

@@ -174,7 +174,7 @@ public class CircleAttentionUserListFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        circleActivity.showLoading(value);
+        circleActivity.showLoading(value, this);
     }
 
     @Override

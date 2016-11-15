@@ -44,9 +44,6 @@ import java.util.Observer;
 public class DynamicFragment extends BaseFragment implements DynamicContract.View,
         SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Observer {
 
-    public DynamicFragment() {
-    }
-
     public static DynamicFragment newInstance() {
         return new DynamicFragment();
     }
@@ -403,7 +400,7 @@ public class DynamicFragment extends BaseFragment implements DynamicContract.Vie
 
     @Override
     public void showLoading(String value) {
-        mainActivity.showLoading(value);
+        mainActivity.showLoading(value, this);
     }
 
     @Override

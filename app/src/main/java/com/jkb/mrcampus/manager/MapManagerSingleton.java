@@ -25,7 +25,7 @@ public class MapManagerSingleton extends Observable implements MapManagerAction 
 
     private MapManagerSingleton() {
         isAbleLocation = true;
-        isAbleRadarSearch = true;
+        isAbleRadarSearch = false;
     }
 
     private static MapManagerSingleton INSTANCE = new MapManagerSingleton();
@@ -59,7 +59,7 @@ public class MapManagerSingleton extends Observable implements MapManagerAction 
     @Override
     public synchronized void addObserver(Observer o) {
         super.addObserver(o);
-//        update();
+        update();
     }
 
     private void setAbleLocation(boolean ableLocation) {

@@ -233,9 +233,7 @@ public class DynamicFragment2 extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) {
-            mainActivity.showLoading(value);
-        }
+        mainActivity.showLoading(value, this);
     }
 
     @Override

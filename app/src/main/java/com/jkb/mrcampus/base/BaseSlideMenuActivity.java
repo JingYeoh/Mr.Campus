@@ -3,8 +3,10 @@ package com.jkb.mrcampus.base;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -33,7 +35,7 @@ import com.jkb.mrcampus.activity.MyUnOriginalDynamicActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
-import com.jkb.mrcampus.fragment.dialog.CircleFilterFloatFragment;
+import com.jkb.mrcampus.fragment.dialog.MapFilterFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.InputTextFloatFragment;
@@ -70,6 +72,7 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
     private static boolean isExit = false;//连按两次退出程序的标识值
 
     protected FragmentManager fm;
+    private boolean isShowGifLoading = false;//是否显示Gif动画
 
     //展示视图
     protected GifLoadingView2 gifLoadingView;
@@ -83,7 +86,7 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
     private SelectSchoolFloatFragment selectSchoolFloatFragment;
     private HintDetermineFloatFragment hintDetermineFloatFragment;
     private HintDetermineFloatFragment newHintDetermineFloatFragment;
-    private CircleFilterFloatFragment circleFilterFloatFragment;
+    private MapFilterFloatFragment circleFilterFloatFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -517,22 +520,26 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
     @Override
     public boolean isKeyboardShown(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
-        return isOpen;
+        if (imm.isActive()) return true;
+        else return false;
     }
 
     /**
      * 显示Loading加载效果
      */
-    public synchronized void showLoading(String value) {
+    public synchronized void showGifLoadingView(String value) {
+        if (isShowGifLoading) {
+            return;
+        }
         if (gifLoadingView == null) {
             gifLoadingView = GifLoadingView2.newInstance();
             gifLoadingView.setImageResource(R.drawable.num31);
         }
-        LogUtils.d(TAG, "showLoading");
+        LogUtils.d(TAG, "showGifLoadingView");
         if (!gifLoadingView.isAdded()) {
             gifLoadingView.show(getFragmentManager(),
                     ClassUtils.getClassName(GifLoadingView2.class));
+            isShowGifLoading = true;
         }
     }
 
@@ -543,6 +550,7 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
         if (gifLoadingView != null) {
             if (gifLoadingView.isAdded()) {
                 gifLoadingView.dismiss();
+                isShowGifLoading = false;
             }
         }
     }
@@ -567,6 +575,58 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
         if (choosePictureFragment != null) {
             choosePictureFragment.setPictureSelectedListener(listener);
         }
+    }
+
+    @Override
+    public void showLoading(String value, @NonNull Fragment fragment) {
+        boolean isAbleToShow;
+        while (true) {
+            isAbleToShow = true;
+            if (fragment.isHidden()) {
+                isAbleToShow = false;
+                break;
+            }
+            fragment = fragment.getParentFragment();
+            if (fragment == null) {
+                break;
+            }
+            if (fragment.isHidden()) {
+                isAbleToShow = false;
+                break;
+            }
+        }
+        if (isAbleToShow) {
+            showGifLoadingView(value);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @Override
+    public void showLoading(String value, @NonNull android.app.Fragment fragment) {
+        boolean isAbleToShow;
+        while (true) {
+            isAbleToShow = true;
+            if (fragment.isHidden()) {
+                isAbleToShow = false;
+                break;
+            }
+            fragment = fragment.getParentFragment();
+            if (fragment == null) {
+                break;
+            }
+            if (fragment.isHidden()) {
+                isAbleToShow = false;
+                break;
+            }
+        }
+        if (isAbleToShow) {
+            showGifLoadingView(value);
+        }
+    }
+
+    @Override
+    public void showLoading(String value) {
+        showGifLoadingView(value);
     }
 
     /**
@@ -750,14 +810,16 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
     }
 
     @Override
-    public void showCircleFilterFloatView(
-            CircleFilterFloatFragment.OnCircleFilterItemClickListener listener) {
+    public void showMapFilterFloatView(
+            int filterType,
+            MapFilterFloatFragment.OnCircleFilterItemClickListener listener) {
         if (circleFilterFloatFragment == null) {
-            circleFilterFloatFragment = CircleFilterFloatFragment.newInstance(listener);
+            circleFilterFloatFragment = MapFilterFloatFragment.newInstance(filterType);
         }
+        circleFilterFloatFragment.setOnCircleFilterItemClickListener(listener);
         if (!circleFilterFloatFragment.isAdded()) {
             circleFilterFloatFragment.show(getFragmentManager(),
-                    ClassUtils.getClassName(CircleFilterFloatFragment.class));
+                    ClassUtils.getClassName(MapFilterFloatFragment.class));
         }
     }
 }

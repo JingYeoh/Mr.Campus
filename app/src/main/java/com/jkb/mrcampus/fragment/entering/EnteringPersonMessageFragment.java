@@ -1,7 +1,6 @@
 package com.jkb.mrcampus.fragment.entering;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,8 +23,6 @@ import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
 import com.jkb.mrcampus.helper.cropphoto.CropHandler;
 import com.jkb.mrcampus.helper.cropphoto.CropHelper;
 import com.jkb.mrcampus.helper.cropphoto.CropParams;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 录入个人信息的View视图
@@ -170,7 +167,7 @@ public class EnteringPersonMessageFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) enteringActivity.showLoading(value);
+        enteringActivity.showLoading(value, this);
     }
 
     @Override

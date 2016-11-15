@@ -206,7 +206,7 @@ public class CircleListUserPayAttentionFragment extends BaseFragment
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) circleListActivity.showLoading(value);
+        circleListActivity.showLoading(value, this);
     }
 
     @Override

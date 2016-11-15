@@ -22,9 +22,6 @@ import com.jkb.mrcampus.helper.cropphoto.CropHandler;
 import com.jkb.mrcampus.helper.cropphoto.CropHelper;
 import com.jkb.mrcampus.helper.cropphoto.CropParams;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 创建普通动态类型的View层
  * Created by JustKiddingBaby on 2016/9/26.
@@ -273,8 +270,7 @@ public class DynamicCreateNormalFragment extends BaseFragment
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            dynamicCreateActivity.showLoading(value);
+        dynamicCreateActivity.showLoading(value, this);
     }
 
     @Override

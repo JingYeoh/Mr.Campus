@@ -345,7 +345,7 @@ public class SelectCircleCoordinateFragment extends BlurDialogFragment
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) createCircleActivity.showLoading(value);
+        createCircleActivity.showLoading(value, this);
     }
 
     @Override

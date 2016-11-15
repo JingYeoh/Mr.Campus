@@ -25,7 +25,7 @@ import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MapActivity;
 import com.jkb.mrcampus.adapter.recycler.map.MapListNearUserAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
-import com.jkb.mrcampus.fragment.dialog.CircleFilterFloatFragment;
+import com.jkb.mrcampus.fragment.dialog.MapFilterFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.manager.MapManagerSingleton;
 
@@ -131,7 +131,8 @@ public class MapListFragment extends BaseFragment implements
 
     @Override
     public void showFloatMapFilter() {
-        mapActivity.showCircleFilterFloatView(onCircleFilterItemClickListener);
+        mapActivity.showMapFilterFloatView(MapFilterFloatFragment.FILTER_NONE,
+                onCircleFilterItemClickListener);
     }
 
     @Override
@@ -193,7 +194,7 @@ public class MapListFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        mapActivity.showLoading(value);
+        mapActivity.showLoading(value, this);
     }
 
     @Override
@@ -245,8 +246,8 @@ public class MapListFragment extends BaseFragment implements
     /**
      * 圈子筛选的条件
      */
-    private CircleFilterFloatFragment.OnCircleFilterItemClickListener onCircleFilterItemClickListener =
-            new CircleFilterFloatFragment.OnCircleFilterItemClickListener() {
+    private MapFilterFloatFragment.OnCircleFilterItemClickListener onCircleFilterItemClickListener =
+            new MapFilterFloatFragment.OnCircleFilterItemClickListener() {
                 @Override
                 public void onNoFilterSelected() {
                     mPresenter.onNoFilterSelected();

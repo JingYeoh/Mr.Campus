@@ -3,7 +3,6 @@ package com.jkb.mrcampus.fragment.function.map.list;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -150,7 +149,7 @@ public class MapListNearCircleFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) mapActivity.showLoading(value);
+        mapActivity.showLoading(value, this);
     }
 
     @Override

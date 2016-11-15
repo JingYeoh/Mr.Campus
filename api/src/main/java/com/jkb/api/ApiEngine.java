@@ -53,8 +53,7 @@ public class ApiEngine<T> {
                     @Override
                     public Response<T> call(Call<T> tCall) {
                         try {
-                            Response<T> response = call.execute();
-                            return response;
+                            return call.execute();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -108,8 +107,8 @@ public class ApiEngine<T> {
                 try {
                     JSONObject object = new JSONObject(error);
                     String errorMsg = object.getString("error");
-                    if(errorMsg==null||errorMsg.isEmpty()){
-                        errorMsg="请求错误，请重试";
+                    if (errorMsg == null || errorMsg.isEmpty()) {
+                        errorMsg = "请求错误，请重试";
                     }
                     T obj = new Gson().fromJson(error, mType);
                     apiCallback.onError(response, errorMsg, obj);

@@ -166,7 +166,7 @@ public class WelcomeFragment extends BaseFragment implements WelcomeContract.Vie
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) firstActivity.showLoading(value);
+        firstActivity.showLoading(value, this);
     }
 
     @Override

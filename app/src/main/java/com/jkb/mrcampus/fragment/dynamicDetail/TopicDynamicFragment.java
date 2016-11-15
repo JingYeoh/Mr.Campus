@@ -506,7 +506,7 @@ public class TopicDynamicFragment extends BaseFragment implements DynamicDetailT
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) dynamicDetailActivity.showLoading(value);
+        dynamicDetailActivity.showLoading(value, this);
     }
 
     @Override

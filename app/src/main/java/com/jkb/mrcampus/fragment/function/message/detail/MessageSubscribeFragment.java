@@ -34,13 +34,8 @@ public class MessageSubscribeFragment extends BaseFragment implements
         View.OnClickListener, Observer, SwipeRefreshLayout.OnRefreshListener {
 
 
-    public MessageSubscribeFragment() {
-    }
-
-    private static MessageSubscribeFragment INSTANCE = null;
-
     public static MessageSubscribeFragment newInstance() {
-        INSTANCE = new MessageSubscribeFragment();
+        MessageSubscribeFragment INSTANCE = new MessageSubscribeFragment();
         return INSTANCE;
     }
 
@@ -158,7 +153,7 @@ public class MessageSubscribeFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        messageActivity.showLoading(value);
+        messageActivity.showLoading(value, this);
     }
 
     @Override

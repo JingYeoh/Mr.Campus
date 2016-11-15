@@ -27,7 +27,6 @@ import com.jkb.mrcampus.activity.DynamicCreateActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.adapter.recycler.DynamicCircleAdapter;
 import com.jkb.mrcampus.adapter.recycler.itemDecoration.DividerItemDecoration;
-import com.jkb.mrcampus.adapter.recycler.itemDecoration.LineDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
@@ -529,9 +528,7 @@ public class CircleIndexFragment extends BaseFragment
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) {
-            circleActivity.showLoading(value);
-        }
+        circleActivity.showLoading(value, this);
     }
 
     @Override

@@ -293,8 +293,7 @@ public class CommentListFragment extends BaseFragment implements CommentListCont
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            commentActivity.showLoading(value);
+        commentActivity.showLoading(value, this);
     }
 
     @Override

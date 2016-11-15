@@ -13,7 +13,6 @@ import com.jkb.core.Injection;
 import com.jkb.core.contract.menu.data.FriendsData;
 import com.jkb.core.contract.menu.friends.FriendsContract;
 import com.jkb.core.control.userstate.LoginContext;
-import com.jkb.core.control.userstate.UserState;
 import com.jkb.core.presenter.menu.friends.FriendsPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
@@ -174,8 +173,7 @@ public class FriendsFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            mainActivity.showLoading(value);
+        mainActivity.showLoading(value, this);
     }
 
     @Override

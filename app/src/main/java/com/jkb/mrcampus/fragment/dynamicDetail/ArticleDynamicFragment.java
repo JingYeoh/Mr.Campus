@@ -18,7 +18,6 @@ import com.jkb.core.contract.dynamicDetail.data.DynamicDetailArticleData;
 import com.jkb.core.contract.dynamicDetail.data.comment.DynamicDetailCommentData;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.StringUtils;
-import com.jkb.model.utils.TimeUtils;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.adapter.recycler.comment.CommentListAdapter;
@@ -323,8 +322,7 @@ public class ArticleDynamicFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            dynamicDetailActivity.showLoading(value);
+        dynamicDetailActivity.showLoading(value, this);
     }
 
     @Override

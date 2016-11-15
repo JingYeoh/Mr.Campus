@@ -10,11 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jkb.core.contract.menu.RightMenuContract;
 import com.jkb.core.control.messageState.MessageObservable;
 import com.jkb.core.control.userstate.LoginContext;
-import com.jkb.core.control.userstate.UserState;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
 import com.jkb.mrcampus.adapter.fragmentPager.ChatAdapter;
@@ -42,9 +40,6 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
 
     //Data
     private MainActivity mainActivity;
-
-    public RightMenuFragment() {
-    }
 
     /**
      * 获得一个实例化的ChatFragment对象
@@ -173,8 +168,7 @@ public class RightMenuFragment extends BaseFragment implements RightMenuContract
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            mainActivity.showLoading(value);
+        mainActivity.showLoading(value, this);
     }
 
     @Override

@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jkb.core.contract.circle.CircleSettingVisitorContract;
-import com.jkb.core.presenter.circle.CircleSettingVisitorPresenter;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleActivity;
@@ -136,7 +135,7 @@ public class CircleVisitorSettingFragment extends BaseFragment implements
 
     @Override
     public void showLoading(String value) {
-        circleActivity.showLoading(value);
+        circleActivity.showLoading(value, this);
     }
 
     @Override

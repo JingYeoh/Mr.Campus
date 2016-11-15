@@ -303,7 +303,7 @@ public class SwitchFunctionFragment extends BaseFragment
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) mainActivity.showLoading(value);
+        mainActivity.showLoading(value, this);
     }
 
     @Override

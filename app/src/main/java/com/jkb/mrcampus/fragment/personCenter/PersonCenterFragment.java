@@ -30,8 +30,6 @@ import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 /**
  * 个人中心的显示层
  * Created by JustKiddingBaby on 2016/8/14.
@@ -464,8 +462,7 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            personCenterActivity.showLoading(value);
+        personCenterActivity.showLoading(value, this);
     }
 
     @Override

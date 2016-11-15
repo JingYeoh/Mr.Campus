@@ -22,7 +22,6 @@ import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.TimeUtils;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
-import com.jkb.mrcampus.activity.CommentActivity;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.adapter.recycler.dynamicDetail.comment.DynamicCommentAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
@@ -393,7 +392,7 @@ public class NormalDynamicFragment extends BaseFragment
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden()) dynamicDetailActivity.showLoading(value);
+        dynamicDetailActivity.showLoading(value, this);
     }
 
     @Override

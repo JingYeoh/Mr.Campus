@@ -207,8 +207,7 @@ public class DynamicCreateArticleFragment extends BaseFragment
 
     @Override
     public void showLoading(String value) {
-        if (!isHidden())
-            dynamicCreateActivity.showLoading(value);
+        dynamicCreateActivity.showLoading(value, this);
     }
 
     @Override
