@@ -72,13 +72,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-        <ImageView
-            android:id="@+id/idoa_iv_pic"
+        <RelativeLayout
+            android:id="@+id/idoa_contentPicture"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@color/default_picture" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/idoa_iv_pic"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@color/default_picture" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/idoa_tv_title"
@@ -111,13 +116,13 @@
             <ImageView
                 android:id="@+id/idoa_iv_share"
                 style="@style/Dynamic_Icon_style"
-                android:src="@drawable/ic_share_list" />
+                android:src="@drawable/ic_share_black" />
 
             <ImageView
                 android:id="@+id/idoa_iv_comment"
                 style="@style/Dynamic_Icon_style"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_comment_gray" />
+                android:src="@drawable/ic_comment_black" />
 
             <TextView
                 android:id="@+id/idoa_tv_commentNum"
@@ -130,7 +135,7 @@
                 android:id="@+id/idoa_iv_heart"
                 style="@style/Dynamic_Icon_style"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_heart_list_white" />
+                android:src="@drawable/ic_heart_black" />
 
             <TextView
                 android:id="@+id/idoa_tv_likeNum"

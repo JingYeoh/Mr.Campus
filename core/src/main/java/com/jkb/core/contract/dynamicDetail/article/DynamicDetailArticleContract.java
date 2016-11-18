@@ -5,6 +5,7 @@ import com.jkb.core.base.BaseView;
 import com.jkb.core.contract.dynamicDetail.data.DynamicDetailArticleData;
 import com.jkb.core.contract.dynamicDetail.data.comment.DynamicDetailCommentData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -137,6 +138,11 @@ public interface DynamicDetailArticleContract {
          * @param comment_id 评论id
          */
         void showViewAllComment$ReplyView(int comment_id);
+
+        /**
+         * 显示大图预览
+         */
+        void showPicturesBrowserView(ArrayList<String> pictures, int position);
     }
 
     interface Presenter extends BasePresenter {
@@ -199,5 +205,12 @@ public interface DynamicDetailArticleContract {
          * 查看所有的评论和回复的点击事件
          */
         void onViewAllComment$ReplyClick(int commentPosition);
+
+        /**
+         * 当文章图片被点击时触发
+         *
+         * @param position 条目数
+         */
+        void onArticlePictureClick(int position);
     }
 }

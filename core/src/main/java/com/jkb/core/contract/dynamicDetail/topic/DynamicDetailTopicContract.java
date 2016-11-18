@@ -4,6 +4,7 @@ import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
 import com.jkb.core.contract.dynamicDetail.data.comment.DynamicDetailCommentData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -220,6 +221,11 @@ public interface DynamicDetailTopicContract {
          * @param comment_id 评论id
          */
         void showViewAllComment$ReplyView(int comment_id);
+
+        /**
+         * 显示大图预览
+         */
+        void showPicturesBrowserView(ArrayList<String> pictures, int position);
     }
 
     interface Presenter extends BasePresenter {
@@ -336,5 +342,10 @@ public interface DynamicDetailTopicContract {
          * 顺序或者逆序排序的时候
          */
         void onOrderByDesc$Asc();
+
+        /**
+         * 当话题的图片被点击的时候
+         */
+        void onTopicImageClick();
     }
 }

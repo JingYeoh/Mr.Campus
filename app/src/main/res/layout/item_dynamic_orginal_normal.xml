@@ -82,13 +82,20 @@
             android:layout_height="200dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/idon_iv_pic1"
+            <RelativeLayout
+                android:id="@+id/idon_contentPic1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:scaleType="centerCrop"
-                android:src="@color/default_picture" />
+                android:background="@drawable/selecter_clearity_gravy">
+
+                <ImageView
+                    android:id="@+id/idon_iv_pic1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@color/default_picture" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/idon_ll_pic2To3"
@@ -97,23 +104,37 @@
                 android:layout_weight="3"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/idon_iv_pic2"
+                <RelativeLayout
+                    android:id="@+id/idon_contentPic2"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:scaleType="centerCrop"
-                    android:src="@color/default_picture"
-                    android:visibility="visible" />
+                    android:background="@drawable/selecter_clearity_gravy">
 
-                <ImageView
-                    android:id="@+id/idon_iv_pic3"
+                    <ImageView
+                        android:id="@+id/idon_iv_pic2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@color/default_picture"
+                        android:visibility="visible" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/idon_contentPic3"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:scaleType="centerCrop"
-                    android:src="@color/default_picture"
-                    android:visibility="visible" />
+                    android:background="@drawable/selecter_clearity_gravy">
+
+                    <ImageView
+                        android:id="@+id/idon_iv_pic3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@color/default_picture"
+                        android:visibility="visible" />
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -123,35 +144,55 @@
             android:layout_height="100dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/idon_iv_pic4"
+            <RelativeLayout
+                android:id="@+id/idon_contentPic4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:scaleType="centerCrop"
-                android:src="@color/default_picture"
-                android:visibility="visible" />
+                android:background="@drawable/selecter_clearity_gravy">
 
-            <ImageView
-                android:id="@+id/idon_iv_pic5"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:scaleType="centerCrop"
-                android:src="@color/default_picture"
-                android:visibility="visible" />
+                <ImageView
+                    android:id="@+id/idon_iv_pic4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@color/default_picture"
+                    android:visibility="visible" />
+            </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/idon_iv_pic6"
+            <RelativeLayout
+                android:id="@+id/idon_contentPic5"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:scaleType="centerCrop"
-                android:src="@color/default_picture"
-                android:visibility="visible" />
+                android:background="@drawable/selecter_clearity_gravy">
+
+                <ImageView
+                    android:id="@+id/idon_iv_pic5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@color/default_picture"
+                    android:visibility="visible" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/idon_contentPic6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/selecter_clearity_gravy">
+
+                <ImageView
+                    android:id="@+id/idon_iv_pic6"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@color/default_picture"
+                    android:visibility="visible" />
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
-
 
     <TextView
         android:id="@+id/idon_tv_content"
@@ -175,33 +216,33 @@
         <ImageView
             android:id="@+id/idon_iv_share"
             style="@style/Dynamic_Icon_style"
-            android:src="@drawable/ic_share_list" />
+            android:src="@drawable/ic_share_black" />
 
         <ImageView
             android:id="@+id/idon_iv_comment"
             style="@style/Dynamic_Icon_style"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_comment_gray" />
+            android:src="@drawable/ic_comment_black" />
 
         <TextView
             android:id="@+id/idon_tv_commentNum"
             style="@style/Dynamic_IconText_style"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="9" />
+            android:text="0" />
 
         <ImageView
             android:id="@+id/idon_iv_heart"
             style="@style/Dynamic_Icon_style"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_heart_list_white" />
+            android:src="@drawable/ic_heart_black" />
 
         <TextView
             android:id="@+id/idon_tv_likeNum"
             style="@style/Dynamic_IconText_style"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="9" />
+            android:text="0" />
 
     </LinearLayout>
 </LinearLayout>

@@ -26,6 +26,7 @@ import com.jkb.mrcampus.adapter.recycler.itemDecoration.DividerItemDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -232,6 +233,11 @@ public class HotFragment extends BaseFragment implements HotContract.View,
     }
 
     @Override
+    public void showImagesBrowserView(ArrayList<String> pictures, int position) {
+        mainActivity.showPictureBrowserView(pictures, position);
+    }
+
+    @Override
     public void setPresenter(HotContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -338,6 +344,11 @@ public class HotFragment extends BaseFragment implements HotContract.View,
                 @Override
                 public void onLikeItemClick(int position) {
                     mPresenter.onLikeItemClick(position);
+                }
+
+                @Override
+                public void onPicturesBrowserClick(int position, int picPosition) {
+                    mPresenter.onPicturesClick(position,picPosition);
                 }
             };
 

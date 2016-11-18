@@ -1,6 +1,7 @@
 package com.jkb.mrcampus.adapter.recycler.dynamicDetail.article;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 import com.jkb.core.contract.dynamicDetail.data.DynamicDetailArticleData;
 import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.model.utils.StringUtils;
+import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
+import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +26,13 @@ import java.util.List;
  */
 
 public class ArticleContentShowAdapter extends
-        RecyclerView.Adapter<ArticleContentShowAdapter.ViewHolder> {
+        RecyclerView.Adapter<ArticleContentShowAdapter.ViewHolder> implements View.OnClickListener {
 
     private static final String TAG = "ArticleContentAdapter";
     private Context context;
     public List<DynamicDetailArticleData.ArticleContent> articleContents;
+    private List<String> pictures;
+    private OnArticleContentItemClickListener onArticleContentItemClickListener;
 
     public ArticleContentShowAdapter(Context context,
                                      List<DynamicDetailArticleData.ArticleContent> articleContents) {
@@ -53,6 +58,8 @@ public class ArticleContentShowAdapter extends
     private void initView(ViewHolder holder, View view) {
         holder.ivImg = (ImageView) view.findViewById(R.id.iddacs_img);
         holder.tvDoc = (TextView) view.findViewById(R.id.iddacs_doc);
+        holder.contentImg = view.findViewById(R.id.iddacs_contentPicture);
+        holder.contentImg.setOnClickListener(this);
     }
 
 
@@ -62,6 +69,8 @@ public class ArticleContentShowAdapter extends
         if (content == null) {
             return;
         }
+        ClassUtils.bindViewsTag(position,
+                holder.contentImg);
         String doc = content.getDoc();
         if (StringUtils.isEmpty(doc)) {
             holder.tvDoc.setVisibility(View.GONE);
@@ -93,13 +102,47 @@ public class ArticleContentShowAdapter extends
         return articleContents.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ViewHolder(View itemView) {
             super(itemView);
         }
 
+        View contentImg;
         ImageView ivImg;
         TextView tvDoc;
+    }
+
+    public interface OnArticleContentItemClickListener {
+
+        /**
+         * 图片被点击的时候
+         */
+        void onArticlePictureClick(int position);
+    }
+
+    public void setOnArticleContentItemClickListener(
+            OnArticleContentItemClickListener onArticleContentItemClickListener) {
+        this.onArticleContentItemClickListener = onArticleContentItemClickListener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (onArticleContentItemClickListener == null) {
+            return;
+        }
+        //判断是哪个控件
+        Bundle bundle = (Bundle) v.getTag();
+        if (bundle == null) {
+            return;
+        }
+        int viewId = bundle.getInt(Config.BUNDLE_KEY_VIEW_ID);
+        int position = bundle.getInt(Config.BUNDLE_KEY_VIEW_POSITION);
+        switch (viewId) {
+            case R.id.iddacs_contentPicture:
+                onArticleContentItemClickListener.onArticlePictureClick(position);
+                break;
+        }
     }
 }

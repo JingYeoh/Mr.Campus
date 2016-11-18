@@ -121,14 +121,14 @@
             <ImageView
                 android:id="@+id/idft_iv_share"
                 style="@style/Dynamic_Icon_style"
-                android:src="@drawable/ic_share_list" />
+                android:src="@drawable/ic_share_black" />
 
             <ImageView
                 android:id="@+id/idft_iv_comment"
                 style="@style/Dynamic_Icon_style"
                 android:visibility="gone"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_comment_gray" />
+                android:src="@drawable/ic_comment_black" />
 
             <TextView
                 android:id="@+id/idft_tv_commentNum"
@@ -142,7 +142,7 @@
                 android:id="@+id/idft_iv_heart"
                 style="@style/Dynamic_Icon_style"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/ic_heart_list_white" />
+                android:src="@drawable/ic_heart_black" />
 
             <TextView
                 android:id="@+id/idft_tv_likeNum"

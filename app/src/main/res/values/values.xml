@@ -90,7 +90,7 @@
     </style>
     <!--动态图标字体显示的样式-->
     <style name="Dynamic_IconText_style">
-        <item name="android:textColor">@color/text_gravy_light</item>
+        <item name="android:textColor">@color/B_black_70</item>
         <item name="android:textSize">12sp</item>
         <item name="android:gravity">center</item>
     </style>
@@ -152,5 +152,20 @@
     <style name="FunctionSetIcStyle">
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">40dp</item>
+    </style>
+
+    <style name="TextViewHeadline">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/text_black</item>
+        <item name="android:textSize">@dimen/txtsize_headline</item>
+    </style>
+
+    <style name="TextViewSubhead">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/txt_black</item>
+        <item name="android:textSize">@dimen/txtsize_subhead</item>
     </style>
 </resources>

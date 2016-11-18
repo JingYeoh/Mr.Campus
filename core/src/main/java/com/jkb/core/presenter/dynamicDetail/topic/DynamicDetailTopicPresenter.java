@@ -441,6 +441,17 @@ public class DynamicDetailTopicPresenter implements DynamicDetailTopicContract.P
     }
 
     @Override
+    public void onTopicImageClick() {
+        String img = dynamicDetailTopicData.getImg();
+        if (StringUtils.isEmpty(img)) {
+            return;
+        }
+        ArrayList<String> pictures = new ArrayList<>();
+        pictures.add(img);
+        view.showPicturesBrowserView(pictures, 0);
+    }
+
+    @Override
     public void start() {
         initTopicData();
     }

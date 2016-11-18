@@ -8,10 +8,16 @@ import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.core.contract.function.index.DynamicContract2;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.data.index.dynamic.IndexDynamicData;
+import com.jkb.core.data.index.dynamic.original.IndexOriginalArticleDynamicData;
 import com.jkb.core.data.index.dynamic.original.IndexOriginalDynamicData;
+import com.jkb.core.data.index.dynamic.original.IndexOriginalNormalDynamicData;
+import com.jkb.core.data.index.dynamic.original.IndexOriginalTopicDynamicData;
 import com.jkb.core.data.index.dynamic.unOriginal.circle.IndexSubscribeDynamicData;
 import com.jkb.core.data.index.dynamic.unOriginal.favorite.IndexFavoriteDynamicData;
 import com.jkb.core.data.index.dynamic.unOriginal.postInCircle.IndexCircleDynamicData;
+import com.jkb.core.data.info.dynamic.content.DynamicContentArticleInfo;
+import com.jkb.core.data.info.dynamic.content.DynamicContentNormalInfo;
+import com.jkb.core.data.info.dynamic.content.DynamicContentTopicInfo;
 import com.jkb.model.data.PageControlEntity;
 import com.jkb.model.dataSource.function.index.dynamic.DynamicDataSource;
 import com.jkb.model.info.UserInfoSingleton;
@@ -292,6 +298,71 @@ public class DynamicPresenter2 implements DynamicContract2.Presenter {
     @Override
     public void setCacheExpired() {
         isCached = false;
+    }
+
+    @Override
+    public void onPicturesClick(int position, int clickPosition) {
+        //点击大图的时候
+        IndexDynamicData dynamicData = dynamicDatas.get(position);
+        if (dynamicData instanceof IndexOriginalArticleDynamicData) {
+            handlePictureBrowserArticle((IndexOriginalArticleDynamicData) dynamicData);
+        } else if (dynamicData instanceof IndexOriginalTopicDynamicData) {
+            handlePictureBrowserTopic((IndexOriginalTopicDynamicData) dynamicData);
+        } else if (dynamicData instanceof IndexOriginalNormalDynamicData) {
+            handlePictureBrowserNormal((IndexOriginalNormalDynamicData) dynamicData, clickPosition);
+        }
+    }
+
+    /**
+     * 处理大图预览的动态条目
+     *
+     * @param clickPosition 被点击的图片条目
+     */
+    private void handlePictureBrowserNormal(IndexOriginalNormalDynamicData dynamicData,
+                                            int clickPosition) {
+        DynamicContentNormalInfo normal = dynamicData.getNormal();
+        if (normal == null) {
+            return;
+        }
+        List<String> img = normal.getImg();
+        view.showImagesBrowserView((ArrayList<String>) img, clickPosition);
+    }
+
+    /**
+     * 处理大图预览的话题动态
+     */
+    private void handlePictureBrowserTopic(IndexOriginalTopicDynamicData dynamicData) {
+        DynamicContentTopicInfo topic = dynamicData.getTopic();
+        if (topic == null) {
+            return;
+        }
+        String img = topic.getImg();
+        if (!StringUtils.isEmpty(img)) {
+            ArrayList<String> arr = new ArrayList<>();
+            arr.add(img);
+            view.showImagesBrowserView(arr, 0);
+        }
+    }
+
+    /**
+     * 处理大图预览的文章动态
+     */
+    private void handlePictureBrowserArticle(IndexOriginalArticleDynamicData dynamicData) {
+        DynamicContentArticleInfo article = dynamicData.getArticle();
+        if (article != null) {
+            List<DynamicContentArticleInfo.Article> articles = article.getArticle();
+            if (articles == null || articles.size() == 0) {
+                return;
+            }
+            for (DynamicContentArticleInfo.Article art :
+                    articles) {
+                if (!StringUtils.isEmpty(art.getImg())) {
+                    ArrayList<String> arr = new ArrayList<>();
+                    arr.add(art.getImg());
+                    view.showImagesBrowserView(arr, 0);
+                }
+            }
+        }
     }
 
     @Override

@@ -7,6 +7,7 @@ package com.jkb.api.config;
 public class Config {
 
     public static final String PATH_ROOT_IMAGE = "/sdcard/JustKiddingBaby/MrCampus/images/";
+    public static final String PATH_DOWNLOAD = "download/";
 
     public static final String APP_BAIDU_MAP_AK = "MQBdW7A7mBr9NWp8IIjckVBMGqFjSiG4";
     public static final String APP_BAIDU_MAP_MCODE = "06:01:F7:13:E8:17:0F:6A:C9:EF:C7:B3:37:00:53:1F:D1:93:2C:9F;com.jkb.mrcampus";
@@ -71,6 +72,8 @@ public class Config {
     public static final String URL_IMAGE_UPLOAD = "image/dynamic";
     //School
     public static final String URL_SCHOOL_ALL = "getAllSchool";
+    //tools
+    public static final String URL_TOOLS_CET = "cet";
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
 
@@ -115,9 +118,11 @@ public class Config {
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_NAME = "name";
     public static final String KEY_ACTION = "action";
+    public static final String KEY_ID = "id";
     public static final String KEY_USERID = "userId";
     public static final String KEY_OWNERID = "ownerId";
-    public static final String KEY_ID = "id";
+    public static final String KEY_ZKZH = "zkzh";
+    public static final String KEY_XM = "xm";
     public static final String KEY_PAGE = "page";
     public static final String KEY_IDARR = "idArr";
     public static final String KEY_ORDER = "order";

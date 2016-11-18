@@ -94,8 +94,10 @@ public class MapMarkCircleAdapter {
             // 构建位置
             latLng = new LatLng(circle.getLatitude(), circle.getLongitude());
             //构建Marker图标
-            Bitmap bitmapMarker = BitmapUtil.getViewBitmap(contentViews.get(i));
-            BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker);
+//            Bitmap bitmapMarker = BitmapUtil.getViewBitmap(contentViews.get(i));
+//            BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmapMarker);
+            BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.
+                    fromResource(R.drawable.car_ic_map_stop_focus);
             //构建MarkerOption，用于在地图上添加
             overlayOptions = new MarkerOptions().position(latLng)
                     .icon(bitmapDescriptor).zIndex(5);

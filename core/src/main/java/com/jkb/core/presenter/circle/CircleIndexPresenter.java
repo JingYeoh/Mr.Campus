@@ -339,6 +339,14 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
                 });
     }
 
+    @Override
+    public void onCirclePictureClick() {
+        String picture = circleIndexData.getPicture();
+        ArrayList<String> pics = new ArrayList<>();
+        pics.add(picture);
+        view.showImageBrowserView(pics, 0);
+    }
+
     /**
      * 得到圈子数据
      */

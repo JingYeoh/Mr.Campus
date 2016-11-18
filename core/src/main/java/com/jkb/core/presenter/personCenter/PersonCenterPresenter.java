@@ -15,7 +15,7 @@ import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.core.presenter.personCenter.data.CircleData;
 import com.jkb.core.presenter.personCenter.data.UserData;
-import com.jkb.model.dataSource.personCenter.PersonCenterDataResponsitory;
+import com.jkb.model.dataSource.personCenter.PersonCenterDataRepertory;
 import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.model.utils.StringUtils;
 
@@ -34,7 +34,7 @@ import retrofit2.Response;
 public class PersonCenterPresenter implements PersonCenterContract.Presenter {
 
     private PersonCenterContract.View view;
-    private PersonCenterDataResponsitory responsitory;
+    private PersonCenterDataRepertory repertory;
     //data
     private int user_id = -1;
     private boolean isReqVisited = false;//是否调用访问接口
@@ -45,9 +45,9 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
 
 
     public PersonCenterPresenter(@NonNull PersonCenterContract.View view,
-                                 @NonNull PersonCenterDataResponsitory responsitory) {
+                                 @NonNull PersonCenterDataRepertory responsitory) {
         this.view = view;
-        this.responsitory = responsitory;
+        this.repertory = responsitory;
 
         circleDatas = new ArrayList<>();
 
@@ -66,7 +66,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
             return;
         }
         view.showRefreshingView();//设置加载的动画
-        responsitory.getUserInfo(user_id, userInfoApiCallback);
+        repertory.getUserInfo(user_id, userInfoApiCallback);
     }
 
 
@@ -103,11 +103,11 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
                     //判断是否设置头像
 //                    if (!StringUtils.isEmpty(infoBean.getAvatar())) {
 //                        //加载头像
-//                        responsitory.loadHeadImgByUrl(infoBean.getAvatar(), bitmapLoadedCallback);
+//                        repertory.loadHeadImgByUrl(infoBean.getAvatar(), bitmapLoadedCallback);
 //                    }
 //                    //加載背景圖片
 //                    if (!StringUtils.isEmpty(infoBean.getBackground())) {
-//                        responsitory.loadHeadImgByUrl(infoBean.getBackground(), backGroundBitmapCallback);
+//                        repertory.loadHeadImgByUrl(infoBean.getBackground(), backGroundBitmapCallback);
 //                    }
 
                     userData.setHeadImg(infoBean.getAvatar());
@@ -385,7 +385,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
             }
             visitor_id = users.getUser_id();
         }
-        responsitory.subscribeCircle(user_id, visitor_id, 1, subscribeCircleApiCallback);
+        repertory.subscribeCircle(user_id, visitor_id, 1, subscribeCircleApiCallback);
     }
 
     @Override
@@ -410,7 +410,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
         }
         UserAuths auths = getUserAuths();
         String Authorization = Config.HEADER_BEARER + auths.getToken();
-        responsitory.visit(Authorization, auths.getUser_id(), user_id, visitorApiCallback);
+        repertory.visit(Authorization, auths.getUser_id(), user_id, visitorApiCallback);
     }
 
     @Override
@@ -422,7 +422,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
         }
         int visitor_id = users.getUser_id();
         //判断是否被关注
-        responsitory.verifyIfPayAttention(user_id, visitor_id, ifPayAttentionApiCallback);
+        repertory.verifyIfPayAttention(user_id, visitor_id, ifPayAttentionApiCallback);
     }
 
     @Override
@@ -437,7 +437,7 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
         }
         String Authorization = Config.HEADER_BEARER + auths.getToken();
         //关注或者取消关注
-        responsitory.payAttentionOrCancle(Authorization, auths.getUser_id(), user_id,
+        repertory.payAttentionOrCancle(Authorization, auths.getUser_id(), user_id,
                 payAttentionOrCancleApiCallback);
     }
 
@@ -463,6 +463,14 @@ public class PersonCenterPresenter implements PersonCenterContract.Presenter {
             view.startPrivateConversationActivity(user_id);
         } else {
             view.showReqResult("请先登录再进行操作");
+        }
+    }
+
+    @Override
+    public void onHeadImgClick() {
+        String headImg = userData.getHeadImg();
+        if (!StringUtils.isEmpty(headImg)) {
+            view.showImagesBrowserView(headImg);
         }
     }
 

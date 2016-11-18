@@ -33,6 +33,7 @@ import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
 import com.jkb.mrcampus.utils.SystemUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -248,7 +249,7 @@ public class CircleIndexFragment extends BaseFragment
                 setting();
                 break;
             case R.id.fci_iv_headImg://头像点击
-                showBigPictureView();
+                mPresenter.onCirclePictureClick();
                 break;
             case R.id.fci_iv_subscribe:
                 subscribeOrCancel();
@@ -398,11 +399,6 @@ public class CircleIndexFragment extends BaseFragment
     }
 
     @Override
-    public void showBigPictureView() {
-
-    }
-
-    @Override
     public void showWriteDynamicView() {
         //显示写动态
         circleActivity.showWriteDynamicView(onWriteDynamicClickListener);
@@ -519,6 +515,11 @@ public class CircleIndexFragment extends BaseFragment
                         circleActivity.dismiss();
                     }
                 });
+    }
+
+    @Override
+    public void showImageBrowserView(ArrayList<String> PictureUrls, int position) {
+        circleActivity.showPictureBrowserView(PictureUrls, position);
     }
 
     @Override

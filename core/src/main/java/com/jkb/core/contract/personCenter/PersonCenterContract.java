@@ -233,6 +233,11 @@ public interface PersonCenterContract {
          * @param user_id 用户id
          */
         void startPrivateConversationActivity(@NonNull int user_id);
+
+        /**
+         * 显示大图浏览的视图
+         */
+        void showImagesBrowserView(String headImgUrl);
     }
 
     interface Presenter extends BasePresenter {
@@ -285,5 +290,10 @@ public interface PersonCenterContract {
          * 聊天按钮被点击的时候
          */
         void onChatClick();
+
+        /**
+         * 头像被点击的时候触发
+         */
+        void onHeadImgClick();
     }
 }

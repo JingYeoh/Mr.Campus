@@ -5,6 +5,12 @@ import com.jkb.api.ApiResponse;
 import com.jkb.api.config.Config;
 import com.jkb.api.entity.dynamic.DynamicPopularListEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
+import com.jkb.core.contract.function.index.HotContract;
+import com.jkb.core.control.userstate.LoginContext;
+import com.jkb.core.control.userstate.LogoutState;
+import com.jkb.core.data.index.dynamic.original.IndexOriginalArticleDynamicData;
+import com.jkb.core.data.index.dynamic.original.IndexOriginalNormalDynamicData;
+import com.jkb.core.data.index.dynamic.original.IndexOriginalTopicDynamicData;
 import com.jkb.core.data.index.hot.HotDynamic;
 import com.jkb.core.data.index.hot.circle.CircleDynamic;
 import com.jkb.core.data.index.hot.dynamic.circle.CircleArticleDynamic;
@@ -16,15 +22,16 @@ import com.jkb.core.data.index.hot.dynamic.original.OriginalDynamic;
 import com.jkb.core.data.index.hot.dynamic.original.OriginalNormalDynamic;
 import com.jkb.core.data.index.hot.dynamic.original.OriginalTopicDynamic;
 import com.jkb.core.data.index.hot.user.UserDynamic;
-import com.jkb.core.contract.function.index.HotContract;
-import com.jkb.core.control.userstate.LoginContext;
-import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.core.data.info.circle.CircleInfo;
+import com.jkb.core.data.info.dynamic.content.DynamicContentArticleInfo;
+import com.jkb.core.data.info.dynamic.content.DynamicContentNormalInfo;
+import com.jkb.core.data.info.dynamic.content.DynamicContentTopicInfo;
 import com.jkb.core.data.info.user.UserInfo;
 import com.jkb.model.data.PageControlEntity;
 import com.jkb.model.dataSource.function.index.hot.DynamicHotDataRepository;
 import com.jkb.model.info.SchoolInfoSingleton;
 import com.jkb.model.info.UserInfoSingleton;
+import com.jkb.model.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -333,6 +340,73 @@ public class HotPresenter implements HotContract.Presenter {
     @Override
     public void setCacheExpired() {
         isCached = false;
+    }
+
+    @Override
+    public void onPicturesClick(int position, int clickPosition) {
+        //点击大图的时候
+        HotDynamic dynamicData = hotDynamics.get(position);
+        if (dynamicData instanceof OriginalArticleDynamic) {
+            handlePictureBrowserArticle((OriginalArticleDynamic) dynamicData);
+        } else if (dynamicData instanceof OriginalTopicDynamic) {
+            handlePictureBrowserTopic((OriginalTopicDynamic) dynamicData);
+        } else if (dynamicData instanceof OriginalNormalDynamic) {
+            handlePictureBrowserNormal((OriginalNormalDynamic) dynamicData, clickPosition);
+        }
+    }
+
+    /**
+     * 处理大图预览的动态条目
+     *
+     * @param dynamicData
+     * @param clickPosition 被点击的图片条目
+     */
+    private void handlePictureBrowserNormal(OriginalNormalDynamic dynamicData,
+                                            int clickPosition) {
+        /*DynamicContentNormalInfo normal = dynamicData.getNormal();
+        if (normal == null) {
+            return;
+        }
+        List<String> img = normal.getImg();
+        view.showImagesBrowserView((ArrayList<String>) img, clickPosition);*/
+    }
+
+    /**
+     * 处理大图预览的话题动态
+     */
+    private void handlePictureBrowserTopic(OriginalTopicDynamic dynamicData) {
+        OriginalTopicDynamic.TopicContent topic = dynamicData.getTopicContent();
+        if (topic == null) {
+            return;
+        }
+        String img = topic.getImg();
+        if (!StringUtils.isEmpty(img)) {
+            ArrayList<String> arr = new ArrayList<>();
+            arr.add(img);
+            view.showImagesBrowserView(arr, 0);
+        }
+    }
+
+    /**
+     * 处理大图预览的文章动态
+     */
+    private void handlePictureBrowserArticle(OriginalArticleDynamic dynamicData) {
+        DynamicContentArticleInfo article = (DynamicContentArticleInfo)
+                dynamicData.getArticleContents();
+        if (article != null) {
+            List<DynamicContentArticleInfo.Article> articles = article.getArticle();
+            if (articles == null || articles.size() == 0) {
+                return;
+            }
+            for (DynamicContentArticleInfo.Article art :
+                    articles) {
+                if (!StringUtils.isEmpty(art.getImg())) {
+                    ArrayList<String> arr = new ArrayList<>();
+                    arr.add(art.getImg());
+                    view.showImagesBrowserView(arr, 0);
+                }
+            }
+        }
     }
 
     @Override

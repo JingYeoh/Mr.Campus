@@ -28,6 +28,7 @@ import com.jkb.mrcampus.fragment.usersList.FansFragment;
 import com.jkb.mrcampus.fragment.usersList.VisitorFragment;
 import com.jkb.mrcampus.utils.ClassUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -334,7 +335,7 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
 
     @Override
     public void showHeadImgView() {
-
+        mPresenter.onHeadImgClick();
     }
 
     @Override
@@ -453,6 +454,13 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     @Override
     public void startPrivateConversationActivity(@NonNull int user_id) {
         personCenterActivity.startPrivateConversation(user_id);
+    }
+
+    @Override
+    public void showImagesBrowserView(String headImgUrl) {
+        ArrayList<String> string = new ArrayList<>();
+        string.add(headImgUrl);
+        personCenterActivity.showPictureBrowserView(string, 0);
     }
 
     @Override

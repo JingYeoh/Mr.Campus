@@ -8,6 +8,7 @@ import com.jkb.core.base.BaseView;
 import com.jkb.core.data.dynamic.circle.DynamicInCircle;
 import com.jkb.core.data.dynamic.dynamic.DynamicBaseData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -122,11 +123,6 @@ public interface CircleIndexContract {
         void subscribeOrCancel();
 
         /**
-         * 显示大图视图
-         */
-        void showBigPictureView();
-
-        /**
          * 显示发表动态的视图
          */
         void showWriteDynamicView();
@@ -186,6 +182,11 @@ public interface CircleIndexContract {
          * 显示是否拉黑动态的提示框
          */
         void showHintForPutDynamicToBlackList(int position);
+
+        /**
+         * 显示大图预览
+         */
+        void showImageBrowserView(ArrayList<String> PictureUrls, int position);
     }
 
     interface Presenter extends BasePresenter {
@@ -269,5 +270,10 @@ public interface CircleIndexContract {
          * @param position 条目数
          */
         void putDynamicInBlackList(int position);
+
+        /**
+         * 当圈子图片被点击的时候触发
+         */
+        void onCirclePictureClick();
     }
 }

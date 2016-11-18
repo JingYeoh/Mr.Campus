@@ -202,6 +202,7 @@ public class MyDynamicCircleFragment extends BaseFragment implements
             circleSelectorFloatFragment.show(mActivity.getFragmentManager(),
                     ClassUtils.getClassName(CircleSelectorFloatFragment.class));
         }
+        circleSelectorFloatFragment.setOnCircleSelectorListener(onCircleSelectorListener);
     }
 
     @Override
@@ -270,10 +271,10 @@ public class MyDynamicCircleFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         myOriginalDynamicActivity = null;
-        refreshLayout=null;
-        recyclerView=null;
-        linearLayoutManager=null;
-        myDynamicCircleAdapter=null;
+        refreshLayout = null;
+        recyclerView = null;
+        linearLayoutManager = null;
+        myDynamicCircleAdapter = null;
     }
 
     @Override

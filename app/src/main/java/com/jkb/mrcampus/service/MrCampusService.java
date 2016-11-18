@@ -97,8 +97,8 @@ public class MrCampusService extends Service implements MrCampusServiceAction, O
         tagAliasCallback = null;
         //清除位置信息
         //移除监听
-        radarSearchManager.removeNearbyInfoListener(radarSearchListener);
         radarSearchManager.clearUserInfo();//清除用户信息
+        radarSearchManager.removeNearbyInfoListener(radarSearchListener);
         radarSearchManager.destroy();//释放资源
         radarSearchManager = null;
         radarSearchListener = null;

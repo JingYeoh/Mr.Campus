@@ -7,6 +7,7 @@ import com.jkb.core.base.BaseView;
 import com.jkb.core.data.dynamic.dynamic.DynamicBaseData;
 import com.jkb.core.data.index.dynamic.IndexDynamicData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public interface DynamicContract2 {
         /**
          * 设置未读的消息数目
          */
-        void setUnReadDynamicMessageCount( int messageCount);
+        void setUnReadDynamicMessageCount(int messageCount);
 
         /**
          * 滚动到顶部
@@ -84,14 +85,14 @@ public interface DynamicContract2 {
         /**
          * 打开话题的动态详情页面
          */
-        void startTopicDynamicDetail( int dynamic_id);
+        void startTopicDynamicDetail(int dynamic_id);
 
         /**
          * 打开评论页面
          *
          * @param dynamic_id 动态id
          */
-        void startCommentActivity( int dynamic_id);
+        void startCommentActivity(int dynamic_id);
 
         /**
          * 打开动态消息的页面
@@ -101,12 +102,20 @@ public interface DynamicContract2 {
         /**
          * 打开个人中心
          */
-        void startPersonCenter( int user_id);
+        void startPersonCenter(int user_id);
 
         /**
          * 打开圈子首页
          */
-        void startCircleIndex( int circle_id);
+        void startCircleIndex(int circle_id);
+
+        /**
+         * 显示图片预览效果
+         *
+         * @param pictures 图片
+         * @param position 显示的条目
+         */
+        void showImagesBrowserView(ArrayList<String> pictures, int position);
     }
 
     interface Presenter extends BasePresenter {
@@ -165,5 +174,13 @@ public interface DynamicContract2 {
          * 设置缓存过期
          */
         void setCacheExpired();
+
+        /**
+         * 图片被点击的回调
+         *
+         * @param position      被点击的条目
+         * @param clickPosition 被点击的图片条目
+         */
+        void onPicturesClick(int position, int clickPosition);
     }
 }

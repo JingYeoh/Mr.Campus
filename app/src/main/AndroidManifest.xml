@@ -127,6 +127,12 @@
         //我的非原创的动态控制器
         <activity android:name=".activity.MyUnOriginalDynamicActivity" />
 
+        //小工具具体功能的控制器
+        <activity android:name=".activity.ToolsFunctionActivity" />
+
+        //搜索的页面控制器
+        <activity android:name=".activity.SearchActivity" />
+
         //会话页面的页面控制器
         <activity
             android:name=".activity.ConversationActivity"

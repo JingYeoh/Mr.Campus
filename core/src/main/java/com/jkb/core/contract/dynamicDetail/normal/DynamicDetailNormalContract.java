@@ -4,6 +4,7 @@ import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
 import com.jkb.core.contract.dynamicDetail.data.comment.DynamicDetailCommentData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -124,6 +125,11 @@ public interface DynamicDetailNormalContract {
          * 显示评论列表的视图
          */
         void startCommentListView();
+
+        /**
+         * 显示图片预览
+         */
+        void showPicturesBrowserView(ArrayList<String> pictures, int position);
     }
 
     interface Presenter extends BasePresenter {
@@ -171,5 +177,12 @@ public interface DynamicDetailNormalContract {
          * @return 用户Id
          */
         int getUser_id(int position);
+
+        /**
+         * 普通图片被点击的时候
+         *
+         * @param position 图片条目数
+         */
+        void onNormalPictureClick(int position);
     }
 }

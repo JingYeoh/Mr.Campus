@@ -15,24 +15,24 @@ import com.jkb.model.intfc.BitmapLoadedCallback;
  * Created by JustKiddingBaby on 2016/8/17.
  */
 
-public class PersonCenterDataResponsitory implements PersonCenterDataSource {
+public class PersonCenterDataRepertory implements PersonCenterDataSource {
 
     private PersonCenterDataSource localDataSource;
     private PersonCenterDataSource remoteDataSource;
 
-    public PersonCenterDataResponsitory(
+    public PersonCenterDataRepertory(
             PersonCenterDataSource localDataSource, PersonCenterDataSource remoteDataSource) {
         this.localDataSource = localDataSource;
         this.remoteDataSource = remoteDataSource;
     }
 
-    private static PersonCenterDataResponsitory INSTANCE = null;
+    private static PersonCenterDataRepertory INSTANCE = null;
 
-    public static PersonCenterDataResponsitory getInstance(
+    public static PersonCenterDataRepertory getInstance(
             @NonNull PersonCenterDataSource localDataSource,
             @NonNull PersonCenterDataSource remoteDataSource) {
         if (INSTANCE == null) {
-            INSTANCE = new PersonCenterDataResponsitory(localDataSource, remoteDataSource);
+            INSTANCE = new PersonCenterDataRepertory(localDataSource, remoteDataSource);
         }
         return INSTANCE;
     }

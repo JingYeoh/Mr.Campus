@@ -541,6 +541,7 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
         holder.contentView = view.findViewById(R.id.dynamic_content);
         holder.originalArticle.iv_headImg = (ImageView) view.findViewById(R.id.idoa_iv_headImg);
         holder.originalArticle.iv_picture = (ImageView) view.findViewById(R.id.idoa_iv_pic);
+        holder.originalArticle.contentPicture = view.findViewById(R.id.idoa_contentPicture);
         holder.originalArticle.tvName = (TextView) view.findViewById(R.id.idoa_tv_name);
         holder.originalArticle.tvTime = (TextView) view.findViewById(R.id.idoa_tv_time);
         holder.originalArticle.tvTitle = (TextView) view.findViewById(R.id.idoa_tv_title);
@@ -559,6 +560,7 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
         holder.originalArticle.ivHeart.setOnClickListener(this);
         holder.originalArticle.ivShare.setOnClickListener(this);
         holder.originalArticle.ivComment.setOnClickListener(this);
+        holder.originalArticle.contentPicture.setOnClickListener(this);
         holder.contentView.setOnClickListener(this);
         return holder;
     }
@@ -577,6 +579,7 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
         holder.contentView = view.findViewById(R.id.dynamic_content);
         holder.originalTopic.iv_headImg = (ImageView) view.findViewById(R.id.idot_iv_headImg);
         holder.originalTopic.iv_picture = (ImageView) view.findViewById(R.id.idot_iv_pic);
+        holder.originalTopic.contentPicture = view.findViewById(R.id.idot_contentPicture);
         holder.originalTopic.tvName = (TextView) view.findViewById(R.id.idot_tv_name);
         holder.originalTopic.tvTime = (TextView) view.findViewById(R.id.idot_tv_time);
         holder.originalTopic.tvTitle = (TextView) view.findViewById(R.id.idot_tv_title);
@@ -593,6 +596,7 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
         holder.originalTopic.contentHeadImg.setOnClickListener(this);
         holder.originalTopic.ivHeart.setOnClickListener(this);
         holder.originalTopic.ivShare.setOnClickListener(this);
+        holder.originalTopic.contentPicture.setOnClickListener(this);
         holder.contentView.setOnClickListener(this);
 
         return holder;
@@ -621,6 +625,12 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
         holder.originalNormal.ivPic4 = (ImageView) view.findViewById(R.id.idon_iv_pic4);
         holder.originalNormal.ivPic5 = (ImageView) view.findViewById(R.id.idon_iv_pic5);
         holder.originalNormal.ivPic6 = (ImageView) view.findViewById(R.id.idon_iv_pic6);
+        holder.originalNormal.contentPic1 = view.findViewById(R.id.idon_contentPic1);
+        holder.originalNormal.contentPic2 = view.findViewById(R.id.idon_contentPic2);
+        holder.originalNormal.contentPic3 = view.findViewById(R.id.idon_contentPic3);
+        holder.originalNormal.contentPic4 = view.findViewById(R.id.idon_contentPic4);
+        holder.originalNormal.contentPic5 = view.findViewById(R.id.idon_contentPic5);
+        holder.originalNormal.contentPic6 = view.findViewById(R.id.idon_contentPic6);
         //初始化其它组件
         holder.originalNormal.tvName = (TextView) view.findViewById(R.id.idon_tv_name);
         holder.originalNormal.tvTime = (TextView) view.findViewById(R.id.idon_tv_time);
@@ -641,6 +651,12 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
         holder.originalNormal.ivShare.setOnClickListener(this);
         holder.originalNormal.ivComment.setOnClickListener(this);
         holder.contentView.setOnClickListener(this);
+        holder.originalNormal.contentPic1.setOnClickListener(this);
+        holder.originalNormal.contentPic2.setOnClickListener(this);
+        holder.originalNormal.contentPic3.setOnClickListener(this);
+        holder.originalNormal.contentPic4.setOnClickListener(this);
+        holder.originalNormal.contentPic5.setOnClickListener(this);
+        holder.originalNormal.contentPic6.setOnClickListener(this);
         return holder;
     }
 
@@ -1080,6 +1096,7 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
         List<String> image = normal.getImg();
         if (image != null && image.size() > 0) {
             //绑定图片
+            holder.unOriginalFavoriteNormal.ivPic.setVisibility(View.VISIBLE);
             bindImageViewAndUrl(holder.unOriginalFavoriteNormal.ivPic, image.get(0));
         } else {
             holder.unOriginalFavoriteNormal.ivPic.setVisibility(View.GONE);
@@ -1116,7 +1133,14 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
                 holder.originalNormal.ivShare,
                 holder.originalNormal.ivComment,
                 holder.contentView,
-                holder.originalNormal.contentHeadImg);
+                holder.originalNormal.contentHeadImg,
+                holder.originalNormal.contentPic1,
+                holder.originalNormal.contentPic2,
+                holder.originalNormal.contentPic3,
+                holder.originalNormal.contentPic4,
+                holder.originalNormal.contentPic5,
+                holder.originalNormal.contentPic6
+        );
 
         //设置用户数据
         holder.originalNormal.tvName.setText(normalDynamicData.getCreator_nickname());
@@ -1193,6 +1217,7 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
                 holder.originalTopic.ivHeart,
                 holder.originalTopic.ivShare,
                 holder.contentView,
+                holder.originalTopic.contentPicture,
                 holder.originalTopic.contentHeadImg);
 
         //设置用户数据
@@ -1287,6 +1312,7 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
                 holder.originalArticle.ivShare,
                 holder.originalArticle.ivComment,
                 holder.contentView,
+                holder.originalArticle.contentPicture,
                 holder.originalArticle.contentHeadImg);
 
         //设置用户数据
@@ -1366,27 +1392,27 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
         holder.originalNormal.pictures.setVisibility(View.VISIBLE);
         holder.originalNormal.pic1To3.setVisibility(View.VISIBLE);
         if (picNum >= 1) {
-            holder.originalNormal.ivPic1.setVisibility(View.VISIBLE);
+            holder.originalNormal.contentPic1.setVisibility(View.VISIBLE);
         }
         if (picNum >= 2) {
             holder.originalNormal.pic2To3.setVisibility(View.VISIBLE);
-            holder.originalNormal.ivPic2.setVisibility(View.VISIBLE);
-            holder.originalNormal.ivPic3.setVisibility(View.INVISIBLE);
+            holder.originalNormal.contentPic2.setVisibility(View.VISIBLE);
+            holder.originalNormal.contentPic3.setVisibility(View.INVISIBLE);
         }
         if (picNum >= 3) {
-            holder.originalNormal.ivPic3.setVisibility(View.VISIBLE);
+            holder.originalNormal.contentPic3.setVisibility(View.VISIBLE);
         }
         if (picNum >= 4) {
             holder.originalNormal.pic4To6.setVisibility(View.VISIBLE);
-            holder.originalNormal.ivPic4.setVisibility(View.VISIBLE);
-            holder.originalNormal.ivPic5.setVisibility(View.INVISIBLE);
-            holder.originalNormal.ivPic6.setVisibility(View.INVISIBLE);
+            holder.originalNormal.contentPic4.setVisibility(View.VISIBLE);
+            holder.originalNormal.contentPic5.setVisibility(View.INVISIBLE);
+            holder.originalNormal.contentPic6.setVisibility(View.INVISIBLE);
         }
         if (picNum >= 5) {
-            holder.originalNormal.ivPic5.setVisibility(View.VISIBLE);
+            holder.originalNormal.contentPic5.setVisibility(View.VISIBLE);
         }
         if (picNum >= 6) {
-            holder.originalNormal.ivPic6.setVisibility(View.VISIBLE);
+            holder.originalNormal.contentPic6.setVisibility(View.VISIBLE);
         }
     }
 
@@ -1430,6 +1456,7 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
         View pic2To3;
         View pic4To6;
         ImageView ivPic1, ivPic2, ivPic3, ivPic4, ivPic5, ivPic6;
+        View contentPic1, contentPic2, contentPic3, contentPic4, contentPic5, contentPic6;
         //其他
         TextView tvName;
         TextView tvTime;
@@ -1450,6 +1477,7 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
      */
     private class OriginalTopic {
         ImageView iv_picture;
+        View contentPicture;
         ImageView iv_headImg;
         TextView tvName;
         TextView tvTime;
@@ -1469,6 +1497,7 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
      */
     private class OriginalArticle {
         ImageView iv_picture;
+        View contentPicture;
         ImageView iv_headImg;
         TextView tvName;
         TextView tvTime;
@@ -1684,6 +1713,14 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
          * 当喜欢条目被点击的时候
          */
         void onLikeItemClick(int position);
+
+        /**
+         * 图片被点击的时候
+         *
+         * @param position        被点击的动态条目
+         * @param picturePosition 被点击的图片
+         */
+        void onPictureClick(int position, int picturePosition);
     }
 
     public void setOnDynamicItemClickListener(OnDynamicItemClickListener onDynamicItemClickListener) {
@@ -1760,6 +1797,29 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
             case R.id.idfn_tv_originator_nickname:
             case R.id.idft_tv_originator_nickname:
                 onDynamicItemClickListener.onCreatorItemClick(position);
+                break;
+            //图片被点击
+            case R.id.idca_iv_contentPic://文章图片被点击
+            case R.id.idot_contentPicture://话题图片被点击
+                onDynamicItemClickListener.onPictureClick(position, 0);
+                break;
+            case R.id.idon_contentPic1://普通动态
+                onDynamicItemClickListener.onPictureClick(position, 0);
+                break;
+            case R.id.idon_contentPic2:
+                onDynamicItemClickListener.onPictureClick(position, 1);
+                break;
+            case R.id.idon_contentPic3:
+                onDynamicItemClickListener.onPictureClick(position, 2);
+                break;
+            case R.id.idon_contentPic4:
+                onDynamicItemClickListener.onPictureClick(position, 3);
+                break;
+            case R.id.idon_contentPic5:
+                onDynamicItemClickListener.onPictureClick(position, 4);
+                break;
+            case R.id.idon_contentPic6:
+                onDynamicItemClickListener.onPictureClick(position, 5);
                 break;
         }
     }

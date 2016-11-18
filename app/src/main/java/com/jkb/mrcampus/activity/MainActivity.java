@@ -115,7 +115,7 @@ public class MainActivity extends BaseSlideMenuActivity implements
         if (StringUtils.isEmpty(jumpAction)) {
             return;
         }
-        if(StringUtils.isEmpty(jumpAction)){
+        if (StringUtils.isEmpty(jumpAction)) {
             return;
         }
         assert jumpAction != null;
@@ -351,6 +351,7 @@ public class MainActivity extends BaseSlideMenuActivity implements
      */
     private void showSetting() {
         Log.d(TAG, "showSubject");
+        slidingMenu.setMode(SlidingMenu.LEFT);
         ActivityUtils.showFragment(fm, settingFragment);
     }
 
@@ -359,6 +360,7 @@ public class MainActivity extends BaseSlideMenuActivity implements
      */
     private void showTools() {
         Log.d(TAG, "showToolsView");
+        slidingMenu.setMode(SlidingMenu.LEFT);
         ActivityUtils.showFragment(fm, toolsFragment);
     }
 
@@ -367,6 +369,7 @@ public class MainActivity extends BaseSlideMenuActivity implements
      */
     private void showSubject() {
         Log.d(TAG, "showSubject");
+        slidingMenu.setMode(SlidingMenu.LEFT);
         ActivityUtils.showFragment(fm, subjectFragment);
     }
 
@@ -375,6 +378,7 @@ public class MainActivity extends BaseSlideMenuActivity implements
      */
     private void showHomePage() {
         Log.d(TAG, "showHomePage");
+        slidingMenu.setMode(SlidingMenu.LEFT_RIGHT);
         ActivityUtils.showFragment(fm, homePageFragment);
     }
 

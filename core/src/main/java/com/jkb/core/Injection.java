@@ -75,6 +75,9 @@ import com.jkb.model.dataSource.function.index.hot.remote.DynamicHotRemoteDataSo
 import com.jkb.model.dataSource.function.setting.FunctionSettingDataRepertory;
 import com.jkb.model.dataSource.function.setting.local.FunctionSettingLocalDataSource;
 import com.jkb.model.dataSource.function.setting.remote.FunctionSettingRemoteDataSource;
+import com.jkb.model.dataSource.function.tools.cet.ToolsCETRepertory;
+import com.jkb.model.dataSource.function.tools.cet.local.ToolsCETLocalDataSource;
+import com.jkb.model.dataSource.function.tools.cet.remote.ToolsCETRemoteDataSource;
 import com.jkb.model.dataSource.im.conversation.ConversationRepertory;
 import com.jkb.model.dataSource.im.conversation.local.ConversationLocalDataSource;
 import com.jkb.model.dataSource.im.conversation.remote.ConversationRemoteDataSource;
@@ -105,7 +108,7 @@ import com.jkb.model.dataSource.myDynamic.topic.remote.MyDynamicTopicRemoteDataS
 import com.jkb.model.dataSource.myFavorite.MyFavoriteDynamicRepertory;
 import com.jkb.model.dataSource.myFavorite.local.MyFavoriteLocalDataSource;
 import com.jkb.model.dataSource.myFavorite.remote.MyFavoriteRemoteDataSource;
-import com.jkb.model.dataSource.personCenter.PersonCenterDataResponsitory;
+import com.jkb.model.dataSource.personCenter.PersonCenterDataRepertory;
 import com.jkb.model.dataSource.personCenter.local.PersonCenterLocalDataSource;
 import com.jkb.model.dataSource.personCenter.remote.PersonCenterRemoteDataSource;
 import com.jkb.model.dataSource.personSetting.PersonSettingDataResponsitory;
@@ -268,11 +271,11 @@ public class Injection {
      * 返回PersonCenterDataResponsitory实例
      *
      * @param applicationContext 上下文
-     * @return PersonCenterDataResponsitory
+     * @return PersonCenterDataRepertory
      */
-    public static PersonCenterDataResponsitory providePersonCenterDataResponsitory(
+    public static PersonCenterDataRepertory providePersonCenterDataResponsitory(
             @NonNull Context applicationContext) {
-        PersonCenterDataResponsitory responsitory = PersonCenterDataResponsitory.getInstance(
+        PersonCenterDataRepertory responsitory = PersonCenterDataRepertory.getInstance(
                 PersonCenterLocalDataSource.getInstance(applicationContext),
                 PersonCenterRemoteDataSource.getInstance()
         );
@@ -603,6 +606,18 @@ public class Injection {
                 MapListRepertory.newInstance(
                         MapListLocalDataSource.newInstance(applicationContext),
                         MapListRemoteDataSource.newInstance()
+                );
+        return repertory;
+    }
+
+    /**
+     * 得到ToolsCETRepertory對象
+     */
+    public static ToolsCETRepertory provideToolsCETRepertory(@NonNull Context applicationContext) {
+        ToolsCETRepertory repertory =
+                ToolsCETRepertory.newInstance(
+                        ToolsCETLocalDataSource.newInstance(applicationContext),
+                        ToolsCETRemoteDataSource.newInstance()
                 );
         return repertory;
     }

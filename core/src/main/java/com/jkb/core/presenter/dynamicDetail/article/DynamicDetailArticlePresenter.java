@@ -18,6 +18,7 @@ import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.model.dataSource.dynamicDetail.article.DynamicDetailArticleRepository;
 import com.jkb.model.info.UserInfoSingleton;
+import com.jkb.model.utils.LogUtils;
 import com.jkb.model.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -188,8 +189,8 @@ public class DynamicDetailArticlePresenter implements DynamicDetailArticleContra
             if (userAuths == null) {
                 view.showReqResult("登录过期，请重新登录");
                 return;
-            }else{
-                user_id=userAuths.getUser_id();
+            } else {
+                user_id = userAuths.getUser_id();
             }
         }
         view.showRefreshView();
@@ -308,6 +309,24 @@ public class DynamicDetailArticlePresenter implements DynamicDetailArticleContra
         DynamicDetailCommentData commentData = this.commentData.get(commentPosition);
         int comment_id = commentData.getComment_id();
         view.showViewAllComment$ReplyView(comment_id);
+    }
+
+    @Override
+    public void onArticlePictureClick(int position) {
+        LogUtils.d(DynamicDetailArticlePresenter.class, "position=" + position);
+        List<DynamicDetailArticleData.ArticleContent>
+                articles = dynamicDetailArticleData.getArticles();
+        if (articles == null || articles.size() == 0) {
+            return;
+        }
+        ArrayList<String> pictures = new ArrayList<>();
+        for (DynamicDetailArticleData.ArticleContent content :
+                articles) {
+            if (!StringUtils.isEmpty(content.getImg())) {
+                pictures.add(content.getImg());
+            }
+        }
+        view.showPicturesBrowserView(pictures, position);
     }
 
     @Override

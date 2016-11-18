@@ -215,6 +215,19 @@ public class DynamicDetailNormalPresenter implements DynamicDetailNormalContract
     }
 
     @Override
+    public void onNormalPictureClick(int position) {
+        String[] imgs = dynamicDetailNormalData.getImgs();
+        if (imgs == null) {
+            return;
+        }
+        ArrayList<String> pictures = new ArrayList<>();
+        for (int i = 0; i < imgs.length; i++) {
+            pictures.add(imgs[i]);
+        }
+        view.showPicturesBrowserView(pictures, position);
+    }
+
+    @Override
     public void start() {
         initNormalData();//初始化普通动态
     }

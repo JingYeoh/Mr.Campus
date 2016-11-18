@@ -46,7 +46,6 @@
                         android:orientation="vertical"
                         android:paddingTop="70dp">
 
-
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/fpc_iv_headImg"
                             android:layout_width="60dp"

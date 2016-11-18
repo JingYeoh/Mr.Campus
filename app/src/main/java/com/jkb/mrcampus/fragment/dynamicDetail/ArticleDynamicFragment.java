@@ -26,6 +26,7 @@ import com.jkb.mrcampus.adapter.recycler.dynamicDetail.article.ArticleContentSho
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,19 +35,15 @@ import java.util.List;
  */
 
 public class ArticleDynamicFragment extends BaseFragment implements
-        DynamicDetailArticleContract.View, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+        DynamicDetailArticleContract.View,
+        SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     //data
     private int dynamic_id = -1;
 
-    public ArticleDynamicFragment() {
-    }
-
-    private static ArticleDynamicFragment INSTANCE = null;
-
     public static ArticleDynamicFragment newInstance(@NonNull int dynamic_id) {
         Bundle args = new Bundle();
-        INSTANCE = new ArticleDynamicFragment();
+        ArticleDynamicFragment INSTANCE = new ArticleDynamicFragment();
         args.putInt(SAVED_DYNAMIC_ID, dynamic_id);
         INSTANCE.setArguments(args);
         return INSTANCE;
@@ -109,6 +106,10 @@ public class ArticleDynamicFragment extends BaseFragment implements
         rootView.findViewById(R.id.ts6_ib_right_2).setOnClickListener(this);
         rootView.findViewById(R.id.fdda_ll_allComment).setOnClickListener(this);
         rootView.findViewById(R.id.fdda_tv_loadMore).setOnClickListener(this);
+
+        //文章内容监听器
+        articleContentShowAdapter.setOnArticleContentItemClickListener(
+                onArticleContentItemClickListener);
         //设置评论内容点击的监听器
         commentListAdapter.setOnLikeClickListener(onLikeClickListener);
         commentListAdapter.setOnHeadImgClickListener(onHeadImgClickListener);
@@ -316,6 +317,11 @@ public class ArticleDynamicFragment extends BaseFragment implements
     }
 
     @Override
+    public void showPicturesBrowserView(ArrayList<String> pictures, int position) {
+        dynamicDetailActivity.showPictureBrowserView(pictures, position);
+    }
+
+    @Override
     public void setPresenter(DynamicDetailArticleContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -351,6 +357,14 @@ public class ArticleDynamicFragment extends BaseFragment implements
         articleContentLinearLayoutManager = null;
         commentLinearLayoutManager = null;
         commentListAdapter = null;
+        //监听器
+        onArticleContentItemClickListener = null;
+        onHeadImgClickListener = null;
+        onLikeClickListener = null;
+        onReplyUserClickListener = null;
+        onTargetReplyUserClickListener = null;
+        onViewAllCommentClickListener = null;
+        onShareItemClickListener = null;
     }
 
     @Override
@@ -469,6 +483,20 @@ public class ArticleDynamicFragment extends BaseFragment implements
                 @Override
                 public void OnViewAllCommentClick(int position) {
                     mPresenter.onViewAllComment$ReplyClick(position);
+                }
+            };
+    /**
+     * 文章条目的监听器
+     */
+    private ArticleContentShowAdapter.OnArticleContentItemClickListener
+            onArticleContentItemClickListener =
+            new ArticleContentShowAdapter.OnArticleContentItemClickListener() {
+                @Override
+                public void onArticlePictureClick(int position) {
+                    if (position > 0) {
+                        position -= 1;
+                    }
+                    mPresenter.onArticlePictureClick(position);
                 }
             };
 }

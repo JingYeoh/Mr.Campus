@@ -4,16 +4,22 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iddacs_img"
+    <RelativeLayout
+        android:id="@+id/iddacs_contentPicture"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/white"
-        android:maxHeight="300dp"
-        android:scaleType="centerCrop"
-        android:src="@color/default_picture" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iddacs_img"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/white"
+            android:maxHeight="300dp"
+            android:scaleType="centerCrop"
+            android:src="@color/default_picture" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/iddacs_doc"

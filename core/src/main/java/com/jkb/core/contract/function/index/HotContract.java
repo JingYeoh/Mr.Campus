@@ -6,6 +6,7 @@ import com.jkb.core.base.BasePresenter;
 import com.jkb.core.base.BaseView;
 import com.jkb.core.data.index.hot.HotDynamic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -84,6 +85,14 @@ public interface HotContract {
          * @param position 需要分享的条目
          */
         void showShareView(@NonNull int position);
+
+        /**
+         * 显示图片预览效果
+         *
+         * @param pictures 图片
+         * @param position 显示的条目
+         */
+        void showImagesBrowserView(ArrayList<String> pictures, int position);
     }
 
     interface Presenter extends BasePresenter {
@@ -165,5 +174,13 @@ public interface HotContract {
          * 设置缓存过期
          */
         void setCacheExpired();
+
+        /**
+         * 图片被点击的回调
+         *
+         * @param position      被点击的条目
+         * @param clickPosition 被点击的图片条目
+         */
+        void onPicturesClick(int position, int clickPosition);
     }
 }

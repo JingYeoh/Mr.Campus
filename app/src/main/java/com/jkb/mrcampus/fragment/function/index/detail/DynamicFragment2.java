@@ -28,6 +28,7 @@ import com.jkb.mrcampus.adapter.recycler.itemDecoration.DividerItemDecoration;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -227,6 +228,11 @@ public class DynamicFragment2 extends BaseFragment implements
     }
 
     @Override
+    public void showImagesBrowserView(ArrayList<String> pictures, int position) {
+        mainActivity.showPictureBrowserView(pictures, position);
+    }
+
+    @Override
     public void setPresenter(DynamicContract2.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -336,6 +342,11 @@ public class DynamicFragment2 extends BaseFragment implements
                 @Override
                 public void onLikeItemClick(int position) {
                     mPresenter.onLikeItemClick(position);
+                }
+
+                @Override
+                public void onPictureClick(int position, int picturePosition) {
+                    mPresenter.onPicturesClick(position, picturePosition);
                 }
             };
     /**

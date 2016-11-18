@@ -32,6 +32,7 @@ import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.helper.comment.Comment$ReplyStatusController;
 import com.jkb.mrcampus.view.KeyboardLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -108,6 +109,7 @@ public class TopicDynamicFragment extends BaseFragment implements DynamicDetailT
         rootView.findViewById(R.id.ts6_ib_right_1).setOnClickListener(this);
         rootView.findViewById(R.id.ts6_ib_right_2).setOnClickListener(this);
         //头像的点击事件
+        rootView.findViewById(R.id.fddt_iv_contentImg).setOnClickListener(this);
         rootView.findViewById(R.id.fddt_iv_headImg).setOnClickListener(this);
         //加载更多的监听器
         rootView.findViewById(R.id.fddt_tv_loadMore).setOnClickListener(this);
@@ -500,6 +502,11 @@ public class TopicDynamicFragment extends BaseFragment implements DynamicDetailT
     }
 
     @Override
+    public void showPicturesBrowserView(ArrayList<String> pictures, int position) {
+        dynamicDetailActivity.showPictureBrowserView(pictures, position);
+    }
+
+    @Override
     public void setPresenter(DynamicDetailTopicContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -548,6 +555,9 @@ public class TopicDynamicFragment extends BaseFragment implements DynamicDetailT
                 break;
             case R.id.fddt_iv_headImg://头像
                 onUserHeadImgClick();
+                break;
+            case R.id.fddt_iv_contentImg://图片
+                mPresenter.onTopicImageClick();
                 break;
             case R.id.ts6_ib_right_0://喜欢
                 mPresenter.onLikeDynamicClick();

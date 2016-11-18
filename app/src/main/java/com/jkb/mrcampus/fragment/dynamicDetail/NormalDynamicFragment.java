@@ -27,6 +27,7 @@ import com.jkb.mrcampus.adapter.recycler.dynamicDetail.comment.DynamicCommentAda
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -112,6 +113,11 @@ public class NormalDynamicFragment extends BaseFragment
         rootView.findViewById(R.id.fddn_commentNone).setOnClickListener(this);
         rootView.findViewById(R.id.fddn_ll_allComment).setOnClickListener(this);
         commentRecyclerView.setOnClickListener(this);
+
+        //图片
+        for (int i = 0; i < contentImgsId.length; i++) {
+            rootView.findViewById(contentImgsId[i]).setOnClickListener(this);
+        }
 
         //评论
         dynamicCommentAdapter.setOnLikeClickListener(onLikeClickListener);
@@ -386,6 +392,11 @@ public class NormalDynamicFragment extends BaseFragment
     }
 
     @Override
+    public void showPicturesBrowserView(ArrayList<String> pictures, int position) {
+        dynamicDetailActivity.showPictureBrowserView(pictures, position);
+    }
+
+    @Override
     public void setPresenter(DynamicDetailNormalContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -460,6 +471,24 @@ public class NormalDynamicFragment extends BaseFragment
             case R.id.fddn_rv_comment:
             case R.id.fddn_ll_allComment:
                 startCommentListView();
+                break;
+            case R.id.fddn_iv_pic1:
+                mPresenter.onNormalPictureClick(0);
+                break;
+            case R.id.fddn_iv_pic2:
+                mPresenter.onNormalPictureClick(1);
+                break;
+            case R.id.fddn_iv_pic3:
+                mPresenter.onNormalPictureClick(2);
+                break;
+            case R.id.fddn_iv_pic4:
+                mPresenter.onNormalPictureClick(3);
+                break;
+            case R.id.fddn_iv_pic5:
+                mPresenter.onNormalPictureClick(4);
+                break;
+            case R.id.fddn_iv_pic6:
+                mPresenter.onNormalPictureClick(5);
                 break;
         }
     }

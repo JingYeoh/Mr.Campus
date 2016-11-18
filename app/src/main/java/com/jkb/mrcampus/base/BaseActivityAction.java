@@ -10,7 +10,9 @@ import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.TagFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
+import com.jkb.mrcampus.fragment.dialog.WriteSpecialDialogFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -76,6 +78,20 @@ public interface BaseActivityAction {
     void showMapFilterFloatView(
             int filterType,
             MapFilterFloatFragment.OnCircleFilterItemClickListener listener);
+
+    /**
+     * 显示发表专题的筛选栏
+     */
+    void showWriteSpecialDynamicFloatView(
+            WriteSpecialDialogFragment.OnWriteSpecialItemClickListener listener);
+
+    /**
+     * 显示图片预览视图
+     *
+     * @param pictures        要显示的图片
+     * @param currentPosition 当前点击的图片
+     */
+    void showPictureBrowserView(ArrayList<String> pictures, int currentPosition);
 
     /**
      * 分享
@@ -211,6 +227,16 @@ public interface BaseActivityAction {
      * @param user_id 用户id
      */
     void startPrivateConversation(@NonNull int user_id);
+
+    /**
+     * 打开四六级查询页面
+     */
+    void startToolsFunctionCET();
+
+    /**
+     * 打开快递查询页面
+     */
+    void startToolsFunctionCourier();
 
     /**
      * 顯示輸入

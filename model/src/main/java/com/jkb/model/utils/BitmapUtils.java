@@ -183,13 +183,15 @@ public class BitmapUtils {
             f.createNewFile();
         } catch (IOException e) {
             Log.e(TAG, "文件创建出错");
+            return null;
         }
-        FileOutputStream fOut = null;
+        FileOutputStream fOut;
         try {
             fOut = new FileOutputStream(f);
         } catch (FileNotFoundException e) {
             Log.e(TAG, "创建文件流失败");
             e.printStackTrace();
+            return null;
         }
         mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
         try {

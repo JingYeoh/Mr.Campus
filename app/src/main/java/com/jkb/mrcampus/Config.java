@@ -22,15 +22,17 @@ public class Config {
     public static final String INTENT_KEY_TARGETNAME = "intent.key.targetName";
     public static final String INTENT_KEY_TARGETIDS = "intent.key.targetIds";
     public static final String INTENT_KEY_CONVERSATION_TYPE = "intent.key.conversationType";
+    public static final String INTENT_KEY_TOOLS_TYPE = "intent.key.toolsType";
 
     public static final String INTENT_KEY_SHOW_PERSONALCENTER = "intent.key.show.personalCenter";//显示的个人中心页面
 
     public static final String BUNDLE_KEY_VIEW_POSITION = "bundle.key.view.position";
     public static final String BUNDLE_KEY_VIEW_ID = "bundle.key.view.id";
     public static final String BUNDLE_KEY_IMAGE_URL = "bundle.key.image.url";
+    public static final String BUNDLE_KEY_IMAGE_BROWER = "bundle.key.image.brower";
+    public static final String BUNDLE_KEY_CURRENT_IMAGE = "bundle.key.currentImage";
 
     public static final String SAVED_BUNDLE_KEY_SHOW_VIEW = "saved.bundle.key.show.view";
-
     public static final String BUNDLE_KEY_JUMP_ACTION = "bundle.key.jump.action";
     //要跳转的页面
     public static final String BUNDLE_JUMP_ACTION_MESSAGE_DYNAMIC = "bundle_jump_action_message_dynamic";

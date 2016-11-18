@@ -32,8 +32,10 @@ import com.jkb.mrcampus.activity.MessageCenterActivity;
 import com.jkb.mrcampus.activity.MyOriginalDynamicActivity;
 import com.jkb.mrcampus.activity.MyUnOriginalDynamicActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
+import com.jkb.mrcampus.activity.ToolsFunctionActivity;
 import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
+import com.jkb.mrcampus.fragment.dialog.ImageBrowserFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.MapFilterFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
@@ -44,11 +46,13 @@ import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
 import com.jkb.mrcampus.fragment.dialog.TagFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.TextFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteDynamicDialogFragment;
+import com.jkb.mrcampus.fragment.dialog.WriteSpecialDialogFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.net.ShareFactory;
 import com.jkb.mrcampus.singleton.ActivityStackManager;
 import com.jkb.mrcampus.utils.ClassUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.rong.imkit.RongIM;
@@ -84,6 +88,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     private HintDetermineFloatFragment hintDetermineFloatFragment;
     private HintDetermineFloatFragment newHintDetermineFloatFragment;
     private MapFilterFloatFragment circleFilterFloatFragment;
+    private WriteSpecialDialogFragment writeSpecialDialogFragment;
+    private ImageBrowserFloatFragment imageBrowserFloatFragment;
 
     //单例类
     protected ActivityStackManager activityManager;
@@ -448,6 +454,20 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     }
 
     @Override
+    public void startToolsFunctionCET() {
+        Intent intent = new Intent(this, ToolsFunctionActivity.class);
+        intent.putExtra(Config.INTENT_KEY_TOOLS_TYPE, ToolsFunctionActivity.TOOLS_CET);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startToolsFunctionCourier() {
+        Intent intent = new Intent(this, ToolsFunctionActivity.class);
+        intent.putExtra(Config.INTENT_KEY_TOOLS_TYPE, ToolsFunctionActivity.TOOLS_COURIER);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
     public void showSoftInputView() {
         InputMethodManager manager = ((InputMethodManager) this
                 .getSystemService(Activity.INPUT_METHOD_SERVICE));
@@ -503,6 +523,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
      * 显示Loading加载效果
      */
     public void showGifLoadingView(String value) {
+        if (gifLoadingView == null || !gifLoadingView.isAdded() || gifLoadingView.isHidden()) {
+            isShowGifLoading = false;
+        }
         if (isShowGifLoading) {
             return;
         }
@@ -648,6 +671,13 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         }
         if (circleFilterFloatFragment != null && circleFilterFloatFragment.isAdded()) {
             circleFilterFloatFragment.dismiss();
+        }
+        //写专题动态
+        if (writeSpecialDialogFragment != null && writeSpecialDialogFragment.isAdded()) {
+            writeSpecialDialogFragment.dismiss();
+        }
+        if (imageBrowserFloatFragment != null && imageBrowserFloatFragment.isAdded()) {
+            imageBrowserFloatFragment.dismiss();
         }
         dismissLoading();
     }
@@ -797,6 +827,33 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         if (!circleFilterFloatFragment.isAdded()) {
             circleFilterFloatFragment.show(getFragmentManager(),
                     ClassUtils.getClassName(MapFilterFloatFragment.class));
+        }
+    }
+
+    @Override
+    public void showWriteSpecialDynamicFloatView(
+            WriteSpecialDialogFragment.OnWriteSpecialItemClickListener listener) {
+        if (writeSpecialDialogFragment == null) {
+            writeSpecialDialogFragment = WriteSpecialDialogFragment.newInstance();
+        }
+        writeSpecialDialogFragment.setOnWriteSpecialItemClickListener(listener);
+        if (!writeSpecialDialogFragment.isAdded()) {
+            writeSpecialDialogFragment.show(getSupportFragmentManager(),
+                    ClassUtils.getClassName(WriteSpecialDialogFragment.class));
+        }
+    }
+
+    @Override
+    public void showPictureBrowserView(ArrayList<String> pictures, int currentPosition) {
+        if (pictures == null || pictures.size() == 0) {
+            showShortToast("图片不能为空");
+            return;
+        }
+        imageBrowserFloatFragment =
+                ImageBrowserFloatFragment.newInstance(pictures, currentPosition);
+        if (!imageBrowserFloatFragment.isAdded()) {
+            imageBrowserFloatFragment.show(getSupportFragmentManager(),
+                    ClassUtils.getClassName(ImageBrowserFloatFragment.class));
         }
     }
 }
