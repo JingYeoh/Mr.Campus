@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.jkb.core.Injection;
-import com.jkb.core.presenter.myFavorite.MyFavoriteDynamicPresenter;
+import com.jkb.core.presenter.personCenter.unOriginal.myFavorite.MyFavoriteDynamicPresenter;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;

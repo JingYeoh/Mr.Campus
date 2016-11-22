@@ -15,7 +15,7 @@ import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
 import com.jkb.core.presenter.personCenter.data.CircleData;
 import com.jkb.core.presenter.personCenter.data.UserData;
-import com.jkb.model.dataSource.personCenter.PersonCenterDataRepertory;
+import com.jkb.model.dataSource.personCenter.personCenter.PersonCenterDataRepertory;
 import com.jkb.model.info.UserInfoSingleton;
 import com.jkb.model.utils.StringUtils;
 

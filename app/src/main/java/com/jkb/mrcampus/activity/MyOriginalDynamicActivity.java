@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.jkb.core.Injection;
-import com.jkb.core.presenter.myDynamic.MyDynamicArticlePresenter;
-import com.jkb.core.presenter.myDynamic.circle.MyDynamicCirclePresenter;
-import com.jkb.core.presenter.myDynamic.MyDynamicNormalPresenter;
-import com.jkb.core.presenter.myDynamic.MyDynamicTopicPresenter;
+import com.jkb.core.presenter.personCenter.original.myDynamic.MyDynamicArticlePresenter;
+import com.jkb.core.presenter.personCenter.original.myDynamic.circle.MyDynamicCirclePresenter;
+import com.jkb.core.presenter.personCenter.original.myDynamic.MyDynamicNormalPresenter;
+import com.jkb.core.presenter.personCenter.original.myDynamic.MyDynamicTopicPresenter;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;

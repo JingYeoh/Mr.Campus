@@ -139,6 +139,9 @@
         //专题创建的页面控制器
         <activity android:name=".activity.SpecialCreateActivity" />
 
+        //我的原创专题页面控制器
+        <activity android:name=".activity.MyOriginalSubjectActivity" />
+
         //会话页面的页面控制器
         <activity
             android:name=".activity.ConversationActivity"
@@ -227,6 +230,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.MyOriginalSubjectActivity" />
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data

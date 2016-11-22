@@ -12,15 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jkb.core.contract.myDynamic.circle.MyDynamicCircleContract;
+import com.jkb.core.contract.personCenter.original.myDynamic.circle.MyDynamicCircleContract;
 import com.jkb.core.data.dynamic.myOriginal.myCircle.DynamicInCircleDynamic;
 import com.jkb.core.data.info.circle.CircleInfo;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.MyOriginalDynamicActivity;
-import com.jkb.mrcampus.adapter.recycler.personCenter.myDynamic.circle.CircleSelectorAdapter;
-import com.jkb.mrcampus.adapter.recycler.personCenter.myDynamic.circle.MyDynamicCircleAdapter;
+import com.jkb.mrcampus.adapter.recycler.personCenter.original.myDynamic.circle.CircleSelectorAdapter;
+import com.jkb.mrcampus.adapter.recycler.personCenter.original.myDynamic.circle.MyDynamicCircleAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;

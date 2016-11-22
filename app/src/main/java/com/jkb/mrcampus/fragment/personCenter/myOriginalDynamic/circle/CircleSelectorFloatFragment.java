@@ -20,13 +20,13 @@ import android.view.View;
 import android.view.Window;
 
 import com.jkb.core.Injection;
-import com.jkb.core.contract.myDynamic.circle.CircleSelectorContract;
+import com.jkb.core.contract.personCenter.original.myDynamic.circle.CircleSelectorContract;
 import com.jkb.core.data.info.circle.CircleInfo;
-import com.jkb.core.presenter.myDynamic.circle.CircleSelectorPresenter;
+import com.jkb.core.presenter.personCenter.original.myDynamic.circle.CircleSelectorPresenter;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MyOriginalDynamicActivity;
-import com.jkb.mrcampus.adapter.recycler.personCenter.myDynamic.circle.CircleSelectorAdapter;
+import com.jkb.mrcampus.adapter.recycler.personCenter.original.myDynamic.circle.CircleSelectorAdapter;
 import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.List;

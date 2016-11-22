@@ -39,7 +39,7 @@ public interface PersonCenterContract {
         void setNonSelfConfig();
 
         /**
-         * 显示自己的标题栏样式
+         * 显示自己的视图样式
          */
         void showSelfTitleStyle();
 
@@ -57,6 +57,16 @@ public interface PersonCenterContract {
          * 设置为写的浮动按钮
          */
         void showWriteFloatBtView();
+
+        /**
+         * 显示我的专题视图
+         */
+        void showMySubjectView();
+
+        /**
+         * 隐藏我的专题视图
+         */
+        void hideMySubjectView();
 
         /**
          * 设置头像

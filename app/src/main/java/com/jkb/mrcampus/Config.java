@@ -23,7 +23,7 @@ public class Config {
     public static final String INTENT_KEY_TARGETIDS = "intent.key.targetIds";
     public static final String INTENT_KEY_CONVERSATION_TYPE = "intent.key.conversationType";
     public static final String INTENT_KEY_TOOLS_TYPE = "intent.key.toolsType";
-    public static final String INTENT_KEY_SPECIAL_TYPE = "intent.key.special_type";
+    public static final String INTENT_KEY_SUBJECT_TYPE = "intent.key.subject_type";
     public static final String INTENT_KEY_SUBJECT_CREATE_TYPE = "intent.key.subject.create.type";
 
     public static final String INTENT_KEY_SHOW_PERSONALCENTER = "intent.key.show.personalCenter";//显示的个人中心页面
@@ -34,6 +34,7 @@ public class Config {
     public static final String BUNDLE_KEY_IMAGE_BROWER = "bundle.key.image.brower";
     public static final String BUNDLE_KEY_CURRENT_IMAGE = "bundle.key.currentImage";
     public static final String BUNDLE_KEY_SUBJECT_CREATE_TYPE = "bundle.key.subject.create.type";
+    public static final String BUNDLE_KEY_SUBJECT_TYPE = "bundle.key.subject.type";
 
     public static final String SAVED_BUNDLE_KEY_SHOW_VIEW = "saved.bundle.key.show.view";
     public static final String BUNDLE_KEY_JUMP_ACTION = "bundle.key.jump.action";

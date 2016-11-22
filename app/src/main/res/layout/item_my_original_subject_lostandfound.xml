@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/subject_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/selecter_clearity_gravy"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imosl_iv_BgPic"
+        android:layout_width="match_parent"
+        android:layout_height="370dp"
+        android:scaleType="centerCrop"
+        android:src="@color/main_theme" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="370dp"
+        android:background="@color/gravy_70" />
+
+    <LinearLayout
+        android:id="@+id/imosl_ll_contentCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:background="@drawable/bg_round"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imosl_iv_pic"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:src="@color/default_picture" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/imosl_tv_title"
+                style="@style/Dynamic_Title_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="标题" />
+
+            <TextView
+                android:id="@+id/imosl_tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:maxLines="3"
+                android:text="@string/large_text"
+                android:textColor="@color/B_black_70"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_item_dynamic_bottom_function_black" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imosl_iv_tag"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_article" />
+
+</RelativeLayout>

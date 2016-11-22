@@ -154,4 +154,11 @@
     <string name="post_topic">发布话题</string>
     <string name="background">背景</string>
     <string name="circleName">圈子名称</string>
+    <string name="person_subject">个人专题</string>
+    <string name="confession">表白墙</string>
+    <string name="taunted">吐槽墙</string>
+    <string name="lostAndFound">失物招领</string>
+    <string name="fleaMarket">跳蚤市场</string>
+    <string name="wantedSavant">求学霸</string>
+    <string name="wantedPartner">寻水友</string>
 </resources>

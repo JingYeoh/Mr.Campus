@@ -30,6 +30,7 @@ import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.MessageActivity;
 import com.jkb.mrcampus.activity.MessageCenterActivity;
 import com.jkb.mrcampus.activity.MyOriginalDynamicActivity;
+import com.jkb.mrcampus.activity.MyOriginalSubjectActivity;
 import com.jkb.mrcampus.activity.MyUnOriginalDynamicActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.activity.SpecialCreateActivity;
@@ -472,7 +473,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     @Override
     public void startSpecialDetailConfession(int dynamicId) {
         Intent intent = new Intent(this, SpecialDetailActivity.class);
-        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_TYPE,
                 SpecialDetailActivity.SUBJECT_TYPE_CONFESSION);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
         startActivityWithPushLeftAnim(intent);
@@ -481,7 +482,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     @Override
     public void startSpecialDetailFleaMarket(int dynamicId) {
         Intent intent = new Intent(this, SpecialDetailActivity.class);
-        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_TYPE,
                 SpecialDetailActivity.SUBJECT_TYPE_FLEAMARKET);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
         startActivityWithPushLeftAnim(intent);
@@ -490,7 +491,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     @Override
     public void startSpecialDetailLostAndFound(int dynamicId) {
         Intent intent = new Intent(this, SpecialDetailActivity.class);
-        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_TYPE,
                 SpecialDetailActivity.SUBJECT_TYPE_LOSTANDFOUND);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
         startActivityWithPushLeftAnim(intent);
@@ -499,7 +500,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     @Override
     public void startSpecialDetailTaunted(int dynamicId) {
         Intent intent = new Intent(this, SpecialDetailActivity.class);
-        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_TYPE,
                 SpecialDetailActivity.SUBJECT_TYPE_TAUNTED);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
         startActivityWithPushLeftAnim(intent);
@@ -508,7 +509,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     @Override
     public void startSpecialDetailWantedPartner(int dynamicId) {
         Intent intent = new Intent(this, SpecialDetailActivity.class);
-        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_TYPE,
                 SpecialDetailActivity.SUBJECT_TYPE_WANTED_PARTNER);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
         startActivityWithPushLeftAnim(intent);
@@ -517,7 +518,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     @Override
     public void startSpecialDetailWantedSavant(int dynamicId) {
         Intent intent = new Intent(this, SpecialDetailActivity.class);
-        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_TYPE,
                 SpecialDetailActivity.SUBJECT_TYPE_WANTED_SAVANT);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
         startActivityWithPushLeftAnim(intent);
@@ -527,6 +528,17 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     public void startSpecialCreate(int specialCreateType) {
         Intent intent = new Intent(this, SpecialCreateActivity.class);
         intent.putExtra(Config.INTENT_KEY_SUBJECT_CREATE_TYPE, specialCreateType);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startOriginalSubject(int subjectType) {
+        if (!LoginContext.getInstance().isLogined()) {
+            showShortToast("请先登录再进行操作");
+            return;
+        }
+        Intent intent = new Intent(this, MyOriginalSubjectActivity.class);
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_TYPE, subjectType);
         startActivityWithPushLeftAnim(intent);
     }
 

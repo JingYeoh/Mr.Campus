@@ -73,7 +73,7 @@ public class SpecialDetailActivity extends BaseActivity {
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             dynamicId = intent.getIntExtra(Config.INTENT_KEY_DYNAMIC_ID, -1);
-            int subjectType = intent.getIntExtra(Config.INTENT_KEY_SPECIAL_TYPE, -1);
+            int subjectType = intent.getIntExtra(Config.INTENT_KEY_SUBJECT_TYPE, -1);
             String showTag = filterSpecialDetailType(subjectType);
             if (StringUtils.isEmpty(showTag)) {
                 showShortToast("无该类型专题");

@@ -19,6 +19,7 @@ import com.jkb.model.net.ImageLoaderFactory;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.DynamicCreateActivity;
+import com.jkb.mrcampus.activity.MyOriginalSubjectActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.adapter.recycler.personCenter.PersonCenterCircleAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
@@ -110,6 +111,13 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
         rootView.findViewById(R.id.fpc_ll_topic).setOnClickListener(this);
         rootView.findViewById(R.id.fpc_ll_normal).setOnClickListener(this);
         rootView.findViewById(R.id.fpc_ll_circle).setOnClickListener(this);
+        //专题
+        rootView.findViewById(R.id.fpc_ll_subject_confession).setOnClickListener(this);
+        rootView.findViewById(R.id.fpc_ll_subject_fleaMarket).setOnClickListener(this);
+        rootView.findViewById(R.id.fpc_ll_subject_lostAndFound).setOnClickListener(this);
+        rootView.findViewById(R.id.fpc_ll_subject_taunted).setOnClickListener(this);
+        rootView.findViewById(R.id.fpc_ll_subject_wantedPartner).setOnClickListener(this);
+        rootView.findViewById(R.id.fpc_ll_subject_wantedSavant).setOnClickListener(this);
         //刷新控件监听器
         refreshLayout.setOnRefreshListener(this);
         //设置点击事件
@@ -206,6 +214,30 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
             case R.id.fpc_ll_circle://圈子
                 showDynamicCircleView();
                 break;
+            case R.id.fpc_ll_subject_confession:
+                personCenterActivity.startOriginalSubject
+                        (MyOriginalSubjectActivity.SUBJECT_TYPE_CONFESSION);
+                break;
+            case R.id.fpc_ll_subject_fleaMarket:
+                personCenterActivity.startOriginalSubject
+                        (MyOriginalSubjectActivity.SUBJECT_TYPE_FLEAMARKET);
+                break;
+            case R.id.fpc_ll_subject_taunted:
+                personCenterActivity.startOriginalSubject
+                        (MyOriginalSubjectActivity.SUBJECT_TYPE_TAUNTED);
+                break;
+            case R.id.fpc_ll_subject_lostAndFound:
+                personCenterActivity.startOriginalSubject
+                        (MyOriginalSubjectActivity.SUBJECT_TYPE_LOSTANDFOUND);
+                break;
+            case R.id.fpc_ll_subject_wantedSavant:
+                personCenterActivity.startOriginalSubject
+                        (MyOriginalSubjectActivity.SUBJECT_TYPE_WANTED_SAVANT);
+                break;
+            case R.id.fpc_ll_subject_wantedPartner:
+                personCenterActivity.startOriginalSubject
+                        (MyOriginalSubjectActivity.SUBJECT_TYPE_WANTED_PARTNER);
+                break;
         }
     }
 
@@ -217,17 +249,17 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     @Override
     public void setSelfConfig() {
         isUserSelf = true;
-        Log.d(TAG, "isSelf=" + isUserSelf);
         showSelfTitleStyle();
         showWriteFloatBtView();
+        showMySubjectView();
     }
 
     @Override
     public void setNonSelfConfig() {
         isUserSelf = false;
-        Log.d(TAG, "isSelf=" + isUserSelf);
         showNonSelfTitleStyle();
         showChatFloatBtView();
+        hideMySubjectView();
     }
 
     @Override
@@ -252,6 +284,16 @@ public class PersonCenterFragment extends BaseFragment implements PersonCenterCo
     public void showWriteFloatBtView() {
         ((ImageView) rootView.findViewById(R.id.fpc_iv_floatBt))
                 .setImageResource(R.drawable.ic_write);
+    }
+
+    @Override
+    public void showMySubjectView() {
+        rootView.findViewById(R.id.fpc_content_subject).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideMySubjectView() {
+        rootView.findViewById(R.id.fpc_content_subject).setVisibility(View.GONE);
     }
 
     @Override

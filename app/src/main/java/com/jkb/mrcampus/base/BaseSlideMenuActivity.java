@@ -31,6 +31,7 @@ import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.MessageActivity;
 import com.jkb.mrcampus.activity.MessageCenterActivity;
 import com.jkb.mrcampus.activity.MyOriginalDynamicActivity;
+import com.jkb.mrcampus.activity.MyOriginalSubjectActivity;
 import com.jkb.mrcampus.activity.MyUnOriginalDynamicActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
 import com.jkb.mrcampus.activity.SpecialCreateActivity;
@@ -38,11 +39,11 @@ import com.jkb.mrcampus.activity.SpecialDetailActivity;
 import com.jkb.mrcampus.activity.ToolsFunctionActivity;
 import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
-import com.jkb.mrcampus.fragment.dialog.ImageBrowserFloatFragment;
-import com.jkb.mrcampus.fragment.dialog.MapFilterFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
+import com.jkb.mrcampus.fragment.dialog.ImageBrowserFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.InputTextFloatFragment;
+import com.jkb.mrcampus.fragment.dialog.MapFilterFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.SelectSchoolFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.SexFilterFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
@@ -498,7 +499,7 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
     @Override
     public void startSpecialDetailConfession(int dynamicId) {
         Intent intent = new Intent(this, SpecialDetailActivity.class);
-        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_TYPE,
                 SpecialDetailActivity.SUBJECT_TYPE_CONFESSION);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
         startActivityWithPushLeftAnim(intent);
@@ -507,7 +508,7 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
     @Override
     public void startSpecialDetailFleaMarket(int dynamicId) {
         Intent intent = new Intent(this, SpecialDetailActivity.class);
-        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_TYPE,
                 SpecialDetailActivity.SUBJECT_TYPE_FLEAMARKET);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
         startActivityWithPushLeftAnim(intent);
@@ -516,7 +517,7 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
     @Override
     public void startSpecialDetailLostAndFound(int dynamicId) {
         Intent intent = new Intent(this, SpecialDetailActivity.class);
-        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_TYPE,
                 SpecialDetailActivity.SUBJECT_TYPE_LOSTANDFOUND);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
         startActivityWithPushLeftAnim(intent);
@@ -525,7 +526,7 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
     @Override
     public void startSpecialDetailTaunted(int dynamicId) {
         Intent intent = new Intent(this, SpecialDetailActivity.class);
-        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_TYPE,
                 SpecialDetailActivity.SUBJECT_TYPE_TAUNTED);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
         startActivityWithPushLeftAnim(intent);
@@ -534,7 +535,7 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
     @Override
     public void startSpecialDetailWantedPartner(int dynamicId) {
         Intent intent = new Intent(this, SpecialDetailActivity.class);
-        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_TYPE,
                 SpecialDetailActivity.SUBJECT_TYPE_WANTED_PARTNER);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
         startActivityWithPushLeftAnim(intent);
@@ -543,7 +544,7 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
     @Override
     public void startSpecialDetailWantedSavant(int dynamicId) {
         Intent intent = new Intent(this, SpecialDetailActivity.class);
-        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_TYPE,
                 SpecialDetailActivity.SUBJECT_TYPE_WANTED_SAVANT);
         intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
         startActivityWithPushLeftAnim(intent);
@@ -553,6 +554,17 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
     public void startSpecialCreate(int specialCreateType) {
         Intent intent = new Intent(this, SpecialCreateActivity.class);
         intent.putExtra(Config.INTENT_KEY_SUBJECT_CREATE_TYPE, specialCreateType);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startOriginalSubject(int subjectType) {
+        if (!LoginContext.getInstance().isLogined()) {
+            showShortToast("请先登录再进行操作");
+            return;
+        }
+        Intent intent = new Intent(this, MyOriginalSubjectActivity.class);
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_TYPE, subjectType);
         startActivityWithPushLeftAnim(intent);
     }
 

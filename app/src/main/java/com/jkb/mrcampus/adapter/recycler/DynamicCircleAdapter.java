@@ -129,7 +129,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         //初始化id
         holder.dynamicContent = view.findViewById(R.id.dynamic_content);
         holder.original_article.tvTag = (TextView) view.findViewById(R.id.idc_tv_tag);
-        holder.original_article.tvPutInBlack = (TextView) view.findViewById(R.id.iidb_tv_delete);
+        holder.original_article.tvPutInBlack = (TextView) view.findViewById(R.id.iidbf_tv_delete);
         //作者
         holder.original_article.ivUserHeadImg =
                 (ImageView) view.findViewById(R.id.idc_iv_headImg);
@@ -169,7 +169,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         //初始化id
         holder.dynamicContent = view.findViewById(R.id.dynamic_content);
         holder.original_topic.tvTag = (TextView) view.findViewById(R.id.idc_tv_tag);
-        holder.original_topic.tvPutInBlack = (TextView) view.findViewById(R.id.iidb_tv_delete);
+        holder.original_topic.tvPutInBlack = (TextView) view.findViewById(R.id.iidbf_tv_delete);
         //作者
         holder.original_topic.ivUserHeadImg =
                 (ImageView) view.findViewById(R.id.idc_iv_headImg);
@@ -210,7 +210,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         //初始化id
         holder.dynamicContent = view.findViewById(R.id.dynamic_content);
         holder.original_normal.tvTag = (TextView) view.findViewById(R.id.idc_tv_tag);
-        holder.original_normal.tvPutInBlack = (TextView) view.findViewById(R.id.iidb_tv_delete);
+        holder.original_normal.tvPutInBlack = (TextView) view.findViewById(R.id.iidbf_tv_delete);
         //作者
         holder.original_normal.ivUserHeadImg =
                 (ImageView) view.findViewById(R.id.idc_iv_headImg);
@@ -842,7 +842,7 @@ public class DynamicCircleAdapter extends RecyclerView.Adapter<DynamicCircleAdap
         int viewId = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_ID);
         int position = bundle.getInt(com.jkb.mrcampus.Config.BUNDLE_KEY_VIEW_POSITION);
         switch (viewId) {
-            case R.id.iidb_tv_delete:
+            case R.id.iidbf_tv_delete:
                 onCircleDynamicItemClickListener.onPutInBlackListItemClick(position);
                 break;
         }

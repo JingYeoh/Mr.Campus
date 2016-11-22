@@ -276,6 +276,13 @@ public interface BaseActivityAction {
     void startSpecialCreate(int specialCreateType);
 
     /**
+     * 打开原创专题页面
+     *
+     * @param subjectType 专题类型
+     */
+    void startOriginalSubject(int subjectType);
+
+    /**
      * 顯示輸入
      **/
     void showSoftInputView();

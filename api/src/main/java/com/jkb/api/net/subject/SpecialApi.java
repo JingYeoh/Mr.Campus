@@ -8,7 +8,6 @@ import com.jkb.api.entity.subject.SubjectActionEntity;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -41,7 +40,6 @@ public interface SpecialApi {
     /**
      * 改变专题的状态
      */
-    @Multipart
     @POST(Config.URL_SUBJECT_CHANGE_MARK)
     Call<ApiResponse<SubjectActionEntity>> changeSpecialMarkStatus(
             @Header(Config.HEADER_KEY_AUTHORIZATION) String authorization,

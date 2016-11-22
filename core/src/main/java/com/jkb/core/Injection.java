@@ -96,27 +96,30 @@ import com.jkb.model.dataSource.menuRight.friends.remote.FriendsRemoteDataSource
 import com.jkb.model.dataSource.menuRight.rightMenu.RightMenuDataRepertory;
 import com.jkb.model.dataSource.menuRight.rightMenu.local.RightMenuLocalDataSource;
 import com.jkb.model.dataSource.menuRight.rightMenu.remote.RightMenuRemoteDataSource;
-import com.jkb.model.dataSource.myDynamic.article.MyDynamicArticleRepertory;
-import com.jkb.model.dataSource.myDynamic.article.local.MyDynamicArticleLocalDataSource;
-import com.jkb.model.dataSource.myDynamic.article.remote.MyDynamicArticleRemoteDataSource;
-import com.jkb.model.dataSource.myDynamic.circle.MyDynamicCircleRepertory;
-import com.jkb.model.dataSource.myDynamic.circle.local.MyDynamicCircleLocalDataSource;
-import com.jkb.model.dataSource.myDynamic.circle.remote.MyDynamicCircleRemoteDataSource;
-import com.jkb.model.dataSource.myDynamic.circleSelector.CircleSelectorRepertory;
-import com.jkb.model.dataSource.myDynamic.circleSelector.local.CircleSelectorLocalDataSource;
-import com.jkb.model.dataSource.myDynamic.circleSelector.remote.CircleSelectorRemoteDataSource;
-import com.jkb.model.dataSource.myDynamic.normal.MyDynamicNormalRepertory;
-import com.jkb.model.dataSource.myDynamic.normal.local.MyDynamicNormalLocalDataSource;
-import com.jkb.model.dataSource.myDynamic.normal.remote.MyDynamicNormalRemoteDataSource;
-import com.jkb.model.dataSource.myDynamic.topic.MyDynamicTopicRepertory;
-import com.jkb.model.dataSource.myDynamic.topic.local.MyDynamicTopicLocalDataSource;
-import com.jkb.model.dataSource.myDynamic.topic.remote.MyDynamicTopicRemoteDataSource;
-import com.jkb.model.dataSource.myFavorite.MyFavoriteDynamicRepertory;
-import com.jkb.model.dataSource.myFavorite.local.MyFavoriteLocalDataSource;
-import com.jkb.model.dataSource.myFavorite.remote.MyFavoriteRemoteDataSource;
-import com.jkb.model.dataSource.personCenter.PersonCenterDataRepertory;
-import com.jkb.model.dataSource.personCenter.local.PersonCenterLocalDataSource;
-import com.jkb.model.dataSource.personCenter.remote.PersonCenterRemoteDataSource;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.article.MyDynamicArticleRepertory;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.article.local.MyDynamicArticleLocalDataSource;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.article.remote.MyDynamicArticleRemoteDataSource;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.circle.MyDynamicCircleRepertory;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.circle.local.MyDynamicCircleLocalDataSource;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.circle.remote.MyDynamicCircleRemoteDataSource;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.circleSelector.CircleSelectorRepertory;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.circleSelector.local.CircleSelectorLocalDataSource;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.circleSelector.remote.CircleSelectorRemoteDataSource;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.normal.MyDynamicNormalRepertory;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.normal.local.MyDynamicNormalLocalDataSource;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.normal.remote.MyDynamicNormalRemoteDataSource;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.topic.MyDynamicTopicRepertory;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.topic.local.MyDynamicTopicLocalDataSource;
+import com.jkb.model.dataSource.personCenter.original.myDynamic.topic.remote.MyDynamicTopicRemoteDataSource;
+import com.jkb.model.dataSource.personCenter.original.mySubject.MyOriginalSubjectRepertory;
+import com.jkb.model.dataSource.personCenter.original.mySubject.local.MyOriginalSubjectLocalDataSource;
+import com.jkb.model.dataSource.personCenter.original.mySubject.remote.MyOriginalSubjectRemoteDataSource;
+import com.jkb.model.dataSource.personCenter.unOriginal.myFavorite.MyFavoriteDynamicRepertory;
+import com.jkb.model.dataSource.personCenter.unOriginal.myFavorite.local.MyFavoriteLocalDataSource;
+import com.jkb.model.dataSource.personCenter.unOriginal.myFavorite.remote.MyFavoriteRemoteDataSource;
+import com.jkb.model.dataSource.personCenter.personCenter.PersonCenterDataRepertory;
+import com.jkb.model.dataSource.personCenter.personCenter.local.PersonCenterLocalDataSource;
+import com.jkb.model.dataSource.personCenter.personCenter.remote.PersonCenterRemoteDataSource;
 import com.jkb.model.dataSource.personSetting.PersonSettingDataResponsitory;
 import com.jkb.model.dataSource.personSetting.local.PersonSettingLocalDataSource;
 import com.jkb.model.dataSource.personSetting.remote.PersonSettingRemoteDataSource;
@@ -649,6 +652,19 @@ public class Injection {
                 SpecialCreateRepertory.newInstance(
                         SpecialCreateLocalDataSource.newInstance(applicationContext),
                         SpecialCreateRemoteDataSource.newInstance()
+                );
+        return repertory;
+    }
+
+    /**
+     * 得到MyOriginalSubjectRepertory對象
+     */
+    public static MyOriginalSubjectRepertory provideMyOriginalSubjectRepertory(
+            @NonNull Context applicationContext) {
+        MyOriginalSubjectRepertory repertory =
+                MyOriginalSubjectRepertory.newInstance(
+                        MyOriginalSubjectLocalDataSource.newInstance(applicationContext),
+                        MyOriginalSubjectRemoteDataSource.newInstance()
                 );
         return repertory;
     }

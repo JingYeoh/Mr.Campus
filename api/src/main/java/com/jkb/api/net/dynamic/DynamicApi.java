@@ -13,6 +13,7 @@ import com.jkb.api.entity.dynamic.DynamicPopularListEntity;
 import com.jkb.api.entity.dynamic.DynamicPostEntity;
 import com.jkb.api.entity.dynamic.DynamicTopicEntity;
 import com.jkb.api.entity.dynamic.DynamicTopicListEntity;
+import com.jkb.api.entity.subject.SpecialListEntity;
 
 import retrofit2.Call;
 import retrofit2.http.DELETE;
@@ -362,5 +363,18 @@ public interface DynamicApi {
     Call<ApiResponse<DynamicMyFavoriteEntity>> getMyFavoriteDynamic(
             @Path(Config.KEY_TYPE) String type,
             @Query(Config.KEY_OWNERID) int ownerId,
+            @Query(Config.KEY_PAGE) int page);
+
+    /**
+     * 得到我专题的动态
+     *
+     * @param type 类型
+     * @param page 分页
+     * @return Call
+     */
+    @GET(Config.URL_DYNAMIC_MY)
+    Call<ApiResponse<SpecialListEntity>> getMySubjectDynamic(
+            @Header(Config.HEADER_KEY_AUTHORIZATION) String authorization,
+            @Path(Config.KEY_TYPE) String type,
             @Query(Config.KEY_PAGE) int page);
 }

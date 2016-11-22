@@ -14,12 +14,23 @@
         android:paddingRight="20dp">
 
         <TextView
-            android:id="@+id/iidb_tv_delete"
+            android:id="@+id/iidbf_tv_delete"
             style="@style/Dynamic_IconText_style"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@drawable/selecter_clearity_gravy"
             android:text="删除"
+            android:textColor="@color/main_theme_green"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/iidbf_tv_mark"
+            style="@style/Dynamic_IconText_style"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/selecter_clearity_gravy"
+            android:text="标记"
             android:textColor="@color/main_theme_green"
             android:visibility="gone" />
 

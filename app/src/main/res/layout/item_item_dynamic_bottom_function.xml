@@ -14,7 +14,7 @@
         android:paddingRight="20dp">
 
         <TextView
-            android:id="@+id/iidb_tv_delete"
+            android:id="@+id/iidbf_tv_delete"
             style="@style/Dynamic_IconText_style"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

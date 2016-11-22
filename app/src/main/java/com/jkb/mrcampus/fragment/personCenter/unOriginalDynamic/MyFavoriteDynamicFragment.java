@@ -12,13 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jkb.core.contract.myFavorite.MyFavoriteDynamicContract;
+import com.jkb.core.contract.personCenter.unOriginal.myFavorite.MyFavoriteDynamicContract;
 import com.jkb.core.data.dynamic.myUnOriginal.myFavorite.MyFavoriteDynamicData;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.MyUnOriginalDynamicActivity;
-import com.jkb.mrcampus.adapter.recycler.personCenter.myUnOriginalDynamic.MyFavoriteDynamicAdapter;
+import com.jkb.mrcampus.adapter.recycler.personCenter.unOriginal.MyFavoriteDynamicAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;

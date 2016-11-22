@@ -13,11 +13,11 @@ import android.widget.TextView;
 
 import com.jkb.api.config.Config;
 import com.jkb.core.contract.dynamicDetail.data.DynamicDetailNormalData;
-import com.jkb.core.contract.myDynamic.MyDynamicNormalContract;
+import com.jkb.core.contract.personCenter.original.myDynamic.MyDynamicNormalContract;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.DynamicDetailActivity;
 import com.jkb.mrcampus.activity.MyOriginalDynamicActivity;
-import com.jkb.mrcampus.adapter.recycler.personCenter.myDynamic.MyDynamicNormalAdapter;
+import com.jkb.mrcampus.adapter.recycler.personCenter.original.myDynamic.MyDynamicNormalAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
 import com.jkb.mrcampus.fragment.dialog.ShareDynamicDialogFragment;
