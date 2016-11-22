@@ -45,6 +45,14 @@ public interface MessageCenterContract {
         void setCircleMessageCount(int unReadCount, int allCount);
 
         /**
+         * 設置专题的消息数据
+         *
+         * @param unReadCount 未读消息数
+         * @param allCount    总消息数
+         */
+        void setSubjectMessageCount(int unReadCount, int allCount);
+
+        /**
          * 設置系统的消息数据
          *
          * @param unReadCount 未读消息数
@@ -82,6 +90,11 @@ public interface MessageCenterContract {
          * 显示喜欢的消息的页面
          */
         void showMessageCircleView();
+
+        /**
+         * 显示专题的消息页面
+         */
+        void showMessageSpecialView();
 
         /**
          * 显示喜欢的消息的页面

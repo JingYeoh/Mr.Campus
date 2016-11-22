@@ -33,6 +33,8 @@ import com.jkb.mrcampus.activity.MessageCenterActivity;
 import com.jkb.mrcampus.activity.MyOriginalDynamicActivity;
 import com.jkb.mrcampus.activity.MyUnOriginalDynamicActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
+import com.jkb.mrcampus.activity.SpecialCreateActivity;
+import com.jkb.mrcampus.activity.SpecialDetailActivity;
 import com.jkb.mrcampus.activity.ToolsFunctionActivity;
 import com.jkb.mrcampus.activity.UsersListActivity;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
@@ -489,6 +491,68 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
     public void startToolsFunctionCourier() {
         Intent intent = new Intent(this, ToolsFunctionActivity.class);
         intent.putExtra(Config.INTENT_KEY_TOOLS_TYPE, ToolsFunctionActivity.TOOLS_COURIER);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+
+    @Override
+    public void startSpecialDetailConfession(int dynamicId) {
+        Intent intent = new Intent(this, SpecialDetailActivity.class);
+        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+                SpecialDetailActivity.SUBJECT_TYPE_CONFESSION);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startSpecialDetailFleaMarket(int dynamicId) {
+        Intent intent = new Intent(this, SpecialDetailActivity.class);
+        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+                SpecialDetailActivity.SUBJECT_TYPE_FLEAMARKET);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startSpecialDetailLostAndFound(int dynamicId) {
+        Intent intent = new Intent(this, SpecialDetailActivity.class);
+        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+                SpecialDetailActivity.SUBJECT_TYPE_LOSTANDFOUND);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startSpecialDetailTaunted(int dynamicId) {
+        Intent intent = new Intent(this, SpecialDetailActivity.class);
+        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+                SpecialDetailActivity.SUBJECT_TYPE_TAUNTED);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startSpecialDetailWantedPartner(int dynamicId) {
+        Intent intent = new Intent(this, SpecialDetailActivity.class);
+        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+                SpecialDetailActivity.SUBJECT_TYPE_WANTED_PARTNER);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startSpecialDetailWantedSavant(int dynamicId) {
+        Intent intent = new Intent(this, SpecialDetailActivity.class);
+        intent.putExtra(Config.INTENT_KEY_SPECIAL_TYPE,
+                SpecialDetailActivity.SUBJECT_TYPE_WANTED_SAVANT);
+        intent.putExtra(Config.INTENT_KEY_DYNAMIC_ID, dynamicId);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startSpecialCreate(int specialCreateType) {
+        Intent intent = new Intent(this, SpecialCreateActivity.class);
+        intent.putExtra(Config.INTENT_KEY_SUBJECT_CREATE_TYPE, specialCreateType);
         startActivityWithPushLeftAnim(intent);
     }
 

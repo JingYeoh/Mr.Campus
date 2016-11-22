@@ -119,6 +119,21 @@ public interface MessagesDbDataSource {
     void getAllCircleMessagesCount(int user_id, MessagesDataCallback<Integer> callback);
 
     /**
+     * 获取所有的专题消息
+     */
+    void getAllSubjectMessage(int user_id, MessagesDataCallback<List<Messages>> callback);
+
+    /**
+     * 获取所有的专题消息数目
+     */
+    void getAllSubjectMessageCount(int user_id, MessagesDataCallback<Integer> callback);
+
+    /**
+     * 获取所有的未读专题消息数目
+     */
+    void getAllSubjectUnReadMessageCount(int user_id, MessagesDataCallback<Integer> callback);
+
+    /**
      * 得带所以体验的系统消息的数目
      *
      * @param callback 回调

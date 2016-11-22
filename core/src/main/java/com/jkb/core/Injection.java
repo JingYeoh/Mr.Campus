@@ -75,6 +75,12 @@ import com.jkb.model.dataSource.function.index.hot.remote.DynamicHotRemoteDataSo
 import com.jkb.model.dataSource.function.setting.FunctionSettingDataRepertory;
 import com.jkb.model.dataSource.function.setting.local.FunctionSettingLocalDataSource;
 import com.jkb.model.dataSource.function.setting.remote.FunctionSettingRemoteDataSource;
+import com.jkb.model.dataSource.function.special.create.SpecialCreateRepertory;
+import com.jkb.model.dataSource.function.special.create.local.SpecialCreateLocalDataSource;
+import com.jkb.model.dataSource.function.special.create.remote.SpecialCreateRemoteDataSource;
+import com.jkb.model.dataSource.function.special.list.SpecialRepertory;
+import com.jkb.model.dataSource.function.special.list.local.SpecialLocalDataSource;
+import com.jkb.model.dataSource.function.special.list.remote.SpecialRemoteDataSource;
 import com.jkb.model.dataSource.function.tools.cet.ToolsCETRepertory;
 import com.jkb.model.dataSource.function.tools.cet.local.ToolsCETLocalDataSource;
 import com.jkb.model.dataSource.function.tools.cet.remote.ToolsCETRemoteDataSource;
@@ -618,6 +624,31 @@ public class Injection {
                 ToolsCETRepertory.newInstance(
                         ToolsCETLocalDataSource.newInstance(applicationContext),
                         ToolsCETRemoteDataSource.newInstance()
+                );
+        return repertory;
+    }
+
+    /**
+     * 得到SpecialRepertory對象
+     */
+    public static SpecialRepertory provideSpecialRepertory(@NonNull Context applicationContext) {
+        SpecialRepertory repertory =
+                SpecialRepertory.newInstance(
+                        SpecialLocalDataSource.newInstance(applicationContext),
+                        SpecialRemoteDataSource.newInstance()
+                );
+        return repertory;
+    }
+
+    /**
+     * 得到SpecialCreateRepertory對象
+     */
+    public static SpecialCreateRepertory provideSpecialCreateRepertory(
+            @NonNull Context applicationContext) {
+        SpecialCreateRepertory repertory =
+                SpecialCreateRepertory.newInstance(
+                        SpecialCreateLocalDataSource.newInstance(applicationContext),
+                        SpecialCreateRemoteDataSource.newInstance()
                 );
         return repertory;
     }

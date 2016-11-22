@@ -35,14 +35,8 @@ public class MessageDynamicFragment extends BaseFragment implements
         MessageDynamicContract.View,
         View.OnClickListener, Observer, SwipeRefreshLayout.OnRefreshListener {
 
-    public MessageDynamicFragment() {
-    }
-
-    private static MessageDynamicFragment INSTANCE = null;
-
     public static MessageDynamicFragment newInstance() {
-        INSTANCE = new MessageDynamicFragment();
-        return INSTANCE;
+        return new MessageDynamicFragment();
     }
 
     //data
@@ -96,7 +90,7 @@ public class MessageDynamicFragment extends BaseFragment implements
         recyclerView.addItemDecoration(
                 new DividerItemDecoration(context,
                         LinearLayoutManager.VERTICAL,
-                        getResources().getColor(R.color.line), 1));//添加分割线
+                        getResources().getColor(R.color.gravy_20), 1));//添加分割线
     }
 
     @Override
@@ -112,10 +106,10 @@ public class MessageDynamicFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         messageActivity = null;
-        refreshLayout=null;
-        recyclerView=null;
-        linearLayoutManager=null;
-        messageDynamicAdapter=null;
+        refreshLayout = null;
+        recyclerView = null;
+        linearLayoutManager = null;
+        messageDynamicAdapter = null;
         MessageObservable.newInstance().deleteObserver(this);
     }
 

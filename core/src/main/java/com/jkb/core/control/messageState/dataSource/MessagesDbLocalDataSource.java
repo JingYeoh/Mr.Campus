@@ -168,7 +168,11 @@ public class MessagesDbLocalDataSource implements MessagesDbDataSource {
                 MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_PAYATTENTION),
                 MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_LIKE),
                 MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_MAKECOMMENT),
-                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_MAKEREPLY)
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_MAKEREPLY),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_FAVORITE),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_MAKECOMMENT),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_MAKEREPLY),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_LIKE)
         );
         List<Messages> messages = qb.list();
         List<Messages> messages2 = qb2.list();
@@ -353,6 +357,67 @@ public class MessagesDbLocalDataSource implements MessagesDbDataSource {
                 MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_IN_BLACK_LIST_DYNAMIC),
                 MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_OUT_BLACK_LIST_DYNAMIC),
                 MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_OUT_BLACK_LIST_USER)
+        );
+        List<Messages> messages = messagesQueryBuilder.list();
+        if (messages == null) {
+            callback.onDataNotAvailable();
+        } else {
+            callback.onSuccess(messages.size());
+        }
+    }
+
+    @Override
+    public void getAllSubjectMessage(int user_id, MessagesDataCallback<List<Messages>> callback) {
+        MessagesDao messagesDao = daoSession.getMessagesDao();
+        QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
+        messagesQueryBuilder.where(
+                MessagesDao.Properties.User_id.eq(user_id));
+        messagesQueryBuilder.whereOr(
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_FAVORITE),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_MAKECOMMENT),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_MAKEREPLY),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_LIKE)
+        );
+        List<Messages> messages = messagesQueryBuilder.orderDesc(MessagesDao.Properties.Id).list();
+        if (messages == null) {
+            callback.onDataNotAvailable();
+        } else {
+            callback.onSuccess(messages);
+        }
+    }
+
+    @Override
+    public void getAllSubjectMessageCount(int user_id, MessagesDataCallback<Integer> callback) {
+        MessagesDao messagesDao = daoSession.getMessagesDao();
+        QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
+        messagesQueryBuilder.where(
+                MessagesDao.Properties.User_id.eq(user_id));
+        messagesQueryBuilder.whereOr(
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_FAVORITE),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_MAKECOMMENT),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_MAKEREPLY),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_LIKE)
+        );
+        List<Messages> messages = messagesQueryBuilder.list();
+        if (messages == null) {
+            callback.onDataNotAvailable();
+        } else {
+            callback.onSuccess(messages.size());
+        }
+    }
+
+    @Override
+    public void getAllSubjectUnReadMessageCount(int user_id, MessagesDataCallback<Integer> callback) {
+        MessagesDao messagesDao = daoSession.getMessagesDao();
+        QueryBuilder<Messages> messagesQueryBuilder = messagesDao.queryBuilder();
+        messagesQueryBuilder.where(
+                MessagesDao.Properties.User_id.eq(user_id),
+                MessagesDao.Properties.Is_read.eq(false));
+        messagesQueryBuilder.whereOr(
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_FAVORITE),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_MAKECOMMENT),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_MAKEREPLY),
+                MessagesDao.Properties.Action.eq(Config.MESSAGE_ACTION_SUBJECT_LIKE)
         );
         List<Messages> messages = messagesQueryBuilder.list();
         if (messages == null) {

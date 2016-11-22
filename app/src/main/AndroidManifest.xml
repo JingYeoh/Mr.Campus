@@ -133,6 +133,12 @@
         //搜索的页面控制器
         <activity android:name=".activity.SearchActivity" />
 
+        //专题详情的页面控制器
+        <activity android:name=".activity.SpecialDetailActivity" />
+
+        //专题创建的页面控制器
+        <activity android:name=".activity.SpecialCreateActivity" />
+
         //会话页面的页面控制器
         <activity
             android:name=".activity.ConversationActivity"

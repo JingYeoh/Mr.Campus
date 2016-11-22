@@ -20,7 +20,7 @@ import com.jkb.mrcampus.activity.callback.RongIMConnectCallBack;
 import com.jkb.mrcampus.base.BaseSlideMenuActivity;
 import com.jkb.mrcampus.fragment.function.index.HomePageFragment;
 import com.jkb.mrcampus.fragment.function.setting.SettingFragment;
-import com.jkb.mrcampus.fragment.function.special.SubjectFragment;
+import com.jkb.mrcampus.fragment.function.special.SpecialFragment;
 import com.jkb.mrcampus.fragment.function.tools.ToolsFragment;
 import com.jkb.mrcampus.fragment.menu.RightMenuFragment;
 import com.jkb.mrcampus.fragment.menu.SwitchFunctionFragment;
@@ -71,7 +71,7 @@ public class MainActivity extends BaseSlideMenuActivity implements
     private ToolsFragment toolsFragment;
 
     //专题
-    private SubjectFragment subjectFragment;
+    private SpecialFragment subjectFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -134,6 +134,9 @@ public class MainActivity extends BaseSlideMenuActivity implements
                 break;
             case Config.BUNDLE_JUMP_ACTION_MESSAGE_SYSTEM:
                 startMessageActivity(MessageActivity.MESSAGE_TYPE_SYSTEM);
+                break;
+            case Config.BUNDLE_JUMP_ACTION_MESSAGE_SUBJECT:
+                startMessageActivity(MessageActivity.MESSAGE_TYPE_SPECIAL);
                 break;
             case Config.BUNDLE_JUMP_ACTION_CONVERSATION_PRIVETE://私聊
                 jumpToPrivateConversation();
@@ -261,7 +264,7 @@ public class MainActivity extends BaseSlideMenuActivity implements
             showView = fragmentName;
             if (ClassUtils.isNameEquals(fragmentName, HomePageFragment.class)) {
                 showHomePage();
-            } else if (ClassUtils.isNameEquals(fragmentName, SubjectFragment.class)) {
+            } else if (ClassUtils.isNameEquals(fragmentName, SpecialFragment.class)) {
                 showSubject();
             } else if (ClassUtils.isNameEquals(fragmentName, ToolsFragment.class)) {
                 showTools();
@@ -278,8 +281,8 @@ public class MainActivity extends BaseSlideMenuActivity implements
         if (ClassUtils.isNameEquals(fragmentTAG, HomePageFragment.class)) {
             homePageFragment = (HomePageFragment) fm.findFragmentByTag(fragmentTAG);
             homePagePresenter = new HomePagePresenter(homePageFragment);
-        } else if (ClassUtils.isNameEquals(fragmentTAG, SubjectFragment.class)) {
-            subjectFragment = (SubjectFragment) fm.findFragmentByTag(fragmentTAG);
+        } else if (ClassUtils.isNameEquals(fragmentTAG, SpecialFragment.class)) {
+            subjectFragment = (SpecialFragment) fm.findFragmentByTag(fragmentTAG);
         } else if (ClassUtils.isNameEquals(fragmentTAG, ToolsFragment.class)) {
             toolsFragment = (ToolsFragment) fm.findFragmentByTag(fragmentTAG);
         } else if (ClassUtils.isNameEquals(fragmentTAG, SettingFragment.class)) {
@@ -294,7 +297,7 @@ public class MainActivity extends BaseSlideMenuActivity implements
         String fragmentTAG = fragmentClass.getName();
         if (ClassUtils.isNameEquals(fragmentTAG, HomePageFragment.class)) {
             initHomepage();
-        } else if (ClassUtils.isNameEquals(fragmentTAG, SubjectFragment.class)) {
+        } else if (ClassUtils.isNameEquals(fragmentTAG, SpecialFragment.class)) {
             initSubject();
         } else if (ClassUtils.isNameEquals(fragmentTAG, ToolsFragment.class)) {
             initTools();
@@ -330,7 +333,7 @@ public class MainActivity extends BaseSlideMenuActivity implements
      */
     private void initSubject() {
         if (subjectFragment == null) {
-            subjectFragment = SubjectFragment.newInstance();
+            subjectFragment = SpecialFragment.newInstance();
             ActivityUtils.addFragmentToActivity(fm, subjectFragment, contentView);
         }
     }
@@ -418,7 +421,7 @@ public class MainActivity extends BaseSlideMenuActivity implements
 
     @Override
     public void showSpecialModelView() {
-        showFragment(ClassUtils.getClassName(SubjectFragment.class));
+        showFragment(ClassUtils.getClassName(SpecialFragment.class));
     }
 
     @Override

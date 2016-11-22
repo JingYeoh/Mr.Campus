@@ -89,7 +89,7 @@ public class MessageCircleFragment extends BaseFragment implements
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(
                 new DividerItemDecoration(context, LinearLayoutManager.VERTICAL,
-                        getResources().getColor(R.color.line), 1));//添加分割线
+                        getResources().getColor(R.color.gravy_20), 1));//添加分割线
     }
 
     @Override

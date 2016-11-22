@@ -239,6 +239,43 @@ public interface BaseActivityAction {
     void startToolsFunctionCourier();
 
     /**
+     * 打开专题详情：表白墙
+     */
+    void startSpecialDetailConfession(int dynamicId);
+
+    /**
+     * 打开专题详情：吐槽墙
+     */
+    void startSpecialDetailTaunted(int dynamicId);
+
+    /**
+     * 打开专题详情：失物招領
+     */
+    void startSpecialDetailLostAndFound(int dynamicId);
+
+    /**
+     * 打开专题详情：跳蚤市场
+     */
+    void startSpecialDetailFleaMarket(int dynamicId);
+
+    /**
+     * 打开专题详情：寻伙伴
+     */
+    void startSpecialDetailWantedPartner(int dynamicId);
+
+    /**
+     * 打开专题详情：求学霸
+     */
+    void startSpecialDetailWantedSavant(int dynamicId);
+
+    /**
+     * 打开创建专题页面
+     *
+     * @param specialCreateType 创建的专题类型
+     */
+    void startSpecialCreate(int specialCreateType);
+
+    /**
      * 顯示輸入
      **/
     void showSoftInputView();

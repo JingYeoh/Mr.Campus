@@ -239,6 +239,57 @@ public class MessageLoginObservable implements MessageObservableAction {
     }
 
     @Override
+    public List<Messages> getAllSubjectMessage() {
+        final Object messages[] = new Object[1];
+        dataSource.getAllSubjectMessage(user_id, new MessagesDataCallback<List<Messages>>() {
+            @Override
+            public void onSuccess(List<Messages> messageObj) {
+                messages[0] = messageObj;
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                messages[0] = new ArrayList<>();
+            }
+        });
+        return (List<Messages>) messages[0];
+    }
+
+    @Override
+    public int getAllSubjectMessageCount() {
+        final int count[] = new int[1];
+        dataSource.getAllSubjectMessageCount(user_id, new MessagesDataCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer messageObj) {
+                count[0] = messageObj;
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                count[0] = 0;
+            }
+        });
+        return count[0];
+    }
+
+    @Override
+    public int getAllUnReadSubjectMessageCount() {
+        final int count[] = new int[1];
+        dataSource.getAllSubjectUnReadMessageCount(user_id, new MessagesDataCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer messageObj) {
+                count[0] = messageObj;
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                count[0] = 0;
+            }
+        });
+        return count[0];
+    }
+
+    @Override
     public void readMessage(Messages messages) {
         //设置消息已被读取
         messages.setIs_read(true);

@@ -125,7 +125,7 @@ public class HotFragment extends BaseFragment implements HotContract.View,
         recyclerView.addItemDecoration(
                 new DividerItemDecoration(context,
                         LinearLayoutManager.VERTICAL,
-                        getResources().getColor(R.color.line), 1));//添加分割线
+                        getResources().getColor(R.color.gravy_20), 5));//添加分割线
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 

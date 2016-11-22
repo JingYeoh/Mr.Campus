@@ -24,7 +24,6 @@ public class MessageObservable extends Observable implements MessageObservableAc
 
     //data
     private Context mContext;
-    private MessagesDbLocalDataSource dataSource;
     private int user_id;
     //状态
     private MessageObservableAction messageUserState;
@@ -32,7 +31,7 @@ public class MessageObservable extends Observable implements MessageObservableAc
     private MessageLogoutObservable logoutState;
 
     private MessageObservable() {
-        dataSource = MessagesDbLocalDataSource.newInstance(mContext);
+        MessagesDbLocalDataSource dataSource = MessagesDbLocalDataSource.newInstance(mContext);
         loginState = new MessageLoginObservable(dataSource, user_id);
         logoutState = new MessageLogoutObservable(dataSource);
 
@@ -167,6 +166,21 @@ public class MessageObservable extends Observable implements MessageObservableAc
     @Override
     public int getAllUnReadCircleMessageCount() {
         return messageUserState.getAllUnReadCircleMessageCount();
+    }
+
+    @Override
+    public List<Messages> getAllSubjectMessage() {
+        return messageUserState.getAllSubjectMessage();
+    }
+
+    @Override
+    public int getAllSubjectMessageCount() {
+        return messageUserState.getAllSubjectMessageCount();
+    }
+
+    @Override
+    public int getAllUnReadSubjectMessageCount() {
+        return messageUserState.getAllUnReadSubjectMessageCount();
     }
 
     @Override

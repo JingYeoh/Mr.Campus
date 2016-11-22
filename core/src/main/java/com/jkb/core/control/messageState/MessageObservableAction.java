@@ -79,6 +79,21 @@ public interface MessageObservableAction {
     int getAllUnReadCircleMessageCount();
 
     /**
+     * 得到所有的专题消息
+     */
+    List<Messages> getAllSubjectMessage();
+
+    /**
+     * 得到所有的专题消息数
+     */
+    int getAllSubjectMessageCount();
+
+    /**
+     * 得到所有的专题未读消息数
+     */
+    int getAllUnReadSubjectMessageCount();
+
+    /**
      * 读取消息
      */
     void readMessage(Messages messages);

@@ -21,6 +21,7 @@ import com.jkb.core.data.info.dynamic.content.DynamicContentTopicInfo;
 import com.jkb.model.data.PageControlEntity;
 import com.jkb.model.dataSource.function.index.dynamic.DynamicDataSource;
 import com.jkb.model.info.UserInfoSingleton;
+import com.jkb.model.utils.LogUtils;
 import com.jkb.model.utils.StringUtils;
 
 import java.util.ArrayList;

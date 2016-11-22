@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
-import com.jkb.mrcampus.adapter.fragmentPager.HomePageAdapter;
+import com.jkb.mrcampus.activity.SpecialCreateActivity;
 import com.jkb.mrcampus.adapter.fragmentPager.SpecialAdapter;
 import com.jkb.mrcampus.base.BaseFragment;
 import com.jkb.mrcampus.fragment.dialog.WriteSpecialDialogFragment;
@@ -20,10 +20,10 @@ import com.jkb.mrcampus.fragment.dialog.WriteSpecialDialogFragment;
  * Created by JustKiddingBaby on 2016/10/11.
  */
 
-public class SubjectFragment extends BaseFragment implements View.OnClickListener {
+public class SpecialFragment extends BaseFragment implements View.OnClickListener {
 
-    public static SubjectFragment newInstance() {
-        return new SubjectFragment();
+    public static SpecialFragment newInstance() {
+        return new SpecialFragment();
     }
 
     //data
@@ -103,37 +103,43 @@ public class SubjectFragment extends BaseFragment implements View.OnClickListene
             new WriteSpecialDialogFragment.OnWriteSpecialItemClickListener() {
                 @Override
                 public void onClosed() {
-
+                    mainActivity.dismiss();
                 }
 
                 @Override
                 public void onConfessionClick() {
-
+                    mainActivity.startSpecialCreate(
+                            SpecialCreateActivity.SUBJECT_CREATE_TYPE_CONFESSION);
                 }
 
                 @Override
                 public void onFleaMarketClick() {
-
+                    mainActivity.startSpecialCreate(
+                            SpecialCreateActivity.SUBJECT_CREATE_TYPE_FLEAMARKET);
                 }
 
                 @Override
                 public void onFoundPartnerClick() {
-
+                    mainActivity.startSpecialCreate(
+                            SpecialCreateActivity.SUBJECT_CREATE_TYPE_WANTED_PARTNER);
                 }
 
                 @Override
                 public void onLost$FoundClick() {
-
+                    mainActivity.startSpecialCreate(
+                            SpecialCreateActivity.SUBJECT_CREATE_TYPE_LOSTANDFOUND);
                 }
 
                 @Override
                 public void onQuestionClick() {
-
+                    mainActivity.startSpecialCreate(
+                            SpecialCreateActivity.SUBJECT_CREATE_TYPE_WANTED_SAVANT);
                 }
 
                 @Override
                 public void onTauntedClick() {
-
+                    mainActivity.startSpecialCreate(
+                            SpecialCreateActivity.SUBJECT_CREATE_TYPE_TAUNTED);
                 }
             };
 }

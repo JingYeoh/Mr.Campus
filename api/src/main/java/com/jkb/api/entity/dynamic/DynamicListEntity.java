@@ -10,19 +10,6 @@ import java.util.List;
 public class DynamicListEntity {
 
 
-    /**
-     * total : 77
-     * per_page : 10
-     * current_page : 2
-     * last_page : 8
-     * next_page_url : http://www.campus.org/api/v1/dynamic/getAllDynamic?page=3
-     * prev_page_url : http://www.campus.org/api/v1/dynamic/getAllDynamic?page=1
-     * from : 11
-     * to : 20
-     * data : [{"target_type":"circle","action":"subscribe","title":"订阅了一个圈子","target_id":291,"created_at":"2016-09-12 10:31:55","creator_id":1,"creator_nickname":"lyf1","creator_avatar":"http://image.lyfsmile.cn/avatar/image2841_1471333502.jpg","circle":{"id":291,"name":"Leif Abbott","type":"交友","picture":"http://lorempixel.com/640/480/?81197","introduction":"Mollitia suscipit occaecati qui quia...","longitude":8.237792,"latitude":28.382551,"created_at":"2016-08-03 16:24:15","dynamics_count":2,"operation_count":25,"hasSubscribe":false,"user":{"id":25,"circle_owner_nickname":"logan.von","circle_owner_avatar":"http://lorempixel.com/640/480/?46772"},"school":{"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg"}}},{"target_type":"dynamic","action":"favorite","title":"喜欢了一个动态","target_id":227,"created_at":"2016-09-12 10:31:55","creator_id":136,"creator_nickname":"joy91","creator_avatar":"http://lorempixel.com/640/480/?15460","dynamic":{"id":227,"dtype":"normal","title":"Quod praesentium vitae ad.","content":{"normal":{"doc":"Ut et eaque ratione nihil...","img":[]}},"tag":null,"created_at":"2016-09-07 18:13:09","comments_count":25,"operation_count":19,"hasFavorite":false,"user":{"id":195,"nickname":"maverick.langworth","avatar":"http://lorempixel.com/640/480/?56911"}}},{"target_type":"dynamic","action":"post","title":"发表了一个动态.","target_id":260,"created_at":"2016-09-12 10:31:55","creator_id":121,"creator_nickname":"fmiller","creator_avatar":"http://lorempixel.com/640/480/?57889","dynamic":{"id":260,"dtype":"normal","title":"Corporis doloremque nisi soluta.","content":{"normal":{"doc":"Aut qui est eveniet ea...","img":["http://lorempixel.com/640/480/?78664"]}},"tag":null,"created_at":"2016-09-07 18:13:10","comments_count":50,"operation_count":24,"hasFavorite":false,"user":{"id":121,"nickname":"fmiller","avatar":"http://lorempixel.com/640/480/?57889"}}},{"target_type":"circleInCommonUse","action":"postInCircle","title":"有一个新话题.","target_id":84,"created_at":"2016-09-12 10:31:56","creator_id":183,"creator_nickname":"rogahn.pascale","creator_avatar":"http://lorempixel.com/640/480/?26042","dynamic":{"id":84,"dtype":"topic","title":"Nesciunt corporis error vel.","content":{"topic":{"doc":"Est hic perspiciatis aut...","img":"http://lorempixel.com/640/480/?50885"}},"tag":"omnis","created_at":"2016-09-07 18:13:05","comments_count":35,"operation_count":25,"participation":32,"hasFavorite":false,"circle":{"id":264,"name":"Miss Catharine Glover","type":"交友","picture":"http://lorempixel.com/640/480/?13576","introduction":"Eveniet quia ratione animi...","longitude":141.165887,"latitude":34.147448,"created_at":"2016-08-03 16:24:14","user":{"id":4,"circle_owner_nickname":"simone40","circle_owner_avatar":"http://lorempixel.com/640/480/?12085"},"school":{"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg"}},"user":{"id":183,"nickname":"rogahn.pascale","avatar":"http://lorempixel.com/640/480/?26042"}}},{"target_type":"circleInCommonUse","action":"postInCircle","title":"有一篇新文章.","target_id":213,"created_at":"2016-09-12 10:32:06","creator_id":70,"creator_nickname":"creola.schultz","creator_avatar":"http://lorempixel.com/640/480/?25139","dynamic":{"id":213,"dtype":"article","title":"Dolorem rem ad qui.","content":{"article":[{"doc":"Rerum beatae dolorum nemo alias...","img":"http://lorempixel.com/640/480/?70699"},{"doc":"Sint quis eius illum dolorem...","img":"http://lorempixel.com/640/480/?76481"},{"doc":"Voluptatem molestiae voluptas...","img":"http://lorempixel.com/640/480/?77799"}]},"tag":"alias","created_at":"2016-09-07 18:13:08","comments_count":29,"operation_count":24,"hasFavorite":false,"circle":{"id":219,"name":"Mrs. Magnolia Zieme MD","type":"娱乐","picture":"http://lorempixel.com/640/480/?51998","introduction":"Culpa excepturi quod recusandae...","longitude":168.716978,"latitude":38.989943,"created_at":"2016-08-03 16:24:13","user":{"id":21,"circle_owner_nickname":"darian24","circle_owner_avatar":"http://lorempixel.com/640/480/?54676"},"school":{"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg"}},"user":{"id":70,"nickname":"creola.schultz","avatar":"http://lorempixel.com/640/480/?25139"}}}]
-     * error : ["该用户不存在."]
-     */
-
     private int total;
     private int per_page;
     private int current_page;
@@ -31,17 +18,6 @@ public class DynamicListEntity {
     private String prev_page_url;
     private int from;
     private int to;
-    /**
-     * target_type : circle
-     * action : subscribe
-     * title : 订阅了一个圈子
-     * target_id : 291
-     * created_at : 2016-09-12 10:31:55
-     * creator_id : 1
-     * creator_nickname : lyf1
-     * creator_avatar : http://image.lyfsmile.cn/avatar/image2841_1471333502.jpg
-     * circle : {"id":291,"name":"Leif Abbott","type":"交友","picture":"http://lorempixel.com/640/480/?81197","introduction":"Mollitia suscipit occaecati qui quia...","longitude":8.237792,"latitude":28.382551,"created_at":"2016-08-03 16:24:15","dynamics_count":2,"operation_count":25,"hasSubscribe":false,"user":{"id":25,"circle_owner_nickname":"logan.von","circle_owner_avatar":"http://lorempixel.com/640/480/?46772"},"school":{"id":1,"sname":"金陵科技学院","badge":"/home/wwwroot/image.lyfsmile.cn/school/jlkj.jpg"}}
-     */
 
     private List<DataBean> data;
     private List<String> error;

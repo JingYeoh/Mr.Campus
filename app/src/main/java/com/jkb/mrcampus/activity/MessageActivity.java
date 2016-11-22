@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.jkb.core.presenter.message.MessageCirclePresenter;
 import com.jkb.core.presenter.message.MessageDynamicPresenter;
+import com.jkb.core.presenter.message.MessageSubjectPresenter;
 import com.jkb.core.presenter.message.MessageSubscribePresenter;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
@@ -14,6 +15,7 @@ import com.jkb.mrcampus.base.BaseActivity;
 import com.jkb.mrcampus.fragment.function.message.detail.MessageCircleFragment;
 import com.jkb.mrcampus.fragment.function.message.detail.MessageDynamicFragment;
 import com.jkb.mrcampus.fragment.function.message.detail.MessageFansFragment;
+import com.jkb.mrcampus.fragment.function.message.detail.MessageSpecialFragment;
 import com.jkb.mrcampus.fragment.function.message.detail.MessageSubscribeFragment;
 import com.jkb.mrcampus.fragment.function.message.detail.MessageSystemFragment;
 import com.jkb.mrcampus.helper.ActivityUtils;
@@ -37,6 +39,7 @@ public class MessageActivity extends BaseActivity {
     public static final int MESSAGE_TYPE_SUBSCRIBE = 1004;
     public static final int MESSAGE_TYPE_CIRCLE = 1005;
     public static final int MESSAGE_TYPE_SYSTEM = 1006;
+    public static final int MESSAGE_TYPE_SPECIAL = 1007;
 
     //動態
     private MessageDynamicFragment messageDynamicFragment;
@@ -55,6 +58,10 @@ public class MessageActivity extends BaseActivity {
 
     //系统
     private MessageSystemFragment messageSystemFragment;
+
+    //专题
+    private MessageSpecialFragment messageSpecialFragment;
+    private MessageSubjectPresenter messageSubjectPresenter;
 
 
     @Override
@@ -109,6 +116,9 @@ public class MessageActivity extends BaseActivity {
             case MESSAGE_TYPE_SYSTEM:
                 showFragment = ClassUtils.getClassName(MessageSystemFragment.class);
                 break;
+            case MESSAGE_TYPE_SPECIAL:
+                showFragment = ClassUtils.getClassName(MessageSpecialFragment.class);
+                break;
             default:
                 showFragment = null;
                 break;
@@ -140,12 +150,13 @@ public class MessageActivity extends BaseActivity {
                 showMessageCircle();
             } else if (ClassUtils.isNameEquals(fragmentName, MessageSystemFragment.class)) {
                 showMessageSystem();
+            } else if (ClassUtils.isNameEquals(fragmentName, MessageSpecialFragment.class)) {
+                showMessageSpecial();
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
-
 
     @Override
     protected void restoreFragments(String fragmentTAG) {
@@ -162,6 +173,9 @@ public class MessageActivity extends BaseActivity {
             messageCirclePresenter = new MessageCirclePresenter(messageCircleFragment);
         } else if (ClassUtils.isNameEquals(fragmentTAG, MessageSystemFragment.class)) {
             messageSystemFragment = (MessageSystemFragment) fm.findFragmentByTag(fragmentTAG);
+        } else if (ClassUtils.isNameEquals(fragmentTAG, MessageSpecialFragment.class)) {
+            messageSpecialFragment = (MessageSpecialFragment) fm.findFragmentByTag(fragmentTAG);
+            messageSubjectPresenter = new MessageSubjectPresenter(messageSpecialFragment);
         }
     }
 
@@ -178,7 +192,20 @@ public class MessageActivity extends BaseActivity {
             initMessageCircle();
         } else if (ClassUtils.isNameEquals(fragmentTAG, MessageSystemFragment.class)) {
             initMessageSystem();
+        } else if (ClassUtils.isNameEquals(fragmentTAG, MessageSpecialFragment.class)) {
+            initMessageSpecial();
         }
+    }
+
+    /**
+     * 初始化专题的消息
+     */
+    private void initMessageSpecial() {
+        if (messageSpecialFragment == null) {
+            messageSpecialFragment = MessageSpecialFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(fm, messageSpecialFragment, contentView);
+        }
+        messageSubjectPresenter = new MessageSubjectPresenter(messageSpecialFragment);
     }
 
     /**
@@ -234,6 +261,13 @@ public class MessageActivity extends BaseActivity {
         messageDynamicPresenter = new MessageDynamicPresenter(messageDynamicFragment);
     }
 
+
+    /**
+     * 显示专题页面
+     */
+    private void showMessageSpecial() {
+        ActivityUtils.showFragment(fm, messageSpecialFragment);
+    }
 
     /**
      * 显示系统的消息详情页面

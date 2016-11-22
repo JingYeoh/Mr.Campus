@@ -335,7 +335,7 @@ public class EnteringCircleMessageFragment extends BaseFragment implements View.
                 }
 
                 @Override
-                public void onAlbusSelected() {
+                public void onAlbumSelected() {
                     choosePictureFromAlbum();
                 }
             };

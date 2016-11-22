@@ -387,7 +387,7 @@ public class PersonSettingFragment extends BaseFragment implements PersonSetting
     }
 
     @Override
-    public void onAlbusSelected() {
+    public void onAlbumSelected() {
         choosePictureFromAlbum();
     }
     ///////////////////////////////头像裁剪处理回调区////////////////////////////

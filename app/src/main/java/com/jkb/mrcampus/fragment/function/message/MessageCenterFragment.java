@@ -35,10 +35,8 @@ public class MessageCenterFragment extends BaseFragment implements
     public MessageCenterFragment() {
     }
 
-    private static MessageCenterFragment INSTANCE = null;
-
     public static MessageCenterFragment newInstance() {
-        INSTANCE = new MessageCenterFragment();
+        MessageCenterFragment INSTANCE = new MessageCenterFragment();
         return INSTANCE;
     }
 
@@ -84,6 +82,7 @@ public class MessageCenterFragment extends BaseFragment implements
         rootView.findViewById(R.id.fmsgc_content_fans).setOnClickListener(this);
         rootView.findViewById(R.id.fmsgc_content_subscribe).setOnClickListener(this);
         rootView.findViewById(R.id.fmsgc_content_circle).setOnClickListener(this);
+        rootView.findViewById(R.id.fmsgc_content_special).setOnClickListener(this);
         rootView.findViewById(R.id.fmsgc_content_system).setOnClickListener(this);
         //添加为消息的观察者
         MessageObservable.newInstance().addObserver(this);
@@ -123,6 +122,9 @@ public class MessageCenterFragment extends BaseFragment implements
                 break;
             case R.id.fmsgc_content_system:
                 showMessageSystemView();
+                break;
+            case R.id.fmsgc_content_special:
+                showMessageSpecialView();
                 break;
             case R.id.ts4_ib_left:
                 messageCenterActivity.onBackPressed();
@@ -182,6 +184,19 @@ public class MessageCenterFragment extends BaseFragment implements
     }
 
     @Override
+    public void setSubjectMessageCount(int unReadCount, int allCount) {
+        ((TextView) rootView.findViewById(R.id.fmsgc_tv_allCount_special))
+                .setText(allCount + "");
+        if (unReadCount == 0) {
+            rootView.findViewById(R.id.fmsgc_tv_unReadCount_special).setVisibility(View.GONE);
+        } else {
+            rootView.findViewById(R.id.fmsgc_tv_unReadCount_special).setVisibility(View.VISIBLE);
+            ((TextView) rootView.findViewById(R.id.fmsgc_tv_unReadCount_special))
+                    .setText(unReadCount + "");
+        }
+    }
+
+    @Override
     public void setSystemMessageCount(int unReadCount, int allCount) {
         ((TextView) rootView.findViewById(R.id.fmsgc_tv_allCount_system))
                 .setText(allCount + "");
@@ -229,6 +244,11 @@ public class MessageCenterFragment extends BaseFragment implements
     @Override
     public void showMessageCircleView() {
         messageCenterActivity.startMessageActivity(MessageActivity.MESSAGE_TYPE_CIRCLE);
+    }
+
+    @Override
+    public void showMessageSpecialView() {
+        messageCenterActivity.startMessageActivity(MessageActivity.MESSAGE_TYPE_SPECIAL);
     }
 
     @Override
@@ -285,6 +305,7 @@ public class MessageCenterFragment extends BaseFragment implements
         initSubscribeMessage();
         initFansMessage();
         initCircleMessage();
+        initSubjectMessage();
     }
 
     /**
@@ -326,4 +347,12 @@ public class MessageCenterFragment extends BaseFragment implements
         setCircleMessageCount(unReadCount, AllCount);
     }
 
+    /**
+     * 初始化专题消息
+     */
+    private void initSubjectMessage() {
+        int unReadCount = MessageObservable.newInstance().getAllUnReadSubjectMessageCount();
+        int AllCount = MessageObservable.newInstance().getAllSubjectMessageCount();
+        setSubjectMessageCount(unReadCount, AllCount);
+    }
 }

@@ -102,10 +102,10 @@ public class ApiEngine<T> {
             case 422:
             default:
                 String error = response.errorBody().string();
-                Logger.json(error);
                 //这一层主要为了放置返回的不是json数据
                 try {
                     JSONObject object = new JSONObject(error);
+                    Logger.json(error);
                     String errorMsg = object.getString("error");
                     if (errorMsg == null || errorMsg.isEmpty()) {
                         errorMsg = "请求错误，请重试";
@@ -114,6 +114,7 @@ public class ApiEngine<T> {
                     apiCallback.onError(response, errorMsg, obj);
                 } catch (JSONException e) {
                     apiCallback.onError(response, "服务器异常", null);
+                    Log.e(TAG,"error="+error);
                     e.printStackTrace();
                 }
                 break;

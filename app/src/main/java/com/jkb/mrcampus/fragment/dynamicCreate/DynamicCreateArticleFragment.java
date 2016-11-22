@@ -248,7 +248,7 @@ public class DynamicCreateArticleFragment extends BaseFragment
                 }
 
                 @Override
-                public void onAlbusSelected() {
+                public void onAlbumSelected() {
                     choosePictureFromAlbum();
                 }
             };

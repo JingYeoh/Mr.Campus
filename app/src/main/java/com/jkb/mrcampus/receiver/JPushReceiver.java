@@ -44,6 +44,7 @@ public class JPushReceiver extends BroadcastReceiver implements Observer {
     private static final String MESSAGE_TYPE_SUBSCRIBE = "message.type.subscribe";
     private static final String MESSAGE_TYPE_FANS = "message.type.fans";
     private static final String MESSAGE_TYPE_CIRCLE = "message.type.circle";
+    private static final String MESSAGE_TYPE_SPECIAL = "message.type.special";
     private static final String MESSAGE_TYPE_SYSTEM = "message.type.system";
 
     @Override
@@ -105,6 +106,12 @@ public class JPushReceiver extends BroadcastReceiver implements Observer {
             case Config.MESSAGE_ACTION_OUT_BLACK_LIST_USER:
                 startMessage(context, MESSAGE_TYPE_CIRCLE);
                 break;
+            case Config.MESSAGE_ACTION_SUBJECT_FAVORITE:
+            case Config.MESSAGE_ACTION_SUBJECT_MAKECOMMENT:
+            case Config.MESSAGE_ACTION_SUBJECT_MAKEREPLY:
+            case Config.MESSAGE_ACTION_SUBJECT_LIKE:
+                startMessage(context, MESSAGE_TYPE_SPECIAL);
+                break;
         }
     }
 
@@ -132,6 +139,10 @@ public class JPushReceiver extends BroadcastReceiver implements Observer {
             case MESSAGE_TYPE_CIRCLE:
                 flag = MessageActivity.MESSAGE_TYPE_CIRCLE;
                 jumpActoin = com.jkb.mrcampus.Config.BUNDLE_JUMP_ACTION_MESSAGE_CIRCLE;
+                break;
+            case MESSAGE_TYPE_SPECIAL:
+                flag = MessageActivity.MESSAGE_TYPE_SPECIAL;
+                jumpActoin = com.jkb.mrcampus.Config.BUNDLE_JUMP_ACTION_MESSAGE_SUBJECT;
                 break;
             case MESSAGE_TYPE_SYSTEM:
                 flag = MessageActivity.MESSAGE_TYPE_SYSTEM;
@@ -173,6 +184,9 @@ public class JPushReceiver extends BroadcastReceiver implements Observer {
         LogUtils.d(JPushReceiver.class, "---------alert=" + alert);
         LogUtils.d(JPushReceiver.class, "---------extras=" + extras);
 
+        if (StringUtils.isEmpty(title, extras)) {
+            return null;
+        }
         //处理extras数据
         try {
             new JSONObject(extras);
@@ -203,6 +217,9 @@ public class JPushReceiver extends BroadcastReceiver implements Observer {
         LogUtils.d(JPushReceiver.class, "---------alert=" + alert);
         LogUtils.d(JPushReceiver.class, "---------extras=" + extras);
 
+        if (StringUtils.isEmpty(title, extras)) {
+            return null;
+        }
         //处理extras数据
         try {
             new JSONObject(extras);
@@ -241,21 +258,37 @@ public class JPushReceiver extends BroadcastReceiver implements Observer {
      * 添加或者更新消息數據庫表
      */
     private void addOrUpdateToDb(Messages messages) {
-        if (messages != null) {
-            int user_id;
-            if (messages.getAction().equals("system")) {
-                user_id = -1;
-            } else {
-                if (LoginContext.getInstance().isLogined()) {
-                    UserAuths userAuths = UserInfoSingleton.getInstance().getUserAuths();
-                    user_id = userAuths.getUser_id();
-                } else {
-                    user_id = 0;
-                }
-            }
-            messages.setUser_id(user_id);
-            MessageObservable.newInstance().saveMessage(messages);
+        if (messages == null) {
+            return;
         }
+        int user_id;
+        if (messages.getAction().equals("system")) {
+            user_id = -1;
+        } else {
+            if (LoginContext.getInstance().isLogined()) {
+                UserAuths userAuths = UserInfoSingleton.getInstance().getUserAuths();
+                user_id = userAuths.getUser_id();
+            } else {
+                user_id = 0;
+            }
+        }
+        messages.setUser_id(user_id);
+        if (StringUtils.isEmpty(
+                messages.getUser_id() + "",
+                messages.getAction(),
+                messages.getMsg_content(),
+                messages.getSenderId() + "",
+                messages.getTargetId() + "",
+                messages.getTargetName(),
+                messages.getTargetType(),
+                messages.getSenderName(),
+                messages.getSenderType()
+        )) {
+            LogUtils.e(JPushReceiver.class, "messages:" + messages.toString());
+            LogUtils.e(JPushReceiver.class, "数据不符合要求，无法入数据库");
+            return;
+        }
+        MessageObservable.newInstance().saveMessage(messages);
     }
 
     /**

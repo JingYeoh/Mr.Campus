@@ -36,7 +36,6 @@ import com.jkb.mrcampus.utils.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * 动态的适配器
@@ -1234,6 +1233,7 @@ public class DynamicAdapter2 extends RecyclerView.Adapter<DynamicAdapter2.ViewHo
         //解析话题的数据
         holder.originalTopic.tvTitle.setText(topicDynamicData.getTitle());
         holder.originalTopic.tvPartNum.setText(topicDynamicData.getCount_of_participation() + "");
+        holder.originalTopic.tvLikeNum.setText(topicDynamicData.getCount_of_favorite()+"");
         //设置图片和内容
         DynamicContentTopicInfo topic = topicDynamicData.getTopic();
         if (topic != null) {

@@ -70,7 +70,7 @@ public class ChoosePictureFragment extends BlurDialogFragment implements View.On
                 break;
             case R.id.fdcp_tv_photo:
                 if (mListener != null) {
-                    mListener.onAlbusSelected();
+                    mListener.onAlbumSelected();
                 }
                 dismiss();
                 break;
@@ -89,6 +89,6 @@ public class ChoosePictureFragment extends BlurDialogFragment implements View.On
         /**
          * 从相册选择
          */
-        void onAlbusSelected();
+        void onAlbumSelected();
     }
 }

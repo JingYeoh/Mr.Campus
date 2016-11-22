@@ -353,7 +353,7 @@ public class CircleUserSettingFragment extends BaseFragment implements
     }
 
     @Override
-    public void onAlbusSelected() {
+    public void onAlbumSelected() {
         choosePictureFromAlbum();
     }
     ////////////////////////////////////////////图片裁剪end------------------->>>>>>>>>>>>>>>>>

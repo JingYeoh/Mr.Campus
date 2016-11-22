@@ -55,6 +55,7 @@ dependencies {
     compile 'com.roger.gifloadinglibrary:gifloadinglibrary:1.0.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.github.chrisbanes:PhotoView:1.2.6'//缩放的ImageView
+    compile 'com.joooonho:selectableroundedimageview:1.0.1'//圆角ImageView
     //百度地图start
     compile files('src/main/jniLibs/baidumapapi_base_v4_0_0.jar')
     compile files('src/main/jniLibs/baidumapapi_cloud_v4_0_0.jar')

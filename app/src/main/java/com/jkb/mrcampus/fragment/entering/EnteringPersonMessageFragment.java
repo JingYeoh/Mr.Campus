@@ -207,7 +207,7 @@ public class EnteringPersonMessageFragment extends BaseFragment implements
     }
 
     @Override
-    public void onAlbusSelected() {
+    public void onAlbumSelected() {
         choosePictureFromAlbum();
     }
 

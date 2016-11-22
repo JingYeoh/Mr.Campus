@@ -89,7 +89,7 @@ public class MyDynamicNormalPresenter implements MyDynamicNormalContract.Present
         isCached = false;
         isLoading = true;
         dynamicDetailNormalDatas.clear();
-        pageControl.setCurrent_page(0);
+        pageControl.setCurrent_page(1);
         reqMyDynamicNormal();
     }
 

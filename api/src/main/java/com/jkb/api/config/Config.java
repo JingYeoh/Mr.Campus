@@ -74,6 +74,9 @@ public class Config {
     public static final String URL_SCHOOL_ALL = "getAllSchool";
     //tools
     public static final String URL_TOOLS_CET = "cet";
+    //subject
+    public static final String URL_SUBJECT_LIST = "subjects/{schoolId}/{subject}";
+    public static final String URL_SUBJECT_CHANGE_MARK = "subjects/{id}";
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
 
@@ -119,6 +122,7 @@ public class Config {
     public static final String KEY_NAME = "name";
     public static final String KEY_ACTION = "action";
     public static final String KEY_ID = "id";
+    public static final String KEY_SUBJECY = "subject";
     public static final String KEY_USERID = "userId";
     public static final String KEY_OWNERID = "ownerId";
     public static final String KEY_ZKZH = "zkzh";
@@ -216,4 +220,23 @@ public class Config {
     public static final String MESSAGE_ACTION_MAKECOMMENT = "makeComment";
     public static final String MESSAGE_ACTION_MAKEREPLY = "makeReply";
     public static final String MESSAGE_ACTION_SYSTEM = "system";
+    public static final String MESSAGE_ACYION_SUBJECT = "subject";
+    public static final String MESSAGE_ACTION_SUBJECT_FAVORITE = "subjectFavorite";
+    public static final String MESSAGE_ACTION_SUBJECT_LIKE = "subjectLike";
+    public static final String MESSAGE_ACTION_SUBJECT_MAKECOMMENT = "subjectMakeComment";
+    public static final String MESSAGE_ACTION_SUBJECT_MAKEREPLY = "subjectMakeReply";
+
+    public static final String SUBJECT_ACTION_VINDICATION = "vindication";
+    public static final String SUBJECT_ACTION_COMPLAINT = "complaint";
+    public static final String SUBJECT_ACTION_LOSTANDFOUND = "lostAndFound";
+    public static final String SUBJECT_ACTION_GRIND = "grind";
+    public static final String SUBJECT_ACTION_PARTNER = "partner";
+    public static final String SUBJECT_ACTION_FLEAMARKET = "fleaMarket";
+
+    public static final String SUBJECT_TYPE_LOSTANDFOUND = "lostAndFound";
+    public static final String SUBJECT_TYPE_VINDICATOIN = "vindication";
+    public static final String SUBJECT_TYPE_COMPLAINT = "complaint";
+    public static final String SUBJECT_TYPE_GRIND = "grind";
+    public static final String SUBJECT_TYPE_PARTNER = "partner";
+    public static final String SUBJECT_TYPE_FLEAMARKET = "fleaMarket";
 }

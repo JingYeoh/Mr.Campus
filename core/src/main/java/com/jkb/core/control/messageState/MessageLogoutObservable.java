@@ -111,6 +111,21 @@ public class MessageLogoutObservable implements MessageObservableAction {
     }
 
     @Override
+    public List<Messages> getAllSubjectMessage() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public int getAllSubjectMessageCount() {
+        return 0;
+    }
+
+    @Override
+    public int getAllUnReadSubjectMessageCount() {
+        return 0;
+    }
+
+    @Override
     public void readMessage(Messages messages) {
         messages.setIs_read(true);
         dataSource.saveMessagesToDb(messages);
