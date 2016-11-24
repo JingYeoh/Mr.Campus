@@ -90,7 +90,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
      * @param avatar    头像地址
      */
     private void loadImage(ImageView ivHeadImg, String avatar) {
-//        GlideImageLoader.loadNormalImage(context, ivHeadImg, avatar);
+//        MyBannerImageLoader.loadNormalImage(context, ivHeadImg, avatar);
         ImageLoaderFactory.getInstance().displayImage(ivHeadImg,avatar);
     }
 

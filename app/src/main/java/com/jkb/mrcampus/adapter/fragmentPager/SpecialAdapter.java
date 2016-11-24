@@ -32,9 +32,9 @@ public class SpecialAdapter extends FragmentPagerAdapter {
         } else if (position == 1) {
             return SpecialTauntedFragment.newInstance();
         } else if (position == 2) {
-            return SpecialFleaMarketFragment.newInstance();
-        } else if (position == 3) {
             return SpecialLost$FoundFragment.newInstance();
+        } else if (position == 3) {
+            return SpecialFleaMarketFragment.newInstance();
         } else if (position == 4) {
             return SpecialWantedSavantFragment.newInstance();
         } else if (position == 5) {

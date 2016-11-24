@@ -1,4 +1,4 @@
-package com.jkb.model.dataSource.dynamicDetail.topic.local;
+package com.jkb.model.dataSource.function.special.detail.local;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,38 +8,36 @@ import com.jkb.api.ApiResponse;
 import com.jkb.api.entity.comment.CommentListEntity;
 import com.jkb.api.entity.comment.CommentReplyEntity;
 import com.jkb.api.entity.comment.CommentSendEntity;
-import com.jkb.api.entity.dynamic.DynamicNormalEntity;
-import com.jkb.api.entity.dynamic.DynamicTopicEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
+import com.jkb.api.entity.subject.SubjectEntity;
+import com.jkb.model.dataSource.function.special.detail.SubjectDetailDataSource;
 
 /**
- * 获取话题动态详情的本地数据来源类
- * Created by JustKiddingBaby on 2016/9/17.
+ * 专题详情的数据仓库类
+ * Created by JustKiddingBaby on 2016/11/22.
  */
 
-public class DynamicDetailTopicLocalDataSource implements com.jkb.model.dataSource.dynamicDetail.topic.DynamicDetailTopicDataSource {
+public class SubjectDetailLocalDataSource implements SubjectDetailDataSource {
 
     private Context applicationContext;
 
-    private DynamicDetailTopicLocalDataSource(@NonNull Context applicationContext) {
+    private SubjectDetailLocalDataSource(Context applicationContext) {
         this.applicationContext = applicationContext;
     }
 
-    private static DynamicDetailTopicLocalDataSource INSTANCE = null;
+    private static SubjectDetailLocalDataSource INSTANCE = null;
 
-    public static DynamicDetailTopicLocalDataSource getInstance(
-            @NonNull Context applicationContext) {
+    public static SubjectDetailLocalDataSource newInstance(Context applicationContext) {
         if (INSTANCE == null) {
-            INSTANCE = new DynamicDetailTopicLocalDataSource(applicationContext);
+            INSTANCE = new SubjectDetailLocalDataSource(applicationContext);
         }
         return INSTANCE;
     }
 
     @Override
-    public void getTopicDynamic(
+    public void getSubjectDynamic(
             @NonNull int user_id, @NonNull int dynamic_id,
-            @NonNull ApiCallback<ApiResponse<DynamicTopicEntity>> apiCallback) {
-
+            @NonNull ApiCallback<ApiResponse<SubjectEntity>> apiCallback) {
     }
 
     @Override
@@ -53,14 +51,12 @@ public class DynamicDetailTopicLocalDataSource implements com.jkb.model.dataSour
     public void likeComment(
             @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
             @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
-
     }
 
     @Override
     public void favorite(
             @NonNull String Authorization, @NonNull int user_id, @NonNull int target_id,
             @NonNull ApiCallback<ApiResponse<OperationActionEntity>> apiCallback) {
-
     }
 
     @Override
@@ -68,14 +64,12 @@ public class DynamicDetailTopicLocalDataSource implements com.jkb.model.dataSour
             @NonNull String Authorization, @NonNull int user_id, @NonNull int dynamic_id,
             @NonNull String comment,
             @NonNull ApiCallback<ApiResponse<CommentSendEntity>> apiCallback) {
-
     }
 
     @Override
     public void sendReply(
-            @NonNull String Authorization, @NonNull int target_user_id,
-            @NonNull int comment_id, @NonNull int dynamic_id, @NonNull String comment,
+            @NonNull String Authorization, @NonNull int target_user_id, @NonNull int comment_id,
+            @NonNull int dynamic_id, @NonNull String comment,
             @NonNull ApiCallback<ApiResponse<CommentReplyEntity>> apiCallback) {
-
     }
 }

@@ -14,6 +14,7 @@ import com.jkb.api.entity.dynamic.DynamicPostEntity;
 import com.jkb.api.entity.dynamic.DynamicTopicEntity;
 import com.jkb.api.entity.dynamic.DynamicTopicListEntity;
 import com.jkb.api.entity.subject.SpecialListEntity;
+import com.jkb.api.entity.subject.SubjectEntity;
 
 import retrofit2.Call;
 import retrofit2.http.DELETE;
@@ -377,4 +378,16 @@ public interface DynamicApi {
             @Header(Config.HEADER_KEY_AUTHORIZATION) String authorization,
             @Path(Config.KEY_TYPE) String type,
             @Query(Config.KEY_PAGE) int page);
+
+    /**
+     * 得到我的普文章动态
+     *
+     * @param userId  用户id
+     * @param id 动态id
+     * @return Call
+     */
+    @GET(Config.URL_DYNAMIC_GET_SINGLE)
+    Call<ApiResponse<SubjectEntity>> getSubjectSingle(
+            @Path(Config.KEY_USERID) int userId,
+            @Path(Config.KEY_ID) int id);
 }

@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.jkb.core.Injection;
+import com.jkb.core.presenter.function.special.detail.SubjectDetailConfessionPresenter;
+import com.jkb.core.presenter.function.special.detail.SubjectDetailLostAndFoundPresenter;
 import com.jkb.model.utils.LogUtils;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
@@ -39,12 +42,14 @@ public class SpecialDetailActivity extends BaseActivity {
 
     //表白墙
     private SpecialDetailConfessionFragment specialConfessionFragment;
+    private SubjectDetailConfessionPresenter subjectDetailConfessionPresenter;
 
     //吐槽墙
     private SpecialDetailTauntedFragment specialTauntedFragment;
 
     //失物招领
     private SpecialDetailLost$FoundFragment specialLost$FoundFragment;
+    private SubjectDetailLostAndFoundPresenter subjectDetailLostAndFoundPresenter;
 
     //跳蚤市场
     private SpecialDetailFleaMarketFragment specialFleaMarketFragment;
@@ -156,12 +161,20 @@ public class SpecialDetailActivity extends BaseActivity {
         if (ClassUtils.isNameEquals(fragmentTAG, SpecialDetailConfessionFragment.class)) {
             specialConfessionFragment = (SpecialDetailConfessionFragment)
                     fm.findFragmentByTag(fragmentTAG);
+            subjectDetailConfessionPresenter = new SubjectDetailConfessionPresenter(
+                    specialConfessionFragment,
+                    Injection.provideSubjectDerailRepertory(getApplicationContext())
+            );
         } else if (ClassUtils.isNameEquals(fragmentTAG, SpecialDetailTauntedFragment.class)) {
             specialTauntedFragment = (SpecialDetailTauntedFragment)
                     fm.findFragmentByTag(fragmentTAG);
         } else if (ClassUtils.isNameEquals(fragmentTAG, SpecialDetailLost$FoundFragment.class)) {
             specialLost$FoundFragment = (SpecialDetailLost$FoundFragment)
                     fm.findFragmentByTag(fragmentTAG);
+            subjectDetailLostAndFoundPresenter = new SubjectDetailLostAndFoundPresenter(
+                    specialLost$FoundFragment,
+                    Injection.provideSubjectDerailRepertory(getApplicationContext())
+            );
         } else if (ClassUtils.isNameEquals(fragmentTAG, SpecialDetailFleaMarketFragment.class)) {
             specialFleaMarketFragment = (SpecialDetailFleaMarketFragment)
                     fm.findFragmentByTag(fragmentTAG);
@@ -200,6 +213,10 @@ public class SpecialDetailActivity extends BaseActivity {
             specialConfessionFragment = SpecialDetailConfessionFragment.newInstance(dynamicId);
             ActivityUtils.addFragmentToActivity(fm, specialConfessionFragment, contentId);
         }
+        subjectDetailConfessionPresenter = new SubjectDetailConfessionPresenter(
+                specialConfessionFragment,
+                Injection.provideSubjectDerailRepertory(getApplicationContext())
+        );
     }
 
     /**
@@ -220,6 +237,10 @@ public class SpecialDetailActivity extends BaseActivity {
             specialLost$FoundFragment = SpecialDetailLost$FoundFragment.newInstance(dynamicId);
             ActivityUtils.addFragmentToActivity(fm, specialLost$FoundFragment, contentId);
         }
+        subjectDetailLostAndFoundPresenter = new SubjectDetailLostAndFoundPresenter(
+                specialLost$FoundFragment,
+                Injection.provideSubjectDerailRepertory(getApplicationContext())
+        );
     }
 
     /**

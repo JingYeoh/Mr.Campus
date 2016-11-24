@@ -1,11 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.jkb.mrcampus.view.KeyboardLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fsdl_kbl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="失物招领详情" />
-</LinearLayout>
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/fsdl_contentBg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/fsdl_iv_pictureBg"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@color/default_picture" />
+
+            <TextView
+                android:id="@+id/fsdl_tv_titleLostAndFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="185dp"
+                android:text="失物招领标题"
+                android:textColor="@color/main_theme_green"
+                android:textSize="35sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fsdl_contentSubject"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/fsdl_bottom">
+
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <View
+                        android:id="@+id/fsdl_iv_pictureBgPlace"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/fsdl_tv_titleLostAndFoundPlace"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:text="失物招领标题"
+                        android:textColor="@color/main_theme_green"
+                        android:textSize="35sp"
+                        android:visibility="invisible" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:text="通缉令："
+                            android:textColor="@color/main_theme_green"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:text="wanted"
+                            android:textColor="@color/main_theme_green"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/fsdl_tv_lostAndFound"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="20dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:text="@string/large_text"
+                            android:textColor="@color/B_black_70"
+                            android:textSize="13sp"
+                            android:visibility="visible" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/fsdl_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginTop="20dp"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp" />
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/fsdl_iv_avatar"
+                            style="@style/Dynamic_HeadImg_style"
+                            android:layout_gravity="center_horizontal"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_user_head" />
+
+                        <TextView
+                            android:id="@+id/fsdl_tv_nickName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="作者昵称"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginBottom="30dp"
+                            android:layout_marginTop="30dp"
+                            android:background="@color/background_general" />
+
+                        <include layout="@layout/content_comment_list_with_order" />
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/fsdl_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="@color/background_general" />
+
+            <include layout="@layout/content_comment_reply" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="@color/background_general" />
+
+            <include layout="@layout/title_style_6" />
+        </LinearLayout>
+    </RelativeLayout>
+</com.jkb.mrcampus.view.KeyboardLayout>

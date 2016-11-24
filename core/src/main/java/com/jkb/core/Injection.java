@@ -78,6 +78,9 @@ import com.jkb.model.dataSource.function.setting.remote.FunctionSettingRemoteDat
 import com.jkb.model.dataSource.function.special.create.SpecialCreateRepertory;
 import com.jkb.model.dataSource.function.special.create.local.SpecialCreateLocalDataSource;
 import com.jkb.model.dataSource.function.special.create.remote.SpecialCreateRemoteDataSource;
+import com.jkb.model.dataSource.function.special.detail.SubjectDetailRepertory;
+import com.jkb.model.dataSource.function.special.detail.local.SubjectDetailLocalDataSource;
+import com.jkb.model.dataSource.function.special.detail.remote.SubjectDetailRemoteDataSource;
 import com.jkb.model.dataSource.function.special.list.SpecialRepertory;
 import com.jkb.model.dataSource.function.special.list.local.SpecialLocalDataSource;
 import com.jkb.model.dataSource.function.special.list.remote.SpecialRemoteDataSource;
@@ -665,6 +668,18 @@ public class Injection {
                 MyOriginalSubjectRepertory.newInstance(
                         MyOriginalSubjectLocalDataSource.newInstance(applicationContext),
                         MyOriginalSubjectRemoteDataSource.newInstance()
+                );
+        return repertory;
+    }
+    /**
+     * 得到SubjectDerailRepertory對象
+     */
+    public static SubjectDetailRepertory provideSubjectDerailRepertory(
+            @NonNull Context applicationContext) {
+        SubjectDetailRepertory repertory =
+                SubjectDetailRepertory.newInstance(
+                        SubjectDetailLocalDataSource.newInstance(applicationContext),
+                        SubjectDetailRemoteDataSource.newInstance()
                 );
         return repertory;
     }
