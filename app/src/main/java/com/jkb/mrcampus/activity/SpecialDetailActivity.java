@@ -7,6 +7,8 @@ import android.util.Log;
 import com.jkb.core.Injection;
 import com.jkb.core.presenter.function.special.detail.SubjectDetailConfessionPresenter;
 import com.jkb.core.presenter.function.special.detail.SubjectDetailLostAndFoundPresenter;
+import com.jkb.core.presenter.function.special.detail.SubjectDetailPresenter;
+import com.jkb.core.presenter.function.special.detail.SubjectDetailTauntedPresenter;
 import com.jkb.model.utils.LogUtils;
 import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
@@ -46,6 +48,7 @@ public class SpecialDetailActivity extends BaseActivity {
 
     //吐槽墙
     private SpecialDetailTauntedFragment specialTauntedFragment;
+    private SubjectDetailTauntedPresenter subjectDetailTauntedPresenter;
 
     //失物招领
     private SpecialDetailLost$FoundFragment specialLost$FoundFragment;
@@ -168,6 +171,10 @@ public class SpecialDetailActivity extends BaseActivity {
         } else if (ClassUtils.isNameEquals(fragmentTAG, SpecialDetailTauntedFragment.class)) {
             specialTauntedFragment = (SpecialDetailTauntedFragment)
                     fm.findFragmentByTag(fragmentTAG);
+            subjectDetailTauntedPresenter = new SubjectDetailTauntedPresenter(
+                    specialTauntedFragment,
+                    Injection.provideSubjectDerailRepertory(getApplicationContext())
+            );
         } else if (ClassUtils.isNameEquals(fragmentTAG, SpecialDetailLost$FoundFragment.class)) {
             specialLost$FoundFragment = (SpecialDetailLost$FoundFragment)
                     fm.findFragmentByTag(fragmentTAG);
@@ -178,12 +185,18 @@ public class SpecialDetailActivity extends BaseActivity {
         } else if (ClassUtils.isNameEquals(fragmentTAG, SpecialDetailFleaMarketFragment.class)) {
             specialFleaMarketFragment = (SpecialDetailFleaMarketFragment)
                     fm.findFragmentByTag(fragmentTAG);
+            new SubjectDetailPresenter(specialFleaMarketFragment,
+                    Injection.provideSubjectDerailRepertory(getApplicationContext()));
         } else if (ClassUtils.isNameEquals(fragmentTAG, SpecialDetailWantedPartnerFragment.class)) {
             specialWantedPartnerFragment = (SpecialDetailWantedPartnerFragment)
                     fm.findFragmentByTag(fragmentTAG);
+            new SubjectDetailPresenter(specialWantedPartnerFragment,
+                    Injection.provideSubjectDerailRepertory(getApplicationContext()));
         } else if (ClassUtils.isNameEquals(fragmentTAG, SpecialDetailWantedSavantFragment.class)) {
             specialWantedSavantFragment = (SpecialDetailWantedSavantFragment)
                     fm.findFragmentByTag(fragmentTAG);
+            new SubjectDetailPresenter(specialWantedSavantFragment,
+                    Injection.provideSubjectDerailRepertory(getApplicationContext()));
         }
     }
 
@@ -227,6 +240,10 @@ public class SpecialDetailActivity extends BaseActivity {
             specialTauntedFragment = SpecialDetailTauntedFragment.newInstance(dynamicId);
             ActivityUtils.addFragmentToActivity(fm, specialTauntedFragment, contentId);
         }
+        subjectDetailTauntedPresenter = new SubjectDetailTauntedPresenter(
+                specialTauntedFragment,
+                Injection.provideSubjectDerailRepertory(getApplicationContext())
+        );
     }
 
     /**
@@ -251,6 +268,8 @@ public class SpecialDetailActivity extends BaseActivity {
             specialFleaMarketFragment = SpecialDetailFleaMarketFragment.newInstance(dynamicId);
             ActivityUtils.addFragmentToActivity(fm, specialFleaMarketFragment, contentId);
         }
+        new SubjectDetailPresenter(specialFleaMarketFragment,
+                Injection.provideSubjectDerailRepertory(getApplicationContext()));
     }
 
     /**
@@ -261,6 +280,8 @@ public class SpecialDetailActivity extends BaseActivity {
             specialWantedPartnerFragment = SpecialDetailWantedPartnerFragment.newInstance(dynamicId);
             ActivityUtils.addFragmentToActivity(fm, specialWantedPartnerFragment, contentId);
         }
+        new SubjectDetailPresenter(specialWantedPartnerFragment,
+                Injection.provideSubjectDerailRepertory(getApplicationContext()));
     }
 
     /**
@@ -271,6 +292,8 @@ public class SpecialDetailActivity extends BaseActivity {
             specialWantedSavantFragment = SpecialDetailWantedSavantFragment.newInstance(dynamicId);
             ActivityUtils.addFragmentToActivity(fm, specialWantedSavantFragment, contentId);
         }
+        new SubjectDetailPresenter(specialWantedSavantFragment,
+                Injection.provideSubjectDerailRepertory(getApplicationContext()));
     }
 
 

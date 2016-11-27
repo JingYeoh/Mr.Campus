@@ -129,6 +129,9 @@ import com.jkb.model.dataSource.personSetting.remote.PersonSettingRemoteDataSour
 import com.jkb.model.dataSource.school.SelectSchoolDataRepertory;
 import com.jkb.model.dataSource.school.local.SelectSchoolLocalDataSource;
 import com.jkb.model.dataSource.school.remote.SelectSchoolRemoteDataSource;
+import com.jkb.model.dataSource.search.detail.SearchDetailRepertory;
+import com.jkb.model.dataSource.search.detail.local.SearchDetailLocalDataSource;
+import com.jkb.model.dataSource.search.detail.remote.SearchDetailRemoteDataSource;
 import com.jkb.model.dataSource.usersList.attention.AttentionDataResponsitory;
 import com.jkb.model.dataSource.usersList.attention.local.AttentionLocalDataSource;
 import com.jkb.model.dataSource.usersList.attention.remote.AttentionRemoteDataSource;
@@ -671,6 +674,7 @@ public class Injection {
                 );
         return repertory;
     }
+
     /**
      * 得到SubjectDerailRepertory對象
      */
@@ -680,6 +684,19 @@ public class Injection {
                 SubjectDetailRepertory.newInstance(
                         SubjectDetailLocalDataSource.newInstance(applicationContext),
                         SubjectDetailRemoteDataSource.newInstance()
+                );
+        return repertory;
+    }
+
+    /**
+     * 得到SearchDetailRepertory對象
+     */
+    public static SearchDetailRepertory provideSearchDetailRepertory(
+            @NonNull Context applicationContext) {
+        SearchDetailRepertory repertory =
+                SearchDetailRepertory.newInstance(
+                        SearchDetailLocalDataSource.newInstance(applicationContext),
+                        SearchDetailRemoteDataSource.newInstance()
                 );
         return repertory;
     }

@@ -94,7 +94,6 @@ public class ApiEngine<T> {
         switch (code) {
             case 200://成功
                 Gson gson = new Gson();
-//                Log.i(TAG, gson.toJson(response.body()));
                 Logger.json(gson.toJson(response.body()));
                 apiCallback.onSuccess(response);
                 break;
@@ -114,7 +113,7 @@ public class ApiEngine<T> {
                     apiCallback.onError(response, errorMsg, obj);
                 } catch (JSONException e) {
                     apiCallback.onError(response, "服务器异常", null);
-                    Log.e(TAG,"error="+error);
+                    Log.e(TAG, "error=" + error);
                     e.printStackTrace();
                 }
                 break;

@@ -40,7 +40,7 @@ public class SubjectDetailTauntedPictureAdapter extends RecyclerView.Adapter
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_subject_detail_taunted_picture, parent, false);
+        View view = inflater.inflate(R.layout.item_subject_detail_picture, parent, false);
         ViewHolder holder = new ViewHolder(view);
         holder.ivPic = (ImageView) view.findViewById(R.id.isdtp_iv_picture);
         holder.picPlace = view.findViewById(R.id.isdtp_iv_picturePlace);

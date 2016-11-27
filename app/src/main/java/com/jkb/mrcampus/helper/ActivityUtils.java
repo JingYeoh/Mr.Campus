@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
+import com.jkb.model.utils.LogUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,9 +103,6 @@ public class ActivityUtils {
 
     /**
      * 添加Fragment到回退栈
-     *
-     * @param fm
-     * @param fragment
      */
     public static void addFragmentToBackStack(@NonNull FragmentManager fm,
                                               @NonNull Fragment fragment, @NonNull int containId) {
@@ -147,6 +146,8 @@ public class ActivityUtils {
     public static boolean isFragmentAdded(@NonNull FragmentManager fm, @NonNull String fragmentTAG) {
         checkNotNull(fm);
         checkNotNull(fragmentTAG);
+//        Fragment fragmentByTag = fm.findFragmentByTag(fragmentTAG);
+//        LogUtils.w(TAG, "fragmentByTag=" + fragmentByTag);
         List<Fragment> fragments = fm.getFragments();
         if (fragments == null || fragments.size() == 0) {
             return false;
@@ -163,6 +164,18 @@ public class ActivityUtils {
         }
         Log.w(TAG, fragmentTAG + "没有被添加过");
         return false;
+    }
+
+    /**
+     * 判断Fragment是否被添加过
+     */
+    public static boolean isFragmentAdded(@NonNull android.app.FragmentManager fm,
+                                          @NonNull String fragmentTAG) {
+        checkNotNull(fm);
+        checkNotNull(fragmentTAG);
+        android.app.Fragment fragment = fm.findFragmentByTag(fragmentTAG);
+        LogUtils.d(TAG, "isFragmentAdded--->fragment=" + fragment);
+        return fragment != null;
     }
 
     /**

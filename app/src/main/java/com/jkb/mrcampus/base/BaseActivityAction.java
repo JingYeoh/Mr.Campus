@@ -283,6 +283,11 @@ public interface BaseActivityAction {
     void startOriginalSubject(int subjectType);
 
     /**
+     * 打开搜索视图
+     */
+    void startSearch();
+
+    /**
      * 顯示輸入
      **/
     void showSoftInputView();

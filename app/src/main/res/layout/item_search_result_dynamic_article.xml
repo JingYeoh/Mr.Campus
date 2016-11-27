@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/searchItemContent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selecter_clearity_gravy"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="10dp">
+
+
+    <TextView
+        android:id="@+id/isrda_tv_articleName"
+        style="@style/Dynamic_Title_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="文章名称" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/isrda_tv_doc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_bg_gravy"
+            android:maxLines="5"
+            android:padding="10dp"
+            android:text="@string/large_text"
+            android:textColor="@color/B_black_70" />
+
+        <RelativeLayout
+            android:id="@+id/isrda_content_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/isrda_iv_picture"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@color/default_picture" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

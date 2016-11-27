@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/searchItemContent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selecter_clearity_gravy"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/isrdin_content_circlePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/isrdin_iv_picture"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@color/default_picture" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/isrdin_tv_circleName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="圈子名称"
+            android:textColor="@color/main_theme_green"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/isrdin_tv_doc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/selector_bg_gravy"
+        android:maxLines="5"
+        android:padding="10dp"
+        android:text="@string/large_text"
+        android:textColor="@color/B_black_70" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/isrdin_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp" />
+
+</LinearLayout>

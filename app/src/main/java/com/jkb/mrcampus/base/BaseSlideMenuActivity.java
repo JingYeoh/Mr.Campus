@@ -34,6 +34,7 @@ import com.jkb.mrcampus.activity.MyOriginalDynamicActivity;
 import com.jkb.mrcampus.activity.MyOriginalSubjectActivity;
 import com.jkb.mrcampus.activity.MyUnOriginalDynamicActivity;
 import com.jkb.mrcampus.activity.PersonCenterActivity;
+import com.jkb.mrcampus.activity.SearchActivity;
 import com.jkb.mrcampus.activity.SpecialCreateActivity;
 import com.jkb.mrcampus.activity.SpecialDetailActivity;
 import com.jkb.mrcampus.activity.ToolsFunctionActivity;
@@ -569,6 +570,12 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
     }
 
     @Override
+    public void startSearch() {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
     public void showSoftInputView() {
         InputMethodManager manager = ((InputMethodManager) this
                 .getSystemService(Activity.INPUT_METHOD_SERVICE));
@@ -628,6 +635,10 @@ public abstract class BaseSlideMenuActivity extends SlidingFragmentActivity
             isShowGifLoading = false;
         }
         if (isShowGifLoading) {
+            return;
+        }
+        if (ActivityUtils.isFragmentAdded(getFragmentManager(),
+                ClassUtils.getClassName(GifLoadingView2.class))) {
             return;
         }
         if (gifLoadingView == null) {

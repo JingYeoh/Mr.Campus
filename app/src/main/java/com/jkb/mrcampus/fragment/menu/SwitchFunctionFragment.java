@@ -145,6 +145,7 @@ public class SwitchFunctionFragment extends BaseFragment
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.fms_iv_topSearch://搜索
+                    mainActivity.startSearch();
                     break;
                 case R.id.fms_iv_topLike://我的喜欢
                     mPresenter.onMyFavoriteClick();

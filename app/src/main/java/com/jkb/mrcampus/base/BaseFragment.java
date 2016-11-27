@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,10 @@ import android.widget.Toast;
 
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
+import com.jkb.mrcampus.helper.ActivityUtils;
 import com.roger.gifloadinglibrary.GifLoadingView;
+
+import java.util.List;
 
 import dalvik.annotation.TestTarget;
 
@@ -32,6 +37,8 @@ public abstract class BaseFragment extends Fragment {
     protected Activity mActivity;
     protected View rootView;
     private int rootViewId;
+    protected FragmentManager fm;
+    protected boolean savedInstanceStateValued = false;
 
     //颜色
     protected int COLOR_MAIN_THEME_GREEN;
@@ -51,6 +58,7 @@ public abstract class BaseFragment extends Fragment {
         }
         //处理页面是否隐藏的问题
         if (savedInstanceState != null) {
+            savedInstanceStateValued = true;
             boolean isSupportHidden = savedInstanceState.getBoolean(STATE_SAVE_IS_HIDDEN);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             if (isSupportHidden) {
@@ -125,6 +133,60 @@ public abstract class BaseFragment extends Fragment {
      */
     protected void setRootView(int rootViewId) {
         this.rootViewId = rootViewId;
+    }
+
+    /**
+     * 显示Fragment
+     *
+     * @param fragmentName 类的Name
+     */
+    public void showFragment(String fragmentName) {
+        //等待子类实现
+    }
+
+    /**
+     * 恢复添加过的Presenter
+     */
+    protected void restoreFragments(String fragmentTAG) {
+        //等待子类实现
+    }
+
+    /**
+     * 恢复各个View层的Presenter
+     */
+    protected void restoreFragments() {
+        List<Fragment> fragments = fm.getFragments();
+        if (fragments == null || fragments.size() == 0) {
+            return;
+        }
+        for (Fragment fragment : fragments) {
+            if (fragment == null) {
+                continue;
+            }
+            restoreFragments(fragment.getClass().getName());
+        }
+    }
+
+    /**
+     * 初始化展示的Fragment步骤1
+     */
+    protected void initFragmentStep1(Class<?> fragmentClass) {
+        //判断是否被添加过
+        if (!ActivityUtils.isFragmentAdded(fm, fragmentClass.getName())) {
+            initFragmentStep2(fragmentClass);
+        } else {
+            if (savedInstanceStateValued) {//判断是否发生了内存重启
+                Log.i(TAG, "发生了内存重启需要初始化fragment----------------");
+                initFragmentStep2(fragmentClass);
+            }
+        }
+    }
+
+    /**
+     * 初始化Fragment步骤2
+     */
+    protected void initFragmentStep2(Class<?> fragmentClass) {
+        //等待子类实现
     }
 
     /**

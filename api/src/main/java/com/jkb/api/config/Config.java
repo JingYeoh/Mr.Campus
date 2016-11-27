@@ -77,6 +77,8 @@ public class Config {
     //subject
     public static final String URL_SUBJECT_LIST = "subjects/{schoolId}/{subject}";
     public static final String URL_SUBJECT_CHANGE_MARK = "subjects/{id}";
+    //search
+    public static final String URL_SEARCH_KEYWORDS = "search/{type}/{keywords}";
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
 
@@ -102,6 +104,7 @@ public class Config {
     public static final String KEY_TYPE = "type";
     public static final String KEY_DOC = "doc";
     public static final String KEY_PARTIAL = "partial";
+    public static final String KEY_KEYWORDS = "keywords";
 
     public static final String KEY_COORDTYPE = "coordtype";
     public static final String KEY_LOCATION = "location";
@@ -239,4 +242,11 @@ public class Config {
     public static final String SUBJECT_TYPE_GRIND = "grind";
     public static final String SUBJECT_TYPE_PARTNER = "partner";
     public static final String SUBJECT_TYPE_FLEAMARKET = "fleaMarket";
+
+    public static final String SEARCH_TYPE_USER = "user";
+    public static final String SEARCH_TYPE_CIRCLE = "circle";
+    public static final String SEARCH_TYPE_DYNAMIC = "dynamic";
+    public static final String SEARCH_TYPE_DYNAMICINCIRCLE = "dynamicInCircle";
+    public static final String SEARCH_TYPE_SUBJECT = "subject";
+    public static final String SEARCH_TYPE_ALL = "all";
 }

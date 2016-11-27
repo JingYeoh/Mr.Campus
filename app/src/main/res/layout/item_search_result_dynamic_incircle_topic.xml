@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/searchItemContent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selecter_clearity_gravy"
+    android:orientation="vertical"
+    android:paddingBottom="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/isrdit_content_circlePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/isrdit_iv_circlepicture"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@color/default_picture" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/isrdit_tv_circleName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="圈子名称"
+            android:textColor="@color/main_theme_green"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/Dynamic_Title_style"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_quotation_black" />
+
+        <TextView
+            android:id="@+id/isrdit_tv_partInNum"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/black_200"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="人参与"
+            android:textColor="@color/black_200"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/isrdit_tv_topicName"
+        style="@style/Dynamic_Title_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="话题名称" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/isrdit_tv_doc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_bg_gravy"
+            android:maxLines="5"
+            android:padding="10dp"
+            android:text="@string/large_text"
+            android:textColor="@color/B_black_70" />
+
+        <RelativeLayout
+            android:id="@+id/isrdit_content_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/isrdit_iv_picture"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@color/default_picture" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
