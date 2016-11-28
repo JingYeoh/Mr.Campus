@@ -60,6 +60,16 @@ public interface FunctionSettingContract {
          * 显示登录的页面
          */
         void startLoginActivity();
+
+        /**
+         * 打开关于菌菌页面
+         */
+        void startAboutSoft();
+
+        /**
+         * 打開常見問題
+         */
+        void startCommonQuestion();
     }
 
     interface Presenter extends BasePresenter {

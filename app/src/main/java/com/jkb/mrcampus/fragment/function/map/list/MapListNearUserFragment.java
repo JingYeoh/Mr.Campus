@@ -60,9 +60,9 @@ public class MapListNearUserFragment extends BaseFragment implements
     //view
     private SwipeRefreshLayout refreshLayout;
     private int[] sexFilterResource = new int[]{
-            R.drawable.ic_user_head,
-            R.drawable.ic_write,
-            R.drawable.ic_top
+            R.drawable.logo_sex_all,
+            R.drawable.logo_sex_male,
+            R.drawable.logo_sex_female
     };
 
     //列表
@@ -103,6 +103,7 @@ public class MapListNearUserFragment extends BaseFragment implements
         refreshLayout.setOnRefreshListener(this);
         rootView.findViewById(R.id.fmlnu_bt_openNearUser).setOnClickListener(this);
         rootView.findViewById(R.id.fmlnu_iv_secFilter).setOnClickListener(this);
+        rootView.findViewById(R.id.fmlnu_iv_close).setOnClickListener(this);
 
         recyclerView.addOnScrollListener(onScrollListener);
         mapListNearUserAdapter.setOnNearUserItemClickListener(onNearUserItemClickListener);
@@ -367,6 +368,9 @@ public class MapListNearUserFragment extends BaseFragment implements
                 break;
             case R.id.fmlnu_iv_secFilter:
                 showSexFilterView();
+                break;
+            case R.id.fmlnu_iv_close://关闭附近的人
+                MapManagerSingleton.getInstance().switchNearSearchAbleStatus();
                 break;
         }
     }

@@ -154,6 +154,13 @@ public class MyDynamicArticleFragment extends BaseFragment implements
     }
 
     @Override
+    public void share(
+            String title, String titleUrl, String text, String imageUrl, String url,
+            String site, String siteUrl) {
+        myDynamicActivity.share(title, titleUrl, text, imageUrl, url, site, siteUrl);
+    }
+
+    @Override
     public void setPresenter(MyDynamicArticleContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -182,10 +189,10 @@ public class MyDynamicArticleFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         myDynamicActivity = null;
-        refreshLayout=null;
-        recyclerView=null;
-        linearLayoutManager=null;
-        myDynamicArticleAdapter=null;
+        refreshLayout = null;
+        recyclerView = null;
+        linearLayoutManager = null;
+        myDynamicArticleAdapter = null;
     }
 
     @Override
@@ -240,7 +247,8 @@ public class MyDynamicArticleFragment extends BaseFragment implements
 
                 @Override
                 public void onShareClick(int position) {
-                    myDynamicActivity.showShareDynamicView(onShareItemClickListener);
+//                    myDynamicActivity.showShareDynamicView(onShareItemClickListener);
+                    mPresenter.onItemShareItemClick(position);
                 }
 
                 @Override

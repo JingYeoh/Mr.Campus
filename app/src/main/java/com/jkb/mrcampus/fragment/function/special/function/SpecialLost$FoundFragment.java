@@ -173,6 +173,14 @@ public class SpecialLost$FoundFragment extends BaseFragment implements
     }
 
     @Override
+    public void share(
+            String title, String titleUrl, String text, String imageUrl, String url,
+            String site, String siteUrl) {
+        mainActivity.share(title, titleUrl, text, imageUrl, url, site, siteUrl);
+    }
+
+
+    @Override
     public void setPresenter(SpecialLostAndFoundContract.Presenter presenter) {
         mPresenter = presenter;
     }

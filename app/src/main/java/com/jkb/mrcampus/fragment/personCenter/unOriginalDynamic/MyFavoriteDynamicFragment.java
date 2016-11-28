@@ -214,6 +214,13 @@ public class MyFavoriteDynamicFragment extends BaseFragment implements
     }
 
     @Override
+    public void share(
+            String title, String titleUrl, String text, String imageUrl, String url,
+            String site, String siteUrl) {
+        myUnOriginalDynamicActivity.share(title, titleUrl, text, imageUrl, url, site, siteUrl);
+    }
+
+    @Override
     public void setPresenter(MyFavoriteDynamicContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -289,7 +296,8 @@ public class MyFavoriteDynamicFragment extends BaseFragment implements
 
                 @Override
                 public void onItemShareClick(int position) {
-                    showShareDynamicView(position);
+//                    showShareDynamicView(position);
+                    mPresenter.onItemShareClick(position);
                 }
 
                 @Override

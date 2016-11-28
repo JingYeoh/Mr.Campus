@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jkb.api.config.Config;
 import com.jkb.core.contract.function.setting.FunctionSettingContract;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.MainActivity;
@@ -113,8 +114,10 @@ public class SettingFragment extends BaseFragment implements
                 showHintDetermineView();
                 break;
             case R.id.fss_tv_aboutSoftWear://关于菌菌
+                startAboutSoft();
                 break;
             case R.id.fss_tv_question://常见问题
+                startCommonQuestion();
                 break;
             case R.id.fss_tv_logout://退出登录
                 mPresenter.onLogin$LogoutClick();
@@ -148,9 +151,8 @@ public class SettingFragment extends BaseFragment implements
 
     @Override
     public void showShareView() {
-        mainActivity.share("菌菌", "http://www.baidu.com", "校园菌菌，当前校园最火爆社交APP",
-                "http://www.1tong.com/uploads/wallpaper/anime/209-3-1920x1200.jpg",
-                "http://www.baidu.com", "校园菌菌", "http://www.baidu.com");
+        mainActivity.share("菌菌", Config.APP_DOWNLOAD_ADDRESS, "校园菌菌，当前校园最火爆社交APP",
+                null, Config.APP_DOWNLOAD_ADDRESS, "校园菌菌", Config.APP_DOWNLOAD_ADDRESS);
     }
 
     @Override
@@ -169,6 +171,17 @@ public class SettingFragment extends BaseFragment implements
     @Override
     public void startLoginActivity() {
         mainActivity.startLoginActivity();
+    }
+
+    @Override
+    public void startAboutSoft() {
+        mainActivity.startWebBrowser(Config.URL_SETTING_URL + Config.SETTING_MODULE_ABOUT, "关于菌菌");
+    }
+
+    @Override
+    public void startCommonQuestion() {
+        mainActivity.startWebBrowser(Config.URL_SETTING_URL + Config.SETTING_MODULE_COMMONQUESTION,
+                "常见问题");
     }
 
     @Override

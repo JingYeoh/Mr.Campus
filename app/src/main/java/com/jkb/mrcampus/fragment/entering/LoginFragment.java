@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.jkb.api.config.Config;
 import com.jkb.core.contract.entering.LoginContract;
 import com.jkb.core.presenter.entering.LoginPresenter;
 import com.jkb.mrcampus.R;
@@ -161,8 +162,10 @@ public class LoginFragment extends BaseFragment implements LoginContract.View, V
 
     @Override
     public void showMrCampusAgreement() {
-        enteringActivity.showFragment(
-                ClassUtils.getClassName(MrCampusAgreementFragment.class));
+//        enteringActivity.showFragment(
+//                ClassUtils.getClassName(MrCampusAgreementFragment.class));
+        enteringActivity.startWebBrowser(Config.URL_SETTING_URL + Config.SETTING_MODULE_PROTOCOL,
+                "菌菌协议");
     }
 
     @Override

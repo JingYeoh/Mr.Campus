@@ -93,6 +93,12 @@ public interface HotContract {
          * @param position 显示的条目
          */
         void showImagesBrowserView(ArrayList<String> pictures, int position);
+
+        /**
+         * 分享
+         */
+        void share(String title, String titleUrl, String text, String imageUrl, String url,
+                   String site, String siteUrl);
     }
 
     interface Presenter extends BasePresenter {
@@ -162,6 +168,11 @@ public interface HotContract {
          * @param position 条目数
          */
         void onLikeItemClick(int position);
+
+        /**
+         * 分享的条目点击监听
+         */
+        void onShareItemClick(int position);
 
         /**
          * 原作者的点击监听事件

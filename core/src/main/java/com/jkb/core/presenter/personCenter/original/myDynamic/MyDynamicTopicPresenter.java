@@ -9,6 +9,7 @@ import com.jkb.api.config.Config;
 import com.jkb.api.entity.dynamic.DynamicActionEntity;
 import com.jkb.api.entity.dynamic.DynamicTopicListEntity;
 import com.jkb.api.entity.operation.OperationActionEntity;
+import com.jkb.core.contract.dynamicDetail.data.DynamicDetailNormalData;
 import com.jkb.core.contract.dynamicDetail.data.DynamicDetailTopicData;
 import com.jkb.core.contract.personCenter.original.myDynamic.MyDynamicTopicContract;
 import com.jkb.core.control.userstate.LoginContext;
@@ -214,6 +215,16 @@ public class MyDynamicTopicPresenter implements MyDynamicTopicContract.Presenter
         DynamicDetailTopicData topicData = dynamicDetailTopicDatas.get(position);
         int id = topicData.getId();
         view.startCommentList(id);
+    }
+
+    @Override
+    public void onItemShareClick(int position) {
+        DynamicDetailTopicData normalData = dynamicDetailTopicDatas.get(position);
+        String title = normalData.getTitle();
+        String doc = normalData.getDoc();
+        String picture = normalData.getImg();
+        String url = Config.APP_DOWNLOAD_ADDRESS;
+        view.share(title, url, doc, picture, url, "校园菌菌", url);
     }
 
     @Override

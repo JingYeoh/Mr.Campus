@@ -523,6 +523,12 @@ public class CircleIndexFragment extends BaseFragment
     }
 
     @Override
+    public void share(String title, String titleUrl, String text, String imageUrl, String url,
+                      String site, String siteUrl) {
+        circleActivity.share(title, titleUrl, text, imageUrl, url, site, siteUrl);
+    }
+
+    @Override
     public void setPresenter(CircleIndexContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -631,7 +637,7 @@ public class CircleIndexFragment extends BaseFragment
             new DynamicCircleAdapter.OnShareClickListener() {
                 @Override
                 public void onShareClick(int position) {
-                    showShareView(position);
+                    mPresenter.onShareItemClick(position);
                 }
             };
     /**

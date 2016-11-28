@@ -288,6 +288,11 @@ public interface BaseActivityAction {
     void startSearch();
 
     /**
+     * 打开浏览器
+     */
+    void startWebBrowser(@NonNull String webUrl, String webTitle);
+
+    /**
      * 顯示輸入
      **/
     void showSoftInputView();

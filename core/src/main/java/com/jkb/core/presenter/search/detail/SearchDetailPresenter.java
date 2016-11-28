@@ -35,7 +35,6 @@ import retrofit2.Response;
  * 搜索详情的P层
  * Created by JustKiddingBaby on 2016/11/26.
  */
-
 public class SearchDetailPresenter implements SearchDetailContract.Presenter {
 
     private SearchDetailContract.View view;

@@ -25,7 +25,8 @@ import java.util.List;
  * Created by JustKiddingBaby on 2016/11/13.
  */
 
-public class MapListNearUserAdapter extends RecyclerView.Adapter<MapListNearUserAdapter.ViewHolder> implements View.OnClickListener {
+public class MapListNearUserAdapter extends RecyclerView.Adapter<MapListNearUserAdapter.ViewHolder>
+        implements View.OnClickListener {
 
     //data
     private Context context;
@@ -93,7 +94,7 @@ public class MapListNearUserAdapter extends RecyclerView.Adapter<MapListNearUser
         if (userInfo.getSchool() != null) {
             holder.nearUser.tvSchoolName.setVisibility(View.VISIBLE);
             holder.nearUser.tvSchoolName.setText(userInfo.getSchool().getSname());
-        }else{
+        } else {
             holder.nearUser.tvSchoolName.setVisibility(View.GONE);
         }
         //设置头像

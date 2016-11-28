@@ -2,6 +2,10 @@ package com.jkb.mrcampus.net;
 
 import android.content.Context;
 
+import com.jkb.api.config.Config;
+import com.jkb.model.utils.LogUtils;
+import com.jkb.model.utils.StringUtils;
+
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -36,6 +40,22 @@ public class ShareFactory {
     public void share(
             String title, String titleUrl, String text, String imageUrl, String url,
             String site, String siteUrl) {
+        if (StringUtils.isEmpty(site)) {
+            site = "校园菌菌";
+        }
+        if (StringUtils.isEmpty(title)) {
+            title = "校园菌菌";
+        }
+        if (StringUtils.isEmpty(text)) {
+            text = "菌菌，一款针对在校学生的社交App";
+        }
+        if (StringUtils.isEmpty(imageUrl)) {
+            imageUrl = Config.APP_LOGO_ADDRESS;
+        }
+        LogUtils.d(ShareFactory.class, "imageUrl----->" + imageUrl);
+        if (StringUtils.isEmpty(url)) {
+            url = Config.APP_DOWNLOAD_ADDRESS;
+        }
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
         // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法

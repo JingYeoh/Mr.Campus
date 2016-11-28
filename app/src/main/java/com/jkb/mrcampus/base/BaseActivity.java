@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.jkb.core.contract.dynamicCreate.data.CategoryTypeData;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.model.utils.LogUtils;
+import com.jkb.model.utils.StringUtils;
 import com.jkb.mrcampus.Config;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.activity.CircleActivity;
@@ -38,6 +39,7 @@ import com.jkb.mrcampus.activity.SpecialCreateActivity;
 import com.jkb.mrcampus.activity.SpecialDetailActivity;
 import com.jkb.mrcampus.activity.ToolsFunctionActivity;
 import com.jkb.mrcampus.activity.UsersListActivity;
+import com.jkb.mrcampus.activity.WebBrowserActivity;
 import com.jkb.mrcampus.fragment.dialog.ChoosePictureFragment;
 import com.jkb.mrcampus.fragment.dialog.GifLoadingView2;
 import com.jkb.mrcampus.fragment.dialog.HintDetermineFloatFragment;
@@ -546,6 +548,17 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     @Override
     public void startSearch() {
         Intent intent = new Intent(this, SearchActivity.class);
+        startActivityWithPushLeftAnim(intent);
+    }
+
+    @Override
+    public void startWebBrowser(@NonNull String webUrl, String webTitle) {
+        if (StringUtils.isEmpty(webUrl)) {
+            return;
+        }
+        Intent intent = new Intent(this, WebBrowserActivity.class);
+        intent.putExtra(Config.BUNDLE_KEY_WEB_BROWSER_URL, webUrl);
+        intent.putExtra(Config.BUNDLE_KEY_WEB_BROWSER_TITLE, webTitle);
         startActivityWithPushLeftAnim(intent);
     }
 

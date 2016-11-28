@@ -33,7 +33,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
-                android:src="@drawable/logo_input_password" />
+                android:src="@drawable/logo" />
 
             <EditText
                 android:id="@+id/fel_et_userName"

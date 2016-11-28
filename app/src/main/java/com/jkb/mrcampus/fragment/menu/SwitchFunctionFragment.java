@@ -51,7 +51,7 @@ public class SwitchFunctionFragment extends BaseFragment
     private int normalColorId;
 
     //要恢复的数据
-    private static final String SAVED_ITEMS_SELECTER = "savedItemsSelecter";
+    private static final String SAVED_ITEMS_SELECTOR = "savedItemsSelector";
     private int itemSelector = 0;
 
     //头像是否加载
@@ -116,7 +116,7 @@ public class SwitchFunctionFragment extends BaseFragment
     @Override
     protected void initData(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            itemSelector = savedInstanceState.getInt(SAVED_ITEMS_SELECTER);
+            itemSelector = savedInstanceState.getInt(SAVED_ITEMS_SELECTOR);
         }
         setItemSelected(itemSelector);//设置显示的字体样式
     }
@@ -335,7 +335,7 @@ public class SwitchFunctionFragment extends BaseFragment
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(SAVED_ITEMS_SELECTER, itemSelector);
+        outState.putInt(SAVED_ITEMS_SELECTOR, itemSelector);
     }
 
     /**

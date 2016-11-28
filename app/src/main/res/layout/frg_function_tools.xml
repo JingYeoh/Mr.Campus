@@ -32,14 +32,14 @@
                 <ImageView
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:src="@drawable/ic_default_personal" />
+                    android:src="@drawable/ic_cet" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="CET成绩"
-                    android:textColor="@color/B_black_70"
+                    android:textColor="@color/man_color"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -51,7 +51,8 @@
                 android:background="@drawable/selecter_clearity_gravy"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:visibility="invisible">
 
                 <ImageView
                     android:layout_width="70dp"

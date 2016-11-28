@@ -104,7 +104,18 @@ public class SpecialTauntedPresenter implements SpecialTauntedContract.Presenter
 
     @Override
     public void onShareItemClick(int position) {
-
+        SpecialData specialData = mSpecialData.get(position);
+        String title = specialData.getTitle();
+        String picture;
+        List<String> img = specialData.getImg();
+        if (img == null || img.size() == 0) {
+            picture = null;
+        } else {
+            picture = img.get(0);
+        }
+        String doc = "我在菌菌，向您推荐了一条专题动态";
+        String url = Config.APP_DOWNLOAD_ADDRESS;
+        view.share(title, url, doc, picture, url, "校园菌菌", url);
     }
 
     @Override
@@ -178,7 +189,7 @@ public class SpecialTauntedPresenter implements SpecialTauntedContract.Presenter
             return;
         }
         String authorization = getAuthorization();
-        LogUtils.d(SpecialTauntedPresenter.class,"reqSpecialTauntedData");
+        LogUtils.d(SpecialTauntedPresenter.class, "reqSpecialTauntedData");
         repertory.getAllSpecialComplaint(authorization, schoolId, pageControl.getCurrent_page(),
                 specialCallback);
     }

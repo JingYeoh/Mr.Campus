@@ -36,6 +36,8 @@ public class Config {
     public static final String BUNDLE_KEY_SUBJECT_CREATE_TYPE = "bundle.key.subject.create.type";
     public static final String BUNDLE_KEY_SUBJECT_TYPE = "bundle.key.subject.type";
     public static final String BUNDLE_KEY_SEARCH_KEY_WORDS = "bundle.key.search.keyWord";
+    public static final String BUNDLE_KEY_WEB_BROWSER_URL = "bundle.key.web.browser.url";
+    public static final String BUNDLE_KEY_WEB_BROWSER_TITLE = "bundle.key.web.browser.title";
 
     public static final String SAVED_BUNDLE_KEY_SHOW_VIEW = "saved.bundle.key.show.view";
     public static final String BUNDLE_KEY_JUMP_ACTION = "bundle.key.jump.action";

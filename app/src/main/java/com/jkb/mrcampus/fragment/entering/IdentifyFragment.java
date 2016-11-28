@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jkb.api.config.Config;
 import com.jkb.core.contract.entering.IdentifyContract;
 import com.jkb.core.presenter.entering.IdentifyPresenter;
 import com.jkb.mrcampus.R;
@@ -125,7 +126,9 @@ public class IdentifyFragment extends BaseFragment implements IdentifyContract.V
 
     @Override
     public void showMrCampusAgreement() {
-        enteringActivity.showFragment(ClassUtils.getClassName(MrCampusAgreementFragment.class));
+//        enteringActivity.showFragment(ClassUtils.getClassName(MrCampusAgreementFragment.class));
+        enteringActivity.startWebBrowser(Config.URL_SETTING_URL + Config.SETTING_MODULE_PROTOCOL,
+                "菌菌协议");
     }
 
     @Override

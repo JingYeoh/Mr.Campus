@@ -32,7 +32,16 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="50dp"
-                    android:src="@drawable/ic_write" />
+                    android:src="@drawable/logo_sex_all" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/fmlnu_iv_close"
+                    style="@style/FunctionSetIcStyle"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="100dp"
+                    android:src="@drawable/ic_draft_delete" />
             </RelativeLayout>
 
             <LinearLayout

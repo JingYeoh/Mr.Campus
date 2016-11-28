@@ -253,6 +253,15 @@ public class CircleIndexPresenter implements CircleIndexContract.Presenter {
     }
 
     @Override
+    public void onShareItemClick(int position) {
+        String picture = circleIndexData.getPicture();
+        String title = circleIndexData.getCircleName();
+        String contentText = "我在菌菌，向您推荐了一条圈子动态";
+        String url = Config.APP_DOWNLOAD_ADDRESS;
+        view.share(title, url, contentText, picture, url, "校园菌菌", url);
+    }
+
+    @Override
     public void onJoinChatRoomClick() {
         if (!LoginContext.getInstance().isLogined()) {
             view.showReqResult("请您先去登录再进行操作");

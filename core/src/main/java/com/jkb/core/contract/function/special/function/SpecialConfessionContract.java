@@ -63,6 +63,11 @@ public interface SpecialConfessionContract {
          * @param dynamicId 动态id
          */
         void startCommentList(int dynamicId);
+        /**
+         * 分享
+         */
+        void share(String title, String titleUrl, String text, String imageUrl, String url,
+                   String site, String siteUrl);
     }
 
     interface Presenter extends BasePresenter {

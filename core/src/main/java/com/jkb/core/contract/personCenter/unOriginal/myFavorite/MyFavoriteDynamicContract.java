@@ -94,6 +94,13 @@ public interface MyFavoriteDynamicContract {
          * @param circle_id 圈子id
          */
         void startCircleIndex(@NonNull int circle_id);
+
+        /**
+         * 分享
+         */
+        void share(String title, String titleUrl, String text, String imageUrl, String url,
+                   String site, String siteUrl);
+
     }
 
     interface Presenter extends BasePresenter {
@@ -156,5 +163,10 @@ public interface MyFavoriteDynamicContract {
          * @param position 条目数
          */
         void onItemNameClick(int position);
+
+        /**
+         * 分享的条目点击监听
+         */
+        void onItemShareClick(int position);
     }
 }

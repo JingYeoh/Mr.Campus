@@ -217,6 +217,22 @@ public class MyDynamicArticlePresenter implements MyDynamicArticleContract.Prese
     }
 
     @Override
+    public void onItemShareItemClick(int position) {
+        DynamicDetailArticleData articleData = dynamicDetailArticleDatas.get(position);
+        List<DynamicDetailArticleData.ArticleContent> articles = articleData.getArticles();
+        String picture;
+        picture = articleData.getArticleBgImg();
+        String doc = null;
+        if (articles == null || articles.size() == 0) {
+        } else {
+            doc = articles.get(0).getDoc();
+        }
+        String title = articleData.getTitle();
+        String url = Config.APP_DOWNLOAD_ADDRESS;
+        view.share(title, url, doc, picture, url, "校园菌菌", url);
+    }
+
+    @Override
     public void start() {
         initUser_id();
         initDynamic();

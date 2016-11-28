@@ -227,6 +227,14 @@ public class MyFavoriteDynamicPresenter implements MyFavoriteDynamicContract.Pre
     }
 
     @Override
+    public void onItemShareClick(int position) {
+        String title = "校园菌菌";
+        String doc = "我在菌菌，向您推荐一条动态";
+        String url = Config.APP_DOWNLOAD_ADDRESS;
+        view.share(title, url, doc, null, url, "校园菌菌", url);
+    }
+
+    @Override
     public void start() {
         initUser_id();
         initDynamic();

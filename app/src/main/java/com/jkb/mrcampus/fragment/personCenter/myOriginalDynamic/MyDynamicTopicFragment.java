@@ -38,7 +38,7 @@ public class MyDynamicTopicFragment extends BaseFragment implements
     private int user_id = -1;
 
     public static MyDynamicTopicFragment newInstance(@NonNull int user_id) {
-        MyDynamicTopicFragment  INSTANCE = new MyDynamicTopicFragment();
+        MyDynamicTopicFragment INSTANCE = new MyDynamicTopicFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID, user_id);
         INSTANCE.setArguments(bundle);
@@ -167,6 +167,13 @@ public class MyDynamicTopicFragment extends BaseFragment implements
     }
 
     @Override
+    public void share(
+            String title, String titleUrl, String text, String imageUrl, String url,
+            String site, String siteUrl) {
+        myDynamicActivity.share(title, titleUrl, text, imageUrl, url, site, siteUrl);
+    }
+
+    @Override
     public void setPresenter(MyDynamicTopicContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -195,10 +202,10 @@ public class MyDynamicTopicFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         myDynamicActivity = null;
-        refreshLayout=null;
-        recyclerView=null;
-        linearLayoutManager=null;
-        myDynamicTopicAdapter=null;
+        refreshLayout = null;
+        recyclerView = null;
+        linearLayoutManager = null;
+        myDynamicTopicAdapter = null;
     }
 
     @Override
@@ -253,7 +260,8 @@ public class MyDynamicTopicFragment extends BaseFragment implements
 
                 @Override
                 public void onShareClick(int position) {
-                    myDynamicActivity.showShareDynamicView(onShareItemClickListener);
+//                    myDynamicActivity.showShareDynamicView(onShareItemClickListener);
+                    mPresenter.onItemShareClick(position);
                 }
 
                 @Override

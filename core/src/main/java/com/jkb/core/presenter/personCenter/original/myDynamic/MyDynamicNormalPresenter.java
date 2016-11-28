@@ -217,6 +217,17 @@ public class MyDynamicNormalPresenter implements MyDynamicNormalContract.Present
     }
 
     @Override
+    public void onItemShareClick(int position) {
+        DynamicDetailNormalData normalData = dynamicDetailNormalDatas.get(position);
+        String title = normalData.getTitle();
+        String doc = normalData.getDoc();
+        String picture = (normalData.getImgs() == null || normalData.getImgs().length == 0)
+                ? null : normalData.getImgs()[0];
+        String url = Config.APP_DOWNLOAD_ADDRESS;
+        view.share(title, url, doc, picture, url, "校园菌菌", url);
+    }
+
+    @Override
     public void start() {
         initUser_id();
         initDynamic();

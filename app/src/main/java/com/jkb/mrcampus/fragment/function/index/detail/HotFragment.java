@@ -198,43 +198,17 @@ public class HotFragment extends BaseFragment implements HotContract.View,
 
     @Override
     public void showShareView(@NonNull int position) {
-        mainActivity.showShareDynamicView(
-                new ShareDynamicDialogFragment.OnShareItemClickListener() {
-                    @Override
-                    public void onWechatClick() {
-
-                    }
-
-                    @Override
-                    public void onWechatCircleClick() {
-
-                    }
-
-                    @Override
-                    public void onQQClick() {
-
-                    }
-
-                    @Override
-                    public void onQQZoneClick() {
-
-                    }
-
-                    @Override
-                    public void onSinaClick() {
-
-                    }
-
-                    @Override
-                    public void onCircleClick() {
-
-                    }
-                });
     }
 
     @Override
     public void showImagesBrowserView(ArrayList<String> pictures, int position) {
         mainActivity.showPictureBrowserView(pictures, position);
+    }
+
+    @Override
+    public void share(String title, String titleUrl, String text, String imageUrl,
+                      String url, String site, String siteUrl) {
+        mainActivity.share(title, titleUrl, text, imageUrl, url, site, siteUrl);
     }
 
     @Override
@@ -333,7 +307,7 @@ public class HotFragment extends BaseFragment implements HotContract.View,
 
                 @Override
                 public void onShareItemClick(int position) {
-                    showShareView(position);
+                    mPresenter.onShareItemClick(position);
                 }
 
                 @Override
@@ -348,7 +322,7 @@ public class HotFragment extends BaseFragment implements HotContract.View,
 
                 @Override
                 public void onPicturesBrowserClick(int position, int picPosition) {
-                    mPresenter.onPicturesClick(position,picPosition);
+                    mPresenter.onPicturesClick(position, picPosition);
                 }
             };
 

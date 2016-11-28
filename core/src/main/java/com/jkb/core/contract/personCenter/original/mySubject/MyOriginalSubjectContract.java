@@ -86,6 +86,13 @@ public interface MyOriginalSubjectContract {
          * 打开专题详情：寻水友
          */
         void startSpecialDetailWantedPartner(int dynamicId);
+
+        /**
+         * 分享
+         */
+        void share(String title, String titleUrl, String text, String imageUrl, String url,
+                   String site, String siteUrl);
+
     }
 
     interface Presenter extends BasePresenter {

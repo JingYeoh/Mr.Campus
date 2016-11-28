@@ -182,8 +182,9 @@ public class DynamicFragment2 extends BaseFragment implements
     }
 
     @Override
-    public void showShareView() {
-
+    public void share(String title, String titleUrl, String text, String imageUrl,
+                      String url, String site, String siteUrl) {
+        mainActivity.share(title, titleUrl, text, imageUrl, url, site, siteUrl);
     }
 
     @Override

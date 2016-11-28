@@ -196,7 +196,13 @@ public class MyOriginalSubjectPresenter implements MyOriginalSubjectContract.Pre
 
     @Override
     public void onShareItemClick(int position) {
-
+        SpecialData specialData = mSpecialData.get(position);
+        String title = specialData.getTitle();
+        String doc = specialData.getDoc();
+        String picture = (specialData.getImg() == null || specialData.getImg().size() == 0)
+                ? null : specialData.getImg().get(0);
+        String url = Config.APP_DOWNLOAD_ADDRESS;
+        view.share(title, url, doc, picture, url, "校园菌菌", url);
     }
 
     @Override

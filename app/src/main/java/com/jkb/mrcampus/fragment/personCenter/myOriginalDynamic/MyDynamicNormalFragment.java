@@ -38,7 +38,7 @@ public class MyDynamicNormalFragment extends BaseFragment implements
     private int user_id = -1;
 
     public static MyDynamicNormalFragment newInstance(@NonNull int user_id) {
-        MyDynamicNormalFragment   INSTANCE = new MyDynamicNormalFragment();
+        MyDynamicNormalFragment INSTANCE = new MyDynamicNormalFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(com.jkb.mrcampus.Config.INTENT_KEY_USER_ID, user_id);
         INSTANCE.setArguments(bundle);
@@ -166,6 +166,14 @@ public class MyDynamicNormalFragment extends BaseFragment implements
         myDynamicActivity.startCommentListActivity(dynamic_id);
     }
 
+
+    @Override
+    public void share(
+            String title, String titleUrl, String text, String imageUrl, String url,
+            String site, String siteUrl) {
+        myDynamicActivity.share(title, titleUrl, text, imageUrl, url, site, siteUrl);
+    }
+
     @Override
     public void setPresenter(MyDynamicNormalContract.Presenter presenter) {
         mPresenter = presenter;
@@ -195,10 +203,10 @@ public class MyDynamicNormalFragment extends BaseFragment implements
     public void onDestroy() {
         super.onDestroy();
         myDynamicActivity = null;
-        refreshLayout=null;
-        recyclerView=null;
-        linearLayoutManager=null;
-        myDynamicNormalAdapter=null;
+        refreshLayout = null;
+        recyclerView = null;
+        linearLayoutManager = null;
+        myDynamicNormalAdapter = null;
     }
 
     @Override
@@ -253,7 +261,8 @@ public class MyDynamicNormalFragment extends BaseFragment implements
 
                 @Override
                 public void onShareClick(int position) {
-                    myDynamicActivity.showShareDynamicView(onShareItemClickListener);
+//                    myDynamicActivity.showShareDynamicView(onShareItemClickListener);
+                    mPresenter.onItemShareClick(position);
                 }
 
                 @Override

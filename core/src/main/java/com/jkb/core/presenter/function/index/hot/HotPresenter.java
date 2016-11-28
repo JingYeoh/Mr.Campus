@@ -8,9 +8,17 @@ import com.jkb.api.entity.operation.OperationActionEntity;
 import com.jkb.core.contract.function.index.HotContract;
 import com.jkb.core.control.userstate.LoginContext;
 import com.jkb.core.control.userstate.LogoutState;
+import com.jkb.core.data.dynamic.circle.DynamicInCircle;
+import com.jkb.core.data.index.dynamic.IndexDynamicData;
 import com.jkb.core.data.index.dynamic.original.IndexOriginalArticleDynamicData;
+import com.jkb.core.data.index.dynamic.original.IndexOriginalDynamicData;
 import com.jkb.core.data.index.dynamic.original.IndexOriginalNormalDynamicData;
 import com.jkb.core.data.index.dynamic.original.IndexOriginalTopicDynamicData;
+import com.jkb.core.data.index.dynamic.unOriginal.favorite.IndexFavoriteArticleDynamicData;
+import com.jkb.core.data.index.dynamic.unOriginal.favorite.IndexFavoriteDynamicData;
+import com.jkb.core.data.index.dynamic.unOriginal.favorite.IndexFavoriteNormalDynamicData;
+import com.jkb.core.data.index.dynamic.unOriginal.favorite.IndexFavoriteTopicDynamicData;
+import com.jkb.core.data.index.dynamic.unOriginal.postInCircle.IndexCircleDynamicData;
 import com.jkb.core.data.index.hot.HotDynamic;
 import com.jkb.core.data.index.hot.circle.CircleDynamic;
 import com.jkb.core.data.index.hot.dynamic.circle.CircleArticleDynamic;
@@ -324,6 +332,72 @@ public class HotPresenter implements HotContract.Presenter {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onShareItemClick(int position) {
+        HotDynamic dynamicData = hotDynamics.get(position);
+        String title = getShareTitle(dynamicData);
+        String pictureUrl = getSharePicture(dynamicData);
+        String contentText = getShareText(dynamicData);
+        String url = Config.APP_DOWNLOAD_ADDRESS;
+        view.share(title, url, contentText, pictureUrl, url, "校园菌菌", url);
+    }
+
+    //得到分享的内容
+    private String getShareText(HotDynamic dynamicData) {
+        String shareText = null;
+        if (dynamicData instanceof DynamicInCircleDynamic) {
+            shareText = "我在菌菌向您分享了一条圈子动态";
+        } else if (dynamicData instanceof OriginalDynamic) {
+            shareText = "我在菌菌向您分享了一条动态";
+        }
+        return shareText;
+    }
+
+    private String getSharePicture(HotDynamic dynamicData) {
+        String sharePicture = null;
+        if (dynamicData instanceof OriginalDynamic) {
+            sharePicture = getOriginalDynamicPicture((OriginalDynamic) dynamicData);
+        } else if (dynamicData instanceof DynamicInCircleDynamic) {
+            sharePicture = getCircleDynamicPicture((DynamicInCircleDynamic) dynamicData);
+        }
+        return sharePicture;
+    }
+
+    //得到圈子的动态图片
+    private String getCircleDynamicPicture(DynamicInCircleDynamic dynamicData) {
+        return dynamicData.getCircle().getPictureUrl();
+    }
+
+    //得到原创的动态图片
+    private String getOriginalDynamicPicture(OriginalDynamic dynamicData) {
+        String pictureUrl = null;
+        if (dynamicData instanceof OriginalNormalDynamic) {
+        } else if (dynamicData instanceof OriginalArticleDynamic) {
+            List<OriginalArticleDynamic.ArticleContent> articleContents =
+                    ((OriginalArticleDynamic) dynamicData).getArticleContents();
+            if (articleContents == null || articleContents.size() == 0) {
+                pictureUrl = null;
+            } else {
+                pictureUrl = articleContents.get(0).getImg();
+            }
+        } else if (dynamicData instanceof OriginalTopicDynamic) {
+            OriginalTopicDynamic.TopicContent topicContent = ((OriginalTopicDynamic) dynamicData).getTopicContent();
+            pictureUrl = topicContent.getImg();
+        }
+        return pictureUrl;
+    }
+
+    //得到分享的标题
+    private String getShareTitle(HotDynamic dynamicData) {
+        String shareTitle = null;
+        if (dynamicData instanceof OriginalDynamic) {
+            shareTitle = ((OriginalDynamic) dynamicData).getTitle();
+        } else if (dynamicData instanceof DynamicInCircleDynamic) {
+            shareTitle = ((DynamicInCircleDynamic) dynamicData).getTitle();
+        }
+        return shareTitle;
     }
 
     @Override

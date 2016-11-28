@@ -60,9 +60,10 @@ public interface DynamicContract2 {
         void showCommentView();
 
         /**
-         * 显示分享的页面
+         * 分享
          */
-        void showShareView();
+        void share(String title, String titleUrl, String text, String imageUrl, String url,
+                   String site, String siteUrl);
 
         /**
          * 设置动态数据到视图中

@@ -8,7 +8,6 @@ import com.jkb.core.presenter.map.MapPresenter;
 import com.jkb.mrcampus.R;
 import com.jkb.mrcampus.base.BaseActivity;
 import com.jkb.mrcampus.fragment.function.map.MapFragment;
-import com.jkb.mrcampus.fragment.function.map.MapListFragment;
 import com.jkb.mrcampus.fragment.function.map.list.MapListFragment2;
 import com.jkb.mrcampus.helper.ActivityUtils;
 import com.jkb.mrcampus.helper.FragmentStack;
@@ -49,7 +48,7 @@ public class MapActivity extends BaseActivity {
         fragmentStack = new FragmentStack();
         //第一次进入时调用显示首页视图
         if (!savedInstanceStateValued) {
-            showFragment(ClassUtils.getClassName(MapFragment.class));
+            showFragment(ClassUtils.getClassName(MapListFragment2.class));
         } else {
             fragmentStack.setFragmetStackNames(
                     savedInstanceState.getStringArrayList(FragmentStack.SAVED_FRAGMENT_STACK));
@@ -77,7 +76,7 @@ public class MapActivity extends BaseActivity {
 
             if (ClassUtils.isNameEquals(fragmentName, MapFragment.class)) {
                 showMap();
-            } else if (ClassUtils.isNameEquals(fragmentName, MapListFragment.class)) {
+            } else if (ClassUtils.isNameEquals(fragmentName, MapListFragment2.class)) {
                 showMapList();
             }
         } catch (ClassNotFoundException e) {
@@ -91,7 +90,7 @@ public class MapActivity extends BaseActivity {
         if (MapFragment.class.getName().equals(fragmentTAG)) {
             mapFragment = (MapFragment) fm.findFragmentByTag(fragmentTAG);
             mapPresenter = new MapPresenter(mapFragment);
-        } else if (ClassUtils.isNameEquals(fragmentTAG, MapListFragment.class)) {
+        } else if (ClassUtils.isNameEquals(fragmentTAG, MapListFragment2.class)) {
             mapListFragment = (MapListFragment2) fm.findFragmentByTag(fragmentTAG);
         }
     }
@@ -101,7 +100,7 @@ public class MapActivity extends BaseActivity {
         String fragmentTAG = fragmentClass.getName();
         if (ClassUtils.isNameEquals(fragmentTAG, MapFragment.class)) {
             initMapFragment();
-        } else if (ClassUtils.isNameEquals(fragmentTAG, MapListFragment.class)) {
+        } else if (ClassUtils.isNameEquals(fragmentTAG, MapListFragment2.class)) {
             initMapList();
         }
     }
@@ -157,7 +156,8 @@ public class MapActivity extends BaseActivity {
      */
     public void backToLastView() {
         //如果当前页面就是登录页面的时候
-        if (ClassUtils.isNameEquals(fragmentStack.getCurrentFragmentName(), MapFragment.class)) {
+        if (ClassUtils.isNameEquals(fragmentStack.getCurrentFragmentName(),
+                MapListFragment2.class)) {
             startMainActivity();
             return;
         }
@@ -200,6 +200,6 @@ public class MapActivity extends BaseActivity {
      * 显示地图列表页面
      */
     public void showMapListFragment() {
-        showFragment(ClassUtils.getClassName(MapListFragment.class));
+        showFragment(ClassUtils.getClassName(MapListFragment2.class));
     }
 }

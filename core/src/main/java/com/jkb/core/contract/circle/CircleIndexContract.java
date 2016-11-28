@@ -187,6 +187,12 @@ public interface CircleIndexContract {
          * 显示大图预览
          */
         void showImageBrowserView(ArrayList<String> PictureUrls, int position);
+
+        /**
+         * 分享
+         */
+        void share(String title, String titleUrl, String text, String imageUrl, String url,
+                   String site, String siteUrl);
     }
 
     interface Presenter extends BasePresenter {
@@ -253,6 +259,11 @@ public interface CircleIndexContract {
          * @param position 条目数
          */
         void onLikeItemClick(int position);
+
+        /**
+         * 分享的点击监听事件
+         */
+        void onShareItemClick(int position);
 
         /**
          * 加入聊天室的点击监听

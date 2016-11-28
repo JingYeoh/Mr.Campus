@@ -142,6 +142,9 @@
         //我的原创专题页面控制器
         <activity android:name=".activity.MyOriginalSubjectActivity" />
 
+        //浏览器的页面控制器
+        <activity android:name=".activity.WebBrowserActivity" />
+
         //会话页面的页面控制器
         <activity
             android:name=".activity.ConversationActivity"

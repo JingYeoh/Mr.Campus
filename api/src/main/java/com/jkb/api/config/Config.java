@@ -6,8 +6,11 @@ package com.jkb.api.config;
  */
 public class Config {
 
+    public static final String APP_DOWNLOAD_ADDRESS = "http://fir.im/mrcampus";
+    public static final String APP_LOGO_ADDRESS = "http://image.leeyf.cc/logo.jpg";
     public static final String PATH_ROOT_IMAGE = "/sdcard/JustKiddingBaby/MrCampus/images/";
     public static final String PATH_DOWNLOAD = "download/";
+    public static final String APP_CACAHE_DIRNAME_WEBVIEW = "webView/";
 
     public static final String APP_BAIDU_MAP_AK = "MQBdW7A7mBr9NWp8IIjckVBMGqFjSiG4";
     public static final String APP_BAIDU_MAP_MCODE = "06:01:F7:13:E8:17:0F:6A:C9:EF:C7:B3:37:00:53:1F:D1:93:2C:9F;com.jkb.mrcampus";
@@ -79,6 +82,8 @@ public class Config {
     public static final String URL_SUBJECT_CHANGE_MARK = "subjects/{id}";
     //search
     public static final String URL_SEARCH_KEYWORDS = "search/{type}/{keywords}";
+    //setting
+    public static final String URL_SETTING_URL = API_HOST + "settings/";
     //百度地图的地址
     public static final String URL_GEOCODING = "geocoder/v2/";
 
@@ -249,4 +254,8 @@ public class Config {
     public static final String SEARCH_TYPE_DYNAMICINCIRCLE = "dynamicInCircle";
     public static final String SEARCH_TYPE_SUBJECT = "subject";
     public static final String SEARCH_TYPE_ALL = "all";
+
+    public static final String SETTING_MODULE_ABOUT = "about";
+    public static final String SETTING_MODULE_COMMONQUESTION = "commonQuestion";
+    public static final String SETTING_MODULE_PROTOCOL = "protocol";
 }

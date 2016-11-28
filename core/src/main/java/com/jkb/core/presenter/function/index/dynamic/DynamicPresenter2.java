@@ -13,7 +13,10 @@ import com.jkb.core.data.index.dynamic.original.IndexOriginalDynamicData;
 import com.jkb.core.data.index.dynamic.original.IndexOriginalNormalDynamicData;
 import com.jkb.core.data.index.dynamic.original.IndexOriginalTopicDynamicData;
 import com.jkb.core.data.index.dynamic.unOriginal.circle.IndexSubscribeDynamicData;
+import com.jkb.core.data.index.dynamic.unOriginal.favorite.IndexFavoriteArticleDynamicData;
 import com.jkb.core.data.index.dynamic.unOriginal.favorite.IndexFavoriteDynamicData;
+import com.jkb.core.data.index.dynamic.unOriginal.favorite.IndexFavoriteNormalDynamicData;
+import com.jkb.core.data.index.dynamic.unOriginal.favorite.IndexFavoriteTopicDynamicData;
 import com.jkb.core.data.index.dynamic.unOriginal.postInCircle.IndexCircleDynamicData;
 import com.jkb.core.data.info.dynamic.content.DynamicContentArticleInfo;
 import com.jkb.core.data.info.dynamic.content.DynamicContentNormalInfo;
@@ -158,7 +161,112 @@ public class DynamicPresenter2 implements DynamicContract2.Presenter {
 
     @Override
     public void onShareItemClick(int position) {
+        IndexDynamicData dynamicData = dynamicDatas.get(position);
+        String title = getShareTitle(dynamicData);
+        String pictureUrl = getSharePicture(dynamicData);
+        String contentText = getShareText(dynamicData);
+        String url = Config.APP_DOWNLOAD_ADDRESS;
+        view.share(title, url, contentText, pictureUrl, url, "校园菌菌", url);
+    }
 
+    //得到分享的文本
+    private String getShareText(IndexDynamicData dynamicData) {
+        String shareText = null;
+        if (dynamicData instanceof IndexOriginalDynamicData) {
+            if (dynamicData instanceof IndexOriginalNormalDynamicData) {
+                shareText = "我在菌菌中发布了一条动态快来围观吧";
+            } else if (dynamicData instanceof IndexOriginalArticleDynamicData) {
+                shareText = "我在菌菌中发布了一篇文章快来围观吧";
+            } else if (dynamicData instanceof IndexOriginalTopicDynamicData) {
+                shareText = "我在菌菌中发起了一个话题快来围观吧";
+            }
+        } else if (dynamicData instanceof IndexCircleDynamicData) {
+            shareText = "我在菌菌中发布了一条圈子动态快来围观吧";
+        } else if (dynamicData instanceof IndexFavoriteDynamicData) {
+            shareText = "我在菌菌中喜欢了一条圈子动态快来围观吧";
+        }
+        return shareText;
+    }
+
+    //得到分享的图片
+    private String getSharePicture(IndexDynamicData dynamicData) {
+        String sharePicture = null;
+        if (dynamicData instanceof IndexOriginalDynamicData) {
+            sharePicture = getOriginalDynamicPicture((IndexOriginalDynamicData) dynamicData);
+        } else if (dynamicData instanceof IndexCircleDynamicData) {
+            sharePicture = getCircleDynamicPicture((IndexCircleDynamicData) dynamicData);
+        } else if (dynamicData instanceof IndexFavoriteDynamicData) {
+            sharePicture = getFavoriteDynamicPicture((IndexFavoriteDynamicData) dynamicData);
+        }
+        return sharePicture;
+    }
+
+    //得到喜欢的动态图片
+    private String getFavoriteDynamicPicture(IndexFavoriteDynamicData dynamicData) {
+        String pictureUrl = null;
+        if (dynamicData instanceof IndexFavoriteNormalDynamicData) {
+            List<String> img = ((IndexFavoriteNormalDynamicData) dynamicData).getNormal().getImg();
+            if (img == null || img.size() == 0) {
+                pictureUrl = null;
+            } else {
+                pictureUrl = img.get(0);
+            }
+        } else if (dynamicData instanceof IndexFavoriteArticleDynamicData) {
+            DynamicContentArticleInfo article = ((IndexFavoriteArticleDynamicData) dynamicData).getArticle();
+            List<DynamicContentArticleInfo.Article> article1 = article.getArticle();
+            if (article1 == null || article1.size() == 0) {
+                pictureUrl = null;
+            } else {
+                pictureUrl = article1.get(0).getImg();
+            }
+        } else if (dynamicData instanceof IndexFavoriteTopicDynamicData) {
+            DynamicContentTopicInfo topic = ((IndexFavoriteTopicDynamicData) dynamicData).getTopic();
+            pictureUrl = topic.getImg();
+        }
+        return pictureUrl;
+    }
+
+    //得到圈子动态图片
+    private String getCircleDynamicPicture(IndexCircleDynamicData dynamicData) {
+        return dynamicData.getCircle().getPictureUrl();
+    }
+
+    //得到原创的图片
+    private String getOriginalDynamicPicture(IndexOriginalDynamicData dynamicData) {
+        String pictureUrl = null;
+        if (dynamicData instanceof IndexOriginalNormalDynamicData) {
+            List<String> img = ((IndexOriginalNormalDynamicData) dynamicData).getNormal().getImg();
+            if (img == null || img.size() == 0) {
+                pictureUrl = null;
+            } else {
+                pictureUrl = img.get(0);
+            }
+        } else if (dynamicData instanceof IndexOriginalArticleDynamicData) {
+            DynamicContentArticleInfo article = ((IndexOriginalArticleDynamicData) dynamicData).getArticle();
+            List<DynamicContentArticleInfo.Article> article1 = article.getArticle();
+            if (article1 == null || article1.size() == 0) {
+                pictureUrl = null;
+            } else {
+                pictureUrl = article1.get(0).getImg();
+            }
+        } else if (dynamicData instanceof IndexOriginalTopicDynamicData) {
+            DynamicContentTopicInfo topic = ((IndexOriginalTopicDynamicData) dynamicData).getTopic();
+            pictureUrl = topic.getImg();
+        }
+        return pictureUrl;
+    }
+
+    //得到分享的标题
+    private String getShareTitle(IndexDynamicData dynamicData) {
+        String shareTitle = null;
+        if (dynamicData instanceof IndexOriginalDynamicData) {
+            shareTitle = ((IndexOriginalDynamicData) dynamicData).getTitle();
+        } else if (dynamicData instanceof IndexCircleDynamicData) {
+            shareTitle = ((IndexCircleDynamicData) dynamicData).getTitle();
+        } else if (dynamicData instanceof IndexFavoriteDynamicData) {
+            shareTitle = ((IndexFavoriteDynamicData) dynamicData).getTitle();
+        }
+        return shareTitle;
     }
 
     @Override
